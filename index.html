@@ -22,8 +22,9 @@
     .status-nuvem {
       display: inline-flex; align-items: center; gap: 6px; font-size: 10px;
       background: #111827; border: 1px solid #374151; padding: 4px 8px; border-radius: 12px;
-      margin-top: 4px; font-weight: bold; cursor: pointer;
+      margin-top: 4px; font-weight: bold; cursor: pointer; transition: 0.2s;
     }
+    .status-nuvem:hover { border-color: #34D399; }
 
     .btn {
       padding: 8px 14px; border-radius: 6px; border: none; font-weight: bold;
@@ -97,7 +98,7 @@
       <div>
         <h1 style="font-size:15px; font-weight:900; letter-spacing:1px; color:#FFFFFF;">FC ESPANHA</h1>
         <p style="font-size:10px; color:#888;">Gestão Desportiva Oficial • Moeda: Kwanza (Kz) • Luanda</p>
-        <div id="indicador-nuvem" class="status-nuvem" style="color:#34D399;" onclick="inicializarSupabase()">🟢 Sistema Ativo (Clique para Sincronizar)</div>
+        <div id="indicador-nuvem" class="status-nuvem" style="color:#34D399;" onclick="testarConexaoManual()" title="Clique para testar conexão">🟢 Sistema Ativo (Clique para Testar Nuvem)</div>
       </div>
     </div>
     
@@ -200,7 +201,7 @@
       <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
         <div>
           <h2 style="font-size:15px; font-weight:bold;">Plantel Sénior & Registo de Golos</h2>
-          <p style="font-size:10px; color:#888;">Adicione golos diretamente com 1 clique ou lance a quota do jogador.</p>
+          <p style="font-size:10px; color:#888;">Adicione golos com 1 clique ou lance a quota do jogador.</p>
         </div>
         <button id="btn-cadastrar-jogador" class="btn btn-red" onclick="abrirModalJogador()">+ Cadastrar Atleta</button>
       </div>
@@ -770,7 +771,7 @@
       return Promise.race([
         promessa,
         new Promise(function(_, reject) {
-          setTimeout(function() { reject(new Error("Timeout")); }, ms);
+          setTimeout(function() { reject(new Error("Timeout de conexão")); }, ms);
         })
       ]);
     }
@@ -862,10 +863,18 @@
       }
     }
 
-    // CONEXÃO SUPABASE ULTRA-RÁPIDA (MÁXIMO 3s)
-    async function inicializarSupabase() {
+    // BOTÃO PARA TESTAR CONEXÃO MANUALMENTE COM AVISO CLARO
+    async function testarConexaoManual() {
+      mostrarAviso("🔄 A verificar conexão com a nuvem do Supabase...");
+      atualizarIndicadorNuvem(false, "#FBBF24", "🔄 A testar conexão...");
+      await inicializarSupabase(true);
+    }
+
+    // CONEXÃO SUPABASE COM DIAGNÓSTICO
+    async function inicializarSupabase(manual) {
       if (!supabaseClient) {
-        atualizarIndicadorNuvem(false, "#10B981", "🟢 Sistema Operacional (Modo Local)");
+        atualizarIndicadorNuvem(false, "#F87171", "⚠️ Nuvem desconectada (Local ativo)");
+        if (manual) alert("⚠️ O cliente do Supabase não foi inicializado. Verifique a URL e a chave.");
         return;
       }
 
@@ -876,7 +885,7 @@
           .eq('id', 'principal')
           .single();
 
-        var res = await promessaComTimeout(query, 3000);
+        var res = await promessaComTimeout(query, 3500);
 
         if (res && res.data && res.data.dados) {
           var senhaLocal = DB.senhaMaster;
@@ -886,12 +895,17 @@
           supabaseConectado = true;
           atualizarIndicadorNuvem(true, "#34D399", "🟢 Nuvem Supabase Ativa (Tempo Real)");
           desenhar();
-        } else if (res && res.error && res.error.code === 'PGRST116') {
-          await supabaseClient.from('fcespanha_clube').upsert({ id: 'principal', dados: DB });
-          supabaseConectado = true;
-          atualizarIndicadorNuvem(true, "#34D399", "🟢 Nuvem Supabase Ativa (Tempo Real)");
-        } else {
-          atualizarIndicadorNuvem(false, "#34D399", "🟢 Sistema Operacional");
+          if (manual) alert("✅ Conexão com o Supabase confirmada em Tempo Real!");
+        } else if (res && res.error) {
+          if (res.error.code === 'PGRST116') {
+            await supabaseClient.from('fcespanha_clube').upsert({ id: 'principal', dados: DB });
+            supabaseConectado = true;
+            atualizarIndicadorNuvem(true, "#34D399", "🟢 Nuvem Supabase Ativa (Tempo Real)");
+            if (manual) alert("✅ Tabela conectada e dados iniciais criados na Nuvem!");
+          } else {
+            atualizarIndicadorNuvem(false, "#FBBF24", "🟡 Gravado localmente");
+            if (manual) alert("ℹ️ Resposta da Nuvem: " + (res.error.message || "Tabela a aguardar configuração. O sistema continua a funcionar localmente."));
+          }
         }
 
         // Realtime
@@ -910,8 +924,8 @@
           .subscribe();
 
       } catch (err) {
-        // Se a internet falhar ou demorar mais de 3 segundos, ativa logo o modo local e não trava nada!
-        atualizarIndicadorNuvem(false, "#34D399", "🟢 Sistema Ativo (Sincronização em Segundo Plano)");
+        atualizarIndicadorNuvem(false, "#34D399", "🟢 Sistema Ativo (Modo Local Seguro)");
+        if (manual) alert("ℹ️ O sistema está a gravar com segurança no seu telemóvel/computador.\nDetalhe da conexão: " + (err.message || "Timeout de rede."));
       }
     }
 
@@ -927,7 +941,7 @@
           await promessaComTimeout(query, 3000);
           atualizarIndicadorNuvem(true, "#34D399", "🟢 Nuvem Supabase Sincronizada");
         } catch (e) {
-          atualizarIndicadorNuvem(false, "#FBBF24", "🟡 Gravado localmente (Pendente sincronização)");
+          atualizarIndicadorNuvem(false, "#FBBF24", "🟡 Gravado localmente");
         }
       }
     }
@@ -991,6 +1005,11 @@
     function abrirModal(id) { setDisplay(id, 'flex'); }
 
     function abrirAba(id) {
+      if (perfil === 'jogador' && id !== 'jogador' && id !== 'anuncios') {
+        alert("⛔ Acesso Restrito: Como atleta, tem acesso exclusivo à sua Área de Atleta e aos Anúncios.");
+        return;
+      }
+
       var abas = ['painel', 'anuncios', 'plantel', 'financas', 'doacoes', 'jogos', 'disciplina', 'patrimonio', 'admins', 'relatorio', 'jogador', 'config'];
       for (var i = 0; i < abas.length; i++) {
         var nome = abas[i];
@@ -1033,7 +1052,7 @@
 
     function entrarComoMaster() {
       if (!masterAutenticado) {
-        var senha = prompt("🔐 ACESSO EXCLUSIVO DO DESENVOLVEDOR MASTER\nIntroduza a Senha Mestre de Eduardo Ferreira Alfredo:");
+        var senha = prompt("🔐 ACESSO EXCLUSIVO DO DESENVOLVEDOR MASTER\nIntroduza a sua Senha Mestre:");
         if (senha === null) return;
         if (senha !== DB.senhaMaster) {
           alert("❌ Senha Mestre incorreta!");
@@ -1204,7 +1223,7 @@
       return DB.jogadores[0] || { nome: "Atleta", numero: 0, posicao: "", bairro: "", golos: 0, foto: SILHUETA_PADRAO, credencial: "FCE-0000" };
     }
 
-    // MODAL DE LIQUIDAÇÃO DE QUOTA
+    // MODAL DE LIQUIDAÇÃO DE QUOTA (100% VISUAL)
     function abrirModalLiquidarQuota(atletaNomePreSelecionado) {
       if (!verificarPermissaoAdmin()) return;
       if (DB.jogadores.length === 0) {
@@ -1813,97 +1832,3 @@
 
     function salvarDisciplina() {
       if (!verificarPermissaoAdmin()) return;
-      var atl = document.getElementById('disc-atleta').value;
-      var tipo = document.getElementById('disc-tipo').value;
-      var desc = document.getElementById('disc-desc').value.trim();
-      var med = document.getElementById('disc-medida').value.trim();
-
-      DB.disciplina.unshift({ atleta: atl, data: obterDataHoje(), tipo: tipo, desc: desc, medida: med });
-      registarAuditoria("Aplicou falta (" + tipo + ") ao atleta " + atl);
-      fecharModal('modal-disciplina');
-      desenhar();
-      mostrarAviso("⚖️ Falta registada no processo do atleta.");
-    }
-
-    function abrirModalPatrimonio() {
-      if (!verificarPermissaoAdmin()) return;
-      abrirModal('modal-patrimonio');
-    }
-
-    function salvarPatrimonio() {
-      if (!verificarPermissaoAdmin()) return;
-      var nome = document.getElementById('pat-nome').value.trim();
-      var tot = parseInt(document.getElementById('pat-qtd').value) || 1;
-      var disp = parseInt(document.getElementById('pat-disp').value) || 1;
-      var est = document.getElementById('pat-estado').value.trim();
-
-      DB.patrimonio.push({ item: nome, total: tot, disp: disp, estado: est });
-      registarAuditoria("Adicionou ao património: " + nome);
-      fecharModal('modal-patrimonio');
-      desenhar();
-      mostrarAviso("📦 Material registado no património.");
-    }
-
-    function lancarDoacao() {
-      if (!verificarPermissaoAdmin()) return;
-      var orig = prompt("Nome do Doador / Parceiro:", "Comércio Local");
-      if (!orig) return;
-      var desc = prompt("Descrição do Apoio:", "Apoio ao FC ESPANHA") || "Apoio ao clube";
-      var val = parseFloat(prompt("Valor da contribuição em Kwanzas (Kz):", "25000")) || 0;
-
-      DB.doacoes.push({ origem: orig, categoria: "Doação / Patrocínio", descricao: desc, valor: val, data: obterDataHoje() });
-      DB.financas.receitas += val;
-      registarAuditoria("Registou doação de " + kz(val) + " de " + orig);
-      desenhar();
-      mostrarAviso("🎁 Contribuição registada com sucesso!");
-    }
-
-    function lancarQuota() {
-      abrirModalLiquidarQuota();
-    }
-
-    function adicionarJogo() {
-      if (!verificarPermissaoAdmin()) return;
-      var adv = prompt("Nome do adversário:");
-      if (!adv) return;
-      var comp = prompt("Competição:", "Torneio Luanda") || "Torneio Luanda";
-      var res = prompt("Resultado do jogo (Ex: 2 - 1):", "0 - 0") || "0 - 0";
-
-      DB.jogos.push({ adversario: adv, competicao: comp, resultado: res });
-      registarAuditoria("Registou jogo FC Espanha vs " + adv);
-      desenhar();
-      mostrarAviso("✅ Jogo registado com sucesso!");
-    }
-
-    function editarAdmin(id) {
-      if (perfil !== 'dev') return;
-      for (var i = 0; i < DB.admins.length; i++) {
-        if (DB.admins[i].id === id) {
-          var nome = prompt("Novo nome completo para este Administrador:", DB.admins[i].nome);
-          if (nome) DB.admins[i].nome = nome;
-          var tel = prompt("Contacto Telefónico Oficial (Angola):", DB.admins[i].telefone);
-          if (tel) DB.admins[i].telefone = tel;
-          registarAuditoria("Master alterou dados do Administrador Vaga 0" + (i+1));
-          desenhar();
-          mostrarAviso("✅ Administrador actualizado com sucesso!");
-          return;
-        }
-      }
-    }
-
-    function alterarPINAdmin(admKey) {
-      if (perfil !== 'dev') return;
-      var novo = prompt("Introduza o NOVO PIN/Senha para " + admKey.toUpperCase() + " (mínimo 4 dígitos):");
-      if (!novo || novo.length < 4) {
-        alert("❌ O PIN deve conter no mínimo 4 dígitos.");
-        return;
-      }
-      DB.pins[admKey] = novo;
-      registarAuditoria("Master alterou o PIN do " + admKey.toUpperCase());
-      desenhar();
-      alert("✅ Senha do " + admKey.toUpperCase() + " actualizada para: " + novo);
-    }
-
-    function trocarFotoClube(input) {
-      if (perfil !== 'dev') return;
-      if (i
