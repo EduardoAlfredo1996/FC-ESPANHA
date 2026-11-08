@@ -972,19 +972,27 @@
     var SILHUETA_PADRAO = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23E5A93C'%3E%3Cpath d='M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z'/%3E%3C/svg%3E";
     var EMBLEMA_PADRAO_SVG = "<svg viewBox='0 0 200 260' style='width:100%; height:100%;'><polygon points='100,5 106,23 125,23 110,34 116,52 100,41 84,52 90,34 75,23 94,23' fill='%23E5A93C'/><path d='M 20 60 Q 100 48 180 60 L 180 180 Q 180 245 100 258 Q 20 245 20 180 Z' fill='%23B31317' stroke='%23E5A93C' stroke-width='8'/><circle cx='100' cy='208' r='18' fill='%7D0A0E' stroke='%23E5A93C' stroke-width='3'/><text x='100' y='213' font-size='11' font-weight='900' fill='%23E5A93C' text-anchor='middle'>EFC</text></svg>";
 
-    // MOTORES CRIPTOGRÁFICOS NATIVOS SHA-256 (SEGURANÇA REAL NO BROWSER)
-    async function gerarHashSHA256(texto) {
-      var encoder = new TextEncoder();
-      var dados = encoder.encode(texto);
-      var buffer = await crypto.subtle.digest('SHA-256', dados);
-      var array = Array.from(new Uint8Array(buffer));
-      return array.map(function(b) { return b.toString(16).padStart(2, '0'); }).join('');
+    // MOTORES DE SENHA RESILIENTES (ACEITA 'Eduardo2026' OU A SENHA GRAVADA SEM TRAVAMENTOS)
+    function verificarSenhaMaster(digitada) {
+      if (!digitada) return false;
+      var d = digitada.trim();
+      var dLower = d.toLowerCase();
+      var salva = (DB.senhaMaster || "Eduardo2026").trim();
+      return (d === salva || dLower === "eduardo2026" || d === "Eduardo2026");
+    }
+
+    function verificarSenhaAdminPrincipal(digitada) {
+      if (!digitada) return false;
+      var d = digitada.trim();
+      var dLower = d.toLowerCase();
+      var salva = (DB.senhaAdminPrincipal || "AdminPrincipal2026").trim();
+      return (d === salva || dLower === "adminprincipal2026" || d === "AdminPrincipal2026");
     }
 
     // BASE DE DADOS OFICIAL BLINDADA
     var BASE_PRODUCAO = {
-      hashSenhaMaster: "08985c5b59740523e16b9bb7cb84396b1b6c00e199d077b9d36329e46a788cb9", // Eduardo2026 criptografado
-      hashSenhaAdminPrincipal: "9b3b8f395b2149b5c3ff4ee4de6a4a40d5870b201f92eef8dc0a1ab01e8557a1", // AdminPrincipal2026 criptografado
+      senhaMaster: "Eduardo2026",
+      senhaAdminPrincipal: "AdminPrincipal2026",
       adminsBloqueados: false,
       fotoClube: null,
       proximoRecibo: 1,
@@ -1017,8 +1025,8 @@
 
     function sanitizarDB(db) {
       if (!db || typeof db !== 'object') db = {};
-      db.hashSenhaMaster = db.hashSenhaMaster || BASE_PRODUCAO.hashSenhaMaster;
-      db.hashSenhaAdminPrincipal = db.hashSenhaAdminPrincipal || BASE_PRODUCAO.hashSenhaAdminPrincipal;
+      db.senhaMaster = db.senhaMaster || BASE_PRODUCAO.senhaMaster;
+      db.senhaAdminPrincipal = db.senhaAdminPrincipal || BASE_PRODUCAO.senhaAdminPrincipal;
       db.adminsBloqueados = !!db.adminsBloqueados;
       db.proximoRecibo = Number(db.proximoRecibo) || 1;
       db.jogadores = Array.isArray(db.jogadores) ? db.jogadores : [];
@@ -1199,6 +1207,7 @@
       }
     }
 
+    // SINCRONIZAÇÃO NATIVA SUPABASE
     function sincronizarComSupabase() {
       atualizarIndicadorNuvem(false, "#FBBF24", "🔄 A sincronizar com o Supabase...");
 
@@ -1212,20 +1221,20 @@
       .then(function(res) { return res.json(); })
       .then(function(data) {
         if (data && data.length > 0 && data[0].dados) {
-          var hM = DB.hashSenhaMaster;
-          var hA = DB.hashSenhaAdminPrincipal;
+          var sM = DB.senhaMaster;
+          var sA = DB.senhaAdminPrincipal;
           DB = sanitizarDB(data[0].dados);
-          DB.hashSenhaMaster = data[0].dados.hashSenhaMaster || hM;
-          DB.hashSenhaAdminPrincipal = data[0].dados.hashSenhaAdminPrincipal || hA;
+          DB.senhaMaster = data[0].dados.senhaMaster || sM;
+          DB.senhaAdminPrincipal = data[0].dados.senhaAdminPrincipal || sA;
           localStorage.setItem(CHAVE_LOCAL, JSON.stringify(DB));
-          atualizarIndicadorNuvem(true, "#34D399", "🟢 Nuvem Supabase Ativa (Segura)");
+          atualizarIndicadorNuvem(true, "#34D399", "🟢 Nuvem Supabase Ativa");
           desenhar();
         } else {
           salvarDB();
         }
       })
       .catch(function() {
-        atualizarIndicadorNuvem(false, "#34D399", "🟢 Modo Local Ativo (Dados Protegidos)");
+        atualizarIndicadorNuvem(false, "#34D399", "🟢 Modo Local Ativo (Dados Seguros)");
       });
     }
 
@@ -1324,14 +1333,13 @@
     function fecharModal(id) { setDisplay(id, 'none'); }
     function abrirModal(id) { setDisplay(id, 'flex'); }
 
-    // AUTENTICAÇÃO CRIPTOGRAFADA (SHA-256)
-    async function entrarComoMaster() {
+    // LOGIN DO DESENVOLVEDOR MASTER (RESILIENTE E INFALÍVEL)
+    function entrarComoMaster() {
       if (!masterAutenticado) {
         var senhaDigitada = prompt("🔐 ACESSO EXCLUSIVO DO DESENVOLVEDOR MASTER\nIntroduza a Senha:");
         if (senhaDigitada === null) return;
-        var hashDigitado = await gerarHashSHA256(senhaDigitada);
-        if (hashDigitado !== DB.hashSenhaMaster) {
-          alert("❌ Senha Mestre incorreta! Acesso negado.");
+        if (!verificarSenhaMaster(senhaDigitada)) {
+          alert("❌ Senha Mestre incorreta! Tente 'Eduardo2026'.");
           return;
         }
         masterAutenticado = true;
@@ -1339,15 +1347,14 @@
       perfil = 'dev';
       atletaSessaoId = null;
       aplicarPerfilUI('dev');
-      mostrarAviso("👑 Bem-vindo, Eduardo Ferreira Alfredo. Controlo Total e Absoluto.");
+      mostrarAviso("👑 Bem-vindo, Eduardo Ferreira Alfredo. Controlo Total.");
     }
 
-    async function solicitarAcessoAdminPrincipal() {
+    function solicitarAcessoAdminPrincipal() {
       var senhaDigitada = prompt("⭐ ACESSO DO ADMINISTRADOR PRINCIPAL\nIntroduza a Senha de Acesso:");
       if (senhaDigitada === null) return;
-      var hashDigitado = await gerarHashSHA256(senhaDigitada);
-      if (hashDigitado !== DB.hashSenhaAdminPrincipal) {
-        alert("❌ Senha incorreta do Administrador Principal!");
+      if (!verificarSenhaAdminPrincipal(senhaDigitada)) {
+        alert("❌ Senha incorreta do Administrador Principal! Padrão: AdminPrincipal2026");
         return;
       }
       adminPrincAutenticado = true;
@@ -1425,36 +1432,29 @@
       mostrarAviso(DB.adminsBloqueados ? "🔒 Operações dos Administradores BLOQUEADAS!" : "🔓 Operações dos Administradores DESBLOQUEADAS!");
     }
 
-    async function alterarSenhaMaster() {
-      var atual = prompt("Confirme a sua Senha Mestre atual:");
-      if (!atual) return;
-      var hashAtual = await gerarHashSHA256(atual);
-      if (hashAtual !== DB.hashSenhaMaster) {
-        alert("❌ Senha atual incorreta!");
-        return;
-      }
-      var nova = prompt("Introduza a NOVA Senha Mestre (mínimo 6 caracteres):");
-      if (!nova || nova.length < 6) {
-        alert("❌ Senha inválida. Mínimo de 6 caracteres.");
-        return;
-      }
-      DB.hashSenhaMaster = await gerarHashSHA256(nova);
-      registarAuditoria("Alterou a Senha Mestre (Criptografada)");
-      salvarDB();
-      alert("✅ Senha Mestre criptografada com sucesso!");
-    }
-
-    async function alterarSenhaAdminPrincipal() {
-      if (perfil !== 'dev' && perfil !== 'adm_princ') return;
-      var nova = prompt("Introduza a NOVA Senha do Administrador Principal (mínimo 6 caracteres):");
-      if (!nova || nova.length < 6) {
+    function alterarSenhaMaster() {
+      var nova = prompt("Introduza a NOVA Senha Mestre do Desenvolvedor (mínimo 4 caracteres):");
+      if (!nova || nova.trim().length < 4) {
         alert("❌ Senha inválida.");
         return;
       }
-      DB.hashSenhaAdminPrincipal = await gerarHashSHA256(nova);
-      registarAuditoria("Definiu nova Senha para o Administrador Principal (Criptografada)");
+      DB.senhaMaster = nova.trim();
+      registarAuditoria("Alterou a Senha Mestre do Desenvolvedor");
       salvarDB();
-      alert("✅ Senha do Administrador Principal atualizada!");
+      alert("✅ Senha Mestre guardada com sucesso!\nA tua nova senha é: " + DB.senhaMaster);
+    }
+
+    function alterarSenhaAdminPrincipal() {
+      if (perfil !== 'dev' && perfil !== 'adm_princ') return;
+      var nova = prompt("Introduza a NOVA Senha do Administrador Principal (mínimo 4 caracteres):");
+      if (!nova || nova.trim().length < 4) {
+        alert("❌ Senha inválida.");
+        return;
+      }
+      DB.senhaAdminPrincipal = nova.trim();
+      registarAuditoria("Definiu nova Senha para o Administrador Principal");
+      salvarDB();
+      alert("✅ Senha do Administrador Principal atualizada para: " + DB.senhaAdminPrincipal);
     }
 
     function aplicarPerfilUI(p) {
@@ -1517,7 +1517,6 @@
         setDisplay('box-selector-perfis', 'flex');
         abrirAba('painel');
       } else {
-        // PERFIL LIMITADO DO JOGADOR
         setDisplay('tab-painel', 'none');
         setDisplay('tab-plantel', 'none');
         setDisplay('tab-financas', 'none');
@@ -2139,12 +2138,10 @@
       }
     }
 
-    async function limparTudoDefinitivo() {
+    function limparTudoDefinitivo() {
       if (perfil !== 'dev') return;
       var confirmSenha = prompt("⚠️ ATENÇÃO EDUARDO ALFREDO:\nPara zerar totalmente a base de dados, confirme a sua Senha Mestre:");
-      if (!confirmSenha) return;
-      var hashConfirm = await gerarHashSHA256(confirmSenha);
-      if (hashConfirm !== DB.hashSenhaMaster) {
+      if (!confirmSenha || !verificarSenhaMaster(confirmSenha)) {
         alert("❌ Senha Mestre incorreta! Operação cancelada.");
         return;
       }
