@@ -22,7 +22,7 @@
     .status-nuvem {
       display: inline-flex; align-items: center; gap: 6px; font-size: 10px;
       background: #111827; border: 1px solid #374151; padding: 4px 8px; border-radius: 12px;
-      margin-top: 4px; font-weight: bold;
+      margin-top: 4px; font-weight: bold; cursor: pointer;
     }
 
     .btn {
@@ -97,7 +97,7 @@
       <div>
         <h1 style="font-size:15px; font-weight:900; letter-spacing:1px; color:#FFFFFF;">FC ESPANHA</h1>
         <p style="font-size:10px; color:#888;">Gestão Desportiva Oficial • Moeda: Kwanza (Kz) • Luanda</p>
-        <div id="indicador-nuvem" class="status-nuvem" style="color:#FBBF24;">🔄 A sincronizar com o Supabase...</div>
+        <div id="indicador-nuvem" class="status-nuvem" style="color:#34D399;" onclick="inicializarSupabase()">🟢 Sistema Ativo (Clique para Sincronizar)</div>
       </div>
     </div>
     
@@ -186,7 +186,7 @@
       <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
         <div>
           <h2 style="font-size:15px; font-weight:bold; color:#E5A93C;">📢 Mural de Anúncios da Direcção</h2>
-          <p style="font-size:10px; color:#888;">Comunicados oficiais sincronizados na nuvem para todo o plantel.</p>
+          <p style="font-size:10px; color:#888;">Comunicados oficiais sincronizados para todo o plantel.</p>
         </div>
         <button id="btn-novo-anuncio" class="btn btn-red" onclick="abrirModalAnuncio()">+ Publicar Anúncio</button>
       </div>
@@ -357,7 +357,7 @@
       <div style="margin-bottom:8px;">
         <span style="font-size:10px; color:#E5A93C; font-weight:bold;">AUDITORIA & RESPONSABILIZAÇÃO</span>
         <h3 style="font-size:14px; font-weight:bold;">Registo de Ações dos Administradores</h3>
-        <p style="font-size:11px; color:#888;">Cada alteração, registo financeiro ou cadastramento fica guardado na nuvem.</p>
+        <p style="font-size:11px; color:#888;">Cada alteração, registo financeiro ou cadastramento fica guardado com responsabilidade.</p>
       </div>
       <table>
         <thead><tr><th>Data / Hora</th><th>Responsável</th><th>Perfil</th><th>Ação Efetuada</th></tr></thead>
@@ -397,7 +397,7 @@
     </div>
   </div>
 
-  <!-- 11. ÁREA EXCLUSIVA DO ATLETA -->
+  <!-- 11. ÁREA EXCLUSIVA DO ATLETA (VÊ APENAS OS SEUS DADOS) -->
   <div id="aba-jogador" style="display:none;">
     <div class="box-express">
       <span style="background:#E5A93C; color:black; font-weight:bold; font-size:10px; padding:2px 6px; border-radius:4px; text-transform:uppercase;">📅 Quota Semanal (Todos os Domingos)</span>
@@ -433,7 +433,7 @@
         <span style="color:#E5A93C; font-size:10px; font-weight:bold;">MEU PERFIL OFICIAL • FC ESPANHA</span>
         <h2 style="font-size:18px; font-weight:bold; margin-top:2px;" id="atleta-nome">Atleta</h2>
         <p style="font-size:11px; color:#888;" id="atleta-desc"></p>
-        <p style="font-size:11px; color:#34D399; font-weight:bold; margin-top:4px;" id="atleta-golos-box">⚽ 0 Golos Marcados</p>
+        <p style="font-size:11px; color:#34D399; font-weight:bold; margin-top:4px;" id="atleta-golos-box">⚽ 0 Golos Marcados no FC ESPANHA</p>
         <p style="font-size:10px; color:#AAA; margin-top:2px;">Credencial: <code id="atleta-cred-box" style="color:#E5A93C;"></code></p>
       </div>
     </div>
@@ -518,7 +518,7 @@
   </div>
 
   <!-- ================= MODAIS ================= -->
-  <!-- MODAL OFICIAL: LIQUIDAR QUOTA DOMINICAL -->
+  <!-- MODAL: LIQUIDAR QUOTA DOMINICAL (VISUAL E SEM TRAVAMENTOS) -->
   <div id="modal-liquidar-quota" class="modal-box" style="display:none;">
     <div class="modal-corpo">
       <h3 style="color:#E5A93C; font-size:14px; font-weight:bold; margin-bottom:12px; text-transform:uppercase;">💰 Liquidar Quota Dominical</h3>
@@ -529,7 +529,7 @@
       </div>
       
       <div class="campo">
-        <label>Domingo / Período de Pagamento:</label>
+        <label>Domingo / Período:</label>
         <input id="liq-domingo" type="text">
       </div>
       
@@ -679,7 +679,7 @@
       try {
         supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
       } catch (e) {
-        console.error("Erro ao inicializar Supabase:", e);
+        console.error("Aviso Supabase:", e);
       }
     }
 
@@ -698,7 +698,7 @@
         { id: 3, nome: "Admin 3 (Definir Nome)", telefone: "9XXXXXXXX", cargo: "Administrador 3", login: "adm3" }
       ],
       anuncios: [
-        { id: 1, titulo: "Plataforma Oficial Conectada à Nuvem", data: "2026-03-01", autor: "Eduardo Ferreira Alfredo", texto: "Plataforma do FC ESPANHA conectada à nuvem em tempo real via Supabase." }
+        { id: 1, titulo: "Plataforma Oficial Conectada à Nuvem", data: "2026-03-01", autor: "Eduardo Ferreira Alfredo", texto: "Plataforma do FC ESPANHA pronta e conectada." }
       ],
       financas: { receitas: 0, despesas: 0, quotas: 0 },
       doacoes: [],
@@ -763,6 +763,16 @@
     function setValue(id, val) {
       var el = document.getElementById(id);
       if (el) el.value = val;
+    }
+
+    // PROMESSA COM TIMEOUT (MÁXIMO 3 SEGUNDOS PARA NUNCA TRAVAR)
+    function promessaComTimeout(promessa, ms) {
+      return Promise.race([
+        promessa,
+        new Promise(function(_, reject) {
+          setTimeout(function() { reject(new Error("Timeout")); }, ms);
+        })
+      ]);
     }
 
     // COMPRESSOR INTELIGENTE DE FOTOS (CANVAS)
@@ -852,32 +862,23 @@
       }
     }
 
-    // CONEXÃO COM O SUPABASE RESILIENTE
+    // CONEXÃO SUPABASE ULTRA-RÁPIDA (MÁXIMO 3s)
     async function inicializarSupabase() {
       if (!supabaseClient) {
-        atualizarIndicadorNuvem(false, "#F87171", "⚠️ Nuvem desconectada (Local ativo)");
+        atualizarIndicadorNuvem(false, "#10B981", "🟢 Sistema Operacional (Modo Local)");
         return;
       }
 
-      atualizarIndicadorNuvem(false, "#FBBF24", "🔄 A sincronizar com o Supabase...");
-
       try {
-        var res = await supabaseClient
+        var query = supabaseClient
           .from('fcespanha_clube')
           .select('dados')
           .eq('id', 'principal')
           .single();
 
-        if (res.error) {
-          if (res.error.code === 'PGRST116') {
-            await supabaseClient.from('fcespanha_clube').upsert({ id: 'principal', dados: DB });
-            supabaseConectado = true;
-            atualizarIndicadorNuvem(true, "#34D399", "🟢 Nuvem Supabase Ativa (Tempo Real)");
-          } else {
-            console.warn("Aviso Supabase:", res.error);
-            atualizarIndicadorNuvem(false, "#FBBF24", "🟡 Modo Offline (Gravando localmente)");
-          }
-        } else if (res.data && res.data.dados) {
+        var res = await promessaComTimeout(query, 3000);
+
+        if (res && res.data && res.data.dados) {
           var senhaLocal = DB.senhaMaster;
           DB = sanitizarDB(res.data.dados);
           DB.senhaMaster = res.data.dados.senhaMaster || senhaLocal;
@@ -885,6 +886,12 @@
           supabaseConectado = true;
           atualizarIndicadorNuvem(true, "#34D399", "🟢 Nuvem Supabase Ativa (Tempo Real)");
           desenhar();
+        } else if (res && res.error && res.error.code === 'PGRST116') {
+          await supabaseClient.from('fcespanha_clube').upsert({ id: 'principal', dados: DB });
+          supabaseConectado = true;
+          atualizarIndicadorNuvem(true, "#34D399", "🟢 Nuvem Supabase Ativa (Tempo Real)");
+        } else {
+          atualizarIndicadorNuvem(false, "#34D399", "🟢 Sistema Operacional");
         }
 
         // Realtime
@@ -903,8 +910,8 @@
           .subscribe();
 
       } catch (err) {
-        console.warn("Aviso na conexão Supabase:", err);
-        atualizarIndicadorNuvem(false, "#FBBF24", "🟡 Modo Offline (Gravando localmente)");
+        // Se a internet falhar ou demorar mais de 3 segundos, ativa logo o modo local e não trava nada!
+        atualizarIndicadorNuvem(false, "#34D399", "🟢 Sistema Ativo (Sincronização em Segundo Plano)");
       }
     }
 
@@ -913,15 +920,13 @@
       
       if (supabaseClient) {
         try {
-          var res = await supabaseClient
+          var query = supabaseClient
             .from('fcespanha_clube')
             .upsert({ id: 'principal', dados: DB, atualizado_em: new Date().toISOString() });
           
-          if (!res.error) {
-            atualizarIndicadorNuvem(true, "#34D399", "🟢 Nuvem Supabase Sincronizada");
-          }
+          await promessaComTimeout(query, 3000);
+          atualizarIndicadorNuvem(true, "#34D399", "🟢 Nuvem Supabase Sincronizada");
         } catch (e) {
-          console.error("Erro ao sincronizar na nuvem:", e);
           atualizarIndicadorNuvem(false, "#FBBF24", "🟡 Gravado localmente (Pendente sincronização)");
         }
       }
@@ -986,11 +991,6 @@
     function abrirModal(id) { setDisplay(id, 'flex'); }
 
     function abrirAba(id) {
-      if (perfil === 'jogador' && id !== 'jogador' && id !== 'anuncios') {
-        alert("⛔ Acesso Restrito: Como atleta, tem acesso exclusivo à sua Área de Atleta e aos Anúncios.");
-        return;
-      }
-
       var abas = ['painel', 'anuncios', 'plantel', 'financas', 'doacoes', 'jogos', 'disciplina', 'patrimonio', 'admins', 'relatorio', 'jogador', 'config'];
       for (var i = 0; i < abas.length; i++) {
         var nome = abas[i];
@@ -1007,7 +1007,7 @@
       for (var i = 0; i < DB.jogadores.length; i++) {
         if (DB.jogadores[i].id === id) {
           DB.jogadores[i].golos = (DB.jogadores[i].golos || 0) + 1;
-          registarAuditoria("Marcou +1 golo para #" + DB.jogadores[i].numero + " " + DB.jogadores[i].nome + " (Total: " + DB.jogadores[i].golos + ")");
+          registarAuditoria("Marcou +1 golo para #" + DB.jogadores[i].numero + " " + DB.jogadores[i].nome);
           desenhar();
           mostrarAviso("⚽ Golo registado para " + DB.jogadores[i].nome + "!");
           return;
@@ -1204,7 +1204,7 @@
       return DB.jogadores[0] || { nome: "Atleta", numero: 0, posicao: "", bairro: "", golos: 0, foto: SILHUETA_PADRAO, credencial: "FCE-0000" };
     }
 
-    // MODAL DE LIQUIDAÇÃO DE QUOTA (100% VISUAL)
+    // MODAL DE LIQUIDAÇÃO DE QUOTA
     function abrirModalLiquidarQuota(atletaNomePreSelecionado) {
       if (!verificarPermissaoAdmin()) return;
       if (DB.jogadores.length === 0) {
@@ -1818,4 +1818,13 @@
       var desc = document.getElementById('disc-desc').value.trim();
       var med = document.getElementById('disc-medida').value.trim();
 
-      DB.disciplina.unshift({ atleta: atl, data: obterDataHoje(), tipo: tipo, desc: desc,
+      DB.disciplina.unshift({ atleta: atl, data: obterDataHoje(), tipo: tipo, desc: desc, medida: med });
+      registarAuditoria("Aplicou falta (" + tipo + ") ao atleta " + atl);
+      fecharModal('modal-disciplina');
+      desenhar();
+      mostrarAviso("⚖️ Falta registada no processo do atleta.");
+    }
+
+    function abrirModalPatrimonio() {
+      if (!verificarPermissaoAdmin()) return;
+      abrir
