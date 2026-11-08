@@ -1,9 +1,9 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="pt-AO">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>FC ESPANHA – Plataforma Oficial (Supabase Cloud)</title>
+  <title>FC ESPANHA – Plataforma Oficial</title>
   
   <!-- SUPABASE JS SDK -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -12,7 +12,6 @@
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif; }
     body { background-color: #0A0A0C; color: #F3F4F6; padding: 14px; min-height: 100vh; }
     
-    /* Topo e Identidade */
     .topo {
       background: linear-gradient(180deg, #18181C 0%, #121215 100%);
       border: 1px solid #28282D; border-radius: 12px; padding: 12px 18px;
@@ -20,14 +19,12 @@
       margin-bottom: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.5);
     }
     
-    /* Indicador Nuvem */
     .status-nuvem {
       display: inline-flex; align-items: center; gap: 6px; font-size: 10px;
       background: #111827; border: 1px solid #374151; padding: 4px 8px; border-radius: 12px;
       margin-top: 4px; font-weight: bold;
     }
 
-    /* Botões */
     .btn {
       padding: 8px 14px; border-radius: 6px; border: none; font-weight: bold;
       cursor: pointer; font-size: 11px; text-decoration: none; display: inline-flex;
@@ -42,7 +39,6 @@
     .btn-wpp { background: #10B981; color: black; font-weight: bold; }
     .btn-wpp:hover { background: #059669; }
 
-    /* Barra de Navegação */
     .menu-nav { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 14px; }
     .menu-nav button {
       padding: 9px 13px; background: #16161A; color: #E5A93C; border: 1px solid #28282D;
@@ -50,14 +46,12 @@
     }
     .menu-nav button.active { background: #E5A93C; color: black; border-color: #E5A93C; box-shadow: 0 2px 8px rgba(229,169,60,0.3); }
 
-    /* Cartões e Estatísticas */
     .card { background: #141417; border: 1px solid #24242A; border-radius: 10px; padding: 16px; margin-bottom: 14px; box-shadow: 0 2px 10px rgba(0,0,0,0.3); }
     .grid-stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 10px; margin-bottom: 14px; }
     .stat-box { background: #1A1A1F; border: 1px solid #28282D; border-radius: 8px; padding: 12px; }
     .stat-box p { font-size: 10px; color: #E5A93C; font-weight: bold; text-transform: uppercase; letter-spacing: 0.5px; }
     .stat-box h3 { font-size: 18px; font-weight: 900; margin-top: 4px; }
 
-    /* Caixas Especiais */
     .box-express { background: rgba(229,169,60,0.08); border: 2px solid #E5A93C; border-radius: 8px; padding: 14px; margin-bottom: 14px; }
     .box-grupo-wpp {
       background: linear-gradient(90deg, rgba(16,185,129,0.15) 0%, rgba(16,185,129,0.05) 100%);
@@ -66,25 +60,21 @@
     }
     .box-bloqueio-aviso { background: rgba(239, 68, 68, 0.15); border: 1px solid #EF4444; border-radius: 8px; padding: 10px 14px; margin-bottom: 14px; display: flex; justify-content: space-between; align-items: center; }
 
-    /* Tabelas */
     table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 12px; }
     th, td { text-align: left; padding: 9px 8px; border-bottom: 1px solid #24242A; vertical-align: middle; }
     th { color: #E5A93C; font-weight: bold; font-size: 11px; text-transform: uppercase; }
 
-    /* Fotos */
     .foto-atleta { width: 40px; height: 40px; border-radius: 50%; object-fit: cover; border: 2px solid #E5A93C; background: #28282D; }
-    .foto-perfil-card { width: 75px; height: 75px; border-radius: 10px; object-fit: cover; border: 2px solid #E5A93C; }
+    .foto-perfil-card { width: 85px; height: 85px; border-radius: 12px; object-fit: cover; border: 2px solid #E5A93C; }
 
     .aviso { background: #064E3B; border: 1px solid #10B981; color: #ECFDF5; padding: 8px 12px; border-radius: 6px; font-size: 12px; font-weight: bold; margin-bottom: 12px; display: none; }
     
-    /* Modais */
     .modal-box { position: fixed; inset: 0; background: rgba(0,0,0,0.85); display: flex; align-items: center; justify-content: center; padding: 16px; z-index: 1000; }
-    .modal-corpo { background: #161619; border: 1px solid #28282D; border-radius: 10px; padding: 18px; width: 100%; max-width: 440px; max-height: 90vh; overflow-y: auto; }
+    .modal-corpo { background: #161619; border: 1px solid #28282D; border-radius: 10px; padding: 18px; width: 100%; max-width: 460px; max-height: 90vh; overflow-y: auto; }
     .campo { margin-bottom: 12px; }
     .campo label { display: block; font-size: 10px; color: #888; font-weight: bold; margin-bottom: 4px; text-transform: uppercase; }
     .campo input, .campo select, .campo textarea { width: 100%; padding: 8px; background: #1F1F24; border: 1px solid #28282D; color: white; border-radius: 6px; font-size: 12px; }
 
-    /* Rodapé Oficial */
     .rodape-oficial {
       text-align: center; font-size: 11px; color: #9CA3AF; margin-top: 24px;
       padding-top: 12px; border-top: 1px solid #24242A;
@@ -98,10 +88,9 @@
 </head>
 <body>
 
-  <!-- AVISO DE ACÇÃO -->
   <div id="msg-aviso" class="aviso"></div>
 
-  <!-- TOPO OFICIAL COM EMBLEMA -->
+  <!-- TOPO OFICIAL -->
   <div class="topo no-print">
     <div style="display:flex; align-items:center; gap:10px;">
       <div id="box-emblema-topo" style="width:36px; height:46px;"></div>
@@ -117,11 +106,11 @@
         <p id="txt-nome" style="font-size:12px; font-weight:bold;">Eduardo Ferreira Alfredo</p>
         <p id="txt-cargo" style="font-size:10px; color:#E5A93C; font-weight:bold;">👑 Desenvolvedor Master</p>
       </div>
-      <button class="btn btn-dark" style="font-size:14px; padding:6px 10px;" title="Configurações Master" onclick="abrirAba('config')">⚙️</button>
+      <button id="btn-engrenagem" class="btn btn-dark" style="font-size:14px; padding:6px 10px;" title="Configurações Master" onclick="abrirAba('config')">⚙️</button>
     </div>
   </div>
 
-  <!-- LINK DO GRUPO OFICIAL DO WHATSAPP -->
+  <!-- GRUPO DO WHATSAPP -->
   <div class="box-grupo-wpp no-print">
     <div style="display:flex; align-items:center; gap:8px;">
       <span style="font-size:18px;">💬</span>
@@ -135,31 +124,31 @@
     </a>
   </div>
 
-  <!-- ALERTA DE BLOQUEIO DE AÇÕES DOS ADMINS -->
+  <!-- AVISO DE BLOQUEIO DOS ADMINS -->
   <div id="box-aviso-bloqueio" class="box-bloqueio-aviso no-print" style="display:none;">
     <div style="display:flex; align-items:center; gap:8px;">
       <span style="font-size:18px;">🔒</span>
       <div>
         <b style="color:#EF4444; font-size:12px;">AÇÕES ADMINISTRATIVAS BLOQUEADAS</b>
-        <p style="font-size:10px; color:#CCC;">O Desenvolvedor Master ativou o bloqueio. Os administradores estão temporariamente em modo apenas de leitura.</p>
+        <p style="font-size:10px; color:#CCC;">O Desenvolvedor Master ativou o bloqueio. Os administradores estão em modo de leitura.</p>
       </div>
     </div>
   </div>
 
-  <!-- SELECTOR DE PERFIS BLINDADO -->
-  <div style="background:#141417; border:1px solid #24242A; border-radius:8px; padding:6px 10px; margin-bottom:12px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:6px;" class="no-print">
+  <!-- SELECTOR DE PERFIS -->
+  <div id="box-selector-perfis" style="background:#141417; border:1px solid #24242A; border-radius:8px; padding:6px 10px; margin-bottom:12px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:6px;" class="no-print">
     <span style="font-size:11px; color:#888; font-weight:bold;">SESSÃO ACTIVA:</span>
     <div style="display:flex; gap:6px; flex-wrap:wrap;">
       <button id="btn-perfil-dev" class="btn btn-gold" onclick="entrarComoMaster()">👑 Eduardo (Master)</button>
       <button id="btn-perfil-adm1" class="btn btn-dark" onclick="solicitarAcessoAdmin('adm1')">🛡️ Admin 1</button>
       <button id="btn-perfil-adm2" class="btn btn-dark" onclick="solicitarAcessoAdmin('adm2')">🛡️ Admin 2</button>
       <button id="btn-perfil-adm3" class="btn btn-dark" onclick="solicitarAcessoAdmin('adm3')">🛡️ Admin 3</button>
-      <button id="btn-perfil-jogador" class="btn btn-dark" onclick="loginExclusivoAtleta()">⚽ Área do Atleta (Código Único)</button>
+      <button id="btn-perfil-jogador" class="btn btn-dark" onclick="loginExclusivoAtleta()">⚽ Entrar na Área do Atleta</button>
     </div>
   </div>
 
   <!-- ABAS DE NAVEGAÇÃO -->
-  <div class="menu-nav no-print">
+  <div id="box-menu-navegacao" class="menu-nav no-print">
     <button id="tab-painel" class="active" onclick="abrirAba('painel')">📊 Painel</button>
     <button id="tab-anuncios" onclick="abrirAba('anuncios')">📢 Anúncios</button>
     <button id="tab-plantel" onclick="abrirAba('plantel')">👥 Plantel & Golos</button>
@@ -169,12 +158,12 @@
     <button id="tab-disciplina" onclick="abrirAba('disciplina')">⚖️ Disciplina & Faltas</button>
     <button id="tab-patrimonio" onclick="abrirAba('patrimonio')">📦 Património do Clube</button>
     <button id="tab-admins" onclick="abrirAba('admins')">🛡️ Os 3 Admins & Auditoria</button>
-    <button id="tab-relatorio" onclick="abrirAba('relatorio')">📄 Relatório Financeiro</button>
-    <button id="tab-jogador" style="display:none;" onclick="abrirAba('jogador')">⚽ Meu Portal Atleta</button>
+    <button id="tab-relatorio" onclick="abrirAba('relatorio')">📄 Relatório Geral</button>
+    <button id="tab-jogador" style="display:none;" onclick="abrirAba('jogador')">⚽ Minha Área de Atleta</button>
     <button id="tab-config" onclick="abrirAba('config')">⚙️ Configurações Master</button>
   </div>
 
-  <!-- 1. PAINEL PRINCIPAL -->
+  <!-- 1. PAINEL -->
   <div id="aba-painel">
     <div class="card">
       <div class="grid-stats">
@@ -191,7 +180,7 @@
     </div>
   </div>
 
-  <!-- 2. ANÚNCIOS DA DIRECÇÃO -->
+  <!-- 2. ANÚNCIOS -->
   <div id="aba-anuncios" style="display:none;">
     <div class="card">
       <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
@@ -205,24 +194,24 @@
     </div>
   </div>
 
-  <!-- 3. PLANTEL SÉNIOR & GOLOS -->
+  <!-- 3. PLANTEL & REGISTO DE GOLOS -->
   <div id="aba-plantel" style="display:none;">
     <div class="card">
       <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
         <div>
-          <h2 style="font-size:15px; font-weight:bold;">Plantel Sénior & Artilharia do FC ESPANHA</h2>
-          <p style="font-size:10px; color:#888;">Registo oficial com credenciais exclusivas e envio de link via WhatsApp.</p>
+          <h2 style="font-size:15px; font-weight:bold;">Plantel Sénior & Registo de Golos</h2>
+          <p style="font-size:10px; color:#888;">Adicione golos diretamente com 1 clique ou edite os dados do atleta.</p>
         </div>
         <button id="btn-cadastrar-jogador" class="btn btn-red" onclick="abrirModalJogador()">+ Cadastrar Atleta</button>
       </div>
       <table>
-        <thead><tr><th>Foto</th><th>Nº</th><th>Nome Completo</th><th>Idade (Nasc.)</th><th>Golos</th><th>Contacto</th><th>Código de Acesso Exclusivo</th><th>Acções</th></tr></thead>
+        <thead><tr><th>Foto</th><th>Nº</th><th>Nome Completo</th><th>Idade (Nasc.)</th><th>Golos</th><th>Contacto</th><th>Código Exclusivo</th><th>Acções</th></tr></thead>
         <tbody id="tb-plantel"></tbody>
       </table>
     </div>
   </div>
 
-  <!-- 4. QUOTAS SEMANAIS -->
+  <!-- 4. QUOTAS & FILTRO DOMINICAL -->
   <div id="aba-financas" style="display:none;">
     <div class="box-express">
       <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;">
@@ -232,7 +221,7 @@
             Multicaixa Express do Tesoureiro: <span style="color:#E5A93C; font-size:18px;">935 523 498</span>
           </h3>
           <p style="font-size:11px; color:#CCC; margin-top:2px;">
-            📌 <b>Regra do Clube:</b> Pagamento semanal <b>a todos os domingos</b> via Express para <b>935 523 498</b> com envio de comprovativo.
+            📌 Pagamento semanal <b>a todos os domingos</b> via Express para <b>935 523 498</b> com envio de comprovativo.
           </p>
         </div>
         <a href="https://wa.me/244935523498?text=Ol%C3%A1%20Tesoureiro%2C%20envio%20aqui%20o%20comprovativo%20da%20minha%20quota%20semanal%20de%20domingo%20do%20FC%20ESPANHA." target="_blank" class="btn btn-wpp" style="padding:10px 14px; font-size:12px;">
@@ -241,16 +230,43 @@
       </div>
     </div>
 
+    <!-- FILTRO DE COBRANÇA DOMINICAL -->
+    <div class="card" style="border:1px solid #E5A93C;">
+      <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px; margin-bottom:10px;">
+        <div>
+          <h3 style="font-size:14px; font-weight:bold; color:#E5A93C;">🔍 Filtro de Controlo de Quotas Dominicais</h3>
+          <p style="font-size:10px; color:#888;">Verifique quem já pagou e quem está em falta na semana selecionada.</p>
+        </div>
+        <div style="display:flex; gap:6px; align-items:center;">
+          <label style="font-size:11px; font-weight:bold; color:#CCC;">Domingo:</label>
+          <input type="text" id="filtro-domingo-ref" style="padding:6px; background:#1F1F24; border:1px solid #28282D; color:#FFF; border-radius:6px; font-size:11px; width:170px;" onchange="filtrarControleQuotas()">
+          <button class="btn btn-gold" onclick="filtrarControleQuotas()">Filtrar</button>
+        </div>
+      </div>
+
+      <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap:12px;">
+        <div style="background:#11181C; border:1px solid #10B981; border-radius:8px; padding:10px;">
+          <h4 style="color:#10B981; font-size:12px; font-weight:bold; margin-bottom:6px;">✅ Atletas com Quota Paga (<span id="qtd-pagos">0</span>)</h4>
+          <div id="lista-atletas-pagos" style="font-size:11px; max-height:220px; overflow-y:auto;"></div>
+        </div>
+
+        <div style="background:#1A1315; border:1px solid #EF4444; border-radius:8px; padding:10px;">
+          <h4 style="color:#EF4444; font-size:12px; font-weight:bold; margin-bottom:6px;">❌ Atletas em Falta (<span id="qtd-pendentes">0</span>)</h4>
+          <div id="lista-atletas-pendentes" style="font-size:11px; max-height:220px; overflow-y:auto;"></div>
+        </div>
+      </div>
+    </div>
+
     <div class="card">
       <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
-        <div><h2 style="font-size:15px; font-weight:bold;">Controlo de Quotas Dominicais</h2><p style="font-size:10px; color:#888;">Moeda: Kwanza Angolano (Kz)</p></div>
+        <div><h2 style="font-size:15px; font-weight:bold;">Controlo Geral de Quotas Dominicais</h2><p style="font-size:10px; color:#888;">Moeda: Kwanza Angolano (Kz)</p></div>
         <button id="btn-liquidar-quota" class="btn btn-gold" onclick="lancarQuota()">+ Liquidar Quota Dominical</button>
       </div>
       <div class="grid-stats">
         <div class="stat-box"><p>Saldo em Caixa</p><h3 id="fin-saldo" style="color:#34D399;">0,00 Kz</h3></div>
         <div class="stat-box"><p>Total Quotas Pagas</p><h3 id="fin-quotas">0,00 Kz</h3></div>
       </div>
-      <h3 style="font-size:11px; color:#E5A93C; font-weight:bold; margin-top:12px; text-transform:uppercase;">Histórico Semanal com Recibo WhatsApp:</h3>
+      <h3 style="font-size:11px; color:#E5A93C; font-weight:bold; margin-top:12px; text-transform:uppercase;">Histórico Semanal:</h3>
       <table>
         <thead><tr><th>Atleta</th><th>Semana / Domingo</th><th>Valor Pago</th><th>Método</th><th>Recibo</th></tr></thead>
         <tbody id="tb-quotas"></tbody>
@@ -258,13 +274,13 @@
     </div>
   </div>
 
-  <!-- 5. OUTRAS CONTRIBUIÇÕES & DONATIVOS -->
+  <!-- 5. DOAÇÕES -->
   <div id="aba-doacoes" style="display:none;">
     <div class="card">
       <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
         <div>
           <h2 style="font-size:15px; font-weight:bold;">Outras Contribuições, Donativos & Patrocínios</h2>
-          <p style="font-size:10px; color:#888;">Apoios extraordinários, patrocínios e donativos ao FC ESPANHA.</p>
+          <p style="font-size:10px; color:#888;">Apoios extraordinários ao FC ESPANHA.</p>
         </div>
         <button id="btn-nova-doacao" class="btn btn-gold" onclick="lancarDoacao()">+ Registar Contribuição</button>
       </div>
@@ -275,7 +291,7 @@
     </div>
   </div>
 
-  <!-- 6. JOGOS OFICIAIS -->
+  <!-- 6. JOGOS -->
   <div id="aba-jogos" style="display:none;">
     <div class="card">
       <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
@@ -289,7 +305,7 @@
     </div>
   </div>
 
-  <!-- 7. DISCIPLINA & FALTAS -->
+  <!-- 7. DISCIPLINA -->
   <div id="aba-disciplina" style="display:none;">
     <div class="card">
       <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
@@ -306,7 +322,7 @@
     </div>
   </div>
 
-  <!-- 8. PATRIMÓNIO DO CLUBE -->
+  <!-- 8. PATRIMÓNIO -->
   <div id="aba-patrimonio" style="display:none;">
     <div class="card">
       <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
@@ -317,13 +333,13 @@
         <button id="btn-novo-item-pat" class="btn btn-gold" onclick="abrirModalPatrimonio()">+ Registar Material</button>
       </div>
       <table>
-        <thead><tr><th>Material / Equipamento</th><th>Qtd. Total</th><th>Disponíveis</th><th>Estado de Conservação</th></tr></thead>
+        <thead><tr><th>Material / Equipamento</th><th>Qtd. Total</th><th>Disponíveis</th><th>Estado</th></tr></thead>
         <tbody id="tb-patrimonio"></tbody>
       </table>
     </div>
   </div>
 
-  <!-- 9. OS 3 ADMINISTRADORES & AUDITORIA (LIVRE PARA O MASTER) -->
+  <!-- 9. ADMINS & AUDITORIA -->
   <div id="aba-admins" style="display:none;">
     <div class="card">
       <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-bottom:14px; border-bottom:1px solid #28282D; padding-bottom:10px;">
@@ -337,10 +353,9 @@
       <div id="box-admins"></div>
     </div>
 
-    <!-- LIVRO DE AUDITORIA E REGISTO DE RESPONSABILIDADE -->
     <div class="card">
       <div style="margin-bottom:8px;">
-        <span style="font-size:10px; color:#E5A93C; font-weight:bold;">AUDITORIA & RESPONSABILIZAÇÃO DE ATIVIDADES</span>
+        <span style="font-size:10px; color:#E5A93C; font-weight:bold;">AUDITORIA & RESPONSABILIZAÇÃO</span>
         <h3 style="font-size:14px; font-weight:bold;">Registo de Ações dos Administradores</h3>
         <p style="font-size:11px; color:#888;">Cada alteração, registo financeiro ou cadastramento fica guardado na nuvem.</p>
       </div>
@@ -351,7 +366,7 @@
     </div>
   </div>
 
-  <!-- 10. RELATÓRIO FINANCEIRO DETALHADO -->
+  <!-- 10. RELATÓRIO GERAL (MASTER & ADMINS) -->
   <div id="aba-relatorio" style="display:none;">
     <div style="text-align:right; margin-bottom:10px;" class="no-print">
       <button class="btn btn-gold" onclick="window.print()">🖨️ Imprimir / Guardar em PDF</button>
@@ -360,7 +375,7 @@
       <div style="text-align:center; border-bottom:2px solid #B31317; padding-bottom:8px; margin-bottom:12px;">
         <div id="box-emblema-relatorio" style="width:40px; height:50px; margin:0 auto 4px auto;"></div>
         <h1 style="color:#B31317; font-size:16px; font-weight:bold;">FC ESPANHA</h1>
-        <p style="font-size:11px; font-weight:bold;">RELATÓRIO FINANCEIRO & ADMINISTRATIVO OFICIAL</p>
+        <p style="font-size:11px; font-weight:bold;">RELATÓRIO GERAL DA DIRECÇÃO</p>
         <p style="font-size:10px; color:#666;">Luanda, República de Angola</p>
       </div>
 
@@ -370,7 +385,7 @@
         <tr><td id="pdf-rec" style="font-weight:bold; color:green;">0,00 Kz</td><td id="pdf-desp" style="font-weight:bold; color:red;">0,00 Kz</td><td id="pdf-saldo" style="font-weight:bold; color:#000;">0,00 Kz</td></tr>
       </table>
 
-      <h3 style="font-weight:bold; margin-bottom:6px; color:#B31317;">2. RELAÇÃO NOMINAL DO PLANTEL SÉNIOR & ARTILHARIA:</h3>
+      <h3 style="font-weight:bold; margin-bottom:6px; color:#B31317;">2. RELAÇÃO NOMINAL DO PLANTEL:</h3>
       <table>
         <thead><tr style="border-bottom:1px solid black;"><th style="color:black;">Foto</th><th style="color:black;">Nº</th><th style="color:black;">Nome do Jogador</th><th style="color:black;">Idade</th><th style="color:black;">Posição</th><th style="color:black;">Golos</th><th style="color:black;">Contacto</th></tr></thead>
         <tbody id="tb-relatorio"></tbody>
@@ -382,7 +397,7 @@
     </div>
   </div>
 
-  <!-- 11. ÁREA RESTRITA DO ATLETA (ACESSO POR CÓDIGO EXCLUSIVO) -->
+  <!-- 11. ÁREA EXCLUSIVA DO ATLETA (VÊ APENAS OS SEUS PRÓPRIOS DADOS) -->
   <div id="aba-jogador" style="display:none;">
     <div class="box-express">
       <span style="background:#E5A93C; color:black; font-weight:bold; font-size:10px; padding:2px 6px; border-radius:4px; text-transform:uppercase;">📅 Quota Semanal (Todos os Domingos)</span>
@@ -390,10 +405,10 @@
         Número Express do Tesoureiro: <span style="color:#E5A93C; font-size:17px;">935 523 498</span>
       </h3>
       <p style="font-size:11px; color:#DDD; margin-top:3px;">
-        A tua quota deve ser paga <b>semanalmente a todos os domingos</b>. Paga via Express e envia o comprovativo no botão abaixo:
+        Paga a tua quota semanal de domingo via Express para <b>935 523 498</b> e envia o comprovativo no botão abaixo:
       </p>
       <div style="margin-top:10px;">
-        <a href="https://wa.me/244935523498?text=Ol%C3%A1%20Tesoureiro%2C%20sou%20atleta%20do%20FC%20ESPANHA%20e%20envio%20aqui%20o%20comprovativo%20da%20minha%20quota%20semanal%20de%20domingo." target="_blank" class="btn btn-wpp">
+        <a id="btn-wpp-enviar-comp" href="https://wa.me/244935523498" target="_blank" class="btn btn-wpp">
           📲 Enviar Comprovativo no WhatsApp do Tesoureiro (935 523 498)
         </a>
       </div>
@@ -406,39 +421,55 @@
       <button class="btn btn-dark" onclick="solicitarAlteracaoDados()">
         📝 Solicitar Alteração de Dados
       </button>
+      <button class="btn btn-gold" onclick="window.print()">
+        🖨️ Imprimir Meu Relatório Pessoal
+      </button>
     </div>
 
+    <!-- CARTÃO DO PERFIL DO ATLETA -->
     <div class="card" style="border-color:#E5A93C; display:flex; align-items:center; gap:16px;">
       <img id="atleta-foto-box" class="foto-perfil-card" src="">
       <div>
-        <span style="color:#E5A93C; font-size:10px; font-weight:bold;">MEU PERFIL OFICIAL</span>
+        <span style="color:#E5A93C; font-size:10px; font-weight:bold;">MEU PERFIL OFICIAL • FC ESPANHA</span>
         <h2 style="font-size:18px; font-weight:bold; margin-top:2px;" id="atleta-nome">Atleta</h2>
         <p style="font-size:11px; color:#888;" id="atleta-desc"></p>
-        <p style="font-size:11px; color:#E5A93C; margin-top:4px;" id="atleta-golos-box">⚽ 0 Golos Marcados</p>
+        <p style="font-size:11px; color:#34D399; font-weight:bold; margin-top:4px;" id="atleta-golos-box">⚽ 0 Golos Marcados</p>
+        <p style="font-size:10px; color:#AAA; margin-top:2px;">Credencial: <code id="atleta-cred-box" style="color:#E5A93C;"></code></p>
       </div>
     </div>
 
+    <!-- HISTÓRICO DE QUOTAS INDIVIDUAL -->
     <div class="card">
       <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid #24242A; padding-bottom:8px; margin-bottom:10px;">
-        <h3 style="font-size:13px; color:#E5A93C; font-weight:bold; text-transform:uppercase;">Meu Histórico de Quotas Pagas</h3>
+        <h3 style="font-size:13px; color:#E5A93C; font-weight:bold; text-transform:uppercase;">Meu Histórico Individual de Quotas Pagas</h3>
         <span id="atleta-val-total" style="color:#34D399; font-weight:bold; font-size:14px;">Total Pago: 0,00 Kz</span>
       </div>
       <table>
-        <thead><tr><th>Semana / Domingo</th><th>Valor Liquidado</th><th>Método de Pagamento</th><th>Recibo Digital</th></tr></thead>
+        <thead><tr><th>Semana / Domingo</th><th>Valor Liquidado</th><th>Método</th><th>Recibo Digital</th></tr></thead>
         <tbody id="tb-historico-atleta"></tbody>
       </table>
     </div>
 
+    <!-- HISTÓRICO DISCIPLINAR INDIVIDUAL -->
     <div class="card">
-      <h3 style="font-size:13px; color:#E5A93C; font-weight:bold; text-transform:uppercase; margin-bottom:8px;">Património e Material do Clube:</h3>
+      <h3 style="font-size:13px; color:#E5A93C; font-weight:bold; text-transform:uppercase; margin-bottom:8px;">Meu Histórico Disciplinar Pessoal</h3>
       <table>
-        <thead><tr><th>Material</th><th>Quantidade</th><th>Disponível</th><th>Estado</th></tr></thead>
+        <thead><tr><th>Data</th><th>Infração</th><th>Descrição</th><th>Medida Aplicada</th></tr></thead>
+        <tbody id="tb-disciplina-atleta"></tbody>
+      </table>
+    </div>
+
+    <!-- PATRIMÓNIO -->
+    <div class="card">
+      <h3 style="font-size:13px; color:#E5A93C; font-weight:bold; text-transform:uppercase; margin-bottom:8px;">Bens e Materiais Disponíveis no Clube</h3>
+      <table>
+        <thead><tr><th>Material</th><th>Quantidade Total</th><th>Disponível</th><th>Estado</th></tr></thead>
         <tbody id="tb-patrimonio-atleta"></tbody>
       </table>
     </div>
   </div>
 
-  <!-- 12. CONFIGURAÇÕES & FERRAMENTAS DO MASTER -->
+  <!-- 12. CONFIGURAÇÕES MASTER -->
   <div id="aba-config" style="display:none;">
     <div class="card">
       <div style="margin-bottom:14px; border-bottom:1px solid #28282D; padding-bottom:8px;">
@@ -446,17 +477,15 @@
         <p style="font-size:11px; color:#888;">Gestão exclusiva do Desenvolvedor Master: Eduardo Ferreira Alfredo</p>
       </div>
 
-      <!-- SENHA MESTRE DO EDUARDO -->
       <div style="background:#1A1A1F; border:1px solid #28282D; border-radius:8px; padding:14px; margin-bottom:14px;">
         <h4 style="font-size:12px; font-weight:bold; color:#E5A93C; margin-bottom:4px; text-transform:uppercase;">🔑 Senha Mestre da Conta do Desenvolvedor:</h4>
-        <p style="font-size:11px; color:#CCC; margin-bottom:10px;">Esta senha protege a sua conta para que nenhum outro utilizador consiga aceder ao painel Master:</p>
+        <p style="font-size:11px; color:#CCC; margin-bottom:10px;">A tua senha mestre protege o controlo total do clube. Podes alterá-la sempre que quiseres:</p>
         <button class="btn btn-gold" onclick="alterarSenhaMaster()">Alterar Minha Senha Master</button>
       </div>
 
-      <!-- CÓPIA DE SEGURANÇA E BACKUP -->
       <div style="background:#1A1A1F; border:1px solid #28282D; border-radius:8px; padding:14px; margin-bottom:14px;">
         <h4 style="font-size:12px; font-weight:bold; color:#34D399; margin-bottom:4px; text-transform:uppercase;">💾 Cópia de Segurança Local (Backup JSON):</h4>
-        <p style="font-size:11px; color:#CCC; margin-bottom:10px;">Mesmo com o Supabase, pode descarregar um ficheiro de segurança a qualquer momento:</p>
+        <p style="font-size:11px; color:#CCC; margin-bottom:10px;">Descarrega os dados do clube para o teu computador ou restaura a partir de um ficheiro:</p>
         <div style="display:flex; gap:8px; flex-wrap:wrap;">
           <button class="btn btn-gold" onclick="descarregarBackup()">⬇️ Descarregar Backup Local (.JSON)</button>
           <label class="btn btn-dark" style="cursor:pointer;">
@@ -465,7 +494,6 @@
         </div>
       </div>
 
-      <!-- FOTO / EMBLEMA DO CLUBE -->
       <div style="background:#1A1A1F; border:1px solid #28282D; border-radius:8px; padding:14px; margin-bottom:14px;">
         <h4 style="font-size:12px; font-weight:bold; color:#E5A93C; margin-bottom:4px; text-transform:uppercase;">Fotografia / Emblema do FC ESPANHA:</h4>
         <p style="font-size:11px; color:#CCC; margin-bottom:10px;">Carregue o logótipo oficial do clube:</p>
@@ -475,7 +503,6 @@
         </div>
       </div>
 
-      <!-- LIMPEZA TOTAL DA BASE -->
       <div style="background:rgba(179,19,23,0.25); border:2px solid #B31317; border-radius:8px; padding:12px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">
         <div>
           <h4 style="color:#F87171; font-size:13px; font-weight:bold;">🗑️ REINICIAR / ZERAR BASE DE DADOS NA NUVEM</h4>
@@ -486,7 +513,6 @@
     </div>
   </div>
 
-  <!-- RODAPÉ OFICIAL -->
   <div class="rodape-oficial no-print">
     Desenvolvido por Eduardo Ferreira Alfredo (2026) • FC ESPANHA • Conectado via Supabase
   </div>
@@ -498,11 +524,11 @@
       <h3 style="color:#E5A93C; font-size:14px; font-weight:bold; margin-bottom:12px; text-transform:uppercase;">Cadastrar Atleta no FC ESPANHA</h3>
       
       <div class="campo" style="text-align:center;">
-        <label>Fotografia do Atleta:</label>
+        <label>Fotografia (Compressão Automática para ~20KB):</label>
         <div style="display:flex; justify-content:center; margin:4px 0;">
           <img id="preview-foto-cad" class="foto-atleta" style="width:55px; height:55px;" src="">
         </div>
-        <input type="file" id="inp-foto-arquivo" accept="image/*" onchange="carregarFotoJogador(this)" style="font-size:11px;">
+        <input type="file" id="inp-foto-arquivo" accept="image/*" onchange="carregarFotoJogadorComprimida(this)" style="font-size:11px;">
         <input type="hidden" id="inp-foto-base64">
       </div>
 
@@ -510,7 +536,7 @@
       <div class="campo"><label>Número da Camisola (Único):</label><input id="cad-num" type="number" placeholder="Ex: 9"></div>
       <div class="campo"><label>Data de Nascimento:</label><input id="cad-nasc" type="date" value="2004-01-01"></div>
       <div class="campo"><label>Posição em Campo:</label><input id="cad-pos" type="text" placeholder="Ex: Avançado" value="Avançado"></div>
-      <div class="campo"><label>Contacto Telefónico (9 dígitos Angola):</label><input id="cad-tel" type="text" placeholder="Ex: 923111222"></div>
+      <div class="campo"><label>Contacto Telefónico (Angola):</label><input id="cad-tel" type="text" placeholder="Ex: 923111222"></div>
       <div class="campo"><label>Bairro / Residência:</label><input id="cad-bairro" type="text" placeholder="Ex: Cazenga" value="Cazenga"></div>
       
       <div style="text-align:right; margin-top:14px;">
@@ -527,11 +553,11 @@
       <input type="hidden" id="edit-jog-id">
       
       <div class="campo" style="text-align:center;">
-        <label>Fotografia do Atleta:</label>
+        <label>Fotografia (Compressão Automática):</label>
         <div style="display:flex; justify-content:center; margin:4px 0;">
           <img id="preview-foto-edit" class="foto-atleta" style="width:55px; height:55px;" src="">
         </div>
-        <input type="file" id="inp-foto-edit-arquivo" accept="image/*" onchange="carregarFotoEdicao(this)" style="font-size:11px;">
+        <input type="file" id="inp-foto-edit-arquivo" accept="image/*" onchange="carregarFotoEdicaoComprimida(this)" style="font-size:11px;">
         <input type="hidden" id="edit-jog-foto-base64">
       </div>
 
@@ -602,16 +628,12 @@
 
   <!-- ================= SCRIPT PRINCIPAL SUPABASE ================= -->
   <script>
-    // ========================================================
-    // ⚙️ CREDENCIAIS OFICIAIS DO FC ESPANHA (CONFIGURADAS)
-    // ========================================================
     var SUPABASE_URL = "https://gtujqngiefncuyqsxvoi.supabase.co";
     var SUPABASE_KEY = "sb_publishable_yzF9Yns_glLQj2sA7que5w_E_ntAWLh";
 
     var supabaseClient = null;
     var supabaseConectado = false;
 
-    // Inicialização do Supabase
     if (window.supabase && SUPABASE_URL.indexOf("http") === 0) {
       try {
         supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
@@ -652,12 +674,76 @@
     var masterAutenticado = true;
     var atletaSessaoId = null;
 
+    // COMPRESSOR INTELIGENTE DE FOTOS (CANVAS)
+    function comprimirImagem(file, maxWidth, maxHeight, quality, callback) {
+      var reader = new FileReader();
+      reader.onload = function(e) {
+        var img = new Image();
+        img.onload = function() {
+          var canvas = document.createElement('canvas');
+          var width = img.width;
+          var height = img.height;
+
+          if (width > height) {
+            if (width > maxWidth) {
+              height = Math.round((height * maxWidth) / width);
+              width = maxWidth;
+            }
+          } else {
+            if (height > maxHeight) {
+              width = Math.round((width * maxHeight) / height);
+              height = maxHeight;
+            }
+          }
+
+          canvas.width = width;
+          canvas.height = height;
+          var ctx = canvas.getContext('2d');
+          ctx.drawImage(img, 0, 0, width, height);
+          var dataUrl = canvas.toDataURL('image/jpeg', quality);
+          callback(dataUrl);
+        };
+        img.src = e.target.result;
+      };
+      reader.readAsDataURL(file);
+    }
+
+    function carregarFotoJogadorComprimida(input) {
+      if (input.files && input.files[0]) {
+        mostrarAviso("A otimizar e comprimir fotografia...");
+        comprimirImagem(input.files[0], 280, 280, 0.72, function(base64Otimizada) {
+          document.getElementById('preview-foto-cad').src = base64Otimizada;
+          document.getElementById('inp-foto-base64').value = base64Otimizada;
+          mostrarAviso("✅ Fotografia comprimida para ~20KB com sucesso!");
+        });
+      }
+    }
+
+    function carregarFotoEdicaoComprimida(input) {
+      if (input.files && input.files[0]) {
+        mostrarAviso("A otimizar e comprimir fotografia...");
+        comprimirImagem(input.files[0], 280, 280, 0.72, function(base64Otimizada) {
+          document.getElementById('preview-foto-edit').src = base64Otimizada;
+          document.getElementById('edit-jog-foto-base64').value = base64Otimizada;
+          mostrarAviso("✅ Fotografia comprimida com sucesso!");
+        });
+      }
+    }
+
     function obterDataHoje() {
       var d = new Date();
       var ano = d.getFullYear();
       var mes = String(d.getMonth() + 1).padStart(2, '0');
       var dia = String(d.getDate()).padStart(2, '0');
       return ano + "-" + mes + "-" + dia;
+    }
+
+    function obterDomingoAtual() {
+      var d = new Date();
+      var diaSemana = d.getDay();
+      var diff = d.getDate() - diaSemana;
+      var dom = new Date(d.setDate(diff));
+      return "Domingo " + String(dom.getDate()).padStart(2, '0') + "/" + String(dom.getMonth() + 1).padStart(2, '0') + "/" + dom.getFullYear();
     }
 
     function obterDataHoraAtual() {
@@ -670,7 +756,7 @@
       if (guardado) {
         try {
           var obj = JSON.parse(guardado);
-          if (!obj.senhaMaster) obj.senhaMaster = "Eduardo2026";
+          if (!obj.senhaMaster) obj.senhaMaster = BASE_PRODUCAO.senhaMaster;
           if (obj.adminsBloqueados === undefined) obj.adminsBloqueados = false;
           if (!obj.auditoria) obj.auditoria = [];
           if (!obj.admins || obj.admins.length < 3) obj.admins = BASE_PRODUCAO.admins;
@@ -691,7 +777,6 @@
       }
     }
 
-    // CARREGAR E SINCRONIZAR COM O SUPABASE
     async function inicializarSupabase() {
       if (!supabaseClient) {
         atualizarIndicadorNuvem(false, "#F87171", "⚠️ Nuvem desconectada");
@@ -708,24 +793,26 @@
           .single();
 
         if (error && error.code === 'PGRST116') {
-          // Tabela vazia: enviar os dados iniciais
           await supabaseClient.from('fcespanha_clube').upsert({ id: 'principal', dados: DB });
           supabaseConectado = true;
           atualizarIndicadorNuvem(true, "#34D399", "🟢 Nuvem Supabase Ativa (Tempo Real)");
         } else if (data && data.dados) {
+          var senhaNuvem = data.dados.senhaMaster || DB.senhaMaster;
           DB = data.dados;
+          DB.senhaMaster = senhaNuvem;
           localStorage.setItem(CHAVE_LOCAL, JSON.stringify(DB));
           supabaseConectado = true;
           atualizarIndicadorNuvem(true, "#34D399", "🟢 Nuvem Supabase Ativa (Tempo Real)");
           desenhar();
         }
 
-        // Ativar Realtime
         supabaseClient
           .channel('canal-fcespanha')
           .on('postgres_changes', { event: '*', schema: 'public', table: 'fcespanha_clube' }, function(payload) {
             if (payload.new && payload.new.dados) {
+              var sM = DB.senhaMaster;
               DB = payload.new.dados;
+              DB.senhaMaster = payload.new.dados.senhaMaster || sM;
               localStorage.setItem(CHAVE_LOCAL, JSON.stringify(DB));
               desenhar();
               mostrarAviso("🔄 Dados sincronizados em tempo real!");
@@ -739,7 +826,6 @@
       }
     }
 
-    // SALVAR TANTO NO SUPABASE COMO LOCALMENTE
     async function salvarDB() {
       localStorage.setItem(CHAVE_LOCAL, JSON.stringify(DB));
       
@@ -765,7 +851,7 @@
         var idx = parseInt(perfil.replace('adm', '')) - 1;
         return DB.admins[idx].nome;
       }
-      return "Atleta";
+      return "Atleta (" + (obterAtletaSessao().nome || 'Pessoal') + ")";
     }
 
     function registarAuditoria(acao) {
@@ -818,6 +904,11 @@
     function abrirModal(id) { document.getElementById(id).style.display = 'flex'; }
 
     function abrirAba(id) {
+      if (perfil === 'jogador' && id !== 'jogador' && id !== 'anuncios') {
+        alert("⛔ Acesso Restrito: Como atleta, tem acesso exclusivo à sua Área de Atleta e aos Anúncios.");
+        return;
+      }
+
       var abas = ['painel', 'anuncios', 'plantel', 'financas', 'doacoes', 'jogos', 'disciplina', 'patrimonio', 'admins', 'relatorio', 'jogador', 'config'];
       for (var i = 0; i < abas.length; i++) {
         var nome = abas[i];
@@ -829,7 +920,35 @@
       desenhar();
     }
 
-    // CONTA DO DESENVOLVEDOR (MASTER)
+    function adicionarGolo(id) {
+      if (!verificarPermissaoAdmin()) return;
+      for (var i = 0; i < DB.jogadores.length; i++) {
+        if (DB.jogadores[i].id === id) {
+          DB.jogadores[i].golos = (DB.jogadores[i].golos || 0) + 1;
+          registarAuditoria("Marcou +1 golo para o atleta #" + DB.jogadores[i].numero + " " + DB.jogadores[i].nome + " (Total: " + DB.jogadores[i].golos + " golos)");
+          desenhar();
+          mostrarAviso("⚽ Golo registado com sucesso para " + DB.jogadores[i].nome + "!");
+          return;
+        }
+      }
+    }
+
+    function ajustarGolos(id) {
+      if (!verificarPermissaoAdmin()) return;
+      for (var i = 0; i < DB.jogadores.length; i++) {
+        if (DB.jogadores[i].id === id) {
+          var qtd = prompt("Introduza o número total de golos de " + DB.jogadores[i].nome + ":", DB.jogadores[i].golos || 0);
+          if (qtd === null) return;
+          var num = parseInt(qtd) || 0;
+          DB.jogadores[i].golos = num;
+          registarAuditoria("Ajustou contagem de golos de " + DB.jogadores[i].nome + " para " + num);
+          desenhar();
+          mostrarAviso("✅ Golos atualizados para " + num);
+          return;
+        }
+      }
+    }
+
     function entrarComoMaster() {
       if (!masterAutenticado) {
         var senha = prompt("🔐 ACESSO EXCLUSIVO DO DESENVOLVEDOR MASTER\nIntroduza a Senha Mestre de Eduardo Ferreira Alfredo:");
@@ -847,22 +966,22 @@
     }
 
     function alterarSenhaMaster() {
-      var atual = prompt("Confirme a Senha Mestre atual:");
+      var atual = prompt("Confirme a sua Senha Mestre atual:");
       if (atual !== DB.senhaMaster) {
         alert("❌ Senha atual incorreta!");
         return;
       }
-      var nova = prompt("Introduza a NOVA Senha Mestre do Desenvolvedor (mínimo 6 caracteres):");
+      var nova = prompt("Introduza a NOVA Senha Mestre (mínimo 6 caracteres):");
       if (!nova || nova.length < 6) {
         alert("❌ Senha inválida. Mínimo de 6 caracteres.");
         return;
       }
       DB.senhaMaster = nova;
       registarAuditoria("Alterou a Senha Mestre do Desenvolvedor");
-      alert("✅ Senha Mestre alterada com sucesso!");
+      salvarDB();
+      alert("✅ A sua nova Senha Mestre foi guardada na nuvem com sucesso!");
     }
 
-    // ACESSO DOS ADMINS COM PIN
     function solicitarAcessoAdmin(admId) {
       masterAutenticado = false;
       var idx = parseInt(admId.replace('adm', '')) - 1;
@@ -883,7 +1002,6 @@
       }
     }
 
-    // LOGIN EXCLUSIVO DO ATLETA POR CÓDIGO
     function loginExclusivoAtleta() {
       masterAutenticado = false;
       if (DB.jogadores.length === 0) {
@@ -891,7 +1009,7 @@
         return;
       }
 
-      var codigo = prompt("⚽ ÁREA RESTRITA DO ATLETA\nIntroduza o seu CÓDIGO DE ACESSO EXCLUSIVO (Ex: FCE-4821):\n(Nota: O número da camisola não é permitido)");
+      var codigo = prompt("⚽ ÁREA EXCLUSIVA DO ATLETA\nIntroduza o seu CÓDIGO DE ACESSO EXCLUSIVO (Ex: FCE-4821):\n(Nota: O número da camisola não é permitido)");
       if (!codigo) return;
 
       codigo = codigo.trim().toUpperCase();
@@ -934,6 +1052,16 @@
       var tabAdmins = document.getElementById('tab-admins');
       var tabConfig = document.getElementById('tab-config');
       var tabJogador = document.getElementById('tab-jogador');
+      var tabRelatorioGeral = document.getElementById('tab-relatorio');
+      var tabPlantel = document.getElementById('tab-plantel');
+      var tabFinancas = document.getElementById('tab-financas');
+      var tabDoacoes = document.getElementById('tab-doacoes');
+      var tabJogos = document.getElementById('tab-jogos');
+      var tabDisciplina = document.getElementById('tab-disciplina');
+      var tabPatrimonio = document.getElementById('tab-patrimonio');
+      var boxSelector = document.getElementById('box-selector-perfis');
+      var btnEngrenagem = document.getElementById('btn-engrenagem');
+
       var btnNovoAnun = document.getElementById('btn-novo-anuncio');
       var btnCadJog = document.getElementById('btn-cadastrar-jogador');
       var btnLiqQuota = document.getElementById('btn-liquidar-quota');
@@ -963,7 +1091,16 @@
         lblCargo.textContent = "👑 Desenvolvedor Master (Controlo Total)";
         tabAdmins.style.display = 'inline-block';
         tabConfig.style.display = 'inline-block';
+        tabRelatorioGeral.style.display = 'inline-block';
+        tabPlantel.style.display = 'inline-block';
+        tabFinancas.style.display = 'inline-block';
+        tabDoacoes.style.display = 'inline-block';
+        tabJogos.style.display = 'inline-block';
+        tabDisciplina.style.display = 'inline-block';
+        tabPatrimonio.style.display = 'inline-block';
         tabJogador.style.display = 'none';
+        btnEngrenagem.style.display = 'inline-flex';
+        boxSelector.style.display = 'flex';
         abrirAba('painel');
       } else if (p.indexOf('adm') !== -1) {
         var idx = parseInt(p.replace('adm', '')) - 1;
@@ -971,15 +1108,34 @@
         lblCargo.textContent = "🛡️ " + DB.admins[idx].cargo;
         tabAdmins.style.display = 'inline-block';
         tabConfig.style.display = 'none';
+        tabRelatorioGeral.style.display = 'inline-block';
+        tabPlantel.style.display = 'inline-block';
+        tabFinancas.style.display = 'inline-block';
+        tabDoacoes.style.display = 'inline-block';
+        tabJogos.style.display = 'inline-block';
+        tabDisciplina.style.display = 'inline-block';
+        tabPatrimonio.style.display = 'inline-block';
         tabJogador.style.display = 'none';
+        btnEngrenagem.style.display = 'none';
+        boxSelector.style.display = 'flex';
         abrirAba('painel');
       } else {
         var at = obterAtletaSessao();
         lblNome.textContent = at.nome;
         lblCargo.textContent = "⚽ Atleta (" + at.credencial + ")";
+        
         tabAdmins.style.display = 'none';
         tabConfig.style.display = 'none';
+        tabRelatorioGeral.style.display = 'none';
+        tabPlantel.style.display = 'none';
+        tabFinancas.style.display = 'none';
+        tabDoacoes.style.display = 'none';
+        tabJogos.style.display = 'none';
+        tabDisciplina.style.display = 'none';
+        tabPatrimonio.style.display = 'none';
+        btnEngrenagem.style.display = 'none';
         tabJogador.style.display = 'inline-block';
+        
         abrirAba('jogador');
       }
     }
@@ -989,6 +1145,56 @@
         if (DB.jogadores[i].id === atletaSessaoId) return DB.jogadores[i];
       }
       return DB.jogadores[0] || { nome: "Atleta", numero: 0, posicao: "", bairro: "", golos: 0, foto: SILHUETA_PADRAO, credencial: "FCE-0000" };
+    }
+
+    function filtrarControleQuotas() {
+      var domingoRef = (document.getElementById('filtro-domingo-ref').value || obterDomingoAtual()).trim().toLowerCase();
+      var boxPagos = document.getElementById('lista-atletas-pagos');
+      var boxPendentes = document.getElementById('lista-atletas-pendentes');
+
+      boxPagos.innerHTML = '';
+      boxPendentes.innerHTML = '';
+
+      var totalPagos = 0;
+      var totalPendentes = 0;
+
+      for (var i = 0; i < DB.jogadores.length; i++) {
+        var jog = DB.jogadores[i];
+        var pagou = false;
+        var valorPago = 0;
+
+        for (var q = 0; q < DB.historicoQuotas.length; q++) {
+          var itemQ = DB.historicoQuotas[q];
+          if (itemQ.atleta === jog.nome && itemQ.mes && itemQ.mes.toLowerCase().indexOf(domingoRef) !== -1) {
+            pagou = true;
+            valorPago = itemQ.valor;
+            break;
+          }
+        }
+
+        if (pagou) {
+          totalPagos++;
+          boxPagos.innerHTML += '<div style="display:flex; justify-content:space-between; align-items:center; padding:5px 0; border-bottom:1px solid #1E293B;">' +
+            '<span><b>#' + jog.numero + ' ' + jog.nome + '</b></span>' +
+            '<span style="color:#10B981; font-weight:bold;">' + kz(valorPago) + '</span>' +
+          '</div>';
+        } else {
+          totalPendentes++;
+          var telL = (jog.telefone || '').replace(/\D/g, '');
+          var msgCobranca = encodeURIComponent("⚽ *LEMBRETE DE QUOTA – FC ESPANHA*\n\nOlá *" + jog.nome + "* (#" + jog.numero + ")!\nLembramos que a tua quota semanal de *" + domingoRef + "* no valor de 2.500 Kz encontra-se pendente.\n\n📲 Paga via Express para o Tesoureiro: *935 523 498* e envia aqui o teu comprovativo. Obrigado pela tua colaboração com o clube!");
+          var linkCobranca = "https://wa.me/244" + telL + "?text=" + msgCobranca;
+
+          boxPendentes.innerHTML += '<div style="display:flex; justify-content:space-between; align-items:center; padding:5px 0; border-bottom:1px solid #2A1515;">' +
+            '<span><b>#' + jog.numero + ' ' + jog.nome + '</b></span>' +
+            '<a href="' + linkCobranca + '" target="_blank" class="btn btn-red" style="padding:2px 6px; font-size:10px;">📲 Lembrar no WhatsApp</a>' +
+          '</div>';
+        }
+      }
+
+      document.getElementById('qtd-pagos').textContent = totalPagos;
+      document.getElementById('qtd-pendentes').textContent = totalPendentes;
+      if (totalPagos === 0) boxPagos.innerHTML = '<p style="color:#888;">Nenhum pagamento registado nesta semana.</p>';
+      if (totalPendentes === 0) boxPendentes.innerHTML = '<p style="color:#10B981;">Todos os atletas regularizados nesta semana!</p>';
     }
 
     function desenhar() {
@@ -1056,20 +1262,25 @@
       var tbPl = document.getElementById('tb-plantel');
       tbPl.innerHTML = DB.jogadores.length ? '' : '<tr><td colspan="8" style="color:#777; text-align:center;">Nenhum atleta cadastrado no plantel.</td></tr>';
       var eGestao = (perfil === 'dev' || perfil === 'adm1' || perfil === 'adm2' || perfil === 'adm3');
-      var linkPlataforma = window.location.href.split('#')[0];
+      var linkBase = window.location.href.split('#')[0].split('?')[0];
 
       for (var k = 0; k < DB.jogadores.length; k++) {
         var jog = DB.jogadores[k];
         var fotoSrc = jog.foto || SILHUETA_PADRAO;
         var telLimpo = (jog.telefone || '').replace(/\D/g, '');
-        var linkWppCred = "https://wa.me/244" + telLimpo + "?text=" + encodeURIComponent("⚽ *BEM-VINDO AO FC ESPANHA*\n\nOlá *" + jog.nome + "*!\nFoste inscrito no FC ESPANHA.\n\n👕 Camisola: #" + jog.numero + "\n🔑 *O teu Código Exclusivo de Acesso:* " + jog.credencial + "\n\n🌐 *Link de Acesso à tua Área do Atleta:*\n" + linkPlataforma + "\n\n(Acede ao link acima, clica em 'Área do Atleta' e introduz o teu Código: *" + jog.credencial + "*).\n\n💬 Grupo WhatsApp: https://chat.whatsapp.com/EL7l6c0bDG39g17uGR53IV?s=cl&p=a&iam=2\n💰 Quotas aos Domingos via Express: 935 523 498.");
+        var linkExclusivoAtleta = linkBase + "#atleta";
+        var linkWppCred = "https://wa.me/244" + telLimpo + "?text=" + encodeURIComponent("⚽ *CREDENCIAL OFICIAL – FC ESPANHA*\n\nOlá *" + jog.nome + "*!\nFoste inscrito no FC ESPANHA.\n\n👕 Camisola: #" + jog.numero + "\n⚽ Posição: " + jog.posicao + "\n🔑 *O teu Código Exclusivo de Acesso:* *" + jog.credencial + "*\n\n🌐 *Link Direto para a tua Área do Atleta:*\n" + linkExclusivoAtleta + "\n\n(Acede ao link e introduz o teu Código: *" + jog.credencial + "* para veres apenas as tuas quotas e o teu relatório pessoal).\n\n💬 Grupo WhatsApp: https://chat.whatsapp.com/EL7l6c0bDG39g17uGR53IV?s=cl&p=a&iam=2\n💰 Quotas aos Domingos via Express: 935 523 498.");
 
         tbPl.innerHTML += '<tr>' +
           '<td><img src="' + fotoSrc + '" class="foto-atleta"></td>' +
           '<td><b style="color:#E5A93C;">#' + jog.numero + '</b></td>' +
           '<td><b>' + jog.nome + '</b></td>' +
           '<td>' + calcularIdade(jog.nasc) + '</td>' +
-          '<td><b style="color:#34D399; font-size:13px;">' + (jog.golos || 0) + ' ⚽</b></td>' +
+          '<td>' +
+            '<b style="color:#34D399; font-size:13px; margin-right:6px;">' + (jog.golos || 0) + ' ⚽</b>' +
+            (eGestao ? '<button class="btn btn-dark" style="padding:2px 6px; font-size:10px; margin-right:2px;" title="Adicionar 1 Golo" onclick="adicionarGolo(' + jog.id + ')">+1 ⚽</button>' : '') +
+            (eGestao ? '<button class="btn btn-dark" style="padding:2px 5px; font-size:10px;" title="Ajustar Total de Golos" onclick="ajustarGolos(' + jog.id + ')">✏️</button>' : '') +
+          '</td>' +
           '<td>' + jog.telefone + '</td>' +
           '<td><b style="color:#E5A93C; background:#28282D; padding:3px 6px; border-radius:4px;">' + jog.credencial + '</b></td>' +
           '<td>' +
@@ -1133,7 +1344,8 @@
         var admKey = 'adm' + (a+1);
         var pinAdm = DB.pins[admKey] || "1111";
         var telAdmClean = (aObj.telefone || '').replace(/\D/g, '');
-        var linkWppAdm = "https://wa.me/244" + telAdmClean + "?text=" + encodeURIComponent("🛡️ *CREDENCIAL DE ADMINISTRADOR – FC ESPANHA*\n\nOlá " + aObj.nome + "!\nFoste cadastrado como " + aObj.cargo + ".\n\n🔑 *A tua Senha/PIN de Acesso:* " + pinAdm + "\n🌐 *Link da Plataforma:*\n" + linkPlataforma + "\n\n⚠️ *Aviso de Responsabilidade:* Todas as acções realizadas dentro da plataforma ficam registadas no Livro de Auditoria com o teu nome.");
+        var linkExclusivoAdmin = linkBase + "#admin";
+        var linkWppAdm = "https://wa.me/244" + telAdmClean + "?text=" + encodeURIComponent("🛡️ *ACESSO ADMINISTRATIVO – FC ESPANHA*\n\nOlá " + aObj.nome + "!\nFoste cadastrado como " + aObj.cargo + ".\n\n🔑 *A tua Senha/PIN de Acesso:* " + pinAdm + "\n🌐 *Link Direto de Acesso:* " + linkExclusivoAdmin + "\n\n⚠️ Todas as acções realizadas dentro da plataforma ficam registadas no Livro de Auditoria com o teu nome.");
 
         boxA.innerHTML += '<div style="background:#1A1A1F; border:1px solid #28282D; border-radius:6px; padding:12px; margin-bottom:8px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">' +
           '<div>' +
@@ -1181,11 +1393,13 @@
         '</tr>';
       }
 
+      // ÁREA PESSOAL DO ATLETA (ISOLADA)
       if (perfil === 'jogador') {
         var atleta = obterAtletaSessao();
         document.getElementById('atleta-nome').textContent = atleta.nome + " #" + atleta.numero;
         document.getElementById('atleta-desc').textContent = atleta.posicao + " • " + atleta.bairro + " • " + calcularIdade(atleta.nasc);
-        document.getElementById('atleta-golos-box').textContent = "⚽ " + (atleta.golos || 0) + " Golos Marcados";
+        document.getElementById('atleta-golos-box').textContent = "⚽ " + (atleta.golos || 0) + " Golos Marcados no FC ESPANHA";
+        document.getElementById('atleta-cred-box').textContent = atleta.credencial;
         document.getElementById('atleta-foto-box').src = atleta.foto || SILHUETA_PADRAO;
 
         var tbHistAtleta = document.getElementById('tb-historico-atleta');
@@ -1195,12 +1409,24 @@
           var itemHq = DB.historicoQuotas[hq];
           if (itemHq.atleta === atleta.nome) {
             totalPagoAtleta += itemHq.valor;
-            var linkWppReciboAtleta = "https://wa.me/244" + (atleta.telefone || '935523498').replace(/\D/g, '') + "?text=" + encodeURIComponent("🧾 *MEU RECIBO – FC ESPANHA*\n\nSemana: " + itemHq.mes + "\nValor: " + kz(itemHq.valor) + "\nRef: " + itemHq.ref);
+            var linkWppReciboAtleta = "https://wa.me/244" + (atleta.telefone || '935523498').replace(/\D/g, '') + "?text=" + encodeURIComponent("🧾 *MEU RECIBO INDIVIDUAL – FC ESPANHA*\n\nSemana: " + itemHq.mes + "\nValor: " + kz(itemHq.valor) + "\nRef: " + itemHq.ref);
             tbHistAtleta.innerHTML += '<tr><td>' + itemHq.mes + '</td><td style="color:#34D399; font-weight:bold;">' + kz(itemHq.valor) + '</td><td>' + itemHq.metodo + '</td><td><a href="' + linkWppReciboAtleta + '" target="_blank" class="btn btn-wpp" style="padding:4px 8px; font-size:10px;">📲 Recibo</a></td></tr>';
           }
         }
         if (!tbHistAtleta.innerHTML) tbHistAtleta.innerHTML = '<tr><td colspan="4" style="color:#777; text-align:center;">Nenhuma quota registada em teu nome até ao momento.</td></tr>';
         document.getElementById('atleta-val-total').textContent = "Total Pago: " + kz(totalPagoAtleta);
+
+        var tbDiscAtleta = document.getElementById('tb-disciplina-atleta');
+        tbDiscAtleta.innerHTML = '';
+        var countDisc = 0;
+        for (var dAt = 0; dAt < DB.disciplina.length; dAt++) {
+          var inf = DB.disciplina[dAt];
+          if (inf.atleta === atleta.nome) {
+            countDisc++;
+            tbDiscAtleta.innerHTML += '<tr><td>' + inf.data + '</td><td style="color:#F87171; font-weight:bold;">' + inf.tipo + '</td><td>' + inf.desc + '</td><td>' + inf.medida + '</td></tr>';
+          }
+        }
+        if (countDisc === 0) tbDiscAtleta.innerHTML = '<tr><td colspan="4" style="color:#34D399; text-align:center;">Processo disciplinar limpo! Nenhuma falta ou infração registada.</td></tr>';
 
         var tbPatAtleta = document.getElementById('tb-patrimonio-atleta');
         tbPatAtleta.innerHTML = DB.patrimonio.length ? '' : '<tr><td colspan="4" style="color:#777; text-align:center;">Nenhum material listado.</td></tr>';
@@ -1211,7 +1437,12 @@
 
         var linkSaude = "https://wa.me/244935523498?text=" + encodeURIComponent("🚨 *COMUNICADO DE SAÚDE – FC ESPANHA*\n\nSou o atleta " + atleta.nome + " (#" + atleta.numero + ", Código: " + atleta.credencial + ") e venho comunicar uma situação de lesão/doença.");
         document.getElementById('btn-comunicar-saude').href = linkSaude;
+
+        var linkEnvioComp = "https://wa.me/244935523498?text=" + encodeURIComponent("🧾 *COMPROVATIVO DE QUOTA DOMINICAL – FC ESPANHA*\n\nSou o atleta " + atleta.nome + " (#" + atleta.numero + ", Código: " + atleta.credencial + ") e envio aqui o comprovativo da minha quota paga via Express.");
+        document.getElementById('btn-wpp-enviar-comp').href = linkEnvioComp;
       }
+
+      filtrarControleQuotas();
     }
 
     function solicitarAlteracaoDados() {
@@ -1232,17 +1463,6 @@
       document.getElementById('cad-num').value = '';
       document.getElementById('cad-tel').value = '';
       abrirModal('modal-cad-jogador');
-    }
-
-    function carregarFotoJogador(input) {
-      if (input.files && input.files[0]) {
-        var reader = new FileReader();
-        reader.onload = function(e) {
-          document.getElementById('preview-foto-cad').src = e.target.result;
-          document.getElementById('inp-foto-base64').value = e.target.result;
-        };
-        reader.readAsDataURL(input.files[0]);
-      }
     }
 
     function salvarAtletaComFoto() {
@@ -1288,8 +1508,9 @@
       desenhar();
 
       var telLimpo = tel.replace(/\D/g, '');
-      var linkPlataforma = window.location.href.split('#')[0];
-      var msg = "⚽ *BEM-VINDO AO FC ESPANHA*\n\nOlá *" + nome + "*!\nFoste inscrito oficialmente no plantel do FC ESPANHA.\n\n👕 Camisola: #" + num + "\n⚽ Posição: " + pos + "\n🔑 *O teu Código de Acesso Exclusivo:* *" + credencialUnica + "*\n\n🌐 *Link Direto de Acesso à Plataforma:*\n" + linkPlataforma + "\n\n(Acede ao link, clica em 'Área do Atleta' e coloca o teu Código: *" + credencialUnica + "*).\n\n💬 Entra no Grupo Oficial: https://chat.whatsapp.com/EL7l6c0bDG39g17uGR53IV?s=cl&p=a&iam=2\n💰 Quotas Semanais (Todos os Domingos) via Express para: 935 523 498.";
+      var linkBase = window.location.href.split('#')[0].split('?')[0];
+      var linkExclusivoAtleta = linkBase + "#atleta";
+      var msg = "⚽ *BEM-VINDO AO FC ESPANHA*\n\nOlá *" + nome + "*!\nFoste inscrito oficialmente no plantel do FC ESPANHA.\n\n👕 Camisola: #" + num + "\n⚽ Posição: " + pos + "\n🔑 *O teu Código de Acesso Exclusivo:* *" + credencialUnica + "*\n\n🌐 *Link Direto para a tua Área do Atleta:*\n" + linkExclusivoAtleta + "\n\n(Acede ao link acima e coloca o teu Código: *" + credencialUnica + "* para veres apenas os teus dados e o teu histórico).\n\n💬 Entra no Grupo Oficial: https://chat.whatsapp.com/EL7l6c0bDG39g17uGR53IV?s=cl&p=a&iam=2\n💰 Quotas Semanais (Todos os Domingos) via Express para: 935 523 498.";
       var linkWpp = "https://wa.me/244" + telLimpo + "?text=" + encodeURIComponent(msg);
 
       mostrarAviso("✅ Atleta #" + num + " registado na nuvem! A abrir WhatsApp...");
@@ -1316,17 +1537,6 @@
       document.getElementById('preview-foto-edit').src = jog.foto || SILHUETA_PADRAO;
 
       abrirModal('modal-edit-jogador');
-    }
-
-    function carregarFotoEdicao(input) {
-      if (input.files && input.files[0]) {
-        var reader = new FileReader();
-        reader.onload = function(e) {
-          document.getElementById('preview-foto-edit').src = e.target.result;
-          document.getElementById('edit-jog-foto-base64').value = e.target.result;
-        };
-        reader.readAsDataURL(input.files[0]);
-      }
     }
 
     function salvarEdicaoJogador() {
@@ -1476,7 +1686,7 @@
       if (isNaN(idx) || !DB.jogadores[idx]) return;
 
       var atleta = DB.jogadores[idx];
-      var mes = prompt("Identificação do Domingo liquidado:", "Domingo " + obterDataHoje()) || ("Domingo " + obterDataHoje());
+      var mes = prompt("Identificação do Domingo liquidado:", obterDomingoAtual()) || obterDomingoAtual();
       var val = parseFloat(prompt("Valor da quota em Kwanzas (Kz):", "2500")) || 2500;
 
       DB.historicoQuotas.push({
@@ -1491,7 +1701,7 @@
       DB.financas.quotas += val;
       registarAuditoria("Liquidou quota dominical de " + kz(val) + " para o atleta " + atleta.nome);
       desenhar();
-      mostrarAviso("✅ Quota dominical registada com sucesso!");
+      mostrarAviso("✅ Quota registada na nuvem e disponível na área pessoal de " + atleta.nome + "!");
     }
 
     function adicionarJogo() {
@@ -1515,108 +1725,3 @@
           if (nome) DB.admins[i].nome = nome;
           var tel = prompt("Contacto Telefónico Oficial (Angola):", DB.admins[i].telefone);
           if (tel) DB.admins[i].telefone = tel;
-          registarAuditoria("Master alterou dados do Administrador Vaga 0" + (i+1));
-          desenhar();
-          mostrarAviso("✅ Administrador actualizado com sucesso!");
-          return;
-        }
-      }
-    }
-
-    function alterarPINAdmin(admKey) {
-      if (perfil !== 'dev') return;
-      var novo = prompt("Introduza o NOVO PIN/Senha para " + admKey.toUpperCase() + " (mínimo 4 dígitos):");
-      if (!novo || novo.length < 4) {
-        alert("❌ O PIN deve conter no mínimo 4 dígitos.");
-        return;
-      }
-      DB.pins[admKey] = novo;
-      registarAuditoria("Master alterou o PIN do " + admKey.toUpperCase());
-      desenhar();
-      alert("✅ Senha do " + admKey.toUpperCase() + " actualizada para: " + novo);
-    }
-
-    function trocarFotoClube(input) {
-      if (perfil !== 'dev') return;
-      if (input.files && input.files[0]) {
-        var reader = new FileReader();
-        reader.onload = function(e) {
-          DB.fotoClube = e.target.result;
-          registarAuditoria("Master actualizou o emblema do FC ESPANHA");
-          desenhar();
-          mostrarAviso("✅ Emblema oficial do FC ESPANHA actualizado!");
-        };
-        reader.readAsDataURL(input.files[0]);
-      }
-    }
-
-    function restaurarEmblemaClube() {
-      if (perfil !== 'dev') return;
-      DB.fotoClube = null;
-      registarAuditoria("Master restaurou o emblema padrão");
-      desenhar();
-      mostrarAviso("ℹ️ Emblema original restaurado.");
-    }
-
-    function descarregarBackup() {
-      var dadosStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(DB, null, 2));
-      var downloadAnchor = document.createElement('a');
-      downloadAnchor.setAttribute("href", dadosStr);
-      downloadAnchor.setAttribute("download", "FC_ESPANHA_BACKUP_" + obterDataHoje() + ".json");
-      document.body.appendChild(downloadAnchor);
-      downloadAnchor.click();
-      downloadAnchor.remove();
-      registarAuditoria("Descarregou cópia de segurança (Backup JSON)");
-      mostrarAviso("💾 Backup descarregado com sucesso!");
-    }
-
-    function restaurarBackup(input) {
-      if (perfil !== 'dev') return;
-      if (input.files && input.files[0]) {
-        var reader = new FileReader();
-        reader.onload = function(e) {
-          try {
-            var importado = JSON.parse(e.target.result);
-            if (importado.jogadores && importado.financas) {
-              DB = importado;
-              registarAuditoria("Restaurou cópia de segurança para o Supabase");
-              desenhar();
-              alert("✅ Base de dados restaurada com sucesso na Nuvem e no dispositivo!");
-            } else {
-              alert("❌ Ficheiro de backup inválido.");
-            }
-          } catch(err) {
-            alert("❌ Erro ao ler ficheiro de backup.");
-          }
-        };
-        reader.readAsText(input.files[0]);
-      }
-    }
-
-    function limparTudoDefinitivo() {
-      if (perfil !== 'dev') return;
-      var confirmSenha = prompt("⚠️ ATENÇÃO EDUARDO ALFREDO:\nPara zerar totalmente a base de dados na NUVEM, confirme a sua Senha Mestre:");
-      if (confirmSenha !== DB.senhaMaster) {
-        alert("❌ Senha Mestre incorreta! Operação abortada.");
-        return;
-      }
-      DB.jogadores = [];
-      DB.jogos = [];
-      DB.historicoQuotas = [];
-      DB.disciplina = [];
-      DB.doacoes = [];
-      DB.financas = { receitas: 0, despesas: 0, quotas: 0 };
-      DB.auditoria = [];
-      registarAuditoria("Reiniciou e zerou a base de dados para início oficial");
-      desenhar();
-      mostrarAviso("✅ Plataforma reiniciada na Nuvem!");
-      alert("✅ Sistema totalmente limpo no Supabase e pronto para novos registos.");
-    }
-
-    // ARRANQUE AUTOMÁTICO & CONEXÃO
-    aplicarPerfilUI('dev');
-    desenhar();
-    inicializarSupabase();
-  </script>
-</body>
-</html>
