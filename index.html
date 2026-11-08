@@ -200,12 +200,12 @@
       <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
         <div>
           <h2 style="font-size:15px; font-weight:bold;">Plantel Sénior & Registo de Golos</h2>
-          <p style="font-size:10px; color:#888;">Adicione golos diretamente com 1 clique ou edite os dados do atleta.</p>
+          <p style="font-size:10px; color:#888;">Adicione golos diretamente com 1 clique ou lance a quota do jogador.</p>
         </div>
         <button id="btn-cadastrar-jogador" class="btn btn-red" onclick="abrirModalJogador()">+ Cadastrar Atleta</button>
       </div>
       <table>
-        <thead><tr><th>Foto</th><th>Nº</th><th>Nome Completo</th><th>Idade (Nasc.)</th><th>Golos</th><th>Contacto</th><th>Código Exclusivo</th><th>Acções</th></tr></thead>
+        <thead><tr><th>Foto</th><th>Nº</th><th>Nome Completo</th><th>Idade (Nasc.)</th><th>Golos</th><th>Contacto</th><th>Código</th><th>Acções Rápidas</th></tr></thead>
         <tbody id="tb-plantel"></tbody>
       </table>
     </div>
@@ -235,7 +235,7 @@
       <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px; margin-bottom:10px;">
         <div>
           <h3 style="font-size:14px; font-weight:bold; color:#E5A93C;">🔍 Filtro de Controlo de Quotas Dominicais</h3>
-          <p style="font-size:10px; color:#888;">Verifique quem já pagou e quem está em falta na semana selecionada.</p>
+          <p style="font-size:10px; color:#888;">Verifique quem já pagou e liquide na hora quem está pendente.</p>
         </div>
         <div style="display:flex; gap:6px; align-items:center;">
           <label style="font-size:11px; font-weight:bold; color:#CCC;">Domingo:</label>
@@ -260,7 +260,7 @@
     <div class="card">
       <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
         <div><h2 style="font-size:15px; font-weight:bold;">Controlo Geral de Quotas Dominicais</h2><p style="font-size:10px; color:#888;">Moeda: Kwanza Angolano (Kz)</p></div>
-        <button id="btn-liquidar-quota" class="btn btn-gold" onclick="lancarQuota()">+ Liquidar Quota Dominical</button>
+        <button id="btn-liquidar-quota" class="btn btn-gold" onclick="abrirModalLiquidarQuota()">+ Liquidar Quota Dominical</button>
       </div>
       <div class="grid-stats">
         <div class="stat-box"><p>Saldo em Caixa</p><h3 id="fin-saldo" style="color:#34D399;">0,00 Kz</h3></div>
@@ -518,6 +518,47 @@
   </div>
 
   <!-- ================= MODAIS ================= -->
+  <!-- MODAL OFICIAL: LIQUIDAR QUOTA DOMINICAL (SEM PROMPTS) -->
+  <div id="modal-liquidar-quota" class="modal-box" style="display:none;">
+    <div class="modal-corpo">
+      <h3 style="color:#E5A93C; font-size:14px; font-weight:bold; margin-bottom:12px; text-transform:uppercase;">💰 Liquidar Quota Dominical</h3>
+      
+      <div class="campo">
+        <label>Seleccionar Atleta:</label>
+        <select id="liq-atleta"></select>
+      </div>
+      
+      <div class="campo">
+        <label>Domingo / Período de Pagamento:</label>
+        <input id="liq-domingo" type="text">
+      </div>
+      
+      <div class="campo">
+        <label>Valor Pago em Kwanzas (Kz):</label>
+        <input id="liq-valor" type="number" value="2500" step="500" style="font-size:14px; font-weight:bold; color:#34D399;">
+      </div>
+      
+      <div class="campo">
+        <label>Método de Pagamento:</label>
+        <select id="liq-metodo">
+          <option value="Multicaixa Express (935523498)">Multicaixa Express (935523498)</option>
+          <option value="Transferência Bancária">Transferência Bancária</option>
+          <option value="Dinheiro em Espécie (Mão)">Dinheiro em Espécie (Mão)</option>
+        </select>
+      </div>
+
+      <div class="campo">
+        <label>Nº de Referência / Comprovativo:</label>
+        <input id="liq-ref" type="text" placeholder="Ex: MCX-7821">
+      </div>
+
+      <div style="text-align:right; margin-top:14px;">
+        <button class="btn btn-dark" onclick="fecharModal('modal-liquidar-quota')">Cancelar</button>
+        <button class="btn btn-gold" onclick="confirmarLiquidacaoQuota()">✅ Gravar Pagamento da Quota</button>
+      </div>
+    </div>
+  </div>
+
   <!-- Modal Cadastrar Atleta -->
   <div id="modal-cad-jogador" class="modal-box" style="display:none;">
     <div class="modal-corpo">
@@ -1147,6 +1188,73 @@
       return DB.jogadores[0] || { nome: "Atleta", numero: 0, posicao: "", bairro: "", golos: 0, foto: SILHUETA_PADRAO, credencial: "FCE-0000" };
     }
 
+    // GESTÃO OFICIAL DE QUOTAS (MODAL VISUAL)
+    function abrirModalLiquidarQuota(atletaNomePreSelecionado) {
+      if (!verificarPermissaoAdmin()) return;
+      if (DB.jogadores.length === 0) {
+        alert("Cadastre primeiro atletas no plantel antes de liquidar quotas.");
+        return;
+      }
+      var sel = document.getElementById('liq-atleta');
+      sel.innerHTML = '';
+      for (var i = 0; i < DB.jogadores.length; i++) {
+        var opt = document.createElement('option');
+        opt.value = DB.jogadores[i].nome;
+        opt.textContent = '#' + DB.jogadores[i].numero + ' ' + DB.jogadores[i].nome;
+        if (atletaNomePreSelecionado && DB.jogadores[i].nome === atletaNomePreSelecionado) {
+          opt.selected = true;
+        }
+        sel.appendChild(opt);
+      }
+      document.getElementById('liq-domingo').value = document.getElementById('filtro-domingo-ref').value || obterDomingoAtual();
+      document.getElementById('liq-valor').value = "2500";
+      document.getElementById('liq-ref').value = "MCX-" + Math.floor(1000 + Math.random() * 9000);
+      abrirModal('modal-liquidar-quota');
+    }
+
+    function confirmarLiquidacaoQuota() {
+      if (!verificarPermissaoAdmin()) return;
+      var atletaNome = document.getElementById('liq-atleta').value;
+      var mes = document.getElementById('liq-domingo').value.trim() || obterDomingoAtual();
+      var val = parseFloat(document.getElementById('liq-valor').value) || 0;
+      var metodo = document.getElementById('liq-metodo').value;
+      var ref = document.getElementById('liq-ref').value.trim() || ("MCX-" + Math.floor(1000 + Math.random() * 9000));
+
+      if (!atletaNome) {
+        alert("Selecione um atleta!");
+        return;
+      }
+      if (val <= 0) {
+        alert("Introduza um valor válido para a quota!");
+        return;
+      }
+
+      var atletaTel = "935523498";
+      for (var i = 0; i < DB.jogadores.length; i++) {
+        if (DB.jogadores[i].nome === atletaNome) {
+          atletaTel = DB.jogadores[i].telefone;
+          break;
+        }
+      }
+
+      DB.historicoQuotas.unshift({
+        atleta: atletaNome,
+        telefone: atletaTel,
+        mes: mes,
+        valor: val,
+        metodo: metodo,
+        ref: ref
+      });
+
+      DB.financas.receitas += val;
+      DB.financas.quotas += val;
+
+      registarAuditoria("Liquidou quota dominical de " + kz(val) + " para " + atletaNome + " (" + mes + ")");
+      fecharModal('modal-liquidar-quota');
+      desenhar();
+      mostrarAviso("✅ Quota de " + kz(val) + " liquidada com sucesso para " + atletaNome + "!");
+    }
+
     function filtrarControleQuotas() {
       var domingoRef = (document.getElementById('filtro-domingo-ref').value || obterDomingoAtual()).trim().toLowerCase();
       var boxPagos = document.getElementById('lista-atletas-pagos');
@@ -1184,9 +1292,12 @@
           var msgCobranca = encodeURIComponent("⚽ *LEMBRETE DE QUOTA – FC ESPANHA*\n\nOlá *" + jog.nome + "* (#" + jog.numero + ")!\nLembramos que a tua quota semanal de *" + domingoRef + "* no valor de 2.500 Kz encontra-se pendente.\n\n📲 Paga via Express para o Tesoureiro: *935 523 498* e envia aqui o teu comprovativo. Obrigado pela tua colaboração com o clube!");
           var linkCobranca = "https://wa.me/244" + telL + "?text=" + msgCobranca;
 
-          boxPendentes.innerHTML += '<div style="display:flex; justify-content:space-between; align-items:center; padding:5px 0; border-bottom:1px solid #2A1515;">' +
+          boxPendentes.innerHTML += '<div style="display:flex; justify-content:space-between; align-items:center; padding:6px 0; border-bottom:1px solid #2A1515; gap:6px;">' +
             '<span><b>#' + jog.numero + ' ' + jog.nome + '</b></span>' +
-            '<a href="' + linkCobranca + '" target="_blank" class="btn btn-red" style="padding:2px 6px; font-size:10px;">📲 Lembrar no WhatsApp</a>' +
+            '<div style="display:flex; gap:4px;">' +
+              '<button class="btn btn-gold" style="padding:2px 6px; font-size:10px;" onclick="abrirModalLiquidarQuota(\'' + jog.nome.replace(/'/g, "\\'") + '\')">💰 Liquidar</button>' +
+              '<a href="' + linkCobranca + '" target="_blank" class="btn btn-red" style="padding:2px 6px; font-size:10px;">📲 Lembrar</a>' +
+            '</div>' +
           '</div>';
         }
       }
@@ -1259,6 +1370,7 @@
         '</div>';
       }
 
+      // TABELA DO PLANTEL
       var tbPl = document.getElementById('tb-plantel');
       tbPl.innerHTML = DB.jogadores.length ? '' : '<tr><td colspan="8" style="color:#777; text-align:center;">Nenhum atleta cadastrado no plantel.</td></tr>';
       var eGestao = (perfil === 'dev' || perfil === 'adm1' || perfil === 'adm2' || perfil === 'adm3');
@@ -1284,9 +1396,10 @@
           '<td>' + jog.telefone + '</td>' +
           '<td><b style="color:#E5A93C; background:#28282D; padding:3px 6px; border-radius:4px;">' + jog.credencial + '</b></td>' +
           '<td>' +
-            (eGestao ? '<button class="btn btn-gold" style="padding:4px 8px; font-size:10px; margin-right:4px;" onclick="abrirModalEditarJogador(' + jog.id + ')">✏️ Editar</button>' : '') +
-            '<a href="' + linkWppCred + '" target="_blank" class="btn btn-wpp" style="padding:4px 8px; font-size:10px; margin-right:4px;">📲 Enviar WhatsApp</a>' +
-            (eGestao ? '<button class="btn btn-red" style="padding:4px 8px; font-size:10px;" onclick="removerJogador(' + jog.id + ')">Remover</button>' : '') +
+            (eGestao ? '<button class="btn btn-gold" style="padding:4px 8px; font-size:10px; margin-right:4px;" title="Liquidar Quota Dominical" onclick="abrirModalLiquidarQuota(\'' + jog.nome.replace(/'/g, "\\'") + '\')">💰 Quota</button>' : '') +
+            (eGestao ? '<button class="btn btn-dark" style="padding:4px 8px; font-size:10px; margin-right:4px;" onclick="abrirModalEditarJogador(' + jog.id + ')">✏️</button>' : '') +
+            '<a href="' + linkWppCred + '" target="_blank" class="btn btn-wpp" style="padding:4px 8px; font-size:10px; margin-right:4px;">📲</a>' +
+            (eGestao ? '<button class="btn btn-red" style="padding:4px 8px; font-size:10px;" onclick="removerJogador(' + jog.id + ')">🗑️</button>' : '') +
           '</td>' +
         '</tr>';
       }
@@ -1534,194 +1647,4 @@
       document.getElementById('edit-jog-tel').value = jog.telefone;
       document.getElementById('edit-jog-bairro').value = jog.bairro;
       document.getElementById('edit-jog-foto-base64').value = jog.foto || SILHUETA_PADRAO;
-      document.getElementById('preview-foto-edit').src = jog.foto || SILHUETA_PADRAO;
-
-      abrirModal('modal-edit-jogador');
-    }
-
-    function salvarEdicaoJogador() {
-      if (!verificarPermissaoAdmin()) return;
-      var id = Number(document.getElementById('edit-jog-id').value);
-      var nome = document.getElementById('edit-jog-nome').value.trim();
-      var num = parseInt(document.getElementById('edit-jog-num').value);
-      var nasc = document.getElementById('edit-jog-nasc').value;
-      var golos = parseInt(document.getElementById('edit-jog-golos').value) || 0;
-      var pos = document.getElementById('edit-jog-pos').value.trim();
-      var tel = document.getElementById('edit-jog-tel').value.trim();
-      var bairro = document.getElementById('edit-jog-bairro').value.trim();
-      var foto = document.getElementById('edit-jog-foto-base64').value || SILHUETA_PADRAO;
-
-      for (var i = 0; i < DB.jogadores.length; i++) {
-        if (DB.jogadores[i].id !== id && DB.jogadores[i].numero === num) {
-          alert("❌ A camisola #" + num + " já pertence a " + DB.jogadores[i].nome + "!");
-          return;
-        }
-      }
-
-      for (var k = 0; k < DB.jogadores.length; k++) {
-        if (DB.jogadores[k].id === id) {
-          DB.jogadores[k].nome = nome;
-          DB.jogadores[k].numero = num;
-          DB.jogadores[k].nasc = nasc;
-          DB.jogadores[k].golos = golos;
-          DB.jogadores[k].posicao = pos;
-          DB.jogadores[k].telefone = tel;
-          DB.jogadores[k].bairro = bairro;
-          DB.jogadores[k].foto = foto;
-          break;
-        }
-      }
-
-      registarAuditoria("Editou dados do atleta #" + num + " " + nome);
-      fecharModal('modal-edit-jogador');
-      desenhar();
-      mostrarAviso("✅ Atleta #" + num + " actualizado com sucesso!");
-    }
-
-    function removerJogador(id) {
-      if (!verificarPermissaoAdmin()) return;
-      if (!confirm("Tem a certeza de que deseja remover este atleta do plantel oficial?")) return;
-      var removido = null;
-      DB.jogadores = DB.jogadores.filter(function(j) {
-        if (j.id === id) removido = j;
-        return j.id !== id;
-      });
-      registarAuditoria("Eliminou o atleta #" + (removido ? removido.numero + " " + removido.nome : id));
-      desenhar();
-      mostrarAviso("Atleta removido da plataforma.");
-    }
-
-    function abrirModalAnuncio() {
-      if (!verificarPermissaoAdmin()) return;
-      abrirModal('modal-anuncio');
-    }
-    
-    function salvarAnuncio() {
-      if (!verificarPermissaoAdmin()) return;
-      var tit = document.getElementById('anun-titulo').value.trim();
-      var txt = document.getElementById('anun-texto').value.trim();
-      if (!tit || !txt) { alert("Preencha o título e o texto."); return; }
-
-      DB.anuncios.unshift({
-        id: Date.now(),
-        titulo: tit,
-        texto: txt,
-        data: obterDataHoje(),
-        autor: obterNomeUsuarioAtual()
-      });
-
-      registarAuditoria("Publicou anúncio: " + tit);
-      fecharModal('modal-anuncio');
-      desenhar();
-      mostrarAviso("📢 Comunicado oficial publicado!");
-    }
-
-    function abrirModalDisciplina() {
-      if (!verificarPermissaoAdmin()) return;
-      if (DB.jogadores.length === 0) { alert("Cadastre primeiro atletas no plantel."); return; }
-      var sel = document.getElementById('disc-atleta');
-      sel.innerHTML = '';
-      for (var i = 0; i < DB.jogadores.length; i++) {
-        sel.innerHTML += '<option value="' + DB.jogadores[i].nome + '">#' + DB.jogadores[i].numero + ' ' + DB.jogadores[i].nome + '</option>';
-      }
-      abrirModal('modal-disciplina');
-    }
-
-    function salvarDisciplina() {
-      if (!verificarPermissaoAdmin()) return;
-      var atl = document.getElementById('disc-atleta').value;
-      var tipo = document.getElementById('disc-tipo').value;
-      var desc = document.getElementById('disc-desc').value.trim();
-      var med = document.getElementById('disc-medida').value.trim();
-
-      DB.disciplina.unshift({ atleta: atl, data: obterDataHoje(), tipo: tipo, desc: desc, medida: med });
-      registarAuditoria("Aplicou medida disciplinar (" + tipo + ") ao atleta " + atl);
-      fecharModal('modal-disciplina');
-      desenhar();
-      mostrarAviso("⚖️ Falta/Infração registada no processo do atleta.");
-    }
-
-    function abrirModalPatrimonio() {
-      if (!verificarPermissaoAdmin()) return;
-      abrirModal('modal-patrimonio');
-    }
-
-    function salvarPatrimonio() {
-      if (!verificarPermissaoAdmin()) return;
-      var nome = document.getElementById('pat-nome').value.trim();
-      var tot = parseInt(document.getElementById('pat-qtd').value) || 1;
-      var disp = parseInt(document.getElementById('pat-disp').value) || 1;
-      var est = document.getElementById('pat-estado').value.trim();
-
-      DB.patrimonio.push({ item: nome, total: tot, disp: disp, estado: est });
-      registarAuditoria("Adicionou ao património: " + nome + " (" + tot + " unidades)");
-      fecharModal('modal-patrimonio');
-      desenhar();
-      mostrarAviso("📦 Material registado no património.");
-    }
-
-    function lancarDoacao() {
-      if (!verificarPermissaoAdmin()) return;
-      var orig = prompt("Nome do Doador / Parceiro:", "Comércio Local");
-      if (!orig) return;
-      var desc = prompt("Descrição do Apoio:", "Apoio ao FC ESPANHA") || "Apoio ao clube";
-      var val = parseFloat(prompt("Valor da contribuição em Kwanzas (Kz):", "25000")) || 0;
-
-      DB.doacoes.push({ origem: orig, categoria: "Doação / Patrocínio", descricao: desc, valor: val, data: obterDataHoje() });
-      DB.financas.receitas += val;
-      registarAuditoria("Registou doação/apoio de " + kz(val) + " de " + orig);
-      desenhar();
-      mostrarAviso("🎁 Contribuição registada com sucesso!");
-    }
-
-    function lancarQuota() {
-      if (!verificarPermissaoAdmin()) return;
-      if (DB.jogadores.length === 0) { alert("Cadastre primeiro atletas no plantel."); return; }
-      var lista = "";
-      for (var i = 0; i < DB.jogadores.length; i++) {
-        lista += (i + 1) + ". #" + DB.jogadores[i].numero + " " + DB.jogadores[i].nome + "\n";
-      }
-      var esc = prompt("Escolha o número do atleta:\n" + lista);
-      var idx = parseInt(esc) - 1;
-      if (isNaN(idx) || !DB.jogadores[idx]) return;
-
-      var atleta = DB.jogadores[idx];
-      var mes = prompt("Identificação do Domingo liquidado:", obterDomingoAtual()) || obterDomingoAtual();
-      var val = parseFloat(prompt("Valor da quota em Kwanzas (Kz):", "2500")) || 2500;
-
-      DB.historicoQuotas.push({
-        atleta: atleta.nome,
-        telefone: atleta.telefone,
-        mes: mes,
-        valor: val,
-        metodo: "Multicaixa Express (935523498)",
-        ref: "MCX-" + Math.floor(1000 + Math.random()*9000)
-      });
-      DB.financas.receitas += val;
-      DB.financas.quotas += val;
-      registarAuditoria("Liquidou quota dominical de " + kz(val) + " para o atleta " + atleta.nome);
-      desenhar();
-      mostrarAviso("✅ Quota registada na nuvem e disponível na área pessoal de " + atleta.nome + "!");
-    }
-
-    function adicionarJogo() {
-      if (!verificarPermissaoAdmin()) return;
-      var adv = prompt("Nome do adversário:");
-      if (!adv) return;
-      var comp = prompt("Competição:", "Campeonato / Torneio") || "Torneio Luanda";
-      var res = prompt("Resultado do jogo (Ex: 2 - 1):", "0 - 0") || "0 - 0";
-
-      DB.jogos.push({ adversario: adv, competicao: comp, resultado: res });
-      registarAuditoria("Registou jogo FC Espanha vs " + adv + " (" + res + ")");
-      desenhar();
-      mostrarAviso("✅ Jogo registado com sucesso!");
-    }
-
-    function editarAdmin(id) {
-      if (perfil !== 'dev') return;
-      for (var i = 0; i < DB.admins.length; i++) {
-        if (DB.admins[i].id === id) {
-          var nome = prompt("Novo nome completo para este Administrador:", DB.admins[i].nome);
-          if (nome) DB.admins[i].nome = nome;
-          var tel = prompt("Contacto Telefónico Oficial (Angola):", DB.admins[i].telefone);
-          if (tel) DB.admins[i].telefone = tel;
+      document.getElementById('preview-foto-edit').src = j
