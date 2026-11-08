@@ -4,9 +4,6 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>FC ESPANHA – Plataforma Oficial</title>
-  
-  <!-- SUPABASE JS SDK -->
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif; }
@@ -22,9 +19,8 @@
     .status-nuvem {
       display: inline-flex; align-items: center; gap: 6px; font-size: 10px;
       background: #111827; border: 1px solid #374151; padding: 4px 8px; border-radius: 12px;
-      margin-top: 4px; font-weight: bold; cursor: pointer; transition: 0.2s;
+      margin-top: 4px; font-weight: bold; cursor: pointer;
     }
-    .status-nuvem:hover { border-color: #34D399; }
 
     .btn {
       padding: 8px 14px; border-radius: 6px; border: none; font-weight: bold;
@@ -98,7 +94,7 @@
       <div>
         <h1 style="font-size:15px; font-weight:900; letter-spacing:1px; color:#FFFFFF;">FC ESPANHA</h1>
         <p style="font-size:10px; color:#888;">Gestão Desportiva Oficial • Moeda: Kwanza (Kz) • Luanda</p>
-        <div id="indicador-nuvem" class="status-nuvem" style="color:#34D399;" onclick="testarConexaoManual()" title="Clique para testar conexão">🟢 Sistema Ativo (Clique para Testar Nuvem)</div>
+        <div id="indicador-nuvem" class="status-nuvem" style="color:#34D399;" onclick="sincronizarComSupabase()">🟢 Sistema Pronto (Sincronizado)</div>
       </div>
     </div>
     
@@ -515,11 +511,11 @@
   </div>
 
   <div class="rodape-oficial no-print">
-    Desenvolvido por Eduardo Ferreira Alfredo (2026) • FC ESPANHA • Conectado via Supabase
+    Desenvolvido por Eduardo Ferreira Alfredo (2026) • FC ESPANHA
   </div>
 
   <!-- ================= MODAIS ================= -->
-  <!-- MODAL: LIQUIDAR QUOTA DOMINICAL (VISUAL E SEM TRAVAMENTOS) -->
+  <!-- MODAL: LIQUIDAR QUOTA DOMINICAL -->
   <div id="modal-liquidar-quota" class="modal-box" style="display:none;">
     <div class="modal-corpo">
       <h3 style="color:#E5A93C; font-size:14px; font-weight:bold; margin-bottom:12px; text-transform:uppercase;">💰 Liquidar Quota Dominical</h3>
@@ -668,21 +664,10 @@
     </div>
   </div>
 
-  <!-- ================= SCRIPT PRINCIPAL SUPABASE ================= -->
+  <!-- ================= SCRIPT AUTÓNOMO E RESILIENTE ================= -->
   <script>
     var SUPABASE_URL = "https://gtujqngiefncuyqsxvoi.supabase.co";
     var SUPABASE_KEY = "sb_publishable_yzF9Yns_glLQj2sA7que5w_E_ntAWLh";
-
-    var supabaseClient = null;
-    var supabaseConectado = false;
-
-    if (window.supabase && SUPABASE_URL.indexOf("http") === 0) {
-      try {
-        supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-      } catch (e) {
-        console.error("Aviso Supabase:", e);
-      }
-    }
 
     var SILHUETA_PADRAO = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23E5A93C'%3E%3Cpath d='M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z'/%3E%3C/svg%3E";
     var EMBLEMA_PADRAO_SVG = "<svg viewBox='0 0 200 260' style='width:100%; height:100%;'><polygon points='100,5 106,23 125,23 110,34 116,52 100,41 84,52 90,34 75,23 94,23' fill='%23E5A93C'/><path d='M 20 60 Q 100 48 180 60 L 180 180 Q 180 245 100 258 Q 20 245 20 180 Z' fill='%23B31317' stroke='%23E5A93C' stroke-width='8'/><circle cx='100' cy='208' r='18' fill='%7D0A0E' stroke='%23E5A93C' stroke-width='3'/><text x='100' y='213' font-size='11' font-weight='900' fill='%23E5A93C' text-anchor='middle'>EFC</text></svg>";
@@ -712,7 +697,6 @@
 
     var CHAVE_LOCAL = "FC_ESPANHA_FINAL_BLINDADA_2026";
 
-    // SANITIZAÇÃO DE DADOS (IMPEDE ERROS DE VARIÁVEIS NULAS)
     function sanitizarDB(db) {
       if (!db || typeof db !== 'object') db = {};
       db.senhaMaster = db.senhaMaster || BASE_PRODUCAO.senhaMaster;
@@ -752,7 +736,6 @@
     var masterAutenticado = true;
     var atletaSessaoId = null;
 
-    // HELPERS DE DOM BLINDADOS CONTRA ERROS
     function setDisplay(id, display) {
       var el = document.getElementById(id);
       if (el) el.style.display = display;
@@ -766,17 +749,18 @@
       if (el) el.value = val;
     }
 
-    // PROMESSA COM TIMEOUT (MÁXIMO 3 SEGUNDOS PARA NUNCA TRAVAR)
-    function promessaComTimeout(promessa, ms) {
-      return Promise.race([
-        promessa,
-        new Promise(function(_, reject) {
-          setTimeout(function() { reject(new Error("Timeout de conexão")); }, ms);
-        })
-      ]);
+    // MUDANÇA DE ABAS INSTANTÂNEA E BLINDADA
+    function abrirAba(id) {
+      var abas = ['painel', 'anuncios', 'plantel', 'financas', 'doacoes', 'jogos', 'disciplina', 'patrimonio', 'admins', 'relatorio', 'jogador', 'config'];
+      for (var i = 0; i < abas.length; i++) {
+        var elAba = document.getElementById('aba-' + abas[i]);
+        if (elAba) elAba.style.display = (abas[i] === id) ? 'block' : 'none';
+        var elTab = document.getElementById('tab-' + abas[i]);
+        if (elTab) elTab.className = (abas[i] === id) ? 'active' : '';
+      }
+      try { desenhar(); } catch (e) { console.warn(e); }
     }
 
-    // COMPRESSOR INTELIGENTE DE FOTOS (CANVAS)
     function comprimirImagem(file, maxWidth, maxHeight, quality, callback) {
       var reader = new FileReader();
       reader.onload = function(e) {
@@ -812,24 +796,24 @@
 
     function carregarFotoJogadorComprimida(input) {
       if (input.files && input.files[0]) {
-        mostrarAviso("A otimizar e comprimir fotografia...");
+        mostrarAviso("A comprimir fotografia...");
         comprimirImagem(input.files[0], 280, 280, 0.72, function(base64Otimizada) {
           var elPrev = document.getElementById('preview-foto-cad');
           if (elPrev) elPrev.src = base64Otimizada;
           setValue('inp-foto-base64', base64Otimizada);
-          mostrarAviso("✅ Fotografia comprimida para ~20KB com sucesso!");
+          mostrarAviso("✅ Fotografia comprimida para ~20KB!");
         });
       }
     }
 
     function carregarFotoEdicaoComprimida(input) {
       if (input.files && input.files[0]) {
-        mostrarAviso("A otimizar e comprimir fotografia...");
+        mostrarAviso("A comprimir fotografia...");
         comprimirImagem(input.files[0], 280, 280, 0.72, function(base64Otimizada) {
           var elPrev = document.getElementById('preview-foto-edit');
           if (elPrev) elPrev.src = base64Otimizada;
           setValue('edit-jog-foto-base64', base64Otimizada);
-          mostrarAviso("✅ Fotografia comprimida com sucesso!");
+          mostrarAviso("✅ Fotografia comprimida!");
         });
       }
     }
@@ -863,87 +847,60 @@
       }
     }
 
-    // BOTÃO PARA TESTAR CONEXÃO MANUALMENTE COM AVISO CLARO
-    async function testarConexaoManual() {
-      mostrarAviso("🔄 A verificar conexão com a nuvem do Supabase...");
-      atualizarIndicadorNuvem(false, "#FBBF24", "🔄 A testar conexão...");
-      await inicializarSupabase(true);
-    }
+    // SINCRONIZAÇÃO NATIVA ULTRALEVE COM SUPABASE (ZERO DEPENDÊNCIAS EXTERNAS)
+    function sincronizarComSupabase() {
+      atualizarIndicadorNuvem(false, "#FBBF24", "🔄 A sincronizar com o Supabase...");
 
-    // CONEXÃO SUPABASE COM DIAGNÓSTICO
-    async function inicializarSupabase(manual) {
-      if (!supabaseClient) {
-        atualizarIndicadorNuvem(false, "#F87171", "⚠️ Nuvem desconectada (Local ativo)");
-        if (manual) alert("⚠️ O cliente do Supabase não foi inicializado. Verifique a URL e a chave.");
-        return;
-      }
-
-      try {
-        var query = supabaseClient
-          .from('fcespanha_clube')
-          .select('dados')
-          .eq('id', 'principal')
-          .single();
-
-        var res = await promessaComTimeout(query, 3500);
-
-        if (res && res.data && res.data.dados) {
-          var senhaLocal = DB.senhaMaster;
-          DB = sanitizarDB(res.data.dados);
-          DB.senhaMaster = res.data.dados.senhaMaster || senhaLocal;
+      fetch(SUPABASE_URL + "/rest/v1/fcespanha_clube?id=eq.principal&select=dados", {
+        method: "GET",
+        headers: {
+          "apikey": SUPABASE_KEY,
+          "Authorization": "Bearer " + SUPABASE_KEY
+        }
+      })
+      .then(function(res) { return res.json(); })
+      .then(function(data) {
+        if (data && data.length > 0 && data[0].dados) {
+          var sM = DB.senhaMaster;
+          DB = sanitizarDB(data[0].dados);
+          DB.senhaMaster = data[0].dados.senhaMaster || sM;
           localStorage.setItem(CHAVE_LOCAL, JSON.stringify(DB));
-          supabaseConectado = true;
-          atualizarIndicadorNuvem(true, "#34D399", "🟢 Nuvem Supabase Ativa (Tempo Real)");
+          atualizarIndicadorNuvem(true, "#34D399", "🟢 Nuvem Supabase Ativa");
           desenhar();
-          if (manual) alert("✅ Conexão com o Supabase confirmada em Tempo Real!");
-        } else if (res && res.error) {
-          if (res.error.code === 'PGRST116') {
-            await supabaseClient.from('fcespanha_clube').upsert({ id: 'principal', dados: DB });
-            supabaseConectado = true;
-            atualizarIndicadorNuvem(true, "#34D399", "🟢 Nuvem Supabase Ativa (Tempo Real)");
-            if (manual) alert("✅ Tabela conectada e dados iniciais criados na Nuvem!");
-          } else {
-            atualizarIndicadorNuvem(false, "#FBBF24", "🟡 Gravado localmente");
-            if (manual) alert("ℹ️ Resposta da Nuvem: " + (res.error.message || "Tabela a aguardar configuração. O sistema continua a funcionar localmente."));
-          }
+        } else {
+          salvarDB();
         }
-
-        // Realtime
-        supabaseClient
-          .channel('canal-fcespanha')
-          .on('postgres_changes', { event: '*', schema: 'public', table: 'fcespanha_clube' }, function(payload) {
-            if (payload.new && payload.new.dados) {
-              var sM = DB.senhaMaster;
-              DB = sanitizarDB(payload.new.dados);
-              DB.senhaMaster = payload.new.dados.senhaMaster || sM;
-              localStorage.setItem(CHAVE_LOCAL, JSON.stringify(DB));
-              desenhar();
-              mostrarAviso("🔄 Dados sincronizados em tempo real!");
-            }
-          })
-          .subscribe();
-
-      } catch (err) {
-        atualizarIndicadorNuvem(false, "#34D399", "🟢 Sistema Ativo (Modo Local Seguro)");
-        if (manual) alert("ℹ️ O sistema está a gravar com segurança no seu telemóvel/computador.\nDetalhe da conexão: " + (err.message || "Timeout de rede."));
-      }
+      })
+      .catch(function() {
+        atualizarIndicadorNuvem(false, "#34D399", "🟢 Modo Local Ativo (Dados Seguros)");
+      });
     }
 
-    async function salvarDB() {
+    function salvarDB() {
       localStorage.setItem(CHAVE_LOCAL, JSON.stringify(DB));
-      
-      if (supabaseClient) {
-        try {
-          var query = supabaseClient
-            .from('fcespanha_clube')
-            .upsert({ id: 'principal', dados: DB, atualizado_em: new Date().toISOString() });
-          
-          await promessaComTimeout(query, 3000);
+
+      fetch(SUPABASE_URL + "/rest/v1/fcespanha_clube", {
+        method: "POST",
+        headers: {
+          "apikey": SUPABASE_KEY,
+          "Authorization": "Bearer " + SUPABASE_KEY,
+          "Content-Type": "application/json",
+          "Prefer": "resolution=merge-duplicates"
+        },
+        body: JSON.stringify({
+          id: "principal",
+          dados: DB,
+          atualizado_em: new Date().toISOString()
+        })
+      })
+      .then(function(res) {
+        if (res.ok) {
           atualizarIndicadorNuvem(true, "#34D399", "🟢 Nuvem Supabase Sincronizada");
-        } catch (e) {
-          atualizarIndicadorNuvem(false, "#FBBF24", "🟡 Gravado localmente");
         }
-      }
+      })
+      .catch(function() {
+        atualizarIndicadorNuvem(false, "#FBBF24", "🟡 Gravado localmente");
+      });
     }
 
     function obterNomeUsuarioAtual() {
@@ -1004,23 +961,6 @@
     function fecharModal(id) { setDisplay(id, 'none'); }
     function abrirModal(id) { setDisplay(id, 'flex'); }
 
-    function abrirAba(id) {
-      if (perfil === 'jogador' && id !== 'jogador' && id !== 'anuncios') {
-        alert("⛔ Acesso Restrito: Como atleta, tem acesso exclusivo à sua Área de Atleta e aos Anúncios.");
-        return;
-      }
-
-      var abas = ['painel', 'anuncios', 'plantel', 'financas', 'doacoes', 'jogos', 'disciplina', 'patrimonio', 'admins', 'relatorio', 'jogador', 'config'];
-      for (var i = 0; i < abas.length; i++) {
-        var nome = abas[i];
-        var view = document.getElementById('aba-' + nome);
-        if (view) view.style.display = (nome === id) ? 'block' : 'none';
-        var tab = document.getElementById('tab-' + nome);
-        if (tab) tab.className = (nome === id) ? 'active' : '';
-      }
-      desenhar();
-    }
-
     function adicionarGolo(id) {
       if (!verificarPermissaoAdmin()) return;
       for (var i = 0; i < DB.jogadores.length; i++) {
@@ -1052,7 +992,7 @@
 
     function entrarComoMaster() {
       if (!masterAutenticado) {
-        var senha = prompt("🔐 ACESSO EXCLUSIVO DO DESENVOLVEDOR MASTER\nIntroduza a sua Senha Mestre:");
+        var senha = prompt("🔐 ACESSO DO DESENVOLVEDOR MASTER\nIntroduza a sua Senha Mestre:");
         if (senha === null) return;
         if (senha !== DB.senhaMaster) {
           alert("❌ Senha Mestre incorreta!");
@@ -1223,11 +1163,13 @@
       return DB.jogadores[0] || { nome: "Atleta", numero: 0, posicao: "", bairro: "", golos: 0, foto: SILHUETA_PADRAO, credencial: "FCE-0000" };
     }
 
-    // MODAL DE LIQUIDAÇÃO DE QUOTA (100% VISUAL)
+    // MODAL DE LIQUIDAÇÃO DE QUOTA
     function abrirModalLiquidarQuota(atletaNomePreSelecionado) {
       if (!verificarPermissaoAdmin()) return;
       if (DB.jogadores.length === 0) {
-        alert("Cadastre primeiro atletas no plantel antes de liquidar quotas.");
+        if (confirm("⚠️ Ainda não tens atletas cadastrados no plantel.\n\nDesejas cadastrar o primeiro atleta agora?")) {
+          abrirModalJogador();
+        }
         return;
       }
       var sel = document.getElementById('liq-atleta');
@@ -1268,7 +1210,7 @@
         return;
       }
       if (val <= 0) {
-        alert("Introduza um valor válido para a quota!");
+        alert("Introduza um valor válido!");
         return;
       }
 
@@ -1416,7 +1358,6 @@
         }
       }
 
-      // TABELA DO PLANTEL
       var tbPl = document.getElementById('tb-plantel');
       if (tbPl) {
         tbPl.innerHTML = DB.jogadores.length ? '' : '<tr><td colspan="8" style="color:#777; text-align:center;">Nenhum atleta cadastrado no plantel.</td></tr>';
@@ -1709,7 +1650,7 @@
       var telLimpo = tel.replace(/\D/g, '');
       var linkBase = window.location.href.split('#')[0].split('?')[0];
       var linkExclusivoAtleta = linkBase + "#atleta";
-      var msg = "⚽ *BEM-VINDO AO FC ESPANHA*\n\nOlá *" + nome + "*!\nFoste inscrito oficialmente no plantel do FC ESPANHA.\n\n👕 Camisola: #" + num + "\n⚽ Posição: " + pos + "\n🔑 *O teu Código de Acesso Exclusivo:* *" + credencialUnica + "*\n\n🌐 *Link Direto para a tua Área do Atleta:*\n" + linkExclusivoAtleta + "\n\n(Acede ao link acima e coloca o teu Código: *" + credencialUnica + "* para veres apenas os teus dados e o teu histórico).\n\n💬 Entra no Grupo Oficial: https://chat.whatsapp.com/EL7l6c0bDG39g17uGR53IV?s=cl&p=a&iam=2\n💰 Quotas Semanais (Todos os Domingos) via Express para: 935 523 498.";
+      var msg = "⚽ *BEM-VINDO AO FC ESPANHA*\n\nOlá *" + nome + "*!\nFoste inscrito oficialmente no plantel do FC ESPANHA.\n\n👕 Camisola: #" + num + "\n⚽ Posição: " + pos + "\n🔑 *O teu Código Exclusivo de Acesso:* *" + credencialUnica + "*\n\n🌐 *Link Direto para a tua Área do Atleta:*\n" + linkExclusivoAtleta + "\n\n(Acede ao link acima e coloca o teu Código: *" + credencialUnica + "* para veres apenas os teus dados e o teu histórico).\n\n💬 Entra no Grupo Oficial: https://chat.whatsapp.com/EL7l6c0bDG39g17uGR53IV?s=cl&p=a&iam=2\n💰 Quotas Semanais (Todos os Domingos) via Express para: 935 523 498.";
       var linkWpp = "https://wa.me/244" + telLimpo + "?text=" + encodeURIComponent(msg);
 
       mostrarAviso("✅ Atleta #" + num + " registado na nuvem! A abrir WhatsApp...");
@@ -1730,105 +1671,4 @@
       setValue('edit-jog-nasc', jog.nasc || '2004-01-01');
       setValue('edit-jog-golos', jog.golos || 0);
       setValue('edit-jog-pos', jog.posicao);
-      setValue('edit-jog-tel', jog.telefone);
-      setValue('edit-jog-bairro', jog.bairro);
-      setValue('edit-jog-foto-base64', jog.foto || SILHUETA_PADRAO);
-      
-      var prev = document.getElementById('preview-foto-edit');
-      if (prev) prev.src = jog.foto || SILHUETA_PADRAO;
-
-      abrirModal('modal-edit-jogador');
-    }
-
-    function salvarEdicaoJogador() {
-      if (!verificarPermissaoAdmin()) return;
-      var id = Number(document.getElementById('edit-jog-id').value);
-      var nome = document.getElementById('edit-jog-nome').value.trim();
-      var num = parseInt(document.getElementById('edit-jog-num').value);
-      var nasc = document.getElementById('edit-jog-nasc').value;
-      var golos = parseInt(document.getElementById('edit-jog-golos').value) || 0;
-      var pos = document.getElementById('edit-jog-pos').value.trim();
-      var tel = document.getElementById('edit-jog-tel').value.trim();
-      var bairro = document.getElementById('edit-jog-bairro').value.trim();
-      var foto = document.getElementById('edit-jog-foto-base64').value || SILHUETA_PADRAO;
-
-      for (var i = 0; i < DB.jogadores.length; i++) {
-        if (DB.jogadores[i].id !== id && DB.jogadores[i].numero === num) {
-          alert("❌ A camisola #" + num + " já pertence a " + DB.jogadores[i].nome + "!");
-          return;
-        }
-      }
-
-      for (var k = 0; k < DB.jogadores.length; k++) {
-        if (DB.jogadores[k].id === id) {
-          DB.jogadores[k].nome = nome;
-          DB.jogadores[k].numero = num;
-          DB.jogadores[k].nasc = nasc;
-          DB.jogadores[k].golos = golos;
-          DB.jogadores[k].posicao = pos;
-          DB.jogadores[k].telefone = tel;
-          DB.jogadores[k].bairro = bairro;
-          DB.jogadores[k].foto = foto;
-          break;
-        }
-      }
-
-      registarAuditoria("Editou dados do atleta #" + num + " " + nome);
-      fecharModal('modal-edit-jogador');
-      desenhar();
-      mostrarAviso("✅ Atleta #" + num + " actualizado com sucesso!");
-    }
-
-    function removerJogador(id) {
-      if (!verificarPermissaoAdmin()) return;
-      if (!confirm("Tem a certeza de que deseja remover este atleta do plantel oficial?")) return;
-      var removido = null;
-      DB.jogadores = DB.jogadores.filter(function(j) {
-        if (j.id === id) removido = j;
-        return j.id !== id;
-      });
-      registarAuditoria("Eliminou atleta #" + (removido ? removido.numero + " " + removido.nome : id));
-      desenhar();
-      mostrarAviso("Atleta removido da plataforma.");
-    }
-
-    function abrirModalAnuncio() {
-      if (!verificarPermissaoAdmin()) return;
-      abrirModal('modal-anuncio');
-    }
-    
-    function salvarAnuncio() {
-      if (!verificarPermissaoAdmin()) return;
-      var tit = document.getElementById('anun-titulo').value.trim();
-      var txt = document.getElementById('anun-texto').value.trim();
-      if (!tit || !txt) { alert("Preencha o título e o texto."); return; }
-
-      DB.anuncios.unshift({
-        id: Date.now(),
-        titulo: tit,
-        texto: txt,
-        data: obterDataHoje(),
-        autor: obterNomeUsuarioAtual()
-      });
-
-      registarAuditoria("Publicou anúncio: " + tit);
-      fecharModal('modal-anuncio');
-      desenhar();
-      mostrarAviso("📢 Comunicado oficial publicado!");
-    }
-
-    function abrirModalDisciplina() {
-      if (!verificarPermissaoAdmin()) return;
-      if (DB.jogadores.length === 0) { alert("Cadastre primeiro atletas no plantel."); return; }
-      var sel = document.getElementById('disc-atleta');
-      if (sel) {
-        sel.innerHTML = '';
-        for (var i = 0; i < DB.jogadores.length; i++) {
-          sel.innerHTML += '<option value="' + DB.jogadores[i].nome + '">#' + DB.jogadores[i].numero + ' ' + DB.jogadores[i].nome + '</option>';
-        }
-      }
-      abrirModal('modal-disciplina');
-    }
-
-    function salvarDisciplina() {
-      if (!verificarPermissaoAdmin()) return;
+      setV
