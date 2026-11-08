@@ -1,4 +1,5 @@
 
+
 <!DOCTYPE html>
 <html lang="pt-AO">
 <head>
@@ -7,47 +8,60 @@
   <title>FC ESPANHA – Portal Oficial</title>
 
   <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif; }
-    body { background-color: #070B19; color: #F3F4F6; padding: 14px; min-height: 100vh; }
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; }
+    body { background-color: #050814; color: #F3F4F6; padding: 14px; min-height: 100vh; }
 
     /* ================= TELA DE ENTRADA / PORTAL INICIAL ================= */
     #tela-login-portal {
-      min-height: 90vh; display: flex; align-items: center; justify-content: center; padding: 12px;
+      min-height: 92vh; display: flex; align-items: center; justify-content: center; padding: 14px;
+      background: radial-gradient(circle at 50% 20%, rgba(198, 29, 35, 0.15) 0%, transparent 60%);
     }
     .card-login-portal {
       position: relative;
-      background: linear-gradient(180deg, #101B3B 0%, #0B132B 100%);
-      border: 1px solid #1E2E5C; border-radius: 16px; padding: 26px 20px 20px 20px;
-      width: 100%; max-width: 440px; box-shadow: 0 10px 30px rgba(0,0,0,0.7); text-align: center;
+      background: linear-gradient(180deg, rgba(16, 27, 59, 0.95) 0%, rgba(10, 16, 35, 0.98) 100%);
+      border: 1px solid rgba(229, 169, 60, 0.25);
+      border-radius: 20px;
+      padding: 32px 24px 24px 24px;
+      width: 100%; max-width: 440px;
+      box-shadow: 0 20px 50px rgba(0,0,0,0.8), 0 0 20px rgba(229, 169, 60, 0.08);
+      text-align: center;
+      backdrop-filter: blur(10px);
     }
     
-    /* Botão discreto de três pontos para o desenvolvedor */
     .btn-tres-pontos-dev {
       position: absolute; top: 12px; right: 14px; background: transparent; border: none;
       color: #64748B; font-size: 18px; font-weight: bold; cursor: pointer; padding: 4px 8px;
       border-radius: 6px; transition: 0.2s;
     }
-    .btn-tres-pontos-dev:hover { color: #E5A93C; background: rgba(229,169,60,0.1); }
+    .btn-tres-pontos-dev:hover { color: #E5A93C; background: rgba(229,169,60,0.12); }
 
-    .box-emblema-portal-grande {
-      width: 90px; height: 110px; margin: 0 auto 12px auto; display: flex; align-items: center; justify-content: center;
+    .box-emblema-wrapper {
+      position: relative;
+      width: 105px; height: 105px; margin: 0 auto 14px auto;
+      display: flex; align-items: center; justify-content: center;
     }
+    .emblema-img {
+      width: 100%; height: 100%; object-fit: contain; border-radius: 12px;
+      filter: drop-shadow(0 6px 12px rgba(0,0,0,0.6));
+    }
+
     .seletor-portal-tabs {
-      display: flex; gap: 6px; background: #070B19; padding: 4px; border-radius: 8px; margin: 18px 0 16px 0; border: 1px solid #1E2D56;
+      display: flex; gap: 6px; background: #070B19; padding: 5px; border-radius: 10px; margin: 20px 0 18px 0; border: 1px solid #1E2D56;
     }
     .seletor-portal-tabs button {
-      flex: 1; padding: 10px 6px; border: none; background: transparent; color: #94A3B8; font-size: 12px; font-weight: bold; border-radius: 6px; cursor: pointer; transition: 0.2s;
+      flex: 1; padding: 11px 8px; border: none; background: transparent; color: #94A3B8; font-size: 12px; font-weight: 700; border-radius: 7px; cursor: pointer; transition: 0.25s;
     }
     .seletor-portal-tabs button.active {
-      background: #E5A93C; color: black; box-shadow: 0 2px 8px rgba(229,169,60,0.3);
+      background: linear-gradient(180deg, #F3B229 0%, #D49419 100%);
+      color: #070B19; box-shadow: 0 4px 14px rgba(229,169,60,0.35); font-weight: 800;
     }
 
     /* ================= PLATAFORMA INTERNA ================= */
     .topo {
       background: linear-gradient(180deg, #101B3B 0%, #0B132B 100%);
-      border: 1px solid #1E2E5C; border-radius: 12px; padding: 12px 18px;
+      border: 1px solid #1E2E5C; border-radius: 14px; padding: 12px 18px;
       display: flex; justify-content: space-between; align-items: center;
-      margin-bottom: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.6);
+      margin-bottom: 12px; box-shadow: 0 6px 22px rgba(0,0,0,0.6);
     }
     
     .status-nuvem {
@@ -58,20 +72,20 @@
     .status-nuvem:hover { border-color: #10B981; }
 
     .btn {
-      padding: 8px 14px; border-radius: 6px; border: none; font-weight: bold;
+      padding: 8px 14px; border-radius: 6px; border: none; font-weight: 700;
       cursor: pointer; font-size: 11px; text-decoration: none; display: inline-flex;
-      align-items: center; gap: 5px; transition: all 0.2s;
+      align-items: center; gap: 6px; transition: all 0.2s;
     }
     .btn-red { background: linear-gradient(180deg, #B31317 0%, #8A0A0E 100%); color: white; border: 1px solid #C61D23; }
     .btn-red:hover { background: #7D0A0E; }
-    .btn-gold { background: linear-gradient(180deg, #F3B229 0%, #D49419 100%); color: black; border: 1px solid #E5A93C; }
+    .btn-gold { background: linear-gradient(180deg, #F3B229 0%, #D49419 100%); color: #070B19; border: 1px solid #E5A93C; }
     .btn-gold:hover { background: #B88220; }
     .btn-blue { background: linear-gradient(180deg, #1E3A8A 0%, #172554 100%); color: white; border: 1px solid #2563EB; }
     .btn-blue:hover { background: #1D4ED8; }
     .btn-dark { background: #131E3D; color: #E5E7EB; border: 1px solid #283966; }
     .btn-dark:hover { background: #1E2E5C; }
-    .btn-wpp { background: #10B981; color: black; font-weight: bold; }
-    .btn-wpp:hover { background: #059669; }
+    .btn-wpp { background: #10B981; color: #052e16; font-weight: 800; }
+    .btn-wpp:hover { background: #059669; color: white; }
 
     .menu-nav { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 14px; }
     .menu-nav button {
@@ -80,8 +94,8 @@
     }
     .menu-nav button.active { background: #E5A93C; color: black; border-color: #E5A93C; box-shadow: 0 2px 10px rgba(229,169,60,0.3); }
 
-    .card { background: #0D1630; border: 1px solid #1E2D56; border-radius: 10px; padding: 16px; margin-bottom: 14px; box-shadow: 0 2px 10px rgba(0,0,0,0.4); }
-    .grid-stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 10px; margin-bottom: 14px; }
+    .card { background: #0D1630; border: 1px solid #1E2D56; border-radius: 12px; padding: 16px; margin-bottom: 14px; box-shadow: 0 2px 12px rgba(0,0,0,0.4); }
+    .grid-stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(135px, 1fr)); gap: 10px; margin-bottom: 14px; }
     .stat-box { background: #101B3B; border: 1px solid #203366; border-radius: 8px; padding: 12px; }
     .stat-box p { font-size: 10px; color: #E5A93C; font-weight: bold; text-transform: uppercase; letter-spacing: 0.5px; }
     .stat-box h3 { font-size: 18px; font-weight: 900; margin-top: 4px; }
@@ -108,7 +122,7 @@
     .aviso { position: fixed; top: 16px; right: 16px; z-index: 2000; background: #064E3B; border: 1px solid #10B981; color: #ECFDF5; padding: 10px 16px; border-radius: 8px; font-size: 12px; font-weight: bold; display: none; box-shadow: 0 4px 16px rgba(0,0,0,0.6); }
     
     .modal-box { position: fixed; inset: 0; background: rgba(0,0,0,0.85); display: flex; align-items: center; justify-content: center; padding: 16px; z-index: 1000; }
-    .modal-corpo { background: #0D1630; border: 1px solid #233870; border-radius: 10px; padding: 18px; width: 100%; max-width: 480px; max-height: 90vh; overflow-y: auto; }
+    .modal-corpo { background: #0D1630; border: 1px solid #233870; border-radius: 10px; padding: 18px; width: 100%; max-width: 490px; max-height: 90vh; overflow-y: auto; }
     .campo { margin-bottom: 12px; }
     .campo label { display: block; font-size: 10px; color: #94A3B8; font-weight: bold; margin-bottom: 4px; text-transform: uppercase; }
     .campo input, .campo select, .campo textarea { width: 100%; padding: 8px; background: #131E3D; border: 1px solid #233870; color: white; border-radius: 6px; font-size: 12px; outline: none; }
@@ -125,7 +139,6 @@
       padding-top: 12px; border-top: 1px solid #1E2D56;
     }
 
-    /* Modal do Visualizador Oficial de Documentos / Relatórios */
     .papel-a4-preview {
       background: white !important;
       color: #0F172A !important;
@@ -146,6 +159,7 @@
 <body>
 
   <div id="msg-aviso" class="aviso"></div>
+  <input type="file" id="input-upload-bandeira" accept="image/*" style="display:none;" onchange="processarUploadBandeira(event)">
 
   <!-- ========================================================================= -->
   <!-- 1. TELA DE ENTRADA / PORTAL OFICIAL DE ACESSO                            -->
@@ -154,11 +168,14 @@
     <div class="card-login-portal">
       <button class="btn-tres-pontos-dev" title="Acesso Master" onclick="alternarFormLogin('master')">•••</button>
 
-      <div id="box-emblema-portal" class="box-emblema-portal-grande"></div>
+      <!-- Bandeira / Emblema da Espanha -->
+      <div class="box-emblema-wrapper">
+        <div id="box-emblema-portal" style="width:100%; height:100%;"></div>
+      </div>
       
-      <h1 style="font-size:22px; font-weight:900; letter-spacing:1px; color:#FFFFFF; margin:0;">FC ESPANHA</h1>
-      <p style="font-size:11px; color:#E5A93C; font-weight:bold; margin-top:2px;">Plataforma Integrada de Gestão Desportiva</p>
-      <p style="font-size:10px; color:#94A3B8; margin-top:2px;">Luanda • República de Angola</p>
+      <h1 style="font-size:24px; font-weight:900; letter-spacing:1px; color:#FFFFFF; margin:0;">FC ESPANHA</h1>
+      <p style="font-size:11px; color:#E5A93C; font-weight:bold; margin-top:3px;">Plataforma Integrada de Gestão Desportiva</p>
+      <p style="font-size:10px; color:#94A3B8; margin-top:2px;">Luanda</p>
 
       <div class="seletor-portal-tabs">
         <button id="btn-tab-jogador" class="active" onclick="alternarFormLogin('jogador')">⚽ Sou Jogador</button>
@@ -167,11 +184,16 @@
 
       <!-- Formulário 1: Jogador -->
       <div id="form-login-jogador">
-        <p style="font-size:11px; color:#CCC; margin-bottom:10px;">Introduza o seu código exclusivo do clube:</p>
+        <p style="font-size:11px; color:#CCC; margin-bottom:10px;">Insira as suas credenciais fornecidas pela Direcção:</p>
         <div class="campo">
+          <label>Código do Atleta:</label>
           <input type="text" id="inp-codigo-portal" placeholder="Ex: FCE-001" style="text-align:center; font-size:14px; font-weight:bold; letter-spacing:1px; text-transform:uppercase;">
         </div>
-        <button class="btn btn-gold" style="width:100%; justify-content:center; padding:10px; font-size:12px;" onclick="submeterLoginJogadorPortal()">⚽ Entrar na Minha Área</button>
+        <div class="campo">
+          <label>Senha / PIN:</label>
+          <input type="password" id="inp-senha-jogador-portal" placeholder="Sua senha ou PIN" style="text-align:center; font-size:14px; font-weight:bold;">
+        </div>
+        <button class="btn btn-gold" style="width:100%; justify-content:center; padding:11px; font-size:12px; margin-top:6px;" onclick="submeterLoginJogadorPortal()">⚽ Entrar na Minha Área</button>
       </div>
 
       <!-- Formulário 2: Administração -->
@@ -188,7 +210,7 @@
         <div class="campo">
           <input type="password" id="inp-senha-admin-portal" placeholder="Introduza a Senha ou PIN...">
         </div>
-        <button class="btn btn-gold" style="width:100%; justify-content:center; padding:10px; font-size:12px;" onclick="submeterLoginAdminPortal()">⭐ Entrar na Administração</button>
+        <button class="btn btn-gold" style="width:100%; justify-content:center; padding:11px; font-size:12px; margin-top:6px;" onclick="submeterLoginAdminPortal()">⭐ Entrar na Administração</button>
       </div>
 
       <!-- Formulário 3: Master Dev -->
@@ -197,13 +219,13 @@
         <div class="campo">
           <input type="password" id="inp-senha-master-portal" placeholder="Introduza a Senha Mestre...">
         </div>
-        <button class="btn btn-gold" style="width:100%; justify-content:center; padding:10px; font-size:12px;" onclick="submeterLoginMasterPortal()">Entrar como Desenvolvedor</button>
+        <button class="btn btn-gold" style="width:100%; justify-content:center; padding:11px; font-size:12px;" onclick="submeterLoginMasterPortal()">Entrar como Desenvolvedor</button>
         <div style="margin-top:10px;">
           <a href="javascript:void(0)" onclick="alternarFormLogin('jogador')" style="font-size:11px; color:#94A3B8; text-decoration:none;">⬅️ Voltar ao início</a>
         </div>
       </div>
 
-      <div style="margin-top:20px; font-size:10px; color:#64748B; border-top:1px solid #1E2E5C; padding-top:10px;">
+      <div style="margin-top:22px; font-size:10px; color:#64748B; border-top:1px solid #1E2E5C; padding-top:10px;">
         Desenvolvido por Eduardo Alfredo • FC ESPANHA
       </div>
     </div>
@@ -215,21 +237,21 @@
   <div id="plataforma-conteudo" style="display:none;">
 
     <div class="topo">
-      <div style="display:flex; align-items:center; gap:10px;">
-        <div id="box-emblema-topo" style="width:36px; height:46px;"></div>
+      <div style="display:flex; align-items:center; gap:12px;">
+        <div id="box-emblema-topo" style="width:40px; height:40px;"></div>
         <div>
           <h1 style="font-size:15px; font-weight:900; letter-spacing:1px; color:#FFFFFF;">FC ESPANHA</h1>
-          <p style="font-size:10px; color:#94A3B8;">Plataforma Oficial • Luanda, Angola</p>
+          <p style="font-size:10px; color:#94A3B8;">Plataforma Oficial • Luanda</p>
           <div id="indicador-nuvem" class="status-nuvem" style="color:#34D399;" onclick="sincronizarComSupabase()">🟢 Base de Dados Operacional</div>
         </div>
       </div>
       
       <div style="display:flex; align-items:center; gap:8px;">
+        <button id="btn-alterar-bandeira-topo" class="btn btn-dark" style="font-size:10px;" onclick="acionarUploadBandeira()">🎨 Alterar Bandeira</button>
         <div style="text-align:right;">
           <p id="txt-nome" style="font-size:12px; font-weight:bold;">Eduardo Alfredo</p>
           <p id="txt-cargo" style="font-size:10px; color:#E5A93C; font-weight:bold;">Sessão Ativa</p>
         </div>
-        <button id="btn-engrenagem" class="btn btn-dark" style="font-size:14px; padding:6px 10px;" title="Configurações Master" onclick="abrirAba('config')">⚙️</button>
         <button class="btn btn-red" style="font-size:10px; padding:6px 10px;" title="Terminar Sessão e Voltar ao Início" onclick="terminarSessao()">🚪 Sair</button>
       </div>
     </div>
@@ -263,7 +285,7 @@
     <div id="box-menu-navegacao" class="menu-nav">
       <button id="tab-painel" class="active" onclick="abrirAba('painel')">📊 Painel Geral</button>
       <button id="tab-anuncios" onclick="abrirAba('anuncios')">📢 Comunicados</button>
-      <button id="tab-plantel" onclick="abrirAba('plantel')">👥 Plantel de Jogadores</button>
+      <button id="tab-plantel" onclick="abrirAba('plantel')">👥 Plantel & Acessos</button>
       <button id="tab-financas" onclick="abrirAba('financas')">💰 Quotas Dominicais</button>
       <button id="tab-receitas-despesas" onclick="abrirAba('receitas-despesas')">💳 Receitas & Despesas</button>
       <button id="tab-jogos" onclick="abrirAba('jogos')">⚽ Jogos & Resultados</button>
@@ -338,7 +360,7 @@
         <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px; margin-bottom:12px;">
           <div>
             <h2 style="font-size:15px; font-weight:bold;">Plantel Sénior & Fichas de Atletas</h2>
-            <p style="font-size:10px; color:#94A3B8;">Controlo completo de jogadores, antiguidade, contactos e códigos de acesso.</p>
+            <p style="font-size:10px; color:#94A3B8;">Senhas de acesso visíveis para os administradores. O telefone é facultativo.</p>
           </div>
           <div style="display:flex; gap:6px;">
             <input type="text" id="filtro-busca-jogador" onkeyup="renderizarTabelaJogadores()" placeholder="🔍 Pesquisar atleta..." style="background:#131E3D; border:1px solid #233870; color:#fff; border-radius:6px; padding:6px 10px; font-size:11px;">
@@ -349,13 +371,13 @@
           <table>
             <thead>
               <tr>
-                <th>Foto</th>
-                <th>Código</th>
+                <th>Nº</th>
+                <th>Código & Senha</th>
                 <th>Nome Completo</th>
                 <th>Posição</th>
-                <th>Camisola</th>
                 <th>Telefone</th>
                 <th>Status</th>
+                <th>Enviar Acesso</th>
                 <th>Ações</th>
               </tr>
             </thead>
@@ -602,6 +624,7 @@
           <h3 style="font-size:12px; color:#E5A93C; font-weight:bold; margin-bottom:8px;">Minhas Informações Pessoais:</h3>
           <div style="background:#101B3B; padding:12px; border-radius:8px; border:1px solid #203366; font-size:12px; line-height:1.8;">
             <p><b>Código de Acesso:</b> <span id="jog-codigo-perfil" style="color:#E5A93C; font-weight:bold;">-</span></p>
+            <p><b>Minha Senha / PIN:</b> <span id="jog-senha-perfil" style="color:#34D399; font-weight:bold;">-</span></p>
             <p><b>Contacto WhatsApp:</b> <span id="jog-telefone-perfil">-</span></p>
             <p><b>Data de Ingresso:</b> <span id="jog-ingresso-perfil">-</span></p>
           </div>
@@ -615,7 +638,14 @@
         <h2 style="font-size:15px; font-weight:bold; color:#E5A93C; margin-bottom:12px;">⚙️ Painel de Controlo Master (Desenvolvedor & Dir. Geral)</h2>
         
         <div class="box-express">
-          <h3 style="font-size:12px; font-weight:bold; color:#E5A93C; margin-bottom:6px;">🔒 Bloqueio Geral de Alterações</h3>
+          <h3 style="font-size:12px; font-weight:bold; color:#E5A93C; margin-bottom:6px;">🎨 Bandeira & Emblema Oficial do Clube</h3>
+          <p style="font-size:11px; color:#CCC; margin-bottom:10px;">Pode carregar a bandeira da Espanha oficial ou a imagem que desejar do seu computador ou telemóvel.</p>
+          <button class="btn btn-gold" onclick="acionarUploadBandeira()">Carregar Nova Bandeira / Imagem</button>
+          <button class="btn btn-dark" onclick="restaurarBandeiraPadrao()" style="margin-left:6px;">Restaurar Bandeira Espanha Padrão</button>
+        </div>
+
+        <div class="box-express" style="margin-top:14px;">
+          <h3 style="font-size:12px; font-weight:bold; color:#EF4444; margin-bottom:6px;">🔒 Bloqueio Geral de Alterações</h3>
           <p style="font-size:11px; color:#CCC; margin-bottom:10px;">Ative esta opção para impedir edições, exclusões e adições por parte dos administradores auxiliares.</p>
           <button id="btn-toggle-bloqueio" class="btn btn-red" onclick="alternarBloqueioGeral()">Ativar Bloqueio Administrativo</button>
         </div>
@@ -640,7 +670,7 @@
     </div>
 
     <div class="rodape-oficial">
-      FC ESPANHA • Futebol de Rendimento • Luanda, Angola • Sistema Desenvolvido por Eduardo Alfredo
+      FC ESPANHA • Luanda • Sistema Desenvolvido por Eduardo Alfredo
     </div>
 
   </div>
@@ -655,8 +685,18 @@
       <h3 id="modal-jogador-titulo" style="font-size:14px; font-weight:bold; color:#E5A93C; margin-bottom:12px;">Ficha de Atleta</h3>
       <input type="hidden" id="jog-id">
       <div class="campo">
-        <label>Nome Completo:</label>
+        <label>Nome Completo do Atleta: *</label>
         <input type="text" id="m-jog-nome" placeholder="Nome do jogador" required>
+      </div>
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px;">
+        <div class="campo">
+          <label>Senha / PIN do Atleta: *</label>
+          <input type="text" id="m-jog-senha" placeholder="Ex: 1234 ou 4821">
+        </div>
+        <div class="campo">
+          <label>Número da Camisola:</label>
+          <input type="number" id="m-jog-numero" placeholder="Ex: 10" min="1" max="99">
+        </div>
       </div>
       <div class="campo">
         <label>Posição:</label>
@@ -674,12 +714,9 @@
         </select>
       </div>
       <div class="campo">
-        <label>Número da Camisola:</label>
-        <input type="number" id="m-jog-numero" placeholder="Ex: 10" min="1" max="99">
-      </div>
-      <div class="campo">
-        <label>Contacto Telefónico / WhatsApp:</label>
-        <input type="text" id="m-jog-telefone" placeholder="+244 9XX XXX XXX">
+        <label>Contacto Telefónico / WhatsApp (Opcional):</label>
+        <input type="text" id="m-jog-telefone" placeholder="+244 9XX XXX XXX (Opcional)">
+        <small style="color:#94A3B8; font-size:10px;">Pode deixar em branco caso o jogador ainda não tenha número.</small>
       </div>
       <div class="campo">
         <label>Status:</label>
@@ -865,7 +902,7 @@
       <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:2px solid #E5A93C; padding-bottom:10px; margin-bottom:14px;">
         <div>
           <h2 style="font-size:18px; font-weight:900; margin:0;">FC ESPANHA – LUANDA</h2>
-          <p style="font-size:11px; color:#555; margin:0;">Departamento de Futebol • República de Angola</p>
+          <p style="font-size:11px; color:#555; margin:0;">Departamento de Futebol • Luanda</p>
         </div>
         <div style="text-align:right;">
           <button class="btn btn-dark" onclick="window.print()">🖨️ Imprimir / Guardar PDF</button>
@@ -880,22 +917,27 @@
   <!-- 3. JAVASCRIPT GERAL DO SISTEMA                                           -->
   <!-- ========================================================================= -->
   <script>
-    // Gerador SVG do Emblema do FC Espanha
-    function gerarEmblemaSVG() {
+    // Gerador SVG da Bandeira Oficial da Espanha em Escudo
+    function gerarBandeiraEspanhaPadrao() {
       return `
-      <svg viewBox="0 0 100 120" width="100%" height="100%">
+      <svg viewBox="0 0 100 120" width="100%" height="100%" style="filter: drop-shadow(0 4px 10px rgba(0,0,0,0.5));">
         <defs>
-          <linearGradient id="gradEscudo" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stop-color="#C61D23"/>
-            <stop offset="50%" stop-color="#E5A93C"/>
-            <stop offset="100%" stop-color="#0F172A"/>
-          </linearGradient>
+          <clipPath id="corteEscudo">
+            <path d="M10 10 H90 V70 C90 100 50 115 50 115 C50 115 10 100 10 70 Z"/>
+          </clipPath>
         </defs>
-        <path d="M10 10 H90 V70 C90 100 50 115 50 115 C50 115 10 100 10 70 Z" fill="url(#gradEscudo)" stroke="#E5A93C" stroke-width="4"/>
-        <path d="M20 20 H80 V65 C80 90 50 102 50 102 C50 102 20 90 20 65 Z" fill="#0B132B" opacity="0.85"/>
-        <text x="50" y="45" font-family="sans-serif" font-weight="900" font-size="16" fill="#FFFFFF" text-anchor="middle">FC</text>
-        <text x="50" y="65" font-family="sans-serif" font-weight="900" font-size="11" fill="#E5A93C" text-anchor="middle">ESPANHA</text>
-        <circle cx="50" cy="84" r="8" fill="#FFFFFF" stroke="#000" stroke-width="1.5"/>
+        <!-- Escudo com as 3 faixas da bandeira da Espanha (Vermelho, Amarelo 2x, Vermelho) -->
+        <g clip-path="url(#corteEscudo)">
+          <rect x="0" y="0" width="100" height="32" fill="#AA151B"/>
+          <rect x="0" y="32" width="100" height="56" fill="#F1BF00"/>
+          <rect x="0" y="88" width="100" height="32" fill="#AA151B"/>
+          
+          <!-- Elemento central / Coroa & Inscrição -->
+          <circle cx="50" cy="58" r="16" fill="#070B19" stroke="#AA151B" stroke-width="2"/>
+          <text x="50" y="55" font-family="sans-serif" font-weight="900" font-size="9" fill="#F1BF00" text-anchor="middle">FC</text>
+          <text x="50" y="65" font-family="sans-serif" font-weight="900" font-size="7" fill="#FFFFFF" text-anchor="middle">ESPANHA</text>
+        </g>
+        <path d="M10 10 H90 V70 C90 100 50 115 50 115 C50 115 10 100 10 70 Z" fill="none" stroke="#E5A93C" stroke-width="3"/>
       </svg>`;
     }
 
@@ -905,34 +947,32 @@
         senhaMaster: "admin123",
         pinPrincipal: "1234",
         pinAdms: "0000",
-        bloqueioGeral: false
+        bloqueioGeral: false,
+        bandeiraCustom: null // null usa o SVG padrão da Espanha
       },
       jogadores: [
-        { id: '1', codigo: 'FCE-001', nome: 'Eduardo Alfredo', posicao: 'Médio Centro', camisola: '10', telefone: '+244 923 000 111', status: 'ativo', jogos: 14, golos: 8, assist: 6, quotas: 14000, dataIngresso: '2023-01-15' },
-        { id: '2', codigo: 'FCE-002', nome: 'António Silva', posicao: 'Avançado de Ponta', camisola: '9', telefone: '+244 912 345 678', status: 'ativo', jogos: 12, golos: 11, assist: 3, quotas: 12000, dataIngresso: '2023-03-20' },
-        { id: '3', codigo: 'FCE-003', nome: 'Mateus Domingos', posicao: 'Guarda-Redes', camisola: '1', telefone: '+244 944 555 777', status: 'ativo', jogos: 14, golos: 0, assist: 1, quotas: 13000, dataIngresso: '2022-11-10' }
+        { id: '1', codigo: 'FCE-001', senha: '1234', nome: 'Eduardo Alfredo', posicao: 'Médio Centro', camisola: '10', telefone: '+244923000111', status: 'ativo', jogos: 14, golos: 8, assist: 6, quotas: 14000, dataIngresso: '2023-01-15' },
+        { id: '2', codigo: 'FCE-002', senha: '2026', nome: 'António Silva', posicao: 'Avançado de Ponta', camisola: '9', telefone: '', status: 'ativo', jogos: 12, golos: 11, assist: 3, quotas: 12000, dataIngresso: '2023-03-20' },
+        { id: '3', codigo: 'FCE-003', senha: '5544', nome: 'Mateus Domingos', posicao: 'Guarda-Redes', camisola: '1', telefone: '+244944555777', status: 'ativo', jogos: 14, golos: 0, assist: 1, quotas: 13000, dataIngresso: '2022-11-10' }
       ],
       anuncios: [
         { id: '1', titulo: 'Convocatória para Domingo', texto: 'Todos os atletas devem estar presentes às 07:30 pontualmente para aquecimento com camisola oficial.', data: '2026-11-06' }
       ],
       quotas: [
-        { id: '1', data: '2026-11-01', jogadorId: '1', jogadorNome: 'Eduardo Alfredo', valor: 1000, forma: 'Transferência Express / BAI', responsavel: 'Eduardo Alfredo' },
-        { id: '2', data: '2026-11-01', jogadorId: '2', jogadorNome: 'António Silva', valor: 1000, forma: 'Dinheiro Físico', responsavel: 'Eduardo Alfredo' }
+        { id: '1', data: '2026-11-01', jogadorId: '1', jogadorNome: 'Eduardo Alfredo', valor: 1000, forma: 'Transferência Express / BAI', responsavel: 'Eduardo Alfredo' }
       ],
       movimentos: [
         { id: '1', data: '2026-11-01', tipo: 'Receita', categoria: 'Quotas', desc: 'Quotas do Domingo 01/Nov', valor: 14000, responsavel: 'Eduardo Alfredo' },
         { id: '2', data: '2026-11-01', tipo: 'Despesa', categoria: 'Logística', desc: 'Compra de 2 fardos de água mineral', valor: 3000, responsavel: 'Eduardo Alfredo' }
       ],
       jogos: [
-        { id: '1', data: '2026-11-01 08:30', comp: 'Campeonato Amador de Luanda', adv: 'Estrela Vermelha FC', campo: 'Campo do São Paulo', placar: '3 - 1' },
-        { id: '2', data: '2026-11-15 08:30', comp: 'Taça de Luanda', adv: 'Academia Sambizanga', campo: 'Campo do Cassenda', placar: 'A Realizar' }
+        { id: '1', data: '2026-11-01 08:30', comp: 'Campeonato Amador de Luanda', adv: 'Estrela Vermelha FC', campo: 'Campo do São Paulo', placar: '3 - 1' }
       ],
       disciplina: [
         { id: '1', data: '2026-10-25', jogadorId: '2', jogadorNome: 'António Silva', motivo: 'Atraso de 25 minutos no jogo oficial', valor: 1000, status: 'Pendente' }
       ],
       patrimonio: [
-        { id: '1', item: 'Bolas Oficiais de Futebol 11', qtd: 5, estado: 'Novo / Excelente', local: 'Carro da Direcção' },
-        { id: '2', item: 'Conjunto de Coletes de Treino (15 Un)', qtd: 2, estado: 'Bom', local: 'Sede' }
+        { id: '1', item: 'Bolas Oficiais de Futebol 11', qtd: 5, estado: 'Novo / Excelente', local: 'Carro da Direcção' }
       ],
       auditoria: [
         { id: '1', data: '2026-11-08 19:30', usuario: 'Eduardo Alfredo (Master)', acao: 'Abertura do Sistema FC Espanha' }
@@ -944,6 +984,43 @@
 
     function salvarDados() {
       localStorage.setItem('FC_ESPANHA_STATE', JSON.stringify(APP_STATE));
+    }
+
+    function renderizarBandeiras() {
+      const conteudo = APP_STATE.config.bandeiraCustom 
+        ? `<img src="${APP_STATE.config.bandeiraCustom}" class="emblema-img" alt="Bandeira do Clube">` 
+        : gerarBandeiraEspanhaPadrao();
+
+      document.getElementById('box-emblema-portal').innerHTML = conteudo;
+      document.getElementById('box-emblema-topo').innerHTML = conteudo;
+    }
+
+    function acionarUploadBandeira() {
+      document.getElementById('input-upload-bandeira').click();
+    }
+
+    function processarUploadBandeira(e) {
+      const file = e.target.files[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = function(evt) {
+        APP_STATE.config.bandeiraCustom = evt.target.result;
+        salvarDados();
+        renderizarBandeiras();
+        registrarAuditoria('Atualizou a imagem/bandeira principal do clube');
+        mostrarAviso('Bandeira do clube atualizada com sucesso!');
+      };
+      reader.readAsDataURL(file);
+    }
+
+    function restaurarBandeiraPadrao() {
+      if (confirm('Deseja restaurar a bandeira oficial da Espanha em vetor?')) {
+        APP_STATE.config.bandeiraCustom = null;
+        salvarDados();
+        renderizarBandeiras();
+        mostrarAviso('Bandeira original restaurada com sucesso!');
+      }
     }
 
     function registrarAuditoria(acao) {
@@ -976,11 +1053,19 @@
     // Processamento de Autenticação
     function submeterLoginJogadorPortal() {
       const cod = document.getElementById('inp-codigo-portal').value.trim().toUpperCase();
+      const senha = document.getElementById('inp-senha-jogador-portal').value.trim();
+
       const atleta = APP_STATE.jogadores.find(j => j.codigo.toUpperCase() === cod);
       if (!atleta) {
-        mostrarAviso('Código de jogador não encontrado! Verifique com a Direcção.', false);
+        mostrarAviso('Código de atleta não encontrado!', false);
         return;
       }
+
+      if (atleta.senha && atleta.senha !== senha) {
+        mostrarAviso('Senha ou PIN incorreto para este atleta!', false);
+        return;
+      }
+
       USUARIO_ATUAL = { tipo: 'jogador', atleta, nome: atleta.nome, cargo: 'Atleta do Plantel' };
       iniciarSessao();
     }
@@ -1032,10 +1117,12 @@
       const isJogador = USUARIO_ATUAL.tipo === 'jogador';
 
       document.getElementById('tab-config').style.display = isMaster ? 'inline-block' : 'none';
-      document.getElementById('btn-engrenagem').style.display = isMaster ? 'inline-block' : 'none';
       document.getElementById('tab-jogador').style.display = isJogador ? 'inline-block' : 'none';
 
-      // Controlar permissões visuais
+      // Botão de editar bandeira no topo visível apenas para directores / master
+      const btnBandeiraTopo = document.getElementById('btn-alterar-bandeira-topo');
+      if (btnBandeiraTopo) btnBandeiraTopo.style.display = isJogador ? 'none' : 'inline-flex';
+
       const botoesCriacao = ['btn-novo-anuncio', 'btn-novo-jogador', 'btn-registar-quota', 'btn-nova-movimentacao', 'btn-novo-jogo', 'btn-nova-infracao', 'btn-novo-item'];
       const bloqueado = APP_STATE.config.bloqueioGeral && !isMaster;
 
@@ -1064,6 +1151,7 @@
         document.getElementById('plataforma-conteudo').style.display = 'none';
         document.getElementById('tela-login-portal').style.display = 'flex';
         document.getElementById('inp-codigo-portal').value = '';
+        document.getElementById('inp-senha-jogador-portal').value = '';
         document.getElementById('inp-senha-admin-portal').value = '';
         document.getElementById('inp-senha-master-portal').value = '';
       }
@@ -1082,9 +1170,6 @@
       });
     }
 
-    // ==========================================
-    // RENDERIZADORES & CÁLCULOS
-    // ==========================================
     function formatarKz(v) {
       return (Number(v) || 0).toLocaleString('pt-AO') + ' Kz';
     }
@@ -1131,7 +1216,6 @@
       document.getElementById('barra-receita').style.width = pctRec + '%';
       document.getElementById('txt-proporcao-fin').innerText = `${pctDesp}% Despesas / ${pctRec}% Receitas`;
 
-      // Tabelas do Painel
       const tbJogos = document.getElementById('tb-jogos-painel');
       tbJogos.innerHTML = APP_STATE.jogos.slice(-3).reverse().map(j => `
         <tr>
@@ -1165,22 +1249,60 @@
       `).join('') || '<p style="color:#666; font-size:12px;">Nenhum comunicado publicado até ao momento.</p>';
     }
 
+    // ==========================================
+    // ENVIO DE LINK E SENHA VIA WHATSAPP
+    // ==========================================
+    function enviarWhatsAppAcesso(id) {
+      const j = APP_STATE.jogadores.find(x => x.id === id);
+      if (!j) return;
+
+      const urlPlataforma = window.location.href.split('#')[0];
+      const texto = `⚽ *FC ESPANHA - PORTAL OFICIAL*\n\n` +
+                    `Olá *${j.nome}*, aqui estão os teus dados de acesso à plataforma do clube:\n\n` +
+                    `🌐 *Link de Acesso:* ${urlPlataforma}\n` +
+                    `🆔 *Código de Atleta:* ${j.codigo}\n` +
+                    `🔑 *Sua Senha / PIN:* ${j.senha || '1234'}\n\n` +
+                    `Aceda para acompanhar quotas, convocações, comunicados e estatísticas de jogo!`;
+
+      const numLimpo = (j.telefone || '').replace(/\D/g, '');
+
+      let link = '';
+      if (numLimpo.length >= 9) {
+        link = `https://api.whatsapp.com/send?phone=${numLimpo}&text=${encodeURIComponent(texto)}`;
+      } else {
+        // Sem número de telefone: abre partilha direta para que o administrador envie ao contacto que desejar
+        link = `https://api.whatsapp.com/send?text=${encodeURIComponent(texto)}`;
+      }
+
+      window.open(link, '_blank');
+      registrarAuditoria(`Enviou credenciais WhatsApp para ${j.nome}`);
+    }
+
     function renderizarTabelaJogadores() {
       const q = (document.getElementById('filtro-busca-jogador').value || '').toLowerCase();
       const tb = document.getElementById('tb-plantel');
-      const filtrados = APP_STATE.jogadores.filter(j => j.nome.toLowerCase().includes(q) || j.posicao.toLowerCase().includes(q) || j.codigo.toLowerCase().includes(q));
+      const filtrados = APP_STATE.jogadores.filter(j => 
+        j.nome.toLowerCase().includes(q) || 
+        j.posicao.toLowerCase().includes(q) || 
+        j.codigo.toLowerCase().includes(q)
+      );
 
       const podeEditar = USUARIO_ATUAL && USUARIO_ATUAL.tipo !== 'jogador' && (!APP_STATE.config.bloqueioGeral || USUARIO_ATUAL.tipo === 'master');
 
       tb.innerHTML = filtrados.map(j => `
         <tr>
           <td><div class="foto-atleta">${j.camisola}</div></td>
-          <td><span style="color:#E5A93C; font-weight:bold;">${j.codigo}</span></td>
+          <td>
+            <b style="color:#E5A93C;">${j.codigo}</b><br>
+            <span style="font-size:11px; color:#34D399; font-weight:bold;">PIN: ${j.senha || '1234'}</span>
+          </td>
           <td><b>${j.nome}</b></td>
           <td>${j.posicao}</td>
-          <td>#${j.camisola}</td>
-          <td>${j.telefone}</td>
+          <td>${j.telefone ? `<span style="color:#DDD;">${j.telefone}</span>` : `<span style="color:#64748B; font-style:italic;">Sem contacto</span>`}</td>
           <td><span class="badge-status badge-${j.status}">${j.status.toUpperCase()}</span></td>
+          <td>
+            <button class="btn btn-wpp" style="padding:4px 8px; font-size:10px;" onclick="enviarWhatsAppAcesso('${j.id}')">📲 Enviar Acesso</button>
+          </td>
           <td>
             ${podeEditar ? `
               <button class="btn btn-dark" style="padding:4px 8px; font-size:10px;" onclick="editarJogador('${j.id}')">✏️</button>
@@ -1188,7 +1310,7 @@
             ` : '<span style="color:#666;">-</span>'}
           </td>
         </tr>
-      `).join('') || '<tr><td colspan="8" style="text-align:center; color:#666;">Nenhum jogador encontrado.</td></tr>';
+      `).join('') || '<tr><td colspan="8" style="text-align:center; color:#666;">Nenhum jogador registado.</td></tr>';
     }
 
     function renderizarQuotas() {
@@ -1314,7 +1436,8 @@
       document.getElementById('jog-status-perfil').innerText = j.status.toUpperCase();
       document.getElementById('jog-status-perfil').className = `badge-status badge-${j.status}`;
       document.getElementById('jog-codigo-perfil').innerText = j.codigo;
-      document.getElementById('jog-telefone-perfil').innerText = j.telefone || 'Não registado';
+      document.getElementById('jog-senha-perfil').innerText = j.senha || '1234';
+      document.getElementById('jog-telefone-perfil').innerText = j.telefone || 'Sem telefone registado';
       document.getElementById('jog-ingresso-perfil').innerText = j.dataIngresso || '2023';
 
       document.getElementById('jog-stat-jogos').innerText = j.jogos || 0;
@@ -1323,9 +1446,6 @@
       document.getElementById('jog-stat-quotas').innerText = formatarKz(j.quotas || 0);
     }
 
-    // ==========================================
-    // OPERAÇÕES MODAIS E CRUD
-    // ==========================================
     function fecharModais() {
       document.querySelectorAll('.modal-box').forEach(m => m.style.display = 'none');
     }
@@ -1334,6 +1454,7 @@
       document.getElementById('modal-jogador-titulo').innerText = 'Registar Novo Jogador';
       document.getElementById('jog-id').value = '';
       document.getElementById('m-jog-nome').value = '';
+      document.getElementById('m-jog-senha').value = Math.floor(1000 + Math.random() * 9000); // PIN aleatório de 4 dígitos
       document.getElementById('m-jog-numero').value = '';
       document.getElementById('m-jog-telefone').value = '';
       document.getElementById('modal-jogador').style.display = 'flex';
@@ -1345,9 +1466,10 @@
       document.getElementById('modal-jogador-titulo').innerText = 'Editar Jogador';
       document.getElementById('jog-id').value = j.id;
       document.getElementById('m-jog-nome').value = j.nome;
+      document.getElementById('m-jog-senha').value = j.senha || '1234';
       document.getElementById('m-jog-pos').value = j.posicao;
       document.getElementById('m-jog-numero').value = j.camisola;
-      document.getElementById('m-jog-telefone').value = j.telefone;
+      document.getElementById('m-jog-telefone').value = j.telefone || '';
       document.getElementById('m-jog-status').value = j.status;
       document.getElementById('modal-jogador').style.display = 'flex';
     }
@@ -1355,9 +1477,10 @@
     function guardarJogador() {
       const id = document.getElementById('jog-id').value;
       const nome = document.getElementById('m-jog-nome').value.trim();
+      const senha = document.getElementById('m-jog-senha').value.trim() || '1234';
       const pos = document.getElementById('m-jog-pos').value;
       const num = document.getElementById('m-jog-numero').value || '0';
-      const tel = document.getElementById('m-jog-telefone').value.trim();
+      const tel = document.getElementById('m-jog-telefone').value.trim(); // Telefone Opcional
       const st = document.getElementById('m-jog-status').value;
 
       if (!nome) { alert('Introduza o nome do jogador!'); return; }
@@ -1365,14 +1488,15 @@
       if (id) {
         const j = APP_STATE.jogadores.find(x => x.id === id);
         if (j) {
-          j.nome = nome; j.posicao = pos; j.camisola = num; j.telefone = tel; j.status = st;
-          registrarAuditoria(`Editou a ficha de ${nome}`);
+          j.nome = nome; j.senha = senha; j.posicao = pos; j.camisola = num; j.telefone = tel; j.status = st;
+          registrarAuditoria(`Atualizou a ficha de ${nome}`);
         }
       } else {
         const proximoNum = (APP_STATE.jogadores.length + 1).toString().padStart(3, '0');
         const novo = {
           id: Date.now().toString(),
           codigo: `FCE-${proximoNum}`,
+          senha: senha,
           nome, posicao: pos, camisola: num, telefone: tel, status: st,
           jogos: 0, golos: 0, assist: 0, quotas: 0,
           dataIngresso: new Date().toISOString().split('T')[0]
@@ -1384,7 +1508,7 @@
       salvarDados();
       fecharModais();
       atualizarTodasAsAbas();
-      mostrarAviso('Ficha do jogador gravada com sucesso!');
+      mostrarAviso('Atleta gravado com sucesso! A senha está visível na tabela.');
     }
 
     function eliminarJogador(id) {
@@ -1456,7 +1580,7 @@
       registrarAuditoria(`Recebeu ${formatarKz(valor)} de quota de ${atleta.nome}`);
       fecharModais();
       atualizarTodasAsAbas();
-      mostrarAviso('Quota registada e adicionada ao fluxo de caixa!');
+      mostrarAviso('Quota registada com sucesso!');
     }
 
     function abrirModalMovimento() {
@@ -1484,7 +1608,7 @@
       registrarAuditoria(`Registo financeiro: ${tipo} de ${formatarKz(val)} (${desc})`);
       fecharModais();
       atualizarTodasAsAbas();
-      mostrarAviso('Movimentação guardada com sucesso!');
+      mostrarAviso('Movimentação guardada!');
     }
 
     function abrirModalJogo() {
@@ -1502,7 +1626,7 @@
       const campo = document.getElementById('m-jog-campo').value.trim();
       const res = document.getElementById('m-jog-res').value.trim() || 'A Realizar';
 
-      if (!adv) { alert('Indique a equipa adversária!'); return; }
+      if (!adv) { alert('Indique o adversário!'); return; }
 
       APP_STATE.jogos.unshift({
         id: Date.now().toString(),
@@ -1540,7 +1664,7 @@
       });
 
       salvarDados();
-      registrarAuditoria(`Aplicou multa de ${formatarKz(mult)} a ${atleta.nome}`);
+      registrarAuditoria(`Multa de ${formatarKz(mult)} aplicada a ${atleta.nome}`);
       fecharModais();
       renderizarDisciplina();
       mostrarAviso('Infração disciplinar registada!');
@@ -1584,14 +1708,14 @@
       });
 
       salvarDados();
-      registrarAuditoria(`Adicionou material ao inventário: ${item} (Qtd: ${qtd})`);
+      registrarAuditoria(`Adicionou ao património: ${item} (Qtd: ${qtd})`);
       fecharModais();
       renderizarPatrimonio();
-      mostrarAviso('Item adicionado ao património!');
+      mostrarAviso('Item adicionado ao inventário!');
     }
 
     // ==========================================
-    // RELATÓRIOS OFICIAIS A4
+    // RELATÓRIOS OFICIAIS FORMATO A4
     // ==========================================
     function gerarRelatorio(tipo) {
       const el = document.getElementById('conteudo-relatorio-impresso');
@@ -1600,11 +1724,11 @@
       if (tipo === 'plantel') {
         el.innerHTML = `
           <h3 style="text-align:center; margin-bottom:12px;">RELATÓRIO OFICIAL DO PLANTEL DE JOGADORES</h3>
-          <p><b>Data de Emissão:</b> ${hoje} | <b>Total de Atletas:</b> ${APP_STATE.jogadores.length}</p>
+          <p><b>Data de Emissão:</b> ${hoje} | <b>Total de Atletas:</b> ${APP_STATE.jogadores.length} | <b>Local:</b> Luanda</p>
           <table>
-            <thead><tr><th>Cód</th><th>Nome</th><th>Posição</th><th>Nº</th><th>Contacto</th><th>Status</th></tr></thead>
+            <thead><tr><th>Cód</th><th>Senha/PIN</th><th>Nome</th><th>Posição</th><th>Nº</th><th>Contacto</th><th>Status</th></tr></thead>
             <tbody>
-              ${APP_STATE.jogadores.map(j => `<tr><td>${j.codigo}</td><td>${j.nome}</td><td>${j.posicao}</td><td>${j.camisola}</td><td>${j.telefone}</td><td>${j.status.toUpperCase()}</td></tr>`).join('')}
+              ${APP_STATE.jogadores.map(j => `<tr><td>${j.codigo}</td><td><b>${j.senha || '1234'}</b></td><td>${j.nome}</td><td>${j.posicao}</td><td>${j.camisola}</td><td>${j.telefone || 'Sem número'}</td><td>${j.status.toUpperCase()}</td></tr>`).join('')}
             </tbody>
           </table>
         `;
@@ -1613,7 +1737,7 @@
         let desp = APP_STATE.movimentos.filter(m => m.tipo === 'Despesa').reduce((a, b) => a + Number(b.valor), 0);
         el.innerHTML = `
           <h3 style="text-align:center; margin-bottom:12px;">BALANÇO FINANCEIRO OFICIAL DA ÉPOCA</h3>
-          <p><b>Data:</b> ${hoje} | <b>Saldo Actual:</b> ${formatarKz(rec - desp)}</p>
+          <p><b>Data:</b> ${hoje} | <b>Saldo Actual:</b> ${formatarKz(rec - desp)} | <b>Local:</b> Luanda</p>
           <p><b>Total Receitas:</b> ${formatarKz(rec)} | <b>Total Despesas:</b> ${formatarKz(desp)}</p>
           <table>
             <thead><tr><th>Data</th><th>Tipo</th><th>Descrição</th><th>Valor</th><th>Responsável</th></tr></thead>
@@ -1625,7 +1749,7 @@
       } else if (tipo === 'disciplinar') {
         el.innerHTML = `
           <h3 style="text-align:center; margin-bottom:12px;">MAPA DE DISCIPLINA & SANÇÕES</h3>
-          <p><b>Data:</b> ${hoje}</p>
+          <p><b>Data:</b> ${hoje} | <b>Local:</b> Luanda</p>
           <table>
             <thead><tr><th>Data</th><th>Jogador</th><th>Infração</th><th>Multa</th><th>Estado</th></tr></thead>
             <tbody>
@@ -1636,7 +1760,7 @@
       } else if (tipo === 'patrimonio') {
         el.innerHTML = `
           <h3 style="text-align:center; margin-bottom:12px;">INVENTÁRIO OFICIAL DO PATRIMÓNIO</h3>
-          <p><b>Data:</b> ${hoje}</p>
+          <p><b>Data:</b> ${hoje} | <b>Local:</b> Luanda</p>
           <table>
             <thead><tr><th>Material</th><th>Quantidade</th><th>Estado</th><th>Localização</th></tr></thead>
             <tbody>
@@ -1688,8 +1812,7 @@
 
     // Inicialização da Página
     window.addEventListener('DOMContentLoaded', () => {
-      document.getElementById('box-emblema-portal').innerHTML = gerarEmblemaSVG();
-      document.getElementById('box-emblema-topo').innerHTML = gerarEmblemaSVG();
+      renderizarBandeiras();
       salvarDados();
     });
   </script>
