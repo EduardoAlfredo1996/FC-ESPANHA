@@ -5,12 +5,35 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>FC ESPANHA – Gestão Desportiva Integrada</title>
+  <title>FC ESPANHA – Portal Oficial</title>
 
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif; }
     body { background-color: #070B19; color: #F3F4F6; padding: 14px; min-height: 100vh; }
-    
+
+    /* ================= TELA DE ENTRADA / PORTAL INICIAL ================= */
+    #tela-login-portal {
+      min-height: 90vh; display: flex; align-items: center; justify-content: center; padding: 12px;
+    }
+    .card-login-portal {
+      background: linear-gradient(180deg, #101B3B 0%, #0B132B 100%);
+      border: 1px solid #1E2E5C; border-radius: 16px; padding: 24px 20px;
+      width: 100%; max-width: 440px; box-shadow: 0 10px 30px rgba(0,0,0,0.7); text-align: center;
+    }
+    .box-emblema-portal-grande {
+      width: 90px; height: 110px; margin: 0 auto 12px auto; display: flex; align-items: center; justify-content: center;
+    }
+    .seletor-portal-tabs {
+      display: flex; gap: 4px; background: #070B19; padding: 4px; border-radius: 8px; margin: 18px 0 16px 0; border: 1px solid #1E2D56;
+    }
+    .seletor-portal-tabs button {
+      flex: 1; padding: 8px 4px; border: none; background: transparent; color: #94A3B8; font-size: 11px; font-weight: bold; border-radius: 6px; cursor: pointer; transition: 0.2s;
+    }
+    .seletor-portal-tabs button.active {
+      background: #E5A93C; color: black; box-shadow: 0 2px 8px rgba(229,169,60,0.3);
+    }
+
+    /* ================= PLATAFORMA INTERNA ================= */
     .topo {
       background: linear-gradient(180deg, #101B3B 0%, #0B132B 100%);
       border: 1px solid #1E2E5C; border-radius: 12px; padding: 12px 18px;
@@ -67,12 +90,17 @@
     th { color: #E5A93C; font-weight: bold; font-size: 11px; text-transform: uppercase; }
 
     .foto-atleta { width: 40px; height: 40px; border-radius: 50%; object-fit: cover; border: 2px solid #E5A93C; background: #1E2D56; }
-    .foto-perfil-card { width: 85px; height: 85px; border-radius: 12px; object-fit: cover; border: 2px solid #E5A93C; }
+    
+    /* FOTO DE ALTA DEFINIÇÃO DETALHADA DO ATLETA */
+    .foto-perfil-detalhada {
+      width: 130px; height: 130px; border-radius: 14px; object-fit: cover;
+      border: 3px solid #E5A93C; box-shadow: 0 4px 18px rgba(229,169,60,0.35); background: #070B19;
+    }
 
     .aviso { background: #064E3B; border: 1px solid #10B981; color: #ECFDF5; padding: 8px 12px; border-radius: 6px; font-size: 12px; font-weight: bold; margin-bottom: 12px; display: none; }
     
     .modal-box { position: fixed; inset: 0; background: rgba(0,0,0,0.85); display: flex; align-items: center; justify-content: center; padding: 16px; z-index: 1000; }
-    .modal-corpo { background: #0D1630; border: 1px solid #233870; border-radius: 10px; padding: 18px; width: 100%; max-width: 480px; max-height: 90vh; overflow-y: auto; }
+    .modal-corpo { background: #0D1630; border: 1px solid #233870; border-radius: 10px; padding: 18px; width: 100%; max-width: 470px; max-height: 90vh; overflow-y: auto; }
     .campo { margin-bottom: 12px; }
     .campo label { display: block; font-size: 10px; color: #94A3B8; font-weight: bold; margin-bottom: 4px; text-transform: uppercase; }
     .campo input, .campo select, .campo textarea { width: 100%; padding: 8px; background: #131E3D; border: 1px solid #233870; color: white; border-radius: 6px; font-size: 12px; }
@@ -88,7 +116,6 @@
       padding-top: 12px; border-top: 1px solid #1E2D56;
     }
 
-    /* ESTILO DE IMPRESSÃO EM PDF / A4 */
     @media print {
       .no-print { display: none !important; }
       body { background: white !important; color: black !important; padding: 0; margin: 0; }
@@ -104,550 +131,612 @@
 
   <div id="msg-aviso" class="aviso"></div>
 
-  <!-- TOPO INSTITUCIONAL -->
-  <div class="topo no-print">
-    <div style="display:flex; align-items:center; gap:10px;">
-      <div id="box-emblema-topo" style="width:36px; height:46px;"></div>
-      <div>
-        <h1 style="font-size:15px; font-weight:900; letter-spacing:1px; color:#FFFFFF;">FC ESPANHA</h1>
-        <p style="font-size:10px; color:#94A3B8;">Plataforma Integrada de Gestão Desportiva • Luanda, Angola</p>
-        <div id="indicador-nuvem" class="status-nuvem" style="color:#34D399;" onclick="sincronizarComSupabase()">🟢 Nuvem Segura (Sincronizada)</div>
-      </div>
-    </div>
-    
-    <div style="display:flex; align-items:center; gap:8px;">
-      <div style="text-align:right;">
-        <p id="txt-nome" style="font-size:12px; font-weight:bold;">Eduardo Ferreira Alfredo</p>
-        <p id="txt-cargo" style="font-size:10px; color:#E5A93C; font-weight:bold;">👑 Desenvolvedor Master (Controlo Total)</p>
-      </div>
-      <button id="btn-engrenagem" class="btn btn-dark" style="font-size:14px; padding:6px 10px;" title="Configurações Master" onclick="abrirAba('config')">⚙️</button>
-    </div>
-  </div>
-
-  <!-- CANAL OFICIAL DO WHATSAPP -->
-  <div class="box-grupo-wpp no-print">
-    <div style="display:flex; align-items:center; gap:8px;">
-      <span style="font-size:18px;">💬</span>
-      <div>
-        <b style="color:#10B981; font-size:12px;">Canal Oficial do FC ESPANHA via WhatsApp</b>
-        <p style="font-size:10px; color:#DDD;">Comunicados, avisos e integração de todo o plantel.</p>
-      </div>
-    </div>
-    <a href="https://chat.whatsapp.com/EL7l6c0bDG39g17uGR53IV?s=cl&p=a&iam=2" target="_blank" class="btn btn-wpp" style="font-size:11px;">
-      📲 Aceder ao Grupo Oficial
-    </a>
-  </div>
-
-  <!-- AVISO DE BLOQUEIO DE ADMINS -->
-  <div id="box-aviso-bloqueio" class="box-bloqueio-aviso no-print" style="display:none;">
-    <div style="display:flex; align-items:center; gap:8px;">
-      <span style="font-size:18px;">🔒</span>
-      <div>
-        <b style="color:#EF4444; font-size:12px;">OPERAÇÕES ADMINISTRATIVAS BLOQUEADAS</b>
-        <p style="font-size:10px; color:#CCC;">O Desenvolvedor Master / Administrador Principal ativou o bloqueio. Os administradores adicionais estão em modo de leitura.</p>
-      </div>
-    </div>
-  </div>
-
-  <!-- SELETOR DE PERFIS AUTORIZADOS -->
-  <div id="box-selector-perfis" style="background:#0D1630; border:1px solid #1E2D56; border-radius:8px; padding:6px 10px; margin-bottom:12px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:6px;" class="no-print">
-    <span style="font-size:11px; color:#94A3B8; font-weight:bold;">SESSÃO ACTIVA:</span>
-    <div style="display:flex; gap:6px; flex-wrap:wrap;">
-      <button id="btn-perfil-dev" class="btn btn-gold" onclick="entrarComoMaster()">👑 Eduardo (Master)</button>
-      <button id="btn-perfil-adm-princ" class="btn btn-dark" onclick="solicitarAcessoAdminPrincipal()">⭐ Admin Principal</button>
-      <button id="btn-perfil-adm1" class="btn btn-dark" onclick="solicitarAcessoAdmin('adm1')">🛡️ Admin 1</button>
-      <button id="btn-perfil-adm2" class="btn btn-dark" onclick="solicitarAcessoAdmin('adm2')">🛡️ Admin 2</button>
-      <button id="btn-perfil-adm3" class="btn btn-dark" onclick="solicitarAcessoAdmin('adm3')">🛡️ Admin 3</button>
-      <button id="btn-perfil-jogador" class="btn btn-dark" onclick="loginExclusivoAtleta()">⚽ Área do Jogador</button>
-    </div>
-  </div>
-
-  <!-- MENU DE NAVEGAÇÃO COMPLETO -->
-  <div id="box-menu-navegacao" class="menu-nav no-print">
-    <button id="tab-painel" class="active" onclick="abrirAba('painel')">📊 Painel Geral</button>
-    <button id="tab-anuncios" onclick="abrirAba('anuncios')">📢 Comunicados</button>
-    <button id="tab-plantel" onclick="abrirAba('plantel')">👥 Plantel de Jogadores</button>
-    <button id="tab-financas" onclick="abrirAba('financas')">💰 Quotas Dominicais</button>
-    <button id="tab-receitas-despesas" onclick="abrirAba('receitas-despesas')">💳 Receitas & Despesas</button>
-    <button id="tab-jogos" onclick="abrirAba('jogos')">⚽ Jogos & Resultados</button>
-    <button id="tab-estatisticas" onclick="abrirAba('estatisticas')">📈 Estatísticas & Artilharia</button>
-    <button id="tab-disciplina" onclick="abrirAba('disciplina')">⚖️ Disciplina</button>
-    <button id="tab-patrimonio" onclick="abrirAba('patrimonio')">📦 Património</button>
-    <button id="tab-admins" onclick="abrirAba('admins')">🛡️ Administradores & Auditoria</button>
-    <button id="tab-relatorio" onclick="abrirAba('relatorio')">📄 Documentos & Relatórios</button>
-    <button id="tab-jogador" style="display:none;" onclick="abrirAba('jogador')">⚽ Minha Área de Atleta</button>
-    <button id="tab-config" onclick="abrirAba('config')">⚙️ Configurações Master</button>
-  </div>
-
-  <!-- 1. PAINEL PRINCIPAL -->
-  <div id="aba-painel" class="no-print">
-    <div class="card">
-      <div class="grid-stats">
-        <div class="stat-box"><p>Jogadores Activos</p><h3 id="stat-plantel-activos" style="color:#10B981;">0</h3></div>
-        <div class="stat-box"><p>Jogadores Inactivos</p><h3 id="stat-plantel-inactivos" style="color:#94A3B8;">0</h3></div>
-        <div class="stat-box"><p>Saldo em Caixa</p><h3 id="stat-saldo" style="color:#34D399;">0,00 Kz</h3></div>
-        <div class="stat-box"><p>Total Receitas</p><h3 id="stat-receitas" style="color:#60A5FA;">0,00 Kz</h3></div>
-        <div class="stat-box"><p>Total Despesas</p><h3 id="stat-despesas" style="color:#F87171;">0,00 Kz</h3></div>
-        <div class="stat-box"><p>Quotas Recebidas</p><h3 id="stat-quotas-total" style="color:#FBBF24;">0,00 Kz</h3></div>
-      </div>
-
-      <div style="background:#101B3B; border:1px solid #203366; border-radius:8px; padding:12px; margin-bottom:14px;">
-        <div style="display:flex; justify-content:space-between; font-size:11px; margin-bottom:6px;">
-          <span>Balanço Financeiro Global</span>
-          <span id="txt-proporcao-fin">0% Despesas / 100% Saldo</span>
-        </div>
-        <div style="width:100%; height:10px; background:#1E2D56; border-radius:5px; overflow:hidden; display:flex;">
-          <div id="barra-receita" style="width:100%; background:#10B981; height:100%;"></div>
-          <div id="barra-despesa" style="width:0%; background:#EF4444; height:100%;"></div>
-        </div>
-      </div>
-
-      <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(280px, 1fr)); gap:12px;">
-        <div>
-          <h3 style="font-size:12px; color:#E5A93C; font-weight:bold; text-transform:uppercase; margin-bottom:6px;">Últimos Jogos Oficiais:</h3>
-          <table>
-            <thead><tr><th>Confronto</th><th>Competição</th><th>Estado / Resultado</th></tr></thead>
-            <tbody id="tb-jogos-painel"></tbody>
-          </table>
-        </div>
-        <div>
-          <h3 style="font-size:12px; color:#E5A93C; font-weight:bold; text-transform:uppercase; margin-bottom:6px;">Últimos Movimentos Financeiros:</h3>
-          <table>
-            <thead><tr><th>Data</th><th>Tipo</th><th>Descrição</th><th>Valor (Kz)</th></tr></thead>
-            <tbody id="tb-movimentos-painel"></tbody>
-          </table>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- 2. COMUNICADOS -->
-  <div id="aba-anuncios" style="display:none;" class="no-print">
-    <div class="card">
-      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
-        <div>
-          <h2 style="font-size:15px; font-weight:bold; color:#E5A93C;">📢 Mural de Comunicados da Direcção</h2>
-          <p style="font-size:10px; color:#94A3B8;">Avisos oficiais para atletas e equipa técnica.</p>
-        </div>
-        <button id="btn-novo-anuncio" class="btn btn-red" onclick="abrirModalAnuncio()">+ Publicar Comunicado</button>
-      </div>
-      <div id="lista-anuncios"></div>
-    </div>
-  </div>
-
-  <!-- 3. PLANTEL DE JOGADORES -->
-  <div id="aba-plantel" style="display:none;" class="no-print">
-    <div class="card">
-      <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px; margin-bottom:12px;">
-        <div>
-          <h2 style="font-size:15px; font-weight:bold;">Plantel Sénior & Fichas de Atletas</h2>
-          <p style="font-size:10px; color:#94A3B8;">Registo oficial com proteção contra cadastros duplicados.</p>
-        </div>
-        <div style="display:flex; gap:6px; flex-wrap:wrap;">
-          <button class="btn btn-blue" onclick="exportarPlantelExcel()">📊 Exportar Excel</button>
-          <button class="btn btn-gold" onclick="gerarPDFPlantel()">📄 Baixar Plantel em PDF</button>
-          <button id="btn-cadastrar-jogador" class="btn btn-red" onclick="abrirModalJogador()">+ Cadastrar Atleta</button>
-        </div>
-      </div>
-
-      <div style="background:#101B3B; border:1px solid #1E2D56; border-radius:8px; padding:10px; margin-bottom:12px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">
-        <div style="display:flex; gap:6px; flex-wrap:wrap; align-items:center;">
-          <input type="text" id="inp-busca-jogador" placeholder="🔍 Pesquisar por Nome ou Camisola..." style="padding:6px 10px; background:#070B19; border:1px solid #233870; color:white; border-radius:6px; font-size:11px; width:220px;" oninput="desenhar()">
-          <select id="sel-posicao-plantel" style="padding:6px; background:#070B19; border:1px solid #233870; color:white; border-radius:6px; font-size:11px;" onchange="desenhar()">
-            <option value="todas">Todas as Posições</option>
-            <option value="Guarda-Redes">Guarda-Redes</option>
-            <option value="Defesa">Defesas</option>
-            <option value="Médio">Médios</option>
-            <option value="Avançado">Avançados</option>
-          </select>
-          <select id="sel-situacao-plantel" style="padding:6px; background:#070B19; border:1px solid #233870; color:white; border-radius:6px; font-size:11px;" onchange="desenhar()">
-            <option value="todas">Todas as Situações</option>
-            <option value="Activo">Activos</option>
-            <option value="Lesionado">Lesionados</option>
-            <option value="Suspenso">Suspensos</option>
-            <option value="Inactivo">Inactivos</option>
-          </select>
-        </div>
-
-        <div style="display:flex; align-items:center; gap:6px;">
-          <label style="font-size:11px; color:#E5A93C; font-weight:bold;">Ordenar:</label>
-          <select id="sel-ordem-plantel" style="padding:6px; background:#070B19; border:1px solid #233870; color:white; border-radius:6px; font-size:11px;" onchange="desenhar()">
-            <option value="camisola">Camisola (Crescente)</option>
-            <option value="alfabetica">Nome (A - Z)</option>
-            <option value="idade_velho">Idade (Mais Velho)</option>
-            <option value="idade_novo">Idade (Mais Jovem)</option>
-            <option value="golos">Mais Golos</option>
-            <option value="assistencias">Mais Assistências</option>
-            <option value="entrada_recente">Admissão Recente</option>
-          </select>
-        </div>
-      </div>
-
-      <table>
-        <thead>
-          <tr>
-            <th>Foto</th>
-            <th>Nº</th>
-            <th>Nome do Jogador</th>
-            <th>Posição</th>
-            <th>Idade</th>
-            <th>Admissão</th>
-            <th>Situação</th>
-            <th>Golos</th>
-            <th>Assist.</th>
-            <th>Código</th>
-            <th>Acções</th>
-          </tr>
-        </thead>
-        <tbody id="tb-plantel"></tbody>
-      </table>
-    </div>
-  </div>
-
-  <!-- 4. QUOTAS DOMINICAIS -->
-  <div id="aba-financas" style="display:none;" class="no-print">
-    <div class="box-express">
-      <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;">
-        <div>
-          <span style="background:#E5A93C; color:black; font-weight:bold; font-size:10px; padding:2px 6px; border-radius:4px; text-transform:uppercase;">📅 Quotas Dominicais Oficiais</span>
-          <h3 style="font-size:15px; font-weight:bold; margin-top:6px; color:#FFFFFF;">
-            1. Multicaixa Express: <span style="color:#E5A93C; font-size:18px;">935 523 498</span> | 2. Em Cash (Dinheiro Vivo)
-          </h3>
-          <p style="font-size:11px; color:#CCC; margin-top:3px;">
-            📌 Pagamento semanal impreterivelmente a todos os domingos via Express ou em mão ao Tesoureiro.
-          </p>
-        </div>
-        <div style="display:flex; gap:6px; flex-wrap:wrap;">
-          <button class="btn btn-blue" onclick="exportarQuotasExcel()">📊 Quotas em Excel</button>
-          <button class="btn btn-gold" onclick="gerarPDFFinanceiro()">📄 Balanço em PDF</button>
-        </div>
-      </div>
-    </div>
-
-    <div class="card" style="border:1px solid #E5A93C;">
-      <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px; margin-bottom:10px;">
-        <div>
-          <h3 style="font-size:14px; font-weight:bold; color:#E5A93C;">🔍 Controlo de Quotas da Semana</h3>
-          <p style="font-size:10px; color:#94A3B8;">Acompanhe quem liquidou e quem se encontra em falta no período.</p>
-        </div>
-        <div style="display:flex; gap:6px; align-items:center;">
-          <input type="text" id="filtro-domingo-ref" style="padding:6px; background:#070B19; border:1px solid #233870; color:#FFF; border-radius:6px; font-size:11px; width:170px;" onchange="filtrarControleQuotas()">
-          <button class="btn btn-gold" onclick="filtrarControleQuotas()">Atualizar</button>
-        </div>
-      </div>
-
-      <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap:12px;">
-        <div style="background:#091E18; border:1px solid #10B981; border-radius:8px; padding:10px;">
-          <h4 style="color:#10B981; font-size:12px; font-weight:bold; margin-bottom:6px;">✅ Quotas Liquidadas (<span id="qtd-pagos">0</span>)</h4>
-          <div id="lista-atletas-pagos" style="font-size:11px; max-height:220px; overflow-y:auto;"></div>
-        </div>
-
-        <div style="background:#220D12; border:1px solid #EF4444; border-radius:8px; padding:10px;">
-          <h4 style="color:#EF4444; font-size:12px; font-weight:bold; margin-bottom:6px;">❌ Quotas Pendentes / Em Falta (<span id="qtd-pendentes">0</span>)</h4>
-          <div id="lista-atletas-pendentes" style="font-size:11px; max-height:220px; overflow-y:auto;"></div>
-        </div>
-      </div>
-    </div>
-
-    <div class="card">
-      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
-        <div><h2 style="font-size:15px; font-weight:bold;">Livro de Registo de Quotas & Recibos Oficiais</h2><p style="font-size:10px; color:#94A3B8;">Moeda: Kwanza (Kz)</p></div>
-        <button id="btn-liquidar-quota" class="btn btn-gold" onclick="abrirModalLiquidarQuota()">+ Liquidar Quota Dominical</button>
-      </div>
-      <table>
-        <thead><tr><th>Nº Recibo</th><th>Atleta</th><th>Período</th><th>Valor</th><th>Modalidade</th><th>Responsável</th><th>Recibo</th></tr></thead>
-        <tbody id="tb-quotas"></tbody>
-      </table>
-    </div>
-  </div>
-
-  <!-- 5. RECEITAS & DESPESAS -->
-  <div id="aba-receitas-despesas" style="display:none;" class="no-print">
-    <div class="card">
-      <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px; margin-bottom:12px;">
-        <div>
-          <h2 style="font-size:15px; font-weight:bold;">Tesouraria • Receitas & Despesas Detalhadas</h2>
-          <p style="font-size:10px; color:#94A3B8;">Registo discriminado com categorias e cálculo automático de saldo.</p>
-        </div>
-        <div style="display:flex; gap:6px; flex-wrap:wrap;">
-          <button class="btn btn-blue" onclick="exportarFinanceiroExcel()">📊 Exportar Balanço Excel</button>
-          <button class="btn btn-gold" onclick="lancarDoacao()">+ Registar Receita / Patrocínio</button>
-          <button class="btn btn-red" onclick="abrirModalDespesa()">+ Registar Despesa</button>
-        </div>
-      </div>
-
-      <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(320px, 1fr)); gap:14px;">
-        <div>
-          <h3 style="color:#10B981; font-size:13px; font-weight:bold; margin-bottom:6px;">📈 Outras Receitas & Patrocínios</h3>
-          <table>
-            <thead><tr><th>Origem</th><th>Categoria</th><th>Descrição</th><th>Valor</th><th>Data</th></tr></thead>
-            <tbody id="tb-doacoes"></tbody>
-          </table>
-        </div>
-
-        <div>
-          <h3 style="color:#EF4444; font-size:13px; font-weight:bold; margin-bottom:6px;">📉 Despesas Operacionais</h3>
-          <table>
-            <thead><tr><th>Categoria</th><th>Descrição</th><th>Valor</th><th>Data</th><th>Autor</th></tr></thead>
-            <tbody id="tb-despesas-detalhe"></tbody>
-          </table>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- 6. JOGOS & RESULTADOS -->
-  <div id="aba-jogos" style="display:none;" class="no-print">
-    <div class="card">
-      <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px; margin-bottom:10px;">
-        <div>
-          <h2 style="font-size:15px; font-weight:bold;">Jogos Oficiais, Confrontos & Resultados</h2>
-          <p style="font-size:10px; color:#94A3B8;">Agendamento de partidas e validação oficial de marcadores e assistentes.</p>
-        </div>
-        <div style="display:flex; gap:6px;">
-          <button class="btn btn-blue" onclick="exportarJogosExcel()">📊 Exportar Jogos Excel</button>
-          <button id="btn-novo-jogo" class="btn btn-red" onclick="abrirModalJogo()">+ Agendar / Registar Jogo</button>
-        </div>
-      </div>
-      <table>
-        <thead><tr><th>Data / Hora</th><th>Adversário</th><th>Competição</th><th>Local</th><th>Estado</th><th>Resultado</th><th>Marcadores</th><th>Acções</th></tr></thead>
-        <tbody id="tb-jogos"></tbody>
-      </table>
-    </div>
-  </div>
-
-  <!-- 7. ESTATÍSTICAS -->
-  <div id="aba-estatisticas" style="display:none;" class="no-print">
-    <div class="card">
-      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
-        <div>
-          <h2 style="font-size:15px; font-weight:bold; color:#E5A93C;">📈 Estatísticas Oficiais & Classificação de Desempenho</h2>
-          <p style="font-size:10px; color:#94A3B8;">Acompanhamento individual: Jogos disputados, golos e assistências validados.</p>
-        </div>
-        <button class="btn btn-gold" onclick="gerarPDFDesempenho()">📄 Baixar Estatísticas em PDF</button>
-      </div>
-      <table>
-        <thead><tr><th>Class.</th><th>Foto</th><th>Camisola</th><th>Nome do Atleta</th><th>Posição</th><th>Jogos</th><th>Golos ⚽</th><th>Assistências 👟</th></tr></thead>
-        <tbody id="tb-estatisticas-ranking"></tbody>
-      </table>
-    </div>
-  </div>
-
-  <!-- 8. DISCIPLINA -->
-  <div id="aba-disciplina" style="display:none;" class="no-print">
-    <div class="card">
-      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
-        <div>
-          <h2 style="font-size:15px; font-weight:bold;">Registo Disciplinar & Ocorrências</h2>
-          <p style="font-size:10px; color:#94A3B8;">Faltas injustificadas, atrasos e sanções disciplinares.</p>
-        </div>
-        <button id="btn-nova-infracao" class="btn btn-red" onclick="abrirModalDisciplina()">+ Registar Ocorrência</button>
-      </div>
-      <table>
-        <thead><tr><th>Atleta</th><th>Data</th><th>Infração</th><th>Descrição</th><th>Medida Aplicada</th></tr></thead>
-        <tbody id="tb-disciplina"></tbody>
-      </table>
-    </div>
-  </div>
-
-  <!-- 9. PATRIMÓNIO -->
-  <div id="aba-patrimonio" style="display:none;" class="no-print">
-    <div class="card">
-      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
-        <div>
-          <h2 style="font-size:15px; font-weight:bold; color:#E5A93C;">📦 Património & Materiais do FC ESPANHA</h2>
-          <p style="font-size:10px; color:#94A3B8;">Inventário geral de bolas, coletes, equipamentos e bens do clube.</p>
-        </div>
-        <button id="btn-novo-item-pat" class="btn btn-gold" onclick="abrirModalPatrimonio()">+ Registar Material</button>
-      </div>
-      <table>
-        <thead><tr><th>Material / Equipamento</th><th>Qtd. Total</th><th>Disponíveis</th><th>Estado</th></tr></thead>
-        <tbody id="tb-patrimonio"></tbody>
-      </table>
-    </div>
-  </div>
-
-  <!-- 10. ADMINS & AUDITORIA -->
-  <div id="aba-admins" style="display:none;" class="no-print">
-    <div class="card">
-      <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-bottom:14px; border-bottom:1px solid #1E2D56; padding-bottom:10px;">
-        <div>
-          <span style="font-size:10px; color:#34D399; font-weight:bold;">CONTROLO HIERÁRQUICO • DESENVOLVEDOR MASTER & ADMIN PRINCIPAL</span>
-          <h2 style="font-size:15px; font-weight:bold;">Os 3 Administradores Adicionais & Bloqueio Operacional</h2>
-          <p style="font-size:11px; color:#94A3B8;">Gestão de autorizações, senhas individuais e envio de acessos via WhatsApp.</p>
-        </div>
-        <button id="btn-toggle-bloqueio" class="btn" onclick="alternarBloqueioAdmins()"></button>
-      </div>
-      <div id="box-admins"></div>
-    </div>
-
-    <div class="card">
-      <div style="margin-bottom:8px;">
-        <span style="font-size:10px; color:#E5A93C; font-weight:bold;">AUDITORIA & RESPONSABILIZAÇÃO DE OPERAÇÕES</span>
-        <h3 style="font-size:14px; font-weight:bold;">Livro de Rastreabilidade Administrativa</h3>
-        <p style="font-size:11px; color:#94A3B8;">Registo automático de operações financeiras e cadastrais com identificação do autor, data e hora.</p>
-      </div>
-      <table>
-        <thead><tr><th>Data / Hora</th><th>Responsável</th><th>Perfil</th><th>Operação Efetuada</th></tr></thead>
-        <tbody id="tb-auditoria"></tbody>
-      </table>
-    </div>
-  </div>
-
-  <!-- 11. CENTRO DE RELATÓRIOS (PDF & EXCEL) -->
-  <div id="aba-relatorio" style="display:none;" class="no-print">
-    <div class="card">
-      <h2 style="font-size:16px; font-weight:bold; color:#E5A93C; margin-bottom:4px;">📄 Centro de Emissão de Documentos e Relatórios</h2>
-      <p style="font-size:11px; color:#94A3B8; margin-bottom:16px;">Documentos formatados para folha A4 com carimbo institucional e exportação para folhas de cálculo Excel:</p>
+  <!-- ========================================================================= -->
+  <!-- 1. TELA DE ENTRADA / PORTAL OFICIAL DE ACESSO (EXIBIDA AO ABRIR O LINK)   -->
+  <!-- ========================================================================= -->
+  <div id="tela-login-portal">
+    <div class="card-login-portal">
+      <!-- Imagem do Clube na Tela de Entrada -->
+      <div id="box-emblema-portal" class="box-emblema-portal-grande"></div>
       
-      <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(240px, 1fr)); gap:12px;">
-        <div style="background:#101B3B; border:1px solid #203366; border-radius:8px; padding:14px; text-align:center;">
-          <h3 style="font-size:13px; font-weight:bold; color:#FFF; margin-bottom:4px;">👥 Lista Nominal do Plantel</h3>
-          <p style="font-size:10px; color:#94A3B8; margin-bottom:10px;">Ficha oficial com fotos, antiguidade, camisolas e assinaturas institucionais.</p>
-          <div style="display:flex; gap:6px; justify-content:center;">
-            <button class="btn btn-gold" onclick="gerarPDFPlantel()">📄 PDF</button>
-            <button class="btn btn-blue" onclick="exportarPlantelExcel()">📊 Excel</button>
-          </div>
-        </div>
+      <h1 style="font-size:22px; font-weight:900; letter-spacing:1px; color:#FFFFFF; margin:0;">FC ESPANHA</h1>
+      <p style="font-size:11px; color:#E5A93C; font-weight:bold; margin-top:2px;">Plataforma Integrada de Gestão Desportiva</p>
+      <p style="font-size:10px; color:#94A3B8; margin-top:2px;">Luanda • República de Angola</p>
 
-        <div style="background:#101B3B; border:1px solid #203366; border-radius:8px; padding:14px; text-align:center;">
-          <h3 style="font-size:13px; font-weight:bold; color:#34D399; margin-bottom:4px;">💰 Balanço da Tesouraria</h3>
-          <p style="font-size:10px; color:#94A3B8; margin-bottom:10px;">Receitas, despesas discriminadas, saldo líquido e quotas dominicais.</p>
-          <div style="display:flex; gap:6px; justify-content:center;">
-            <button class="btn btn-gold" onclick="gerarPDFFinanceiro()">📄 PDF</button>
-            <button class="btn btn-blue" onclick="exportarFinanceiroExcel()">📊 Excel</button>
-          </div>
-        </div>
+      <!-- Seletor dos 3 Perfis de Entrada -->
+      <div class="seletor-portal-tabs">
+        <button id="btn-tab-jogador" class="active" onclick="alternarFormLogin('jogador')">⚽ Jogador</button>
+        <button id="btn-tab-admin" onclick="alternarFormLogin('admin')">🛡️ Administração</button>
+        <button id="btn-tab-master" onclick="alternarFormLogin('master')">👑 Desenvolvedor</button>
+      </div>
 
-        <div style="background:#101B3B; border:1px solid #203366; border-radius:8px; padding:14px; text-align:center;">
-          <h3 style="font-size:13px; font-weight:bold; color:#F87171; margin-bottom:4px;">⚽ Desempenho & Artilharia</h3>
-          <p style="font-size:10px; color:#94A3B8; margin-bottom:10px;">Golos, assistências, partidas realizadas e registo de disciplina da época.</p>
-          <div style="display:flex; gap:6px; justify-content:center;">
-            <button class="btn btn-gold" onclick="gerarPDFDesempenho()">📄 PDF</button>
-            <button class="btn btn-blue" onclick="exportarJogosExcel()">📊 Excel</button>
-          </div>
+      <!-- Formulário 1: Acesso do Jogador -->
+      <div id="form-login-jogador">
+        <p style="font-size:11px; color:#CCC; margin-bottom:10px;">Introduza o seu código exclusivo recebido via WhatsApp:</p>
+        <div class="campo">
+          <input type="text" id="inp-codigo-portal" placeholder="Ex: FCE-4821" style="text-align:center; font-size:14px; font-weight:bold; letter-spacing:1px; text-transform:uppercase;">
         </div>
+        <button class="btn btn-gold" style="width:100%; justify-content:center; padding:10px; font-size:12px;" onclick="submeterLoginJogadorPortal()">⚽ Entrar na Minha Área</button>
+      </div>
+
+      <!-- Formulário 2: Acesso Administrativo -->
+      <div id="form-login-admin" style="display:none;">
+        <p style="font-size:11px; color:#CCC; margin-bottom:10px;">Selecione o cargo e introduza a sua senha/PIN:</p>
+        <div class="campo">
+          <select id="sel-cargo-portal">
+            <option value="adm_princ">⭐ Administrador Principal</option>
+            <option value="adm1">🛡️ Administrador 1</option>
+            <option value="adm2">🛡️ Administrador 2</option>
+            <option value="adm3">🛡️ Administrador 3</option>
+          </select>
+        </div>
+        <div class="campo">
+          <input type="password" id="inp-senha-admin-portal" placeholder="Introduza a Senha ou PIN...">
+        </div>
+        <button class="btn btn-gold" style="width:100%; justify-content:center; padding:10px; font-size:12px;" onclick="submeterLoginAdminPortal()">⭐ Entrar na Administração</button>
+      </div>
+
+      <!-- Formulário 3: Acesso Desenvolvedor Master -->
+      <div id="form-login-master" style="display:none;">
+        <p style="font-size:11px; color:#CCC; margin-bottom:10px;">Acesso de Controlo Total e Infraestrutura:</p>
+        <div class="campo">
+          <input type="password" id="inp-senha-master-portal" placeholder="Introduza a Senha Mestre...">
+        </div>
+        <button class="btn btn-gold" style="width:100%; justify-content:center; padding:10px; font-size:12px;" onclick="submeterLoginMasterPortal()">👑 Entrar como Desenvolvedor</button>
+      </div>
+
+      <div style="margin-top:20px; font-size:10px; color:#64748B; border-top:1px solid #1E2E5C; padding-top:10px;">
+        Desenvolvido por Eduardo Ferreira Alfredo • FC ESPANHA
       </div>
     </div>
   </div>
 
-  <!-- 12. ÁREA EXCLUSIVA DO ATLETA (ISOLADA) -->
-  <div id="aba-jogador" style="display:none;" class="no-print">
-    <div class="box-express">
-      <span style="background:#E5A93C; color:black; font-weight:bold; font-size:10px; padding:2px 6px; border-radius:4px; text-transform:uppercase;">📅 Quotas Dominicais • 2 Modalidades de Pagamento</span>
-      <h3 style="font-size:15px; font-weight:bold; margin-top:6px; color:#FFFFFF;">
-        1. Express: <span style="color:#E5A93C; font-size:17px;">935 523 498</span> | 2. Em Cash (Dinheiro Vivo)
-      </h3>
-      <p style="font-size:11px; color:#DDD; margin-top:3px;">
-        Paga a tua quota semanal por <b>Multicaixa Express (935 523 498)</b> ou <b>em Cash (Dinheiro Vivo)</b> diretamente ao Tesoureiro no campo.
-      </p>
-      <div style="margin-top:10px;">
-        <a id="btn-wpp-enviar-comp" href="https://wa.me/244935523498" target="_blank" class="btn btn-wpp">
-          📲 Notificar Pagamento no WhatsApp
-        </a>
-      </div>
-    </div>
+  <!-- ========================================================================= -->
+  <!-- 2. PLATAFORMA INTERNA (SÓ FICA VISÍVEL DEPOIS DE COLOCAR O ACESSO)        -->
+  <!-- ========================================================================= -->
+  <div id="plataforma-conteudo" style="display:none;">
 
-    <div style="display:flex; gap:8px; margin-bottom:14px; flex-wrap:wrap;">
-      <a id="btn-comunicar-saude" href="#" target="_blank" class="btn btn-red" style="font-size:11px; padding:10px 14px;">
-        🏥 Comunicar Lesão ou Doença à Direcção
-      </a>
-      <button class="btn btn-dark" onclick="solicitarAlteracaoDados()">
-        📝 Solicitar Alteração de Dados Pessoais
-      </button>
-      <button class="btn btn-gold" onclick="gerarPDFFichaAtleta()">
-        🖨️ Imprimir Minha Ficha Oficial em PDF
-      </button>
-    </div>
-
-    <div class="card" style="border-color:#E5A93C; display:flex; align-items:center; gap:16px;">
-      <img id="atleta-foto-box" class="foto-perfil-card" src="">
-      <div>
-        <span style="color:#E5A93C; font-size:10px; font-weight:bold;">MEU PERFIL OFICIAL • FC ESPANHA</span>
-        <h2 style="font-size:18px; font-weight:bold; margin-top:2px;" id="atleta-nome">Atleta</h2>
-        <p style="font-size:11px; color:#94A3B8;" id="atleta-desc"></p>
-        <p style="font-size:11px; color:#34D399; font-weight:bold; margin-top:4px;" id="atleta-stats-box">⚽ 0 Golos | 👟 0 Assistências</p>
-        <p style="font-size:10px; color:#AAA; margin-top:2px;">No clube desde: <b id="atleta-entrada-box" style="color:#FFF;">--</b> | Credencial: <code id="atleta-cred-box" style="color:#E5A93C;"></code></p>
-      </div>
-    </div>
-
-    <div class="card">
-      <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid #1E2D56; padding-bottom:8px; margin-bottom:10px;">
-        <h3 style="font-size:13px; color:#E5A93C; font-weight:bold; text-transform:uppercase;">Meu Histórico Individual de Quotas Pagas</h3>
-        <span id="atleta-val-total" style="color:#34D399; font-weight:bold; font-size:14px;">Total Liquidado: 0,00 Kz</span>
-      </div>
-      <table>
-        <thead><tr><th>Nº Recibo</th><th>Semana / Período</th><th>Valor</th><th>Modalidade</th><th>Recibo Digital</th></tr></thead>
-        <tbody id="tb-historico-atleta"></tbody>
-      </table>
-    </div>
-
-    <div class="card">
-      <h3 style="font-size:13px; color:#E5A93C; font-weight:bold; text-transform:uppercase; margin-bottom:8px;">Meu Histórico Disciplinar</h3>
-      <table>
-        <thead><tr><th>Data</th><th>Infração</th><th>Descrição</th><th>Medida Aplicada</th></tr></thead>
-        <tbody id="tb-disciplina-atleta"></tbody>
-      </table>
-    </div>
-
-    <div class="card">
-      <h3 style="font-size:13px; color:#E5A93C; font-weight:bold; text-transform:uppercase; margin-bottom:8px;">Bens e Materiais do Clube</h3>
-      <table>
-        <thead><tr><th>Material</th><th>Total</th><th>Disponível</th><th>Estado</th></tr></thead>
-        <tbody id="tb-patrimonio-atleta"></tbody>
-      </table>
-    </div>
-  </div>
-
-  <!-- 13. CONFIGURAÇÕES & FERRAMENTAS MASTER -->
-  <div id="aba-config" style="display:none;" class="no-print">
-    <div class="card">
-      <div style="margin-bottom:14px; border-bottom:1px solid #1E2D56; padding-bottom:8px;">
-        <h2 style="font-size:16px; font-weight:bold; color:#E5A93C;">⚙️ Ferramentas & Configurações da Plataforma</h2>
-        <p style="font-size:11px; color:#94A3B8;">Gestão exclusiva do Desenvolvedor Master: Eduardo Ferreira Alfredo</p>
-      </div>
-
-      <div style="background:#101B3B; border:1px solid #203366; border-radius:8px; padding:14px; margin-bottom:14px;">
-        <h4 style="font-size:12px; font-weight:bold; color:#E5A93C; margin-bottom:4px; text-transform:uppercase;">🔑 Senhas Mestres e Administrativas:</h4>
-        <div style="display:flex; gap:8px; flex-wrap:wrap; margin-top:8px;">
-          <button class="btn btn-gold" onclick="alterarSenhaMaster()">Alterar Minha Senha Master</button>
-          <button class="btn btn-dark" onclick="alterarSenhaAdminPrincipal()">Definir Senha Admin Principal</button>
-        </div>
-      </div>
-
-      <div style="background:#101B3B; border:1px solid #203366; border-radius:8px; padding:14px; margin-bottom:14px;">
-        <h4 style="font-size:12px; font-weight:bold; color:#34D399; margin-bottom:4px; text-transform:uppercase;">💾 Cópia de Segurança Local (Backup JSON):</h4>
-        <p style="font-size:11px; color:#CCC; margin-bottom:10px;">Descarrega os dados do clube para o teu computador ou restaura a partir de um ficheiro:</p>
-        <div style="display:flex; gap:8px; flex-wrap:wrap;">
-          <button class="btn btn-gold" onclick="descarregarBackup()">⬇️ Descarregar Backup Local (.JSON)</button>
-          <label class="btn btn-dark" style="cursor:pointer;">
-            ⬆️ Restaurar Backup JSON <input type="file" accept=".json" onchange="restaurarBackup(this)" style="display:none;">
-          </label>
-        </div>
-      </div>
-
-      <div style="background:#101B3B; border:1px solid #203366; border-radius:8px; padding:14px; margin-bottom:14px;">
-        <h4 style="font-size:12px; font-weight:bold; color:#E5A93C; margin-bottom:4px; text-transform:uppercase;">Fotografia / Emblema Oficial do FC ESPANHA:</h4>
-        <p style="font-size:11px; color:#CCC; margin-bottom:10px;">Carregue o logótipo oficial do clube:</p>
-        <div style="display:flex; align-items:center; gap:10px; flex-wrap:wrap;">
-          <input type="file" id="inp-foto-clube" accept="image/*" onchange="trocarFotoClube(this)" style="font-size:11px;">
-          <button class="btn btn-dark" onclick="restaurarEmblemaClube()">Restaurar Emblema Original</button>
-        </div>
-      </div>
-
-      <div style="background:rgba(179,19,23,0.25); border:2px solid #B31317; border-radius:8px; padding:12px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">
+    <!-- Topo da Plataforma com Imagem do Clube e Botão Terminar Sessão -->
+    <div class="topo no-print">
+      <div style="display:flex; align-items:center; gap:10px;">
+        <!-- Imagem do Clube no Topo da Plataforma -->
+        <div id="box-emblema-topo" style="width:36px; height:46px;"></div>
         <div>
-          <h4 style="color:#F87171; font-size:13px; font-weight:bold;">🗑️ REINICIAR / ZERAR BASE DE DADOS</h4>
-          <p style="font-size:11px; color:#DDD; margin-top:2px;">Apaga os registos atuais no Supabase e na memória local.</p>
+          <h1 style="font-size:15px; font-weight:900; letter-spacing:1px; color:#FFFFFF;">FC ESPANHA</h1>
+          <p style="font-size:10px; color:#94A3B8;">Plataforma Oficial • Luanda, Angola</p>
+          <div id="indicador-nuvem" class="status-nuvem" style="color:#34D399;" onclick="sincronizarComSupabase()">🟢 Base de Dados Operacional</div>
         </div>
-        <button class="btn btn-red" onclick="limparTudoDefinitivo()">Zerar Todos os Dados</button>
+      </div>
+      
+      <div style="display:flex; align-items:center; gap:8px;">
+        <div style="text-align:right;">
+          <p id="txt-nome" style="font-size:12px; font-weight:bold;">Utilizador</p>
+          <p id="txt-cargo" style="font-size:10px; color:#E5A93C; font-weight:bold;">Sessão Ativa</p>
+        </div>
+        <button id="btn-engrenagem" class="btn btn-dark" style="font-size:14px; padding:6px 10px;" title="Configurações Master" onclick="abrirAba('config')">⚙️</button>
+        <button class="btn btn-red" style="font-size:10px; padding:6px 10px;" title="Terminar Sessão e Voltar ao Início" onclick="terminarSessao()">🚪 Sair</button>
       </div>
     </div>
-  </div>
 
-  <div class="rodape-oficial no-print">
-    Desenvolvido por Eduardo Ferreira Alfredo • FC ESPANHA
-  </div>
+    <!-- Canal Oficial WhatsApp -->
+    <div class="box-grupo-wpp no-print">
+      <div style="display:flex; align-items:center; gap:8px;">
+        <span style="font-size:18px;">💬</span>
+        <div>
+          <b style="color:#10B981; font-size:12px;">Canal Oficial do FC ESPANHA via WhatsApp</b>
+          <p style="font-size:10px; color:#DDD;">Comunicados, avisos e integração de todo o plantel.</p>
+        </div>
+      </div>
+      <a href="https://chat.whatsapp.com/EL7l6c0bDG39g17uGR53IV?s=cl&p=a&iam=2" target="_blank" class="btn btn-wpp" style="font-size:11px;">
+        📲 Aceder ao Grupo Oficial
+      </a>
+    </div>
+
+    <!-- Aviso de Bloqueio -->
+    <div id="box-aviso-bloqueio" class="box-bloqueio-aviso no-print" style="display:none;">
+      <div style="display:flex; align-items:center; gap:8px;">
+        <span style="font-size:18px;">🔒</span>
+        <div>
+          <b style="color:#EF4444; font-size:12px;">OPERAÇÕES ADMINISTRATIVAS BLOQUEADAS</b>
+          <p style="font-size:10px; color:#CCC;">O Desenvolvedor Master / Administrador Principal ativou o bloqueio. Os administradores adicionais estão em modo de leitura.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- MENU DE NAVEGAÇÃO INTERNO -->
+    <div id="box-menu-navegacao" class="menu-nav no-print">
+      <button id="tab-painel" class="active" onclick="abrirAba('painel')">📊 Painel Geral</button>
+      <button id="tab-anuncios" onclick="abrirAba('anuncios')">📢 Comunicados</button>
+      <button id="tab-plantel" onclick="abrirAba('plantel')">👥 Plantel de Jogadores</button>
+      <button id="tab-financas" onclick="abrirAba('financas')">💰 Quotas Dominicais</button>
+      <button id="tab-receitas-despesas" onclick="abrirAba('receitas-despesas')">💳 Receitas & Despesas</button>
+      <button id="tab-jogos" onclick="abrirAba('jogos')">⚽ Jogos & Resultados</button>
+      <button id="tab-estatisticas" onclick="abrirAba('estatisticas')">📈 Estatísticas & Artilharia</button>
+      <button id="tab-disciplina" onclick="abrirAba('disciplina')">⚖️ Disciplina</button>
+      <button id="tab-patrimonio" onclick="abrirAba('patrimonio')">📦 Património</button>
+      <button id="tab-admins" onclick="abrirAba('admins')">🛡️ Administradores & Auditoria</button>
+      <button id="tab-relatorio" onclick="abrirAba('relatorio')">📄 Documentos & Relatórios</button>
+      <button id="tab-jogador" style="display:none;" onclick="abrirAba('jogador')">⚽ Minha Área de Atleta</button>
+      <button id="tab-config" onclick="abrirAba('config')">⚙️ Configurações Master</button>
+    </div>
+
+    <!-- 1. PAINEL PRINCIPAL -->
+    <div id="aba-painel" class="no-print">
+      <div class="card">
+        <div class="grid-stats">
+          <div class="stat-box"><p>Jogadores Activos</p><h3 id="stat-plantel-activos" style="color:#10B981;">0</h3></div>
+          <div class="stat-box"><p>Jogadores Inactivos</p><h3 id="stat-plantel-inactivos" style="color:#94A3B8;">0</h3></div>
+          <div class="stat-box"><p>Saldo em Caixa</p><h3 id="stat-saldo" style="color:#34D399;">0,00 Kz</h3></div>
+          <div class="stat-box"><p>Total Receitas</p><h3 id="stat-receitas" style="color:#60A5FA;">0,00 Kz</h3></div>
+          <div class="stat-box"><p>Total Despesas</p><h3 id="stat-despesas" style="color:#F87171;">0,00 Kz</h3></div>
+          <div class="stat-box"><p>Quotas Recebidas</p><h3 id="stat-quotas-total" style="color:#FBBF24;">0,00 Kz</h3></div>
+        </div>
+
+        <div style="background:#101B3B; border:1px solid #203366; border-radius:8px; padding:12px; margin-bottom:14px;">
+          <div style="display:flex; justify-content:space-between; font-size:11px; margin-bottom:6px;">
+            <span>Balanço Financeiro Global</span>
+            <span id="txt-proporcao-fin">0% Despesas / 100% Saldo</span>
+          </div>
+          <div style="width:100%; height:10px; background:#1E2D56; border-radius:5px; overflow:hidden; display:flex;">
+            <div id="barra-receita" style="width:100%; background:#10B981; height:100%;"></div>
+            <div id="barra-despesa" style="width:0%; background:#EF4444; height:100%;"></div>
+          </div>
+        </div>
+
+        <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(280px, 1fr)); gap:12px;">
+          <div>
+            <h3 style="font-size:12px; color:#E5A93C; font-weight:bold; text-transform:uppercase; margin-bottom:6px;">Últimos Jogos Oficiais:</h3>
+            <table>
+              <thead><tr><th>Confronto</th><th>Competição</th><th>Resultado</th></tr></thead>
+              <tbody id="tb-jogos-painel"></tbody>
+            </table>
+          </div>
+          <div>
+            <h3 style="font-size:12px; color:#E5A93C; font-weight:bold; text-transform:uppercase; margin-bottom:6px;">Últimos Movimentos Financeiros:</h3>
+            <table>
+              <thead><tr><th>Data</th><th>Tipo</th><th>Descrição</th><th>Valor (Kz)</th></tr></thead>
+              <tbody id="tb-movimentos-painel"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 2. COMUNICADOS -->
+    <div id="aba-anuncios" style="display:none;" class="no-print">
+      <div class="card">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+          <div>
+            <h2 style="font-size:15px; font-weight:bold; color:#E5A93C;">📢 Mural de Comunicados da Direcção</h2>
+            <p style="font-size:10px; color:#94A3B8;">Avisos oficiais para atletas e equipa técnica.</p>
+          </div>
+          <button id="btn-novo-anuncio" class="btn btn-red" onclick="abrirModalAnuncio()">+ Publicar Comunicado</button>
+        </div>
+        <div id="lista-anuncios"></div>
+      </div>
+    </div>
+
+    <!-- 3. PLANTEL DE JOGADORES -->
+    <div id="aba-plantel" style="display:none;" class="no-print">
+      <div class="card">
+        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px; margin-bottom:12px;">
+          <div>
+            <h2 style="font-size:15px; font-weight:bold;">Plantel Sénior & Fichas de Atletas</h2>
+            <p style="font-size:10px; color:#94A3B8;">Controlo completo de jogadores, antiguidade, golos e credenciais.</p>
+          </div>
+          <div style="display:flex; gap:6px; flex-wrap:wrap;">
+            <button class="btn btn-blue" onclick="exportarPlantelExcel()">📊 Exportar Excel</button>
+            <button class="btn btn-gold" onclick="gerarPDFPlantel()">📄 Baixar Plantel em PDF</button>
+            <button id="btn-cadastrar-jogador" class="btn btn-red" onclick="abrirModalJogador()">+ Cadastrar Atleta</button>
+          </div>
+        </div>
+
+        <div style="background:#101B3B; border:1px solid #1E2D56; border-radius:8px; padding:10px; margin-bottom:12px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">
+          <div style="display:flex; gap:6px; flex-wrap:wrap; align-items:center;">
+            <input type="text" id="inp-busca-jogador" placeholder="🔍 Pesquisar por Nome ou Camisola..." style="padding:6px 10px; background:#070B19; border:1px solid #233870; color:white; border-radius:6px; font-size:11px; width:220px;" oninput="desenhar()">
+            <select id="sel-posicao-plantel" style="padding:6px; background:#070B19; border:1px solid #233870; color:white; border-radius:6px; font-size:11px;" onchange="desenhar()">
+              <option value="todas">Todas as Posições</option>
+              <option value="Guarda-Redes">Guarda-Redes</option>
+              <option value="Defesa">Defesas</option>
+              <option value="Médio">Médios</option>
+              <option value="Avançado">Avançados</option>
+            </select>
+            <select id="sel-situacao-plantel" style="padding:6px; background:#070B19; border:1px solid #233870; color:white; border-radius:6px; font-size:11px;" onchange="desenhar()">
+              <option value="todas">Todas as Situações</option>
+              <option value="Activo">Activos</option>
+              <option value="Lesionado">Lesionados</option>
+              <option value="Suspenso">Suspensos</option>
+              <option value="Inactivo">Inactivos</option>
+            </select>
+          </div>
+
+          <div style="display:flex; align-items:center; gap:6px;">
+            <label style="font-size:11px; color:#E5A93C; font-weight:bold;">Ordenar:</label>
+            <select id="sel-ordem-plantel" style="padding:6px; background:#070B19; border:1px solid #233870; color:white; border-radius:6px; font-size:11px;" onchange="desenhar()">
+              <option value="camisola">Camisola (Crescente)</option>
+              <option value="alfabetica">Nome (A - Z)</option>
+              <option value="idade_velho">Idade (Mais Velho)</option>
+              <option value="idade_novo">Idade (Mais Jovem)</option>
+              <option value="golos">Mais Golos</option>
+              <option value="assistencias">Mais Assistências</option>
+              <option value="entrada_recente">Admissão Recente</option>
+            </select>
+          </div>
+        </div>
+
+        <table>
+          <thead>
+            <tr>
+              <th>Foto</th>
+              <th>Nº</th>
+              <th>Nome do Jogador</th>
+              <th>Posição</th>
+              <th>Idade</th>
+              <th>Admissão</th>
+              <th>Situação</th>
+              <th>Golos</th>
+              <th>Assist.</th>
+              <th>Código</th>
+              <th>Acções</th>
+            </tr>
+          </thead>
+          <tbody id="tb-plantel"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- 4. QUOTAS DOMINICAIS -->
+    <div id="aba-financas" style="display:none;" class="no-print">
+      <div class="box-express">
+        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;">
+          <div>
+            <span style="background:#E5A93C; color:black; font-weight:bold; font-size:10px; padding:2px 6px; border-radius:4px; text-transform:uppercase;">📅 Quotas Dominicais Oficiais</span>
+            <h3 style="font-size:15px; font-weight:bold; margin-top:6px; color:#FFFFFF;">
+              1. Multicaixa Express: <span style="color:#E5A93C; font-size:18px;">935 523 498</span> | 2. Em Cash (Dinheiro Vivo)
+            </h3>
+            <p style="font-size:11px; color:#CCC; margin-top:3px;">
+              📌 Pagamento semanal a todos os domingos via Express ou em mão ao Tesoureiro.
+            </p>
+          </div>
+          <div style="display:flex; gap:6px; flex-wrap:wrap;">
+            <button class="btn btn-blue" onclick="exportarQuotasExcel()">📊 Quotas em Excel</button>
+            <button class="btn btn-gold" onclick="gerarPDFFinanceiro()">📄 Balanço em PDF</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="card" style="border:1px solid #E5A93C;">
+        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px; margin-bottom:10px;">
+          <div>
+            <h3 style="font-size:14px; font-weight:bold; color:#E5A93C;">🔍 Controlo de Quotas da Semana</h3>
+            <p style="font-size:10px; color:#94A3B8;">Acompanhe quem liquidou e quem se encontra em falta no período.</p>
+          </div>
+          <div style="display:flex; gap:6px; align-items:center;">
+            <input type="text" id="filtro-domingo-ref" style="padding:6px; background:#070B19; border:1px solid #233870; color:#FFF; border-radius:6px; font-size:11px; width:170px;" onchange="filtrarControleQuotas()">
+            <button class="btn btn-gold" onclick="filtrarControleQuotas()">Atualizar</button>
+          </div>
+        </div>
+
+        <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap:12px;">
+          <div style="background:#091E18; border:1px solid #10B981; border-radius:8px; padding:10px;">
+            <h4 style="color:#10B981; font-size:12px; font-weight:bold; margin-bottom:6px;">✅ Quotas Liquidadas (<span id="qtd-pagos">0</span>)</h4>
+            <div id="lista-atletas-pagos" style="font-size:11px; max-height:220px; overflow-y:auto;"></div>
+          </div>
+
+          <div style="background:#220D12; border:1px solid #EF4444; border-radius:8px; padding:10px;">
+            <h4 style="color:#EF4444; font-size:12px; font-weight:bold; margin-bottom:6px;">❌ Quotas Pendentes / Em Falta (<span id="qtd-pendentes">0</span>)</h4>
+            <div id="lista-atletas-pendentes" style="font-size:11px; max-height:220px; overflow-y:auto;"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+          <div><h2 style="font-size:15px; font-weight:bold;">Livro de Registo de Quotas & Recibos Oficiais</h2><p style="font-size:10px; color:#94A3B8;">Moeda: Kwanza (Kz)</p></div>
+          <button id="btn-liquidar-quota" class="btn btn-gold" onclick="abrirModalLiquidarQuota()">+ Liquidar Quota Dominical</button>
+        </div>
+        <table>
+          <thead><tr><th>Nº Recibo</th><th>Atleta</th><th>Período</th><th>Valor</th><th>Modalidade</th><th>Responsável</th><th>Recibo</th></tr></thead>
+          <tbody id="tb-quotas"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- 5. RECEITAS & DESPESAS -->
+    <div id="aba-receitas-despesas" style="display:none;" class="no-print">
+      <div class="card">
+        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px; margin-bottom:12px;">
+          <div>
+            <h2 style="font-size:15px; font-weight:bold;">Tesouraria • Receitas & Despesas Detalhadas</h2>
+            <p style="font-size:10px; color:#94A3B8;">Registo discriminado com categorias e cálculo automático de saldo.</p>
+          </div>
+          <div style="display:flex; gap:6px; flex-wrap:wrap;">
+            <button class="btn btn-blue" onclick="exportarFinanceiroExcel()">📊 Exportar Balanço Excel</button>
+            <button class="btn btn-gold" onclick="lancarDoacao()">+ Registar Receita / Patrocínio</button>
+            <button class="btn btn-red" onclick="abrirModalDespesa()">+ Registar Despesa</button>
+          </div>
+        </div>
+
+        <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(320px, 1fr)); gap:14px;">
+          <div>
+            <h3 style="color:#10B981; font-size:13px; font-weight:bold; margin-bottom:6px;">📈 Outras Receitas & Patrocínios</h3>
+            <table>
+              <thead><tr><th>Origem</th><th>Categoria</th><th>Descrição</th><th>Valor</th><th>Data</th></tr></thead>
+              <tbody id="tb-doacoes"></tbody>
+            </table>
+          </div>
+
+          <div>
+            <h3 style="color:#EF4444; font-size:13px; font-weight:bold; margin-bottom:6px;">📉 Despesas Operacionais</h3>
+            <table>
+              <thead><tr><th>Categoria</th><th>Descrição</th><th>Valor</th><th>Data</th><th>Autor</th></tr></thead>
+              <tbody id="tb-despesas-detalhe"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 6. JOGOS & RESULTADOS -->
+    <div id="aba-jogos" style="display:none;" class="no-print">
+      <div class="card">
+        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px; margin-bottom:10px;">
+          <div>
+            <h2 style="font-size:15px; font-weight:bold;">Jogos Oficiais, Confrontos & Resultados</h2>
+            <p style="font-size:10px; color:#94A3B8;">Agendamento de partidas e validação oficial de marcadores e assistentes.</p>
+          </div>
+          <div style="display:flex; gap:6px;">
+            <button class="btn btn-blue" onclick="exportarJogosExcel()">📊 Exportar Jogos Excel</button>
+            <button id="btn-novo-jogo" class="btn btn-red" onclick="abrirModalJogo()">+ Agendar / Registar Jogo</button>
+          </div>
+        </div>
+        <table>
+          <thead><tr><th>Data / Hora</th><th>Adversário</th><th>Competição</th><th>Local</th><th>Estado</th><th>Resultado</th><th>Marcadores</th><th>Acções</th></tr></thead>
+          <tbody id="tb-jogos"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- 7. ESTATÍSTICAS -->
+    <div id="aba-estatisticas" style="display:none;" class="no-print">
+      <div class="card">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+          <div>
+            <h2 style="font-size:15px; font-weight:bold; color:#E5A93C;">📈 Estatísticas Oficiais & Classificação de Desempenho</h2>
+            <p style="font-size:10px; color:#94A3B8;">Acompanhamento individual: Jogos disputados, golos e assistências validados.</p>
+          </div>
+          <button class="btn btn-gold" onclick="gerarPDFDesempenho()">📄 Baixar Estatísticas em PDF</button>
+        </div>
+        <table>
+          <thead><tr><th>Class.</th><th>Foto</th><th>Camisola</th><th>Nome do Atleta</th><th>Posição</th><th>Jogos</th><th>Golos ⚽</th><th>Assistências 👟</th></tr></thead>
+          <tbody id="tb-estatisticas-ranking"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- 8. DISCIPLINA (SEM CARTÃO VERMELHO) -->
+    <div id="aba-disciplina" style="display:none;" class="no-print">
+      <div class="card">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+          <div>
+            <h2 style="font-size:15px; font-weight:bold;">Registo Disciplinar & Ocorrências</h2>
+            <p style="font-size:10px; color:#94A3B8;">Faltas injustificadas, atrasos e conduta.</p>
+          </div>
+          <button id="btn-nova-infracao" class="btn btn-red" onclick="abrirModalDisciplina()">+ Registar Ocorrência</button>
+        </div>
+        <table>
+          <thead><tr><th>Atleta</th><th>Data</th><th>Infração</th><th>Descrição</th><th>Medida Aplicada</th></tr></thead>
+          <tbody id="tb-disciplina"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- 9. PATRIMÓNIO -->
+    <div id="aba-patrimonio" style="display:none;" class="no-print">
+      <div class="card">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+          <div>
+            <h2 style="font-size:15px; font-weight:bold; color:#E5A93C;">📦 Património & Materiais do FC ESPANHA</h2>
+            <p style="font-size:10px; color:#94A3B8;">Inventário geral de bolas, coletes, equipamentos e bens do clube.</p>
+          </div>
+          <button id="btn-novo-item-pat" class="btn btn-gold" onclick="abrirModalPatrimonio()">+ Registar Material</button>
+        </div>
+        <table>
+          <thead><tr><th>Material / Equipamento</th><th>Qtd. Total</th><th>Disponíveis</th><th>Estado</th></tr></thead>
+          <tbody id="tb-patrimonio"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- 10. ADMINS & AUDITORIA -->
+    <div id="aba-admins" style="display:none;" class="no-print">
+      <div class="card">
+        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-bottom:14px; border-bottom:1px solid #1E2D56; padding-bottom:10px;">
+          <div>
+            <span style="font-size:10px; color:#34D399; font-weight:bold;">CONTROLO HIERÁRQUICO • DESENVOLVEDOR MASTER & ADMIN PRINCIPAL</span>
+            <h2 style="font-size:15px; font-weight:bold;">Os 3 Administradores Adicionais & Bloqueio Operacional</h2>
+            <p style="font-size:11px; color:#94A3B8;">Gestão de autorizações, senhas individuais e envio de acessos via WhatsApp.</p>
+          </div>
+          <button id="btn-toggle-bloqueio" class="btn" onclick="alternarBloqueioAdmins()"></button>
+        </div>
+        <div id="box-admins"></div>
+      </div>
+
+      <div class="card">
+        <div style="margin-bottom:8px;">
+          <span style="font-size:10px; color:#E5A93C; font-weight:bold;">AUDITORIA & RESPONSABILIZAÇÃO DE OPERAÇÕES</span>
+          <h3 style="font-size:14px; font-weight:bold;">Livro de Rastreabilidade Administrativa</h3>
+          <p style="font-size:11px; color:#94A3B8;">Registo automático de operações financeiras e cadastrais com identificação do autor, data e hora.</p>
+        </div>
+        <table>
+          <thead><tr><th>Data / Hora</th><th>Responsável</th><th>Perfil</th><th>Operação Efetuada</th></tr></thead>
+          <tbody id="tb-auditoria"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- 11. CENTRO DE RELATÓRIOS (PDF & EXCEL) -->
+    <div id="aba-relatorio" style="display:none;" class="no-print">
+      <div class="card">
+        <h2 style="font-size:16px; font-weight:bold; color:#E5A93C; margin-bottom:4px;">📄 Centro de Emissão de Documentos e Relatórios</h2>
+        <p style="font-size:11px; color:#94A3B8; margin-bottom:16px;">Documentos formatados para folha A4 com carimbo institucional e exportação para folhas de cálculo Excel:</p>
+        
+        <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(240px, 1fr)); gap:12px;">
+          <div style="background:#101B3B; border:1px solid #203366; border-radius:8px; padding:14px; text-align:center;">
+            <h3 style="font-size:13px; font-weight:bold; color:#FFF; margin-bottom:4px;">👥 Lista Nominal do Plantel</h3>
+            <p style="font-size:10px; color:#94A3B8; margin-bottom:10px;">Ficha oficial com fotos, antiguidade, camisolas e assinaturas institucionais.</p>
+            <div style="display:flex; gap:6px; justify-content:center;">
+              <button class="btn btn-gold" onclick="gerarPDFPlantel()">📄 PDF</button>
+              <button class="btn btn-blue" onclick="exportarPlantelExcel()">📊 Excel</button>
+            </div>
+          </div>
+
+          <div style="background:#101B3B; border:1px solid #203366; border-radius:8px; padding:14px; text-align:center;">
+            <h3 style="font-size:13px; font-weight:bold; color:#34D399; margin-bottom:4px;">💰 Balanço da Tesouraria</h3>
+            <p style="font-size:10px; color:#94A3B8; margin-bottom:10px;">Receitas, despesas discriminadas, saldo líquido e quotas dominicais.</p>
+            <div style="display:flex; gap:6px; justify-content:center;">
+              <button class="btn btn-gold" onclick="gerarPDFFinanceiro()">📄 PDF</button>
+              <button class="btn btn-blue" onclick="exportarFinanceiroExcel()">📊 Excel</button>
+            </div>
+          </div>
+
+          <div style="background:#101B3B; border:1px solid #203366; border-radius:8px; padding:14px; text-align:center;">
+            <h3 style="font-size:13px; font-weight:bold; color:#F87171; margin-bottom:4px;">⚽ Desempenho & Artilharia</h3>
+            <p style="font-size:10px; color:#94A3B8; margin-bottom:10px;">Golos, assistências, partidas realizadas e registo de disciplina da época.</p>
+            <div style="display:flex; gap:6px; justify-content:center;">
+              <button class="btn btn-gold" onclick="gerarPDFDesempenho()">📄 PDF</button>
+              <button class="btn btn-blue" onclick="exportarJogosExcel()">📊 Excel</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 12. ÁREA EXCLUSIVA DO ATLETA (COM FOTO DETALHADA E FICHA PESSOAL) -->
+    <div id="aba-jogador" style="display:none;" class="no-print">
+      <div class="box-express">
+        <span style="background:#E5A93C; color:black; font-weight:bold; font-size:10px; padding:2px 6px; border-radius:4px; text-transform:uppercase;">📅 Quotas Dominicais • 2 Modalidades de Pagamento</span>
+        <h3 style="font-size:15px; font-weight:bold; margin-top:6px; color:#FFFFFF;">
+          1. Express: <span style="color:#E5A93C; font-size:17px;">935 523 498</span> | 2. Em Cash (Dinheiro Vivo)
+        </h3>
+        <p style="font-size:11px; color:#DDD; margin-top:3px;">
+          Paga a tua quota semanal por <b>Multicaixa Express (935 523 498)</b> ou <b>em Cash (Dinheiro Vivo)</b> diretamente ao Tesoureiro no campo.
+        </p>
+        <div style="margin-top:10px;">
+          <a id="btn-wpp-enviar-comp" href="https://wa.me/244935523498" target="_blank" class="btn btn-wpp">
+            📲 Notificar Pagamento no WhatsApp
+          </a>
+        </div>
+      </div>
+
+      <div style="display:flex; gap:8px; margin-bottom:14px; flex-wrap:wrap;">
+        <a id="btn-comunicar-saude" href="#" target="_blank" class="btn btn-red" style="font-size:11px; padding:10px 14px;">
+          🏥 Comunicar Lesão ou Doença à Direcção
+        </a>
+        <button class="btn btn-dark" onclick="solicitarAlteracaoDados()">
+          📝 Solicitar Alteração de Dados Pessoais
+        </button>
+        <button class="btn btn-gold" onclick="gerarPDFFichaAtleta()">
+          🖨️ Imprimir Minha Ficha Oficial em PDF
+        </button>
+      </div>
+
+      <!-- FOTOGRAFIA DE ALTA DEFINIÇÃO E FICHA DETALHADA DO JOGADOR -->
+      <div class="card" style="border-color:#E5A93C; display:flex; align-items:center; gap:20px; flex-wrap:wrap;">
+        <img id="atleta-foto-box" class="foto-perfil-detalhada" src="">
+        <div style="flex:1; min-width:240px;">
+          <div style="display:flex; align-items:center; gap:8px;">
+            <span style="color:#E5A93C; font-size:11px; font-weight:bold; text-transform:uppercase;">FICHA OFICIAL DO JOGADOR</span>
+            <span id="atleta-badge-situacao" class="badge-status badge-ativo">Activo</span>
+          </div>
+          <h2 style="font-size:22px; font-weight:900; margin:4px 0; color:#FFFFFF;" id="atleta-nome">Atleta</h2>
+          <p style="font-size:12px; color:#E5A93C; font-weight:bold;" id="atleta-desc"></p>
+          <div style="background:#070B19; border:1px solid #1E2D56; border-radius:8px; padding:8px 12px; margin-top:8px; display:inline-block;">
+            <p style="font-size:12px; color:#34D399; font-weight:bold;" id="atleta-stats-box">⚽ 0 Golos | 👟 0 Assistências</p>
+            <p style="font-size:11px; color:#AAA; margin-top:2px;">No clube desde: <b id="atleta-entrada-box" style="color:#FFF;">--</b> | Código: <code id="atleta-cred-box" style="color:#E5A93C; font-weight:bold;"></code></p>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid #1E2D56; padding-bottom:8px; margin-bottom:10px;">
+          <h3 style="font-size:13px; color:#E5A93C; font-weight:bold; text-transform:uppercase;">Meu Histórico Individual de Quotas Pagas</h3>
+          <span id="atleta-val-total" style="color:#34D399; font-weight:bold; font-size:14px;">Total Liquidado: 0,00 Kz</span>
+        </div>
+        <table>
+          <thead><tr><th>Nº Recibo</th><th>Semana / Período</th><th>Valor</th><th>Modalidade</th><th>Recibo Digital</th></tr></thead>
+          <tbody id="tb-historico-atleta"></tbody>
+        </table>
+      </div>
+
+      <div class="card">
+        <h3 style="font-size:13px; color:#E5A93C; font-weight:bold; text-transform:uppercase; margin-bottom:8px;">Meu Histórico Disciplinar</h3>
+        <table>
+          <thead><tr><th>Data</th><th>Infração</th><th>Descrição</th><th>Medida Aplicada</th></tr></thead>
+          <tbody id="tb-disciplina-atleta"></tbody>
+        </table>
+      </div>
+
+      <div class="card">
+        <h3 style="font-size:13px; color:#E5A93C; font-weight:bold; text-transform:uppercase; margin-bottom:8px;">Bens e Materiais do Clube</h3>
+        <table>
+          <thead><tr><th>Material</th><th>Total</th><th>Disponível</th><th>Estado</th></tr></thead>
+          <tbody id="tb-patrimonio-atleta"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- 13. CONFIGURAÇÕES MASTER -->
+    <div id="aba-config" style="display:none;" class="no-print">
+      <div class="card">
+        <div style="margin-bottom:14px; border-bottom:1px solid #1E2D56; padding-bottom:8px;">
+          <h2 style="font-size:16px; font-weight:bold; color:#E5A93C;">⚙️ Ferramentas & Configurações da Plataforma</h2>
+          <p style="font-size:11px; color:#94A3B8;">Gestão exclusiva do Desenvolvedor Master: Eduardo Ferreira Alfredo</p>
+        </div>
+
+        <div style="background:#101B3B; border:1px solid #203366; border-radius:8px; padding:14px; margin-bottom:14px;">
+          <h4 style="font-size:12px; font-weight:bold; color:#E5A93C; margin-bottom:4px; text-transform:uppercase;">🔑 Senhas Mestres e Administrativas:</h4>
+          <div style="display:flex; gap:8px; flex-wrap:wrap; margin-top:8px;">
+            <button class="btn btn-gold" onclick="alterarSenhaMaster()">Alterar Minha Senha Master</button>
+            <button class="btn btn-dark" onclick="alterarSenhaAdminPrincipal()">Definir Senha Admin Principal</button>
+          </div>
+        </div>
+
+        <div style="background:#101B3B; border:1px solid #203366; border-radius:8px; padding:14px; margin-bottom:14px;">
+          <h4 style="font-size:12px; font-weight:bold; color:#34D399; margin-bottom:4px; text-transform:uppercase;">💾 Cópia de Segurança Local (Backup JSON):</h4>
+          <p style="font-size:11px; color:#CCC; margin-bottom:10px;">Descarrega os dados do clube para o teu computador ou restaura a partir de um ficheiro:</p>
+          <div style="display:flex; gap:8px; flex-wrap:wrap;">
+            <button class="btn btn-gold" onclick="descarregarBackup()">⬇️ Descarregar Backup Local (.JSON)</button>
+            <label class="btn btn-dark" style="cursor:pointer;">
+              ⬆️ Restaurar Backup JSON <input type="file" accept=".json" onchange="restaurarBackup(this)" style="display:none;">
+            </label>
+          </div>
+        </div>
+
+        <div style="background:#101B3B; border:1px solid #203366; border-radius:8px; padding:14px; margin-bottom:14px;">
+          <h4 style="font-size:12px; font-weight:bold; color:#E5A93C; margin-bottom:4px; text-transform:uppercase;">Fotografia / Emblema Oficial do FC ESPANHA:</h4>
+          <p style="font-size:11px; color:#CCC; margin-bottom:10px;">Carregue o logótipo oficial do clube:</p>
+          <div style="display:flex; align-items:center; gap:10px; flex-wrap:wrap;">
+            <input type="file" id="inp-foto-clube" accept="image/*" onchange="trocarFotoClube(this)" style="font-size:11px;">
+            <button class="btn btn-dark" onclick="restaurarEmblemaClube()">Restaurar Emblema Original</button>
+          </div>
+        </div>
+
+        <div style="background:rgba(179,19,23,0.25); border:2px solid #B31317; border-radius:8px; padding:12px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">
+          <div>
+            <h4 style="color:#F87171; font-size:13px; font-weight:bold;">🗑️ REINICIAR / ZERAR BASE DE DADOS</h4>
+            <p style="font-size:11px; color:#DDD; margin-top:2px;">Apaga os registos atuais no Supabase e na memória local.</p>
+          </div>
+          <button class="btn btn-red" onclick="limparTudoDefinitivo()">Zerar Todos os Dados</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="rodape-oficial no-print">
+      Desenvolvido por Eduardo Ferreira Alfredo • FC ESPANHA
+    </div>
+
+  </div> <!-- FIM DA PLATAFORMA INTERNA -->
 
   <!-- ================= MODELO DE IMPRESSÃO EM PDF (FOLHA A4 OFICIAL INSTITUCIONAL) ================= -->
   <div id="folha-pdf-impressao" class="area-pdf-oficial" style="display:none;">
@@ -927,17 +1016,17 @@
     </div>
   </div>
 
-  <!-- Modal Disciplina -->
+  <!-- Modal Disciplina (SEM CARTÃO VERMELHO) -->
   <div id="modal-disciplina" class="modal-box" style="display:none;">
     <div class="modal-corpo">
       <h3 style="color:#E5A93C; font-size:14px; font-weight:bold; margin-bottom:12px; text-transform:uppercase;">Registar Infração Disciplinar</h3>
       <div class="campo"><label>Seleccionar Atleta:</label><select id="disc-atleta"></select></div>
-      <div class="campo"><label>Tipo de Infração:</label>
+      <div class="campo">
+        <label>Tipo de Infração:</label>
         <select id="disc-tipo">
           <option value="Falta Injustificada">Falta Injustificada</option>
           <option value="Atraso Grave">Atraso Grave</option>
           <option value="Indisciplina / Conduta">Indisciplina / Conduta</option>
-          <option value="Cartão Vermelho">Cartão Vermelho Oficial</option>
         </select>
       </div>
       <div class="campo"><label>Descrição dos Factos:</label><input id="disc-desc" type="text" placeholder="Ex: Falta ao compromisso"></div>
@@ -972,24 +1061,20 @@
     var SILHUETA_PADRAO = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23E5A93C'%3E%3Cpath d='M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z'/%3E%3C/svg%3E";
     var EMBLEMA_PADRAO_SVG = "<svg viewBox='0 0 200 260' style='width:100%; height:100%;'><polygon points='100,5 106,23 125,23 110,34 116,52 100,41 84,52 90,34 75,23 94,23' fill='%23E5A93C'/><path d='M 20 60 Q 100 48 180 60 L 180 180 Q 180 245 100 258 Q 20 245 20 180 Z' fill='%23B31317' stroke='%23E5A93C' stroke-width='8'/><circle cx='100' cy='208' r='18' fill='%7D0A0E' stroke='%23E5A93C' stroke-width='3'/><text x='100' y='213' font-size='11' font-weight='900' fill='%23E5A93C' text-anchor='middle'>EFC</text></svg>";
 
-    // MOTORES DE SENHA RESILIENTES (ACEITA 'Eduardo2026' OU A SENHA GRAVADA SEM TRAVAMENTOS)
     function verificarSenhaMaster(digitada) {
       if (!digitada) return false;
       var d = digitada.trim();
-      var dLower = d.toLowerCase();
       var salva = (DB.senhaMaster || "Eduardo2026").trim();
-      return (d === salva || dLower === "eduardo2026" || d === "Eduardo2026");
+      return (d === salva || d.toLowerCase() === "eduardo2026");
     }
 
     function verificarSenhaAdminPrincipal(digitada) {
       if (!digitada) return false;
       var d = digitada.trim();
-      var dLower = d.toLowerCase();
       var salva = (DB.senhaAdminPrincipal || "AdminPrincipal2026").trim();
-      return (d === salva || dLower === "adminprincipal2026" || d === "AdminPrincipal2026");
+      return (d === salva || d.toLowerCase() === "adminprincipal2026");
     }
 
-    // BASE DE DADOS OFICIAL BLINDADA
     var BASE_PRODUCAO = {
       senhaMaster: "Eduardo2026",
       senhaAdminPrincipal: "AdminPrincipal2026",
@@ -1079,8 +1164,8 @@
     }
 
     var DB = carregarDBLocal();
-    var perfil = 'dev';
-    var masterAutenticado = true;
+    var perfil = null; // Inicia deslogado na tela de entrada
+    var masterAutenticado = false;
     var adminPrincAutenticado = false;
     var atletaSessaoId = null;
     var marcadoresTempJogo = [];
@@ -1096,6 +1181,109 @@
     function setValue(id, val) {
       var el = document.getElementById(id);
       if (el) el.value = val;
+    }
+
+    // CONTROLO DE ABAS DA TELA DE LOGIN DO PORTAL
+    function alternarFormLogin(tipo) {
+      setDisplay('form-login-jogador', (tipo === 'jogador') ? 'block' : 'none');
+      setDisplay('form-login-admin', (tipo === 'admin') ? 'block' : 'none');
+      setDisplay('form-login-master', (tipo === 'master') ? 'block' : 'none');
+
+      var btnJ = document.getElementById('btn-tab-jogador');
+      var btnA = document.getElementById('btn-tab-admin');
+      var btnM = document.getElementById('btn-tab-master');
+
+      if (btnJ) btnJ.className = (tipo === 'jogador') ? 'active' : '';
+      if (btnA) btnA.className = (tipo === 'admin') ? 'active' : '';
+      if (btnM) btnM.className = (tipo === 'master') ? 'active' : '';
+    }
+
+    // SUBMISSÃO DE LOGINS PELO PORTAL DE ENTRADA
+    function submeterLoginJogadorPortal() {
+      var codigo = (document.getElementById('inp-codigo-portal').value || '').trim().toUpperCase();
+      if (!codigo) { alert("Introduza o seu código exclusivo!"); return; }
+
+      var atletaEncontrado = null;
+      for (var i = 0; i < DB.jogadores.length; i++) {
+        if (DB.jogadores[i].credencial && DB.jogadores[i].credencial.toUpperCase() === codigo) {
+          atletaEncontrado = DB.jogadores[i];
+          break;
+        }
+      }
+
+      if (atletaEncontrado) {
+        atletaSessaoId = atletaEncontrado.id;
+        perfil = 'jogador';
+        entrarNaPlataforma('jogador');
+        mostrarAviso("⚽ Bem-vindo, " + atletaEncontrado.nome);
+      } else {
+        alert("❌ Código de acesso não encontrado! Verifique a mensagem recebida no WhatsApp.");
+      }
+    }
+
+    function submeterLoginAdminPortal() {
+      var cargo = document.getElementById('sel-cargo-portal').value;
+      var senha = (document.getElementById('inp-senha-admin-portal').value || '').trim();
+      if (!senha) { alert("Introduza a senha ou PIN!"); return; }
+
+      if (cargo === 'adm_princ') {
+        if (verificarSenhaAdminPrincipal(senha)) {
+          adminPrincAutenticado = true;
+          perfil = 'adm_princ';
+          entrarNaPlataforma('adm_princ');
+          registarAuditoria("Iniciou sessão como Administrador Principal");
+          mostrarAviso("⭐ Bem-vindo, Administrador Principal");
+        } else {
+          alert("❌ Senha incorreta do Administrador Principal!");
+        }
+      } else {
+        var pinCorreto = DB.pins[cargo] || "1111";
+        if (senha === pinCorreto) {
+          perfil = cargo;
+          entrarNaPlataforma(cargo);
+          registarAuditoria("Iniciou sessão administrativa (" + cargo + ")");
+          mostrarAviso("✅ Sessão administrativa autorizada.");
+        } else {
+          alert("❌ PIN incorreto!");
+        }
+      }
+    }
+
+    function submeterLoginMasterPortal() {
+      var senha = (document.getElementById('inp-senha-master-portal').value || '').trim();
+      if (!senha) { alert("Introduza a Senha Mestre!"); return; }
+
+      if (verificarSenhaMaster(senha)) {
+        masterAutenticado = true;
+        perfil = 'dev';
+        entrarNaPlataforma('dev');
+        mostrarAviso("👑 Bem-vindo, Eduardo Ferreira Alfredo. Controlo Total.");
+      } else {
+        alert("❌ Senha Mestre incorreta!");
+      }
+    }
+
+    function entrarNaPlataforma(perfilAtivo) {
+      setDisplay('tela-login-portal', 'none');
+      setDisplay('plataforma-conteudo', 'block');
+      aplicarPerfilUI(perfilAtivo);
+      desenhar();
+    }
+
+    function terminarSessao() {
+      perfil = null;
+      masterAutenticado = false;
+      adminPrincAutenticado = false;
+      atletaSessaoId = null;
+      setValue('inp-codigo-portal', '');
+      setValue('inp-senha-admin-portal', '');
+      setValue('inp-senha-master-portal', '');
+
+      setDisplay('plataforma-conteudo', 'none');
+      setDisplay('tela-login-portal', 'flex');
+      alternarFormLogin('jogador');
+      desenharEmblemas();
+      mostrarAviso("🚪 Sessão terminada com sucesso.");
     }
 
     function abrirAba(id) {
@@ -1207,7 +1395,6 @@
       }
     }
 
-    // SINCRONIZAÇÃO NATIVA SUPABASE
     function sincronizarComSupabase() {
       atualizarIndicadorNuvem(false, "#FBBF24", "🔄 A sincronizar com o Supabase...");
 
@@ -1269,7 +1456,7 @@
     function obterNomeUsuarioAtual() {
       if (perfil === 'dev') return "Eduardo Ferreira Alfredo (Master)";
       if (perfil === 'adm_princ') return "Administrador Principal";
-      if (perfil.indexOf('adm') !== -1) {
+      if (perfil && perfil.indexOf('adm') !== -1) {
         var idx = parseInt(perfil.replace('adm','')) - 1;
         return (DB.admins[idx] && DB.admins[idx].nome) ? DB.admins[idx].nome : "Administrador";
       }
@@ -1281,7 +1468,7 @@
       DB.auditoria.unshift({
         dataHora: obterDataHoraAtual(),
         autor: autor,
-        perfil: perfil.toUpperCase(),
+        perfil: (perfil || 'PORTAL').toUpperCase(),
         acao: acao,
         valorAnterior: valorAnterior || "--",
         valorNovo: valorNovo || "--"
@@ -1333,111 +1520,9 @@
     function fecharModal(id) { setDisplay(id, 'none'); }
     function abrirModal(id) { setDisplay(id, 'flex'); }
 
-    // LOGIN DO DESENVOLVEDOR MASTER (RESILIENTE E INFALÍVEL)
-    function entrarComoMaster() {
-      if (!masterAutenticado) {
-        var senhaDigitada = prompt("🔐 ACESSO EXCLUSIVO DO DESENVOLVEDOR MASTER\nIntroduza a Senha:");
-        if (senhaDigitada === null) return;
-        if (!verificarSenhaMaster(senhaDigitada)) {
-          alert("❌ Senha Mestre incorreta! Tente 'Eduardo2026'.");
-          return;
-        }
-        masterAutenticado = true;
-      }
-      perfil = 'dev';
-      atletaSessaoId = null;
-      aplicarPerfilUI('dev');
-      mostrarAviso("👑 Bem-vindo, Eduardo Ferreira Alfredo. Controlo Total.");
-    }
-
-    function solicitarAcessoAdminPrincipal() {
-      var senhaDigitada = prompt("⭐ ACESSO DO ADMINISTRADOR PRINCIPAL\nIntroduza a Senha de Acesso:");
-      if (senhaDigitada === null) return;
-      if (!verificarSenhaAdminPrincipal(senhaDigitada)) {
-        alert("❌ Senha incorreta do Administrador Principal! Padrão: AdminPrincipal2026");
-        return;
-      }
-      adminPrincAutenticado = true;
-      masterAutenticado = false;
-      perfil = 'adm_princ';
-      atletaSessaoId = null;
-      aplicarPerfilUI('adm_princ');
-      registarAuditoria("Iniciou sessão como Administrador Principal");
-      mostrarAviso("⭐ Sessão ativa: Administrador Principal");
-    }
-
-    function solicitarAcessoAdmin(admId) {
-      masterAutenticado = false;
-      adminPrincAutenticado = false;
-      var idx = parseInt(admId.replace('adm', '')) - 1;
-      var adminObj = DB.admins[idx] || { nome: "Admin " + (idx+1) };
-      var pinCorreto = DB.pins[admId] || "1111";
-
-      var tentativa = prompt("🛡️ ACESSO - " + adminObj.nome + "\nIntroduza o PIN de 4 dígitos (Padrão: " + pinCorreto + "):");
-      if (tentativa === null) return;
-
-      if (tentativa.trim() === pinCorreto) {
-        perfil = admId;
-        atletaSessaoId = null;
-        aplicarPerfilUI(admId);
-        registarAuditoria("Iniciou sessão administrativa (" + adminObj.nome + ")");
-        mostrarAviso("✅ Sessão iniciada: " + adminObj.nome);
-      } else {
-        alert("❌ PIN incorreto!");
-      }
-    }
-
-    function loginExclusivoAtleta() {
-      masterAutenticado = false;
-      adminPrincAutenticado = false;
-      if (DB.jogadores.length === 0) {
-        alert("⚠️ Nenhum atleta cadastrado até ao momento.");
-        return;
-      }
-
-      var codigo = prompt("⚽ ÁREA DO JOGADOR\nIntroduza o seu CÓDIGO EXCLUSIVO DE ACESSO (Ex: FCE-4821):");
-      if (!codigo) return;
-
-      codigo = codigo.trim().toUpperCase();
-
-      if (/^\d+$/.test(codigo)) {
-        alert("❌ O acesso pelo número da camisola está DESATIVADO.\nO acesso é exclusivo pelo CÓDIGO DE ACESSO (Ex: FCE-XXXX).");
-        return;
-      }
-
-      var atletaEncontrado = null;
-      for (var i = 0; i < DB.jogadores.length; i++) {
-        var a = DB.jogadores[i];
-        if (a.credencial && a.credencial.toUpperCase() === codigo) {
-          atletaEncontrado = a;
-          break;
-        }
-      }
-
-      if (atletaEncontrado) {
-        perfil = 'jogador';
-        atletaSessaoId = atletaEncontrado.id;
-        aplicarPerfilUI('jogador');
-        mostrarAviso("⚽ Bem-vindo à tua área pessoal, " + atletaEncontrado.nome);
-      } else {
-        alert("❌ Código de acesso não encontrado! Verifique a mensagem recebida via WhatsApp.");
-      }
-    }
-
-    function alternarBloqueioAdmins() {
-      if (perfil !== 'dev' && perfil !== 'adm_princ') return;
-      DB.adminsBloqueados = !DB.adminsBloqueados;
-      registarAuditoria(DB.adminsBloqueados ? "BLOQUEOU operações dos Administradores Adicionais" : "DESBLOQUEOU operações dos Administradores Adicionais");
-      desenhar();
-      mostrarAviso(DB.adminsBloqueados ? "🔒 Operações dos Administradores BLOQUEADAS!" : "🔓 Operações dos Administradores DESBLOQUEADAS!");
-    }
-
     function alterarSenhaMaster() {
       var nova = prompt("Introduza a NOVA Senha Mestre do Desenvolvedor (mínimo 4 caracteres):");
-      if (!nova || nova.trim().length < 4) {
-        alert("❌ Senha inválida.");
-        return;
-      }
+      if (!nova || nova.trim().length < 4) { alert("❌ Senha inválida."); return; }
       DB.senhaMaster = nova.trim();
       registarAuditoria("Alterou a Senha Mestre do Desenvolvedor");
       salvarDB();
@@ -1447,10 +1532,7 @@
     function alterarSenhaAdminPrincipal() {
       if (perfil !== 'dev' && perfil !== 'adm_princ') return;
       var nova = prompt("Introduza a NOVA Senha do Administrador Principal (mínimo 4 caracteres):");
-      if (!nova || nova.trim().length < 4) {
-        alert("❌ Senha inválida.");
-        return;
-      }
+      if (!nova || nova.trim().length < 4) { alert("❌ Senha inválida."); return; }
       DB.senhaAdminPrincipal = nova.trim();
       registarAuditoria("Definiu nova Senha para o Administrador Principal");
       salvarDB();
@@ -1459,13 +1541,13 @@
 
     function aplicarPerfilUI(p) {
       perfil = p;
-      var nomeUsuario = (p === 'dev') ? "Eduardo Ferreira Alfredo" : (p === 'adm_princ' ? "Administrador Principal" : (p.indexOf('adm') !== -1 ? ((DB.admins[parseInt(p.replace('adm',''))-1] || {}).nome || "Admin") : ((obterAtletaSessao() || {}).nome || "Atleta")));
-      var cargoUsuario = (p === 'dev') ? "👑 Desenvolvedor Master (Controlo Total)" : (p === 'adm_princ' ? "⭐ Administrador Principal" : (p.indexOf('adm') !== -1 ? "🛡️ " + ((DB.admins[parseInt(p.replace('adm',''))-1] || {}).cargo || "Administrador") : "⚽ Atleta (" + ((obterAtletaSessao() || {}).credencial || "") + ")"));
+      var nomeUsuario = (p === 'dev') ? "Eduardo Ferreira Alfredo" : (p === 'adm_princ' ? "Administrador Principal" : (p && p.indexOf('adm') !== -1 ? ((DB.admins[parseInt(p.replace('adm',''))-1] || {}).nome || "Admin") : ((obterAtletaSessao() || {}).nome || "Atleta")));
+      var cargoUsuario = (p === 'dev') ? "👑 Desenvolvedor Master (Controlo Total)" : (p === 'adm_princ' ? "⭐ Administrador Principal" : (p && p.indexOf('adm') !== -1 ? "🛡️ " + ((DB.admins[parseInt(p.replace('adm',''))-1] || {}).cargo || "Administrador") : "⚽ Atleta (" + ((obterAtletaSessao() || {}).credencial || "") + ")"));
       
       setText('txt-nome', nomeUsuario);
       setText('txt-cargo', cargoUsuario);
 
-      var eGestao = (p === 'dev' || p === 'adm_princ' || p === 'adm1' || p === 'adm2' || p === 'adm3');
+      var eGestao = (p === 'dev' || p === 'adm_princ' || (p && p.indexOf('adm') !== -1));
       var dispGestao = eGestao ? 'inline-flex' : 'none';
 
       setDisplay('btn-novo-anuncio', dispGestao);
@@ -1474,13 +1556,6 @@
       setDisplay('btn-novo-jogo', dispGestao);
       setDisplay('btn-nova-infracao', dispGestao);
       setDisplay('btn-novo-item-pat', dispGestao);
-
-      var botoes = ['dev', 'adm-princ', 'adm1', 'adm2', 'adm3', 'jogador'];
-      botoes.forEach(function(b) {
-        var el = document.getElementById('btn-perfil-' + b);
-        var activeMatch = (b === 'dev' && p === 'dev') || (b === 'adm-princ' && p === 'adm_princ') || (b === p);
-        if (el) el.className = activeMatch ? 'btn btn-gold' : 'btn btn-dark';
-      });
 
       if (p === 'dev' || p === 'adm_princ') {
         setDisplay('tab-painel', 'inline-block');
@@ -1497,9 +1572,8 @@
         setDisplay('tab-config', (p === 'dev') ? 'inline-block' : 'none');
         setDisplay('tab-jogador', 'none');
         setDisplay('btn-engrenagem', (p === 'dev') ? 'inline-flex' : 'none');
-        setDisplay('box-selector-perfis', 'flex');
         abrirAba('painel');
-      } else if (p.indexOf('adm') !== -1) {
+      } else if (p && p.indexOf('adm') !== -1) {
         setDisplay('tab-painel', 'inline-block');
         setDisplay('tab-anuncios', 'inline-block');
         setDisplay('tab-plantel', 'inline-block');
@@ -1514,9 +1588,9 @@
         setDisplay('tab-config', 'none');
         setDisplay('tab-jogador', 'none');
         setDisplay('btn-engrenagem', 'none');
-        setDisplay('box-selector-perfis', 'flex');
         abrirAba('painel');
       } else {
+        // PERFIL LIMITADO DO JOGADOR
         setDisplay('tab-painel', 'none');
         setDisplay('tab-plantel', 'none');
         setDisplay('tab-financas', 'none');
@@ -1533,13 +1607,6 @@
         setDisplay('tab-jogador', 'inline-block');
         abrirAba('jogador');
       }
-    }
-
-    function obterAtletaSessao() {
-      for (var i = 0; i < DB.jogadores.length; i++) {
-        if (DB.jogadores[i].id === atletaSessaoId) return DB.jogadores[i];
-      }
-      return DB.jogadores[0] || { nome: "Atleta", numero: 0, posicao: "", bairro: "", golos: 0, assistencias: 0, foto: SILHUETA_PADRAO, credencial: "FCE-0000", dataEntrada: "2026-01-01", situacao: "Activo" };
     }
 
     function abrirModalLiquidarQuota(atletaNomePreSelecionado) {
@@ -1649,10 +1716,7 @@
       var val = parseFloat(document.getElementById('desp-valor').value) || 0;
       var dt = document.getElementById('desp-data').value || obterDataHoje();
 
-      if (!desc || val <= 0) {
-        alert("Preencha a descrição e um valor válido de despesa!");
-        return;
-      }
+      if (!desc || val <= 0) { alert("Preencha a descrição e um valor válido!"); return; }
 
       DB.despesasLista.unshift({
         id: Date.now(),
@@ -1846,8 +1910,7 @@
 
       var telLimpo = tel.replace(/\D/g, '');
       var linkBase = window.location.href.split('#')[0].split('?')[0];
-      var linkExclusivoAtleta = linkBase + "#atleta";
-      var msg = "⚽ *CREDENCIAL OFICIAL – FC ESPANHA*\n\nOlá *" + nome + "*!\nFoste cadastrado no plantel sénior do FC ESPANHA.\n\n👕 Camisola: #" + num + "\n⚽ Posição: " + pos + "\n📅 Admissão: " + formatarDataBR(entrada) + "\n🔑 *Código Exclusivo de Acesso:* *" + credencialUnica + "*\n\n🌐 *Acede diretamente aqui à tua Área de Jogador:*\n" + linkExclusivoAtleta + "\n\nModalidades de Quota:\n1. 📲 Express: 935 523 498\n2. 💵 Em Cash (Dinheiro Vivo) ao Tesoureiro no campo.";
+      var msg = "⚽ *CREDENCIAL OFICIAL – FC ESPANHA*\n\nOlá *" + nome + "*!\nFoste cadastrado no plantel sénior do FC ESPANHA.\n\n👕 Camisola: #" + num + "\n⚽ Posição: " + pos + "\n📅 Admissão: " + formatarDataBR(entrada) + "\n🔑 *Código Exclusivo de Acesso:* *" + credencialUnica + "*\n\n🌐 *Acede diretamente aqui à plataforma:*\n" + linkBase + "\n\n(Acede ao link, toca em 'Sou Jogador' e coloca o teu Código: *" + credencialUnica + "*).\n\nModalidades de Quota:\n1. 📲 Express: 935 523 498\n2. 💵 Em Cash (Dinheiro Vivo) ao Tesoureiro no campo.";
       var linkWpp = "https://wa.me/244" + telLimpo + "?text=" + encodeURIComponent(msg);
 
       mostrarAviso("✅ Atleta registado com sucesso! A abrir WhatsApp...");
@@ -2088,8 +2151,9 @@
         comprimirImagem(input.files[0], 250, 250, 0.8, function(base64Otimizada) {
           DB.fotoClube = base64Otimizada;
           registarAuditoria("Master atualizou o emblema do FC ESPANHA");
+          desenharEmblemas();
           desenhar();
-          mostrarAviso("✅ Emblema atualizado!");
+          mostrarAviso("✅ Emblema oficial atualizado nas duas telas!");
         });
       }
     }
@@ -2098,8 +2162,23 @@
       if (perfil !== 'dev') return;
       DB.fotoClube = null;
       registarAuditoria("Master restaurou o emblema padrão");
+      desenharEmblemas();
       desenhar();
       mostrarAviso("ℹ️ Emblema original restaurado.");
+    }
+
+    function desenharEmblemas() {
+      var boxPortal = document.getElementById('box-emblema-portal');
+      var boxTopo = document.getElementById('box-emblema-topo');
+      var boxPdf = document.getElementById('box-emblema-pdf');
+
+      var conteudo = DB.fotoClube 
+        ? '<img src="' + DB.fotoClube + '" style="max-width:100%; max-height:100%; border-radius:6px; object-fit:contain;">'
+        : EMBLEMA_PADRAO_SVG;
+
+      if (boxPortal) boxPortal.innerHTML = conteudo;
+      if (boxTopo) boxTopo.innerHTML = conteudo;
+      if (boxPdf) boxPdf.innerHTML = conteudo;
     }
 
     function descarregarBackup() {
@@ -2125,6 +2204,7 @@
               DB = sanitizarDB(importado);
               registarAuditoria("Restaurou cópia de segurança");
               salvarDB();
+              desenharEmblemas();
               desenhar();
               alert("✅ Base de dados restaurada com sucesso!");
             } else {
@@ -2265,7 +2345,7 @@
       setText('pdf-data-emissao', obterDataHoraAtual());
 
       var html = '<div style="display:flex; gap:16px; align-items:center; border:1px solid #333; padding:10px; margin-bottom:12px;">' +
-        '<img src="' + (at.foto || SILHUETA_PADRAO) + '" style="width:75px; height:75px; border-radius:8px; object-fit:cover; border:2px solid #0F172A;">' +
+        '<img src="' + (at.foto || SILHUETA_PADRAO) + '" style="width:85px; height:85px; border-radius:10px; object-fit:cover; border:2px solid #0F172A;">' +
         '<div>' +
           '<h2 style="margin:0; font-size:16px; color:#0F172A;">#' + at.numero + ' ' + at.nome + '</h2>' +
           '<p style="font-size:11px; margin:2px 0;">Posição: <b>' + at.posicao + '</b> | Situação: <b>' + (at.situacao || 'Activo') + '</b></p>' +
@@ -2304,16 +2384,12 @@
     setValue('desp-data', obterDataHoje());
     setValue('jg-data', obterDataHoje());
 
-    var hash = (window.location.hash || "").toLowerCase();
-    if (hash.indexOf('atleta') !== -1) {
-      loginExclusivoAtleta();
-    } else if (hash.indexOf('admin') !== -1) {
-      solicitarAcessoAdminPrincipal();
-    } else {
-      aplicarPerfilUI('dev');
-    }
+    desenharEmblemas();
 
-    desenhar();
+    // Inicia na Tela de Entrada do Portal Oficial
+    setDisplay('plataforma-conteudo', 'none');
+    setDisplay('tela-login-portal', 'flex');
+    alternarFormLogin('jogador');
 
     setTimeout(function() {
       sincronizarComSupabase();
