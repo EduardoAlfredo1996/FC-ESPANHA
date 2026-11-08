@@ -942,6 +942,7 @@
       }
     }
 
+    // SINCRONIZAÇÃO NATIVA COM SUPABASE
     function sincronizarComSupabase() {
       atualizarIndicadorNuvem(false, "#FBBF24", "🔄 A sincronizar com o Supabase...");
 
@@ -1553,3 +1554,358 @@
           var linkWppRecibo = "https://wa.me/244" + telQ + "?text=" + encodeURIComponent("🧾 *RECIBO OFICIAL DE QUOTA DOMINICAL – FC ESPANHA*\n\nAtleta: " + qObj.atleta + "\nPeríodo: " + qObj.mes + "\nValor Pago: " + kz(qObj.valor) + "\nModalidade: " + qObj.metodo + "\nRef/Obs: " + qObj.ref + "\n\nTesoureiro Oficial: 935 523 498");
 
           tbQ.innerHTML += '<tr>' +
+            '<td><b>' + qObj.atleta + '</b></td>' +
+            '<td>' + qObj.mes + '</td>' +
+            '<td style="color:#34D399; font-weight:bold;">' + kz(qObj.valor) + '</td>' +
+            '<td><span style="background:#1F1F24; padding:3px 6px; border-radius:4px; color:#E5A93C;">' + modoBadge + '</span></td>' +
+            '<td><a href="' + linkWppRecibo + '" target="_blank" class="btn btn-wpp" style="padding:4px 8px; font-size:10px;">📲 Enviar Recibo</a></td>' +
+          '</tr>';
+        }
+      }
+
+      var tbDoa = document.getElementById('tb-doacoes');
+      if (tbDoa) {
+        tbDoa.innerHTML = DB.doacoes.length ? '' : '<tr><td colspan="5" style="color:#777; text-align:center;">Nenhuma contribuição externa registada.</td></tr>';
+        for (var d = 0; d < DB.doacoes.length; d++) {
+          var doa = DB.doacoes[d];
+          tbDoa.innerHTML += '<tr><td><b>' + doa.origem + '</b></td><td><span style="color:#E5A93C;">' + doa.categoria + '</span></td><td>' + doa.descricao + '</td><td style="color:#34D399; font-weight:bold;">' + kz(doa.valor) + '</td><td>' + doa.data + '</td></tr>';
+        }
+      }
+
+      var tbJ = document.getElementById('tb-jogos');
+      if (tbJ) {
+        tbJ.innerHTML = DB.jogos.length ? '' : '<tr><td colspan="3" style="color:#777; text-align:center;">Nenhum jogo oficial registado.</td></tr>';
+        for (var g = 0; g < DB.jogos.length; g++) {
+          var gObj = DB.jogos[g];
+          tbJ.innerHTML += '<tr><td><b>FC Espanha vs ' + gObj.adversario + '</b></td><td>' + gObj.competicao + '</td><td><b style="color:#E5A93C;">' + gObj.resultado + '</b></td></tr>';
+        }
+      }
+
+      var tbDisc = document.getElementById('tb-disciplina');
+      if (tbDisc) {
+        tbDisc.innerHTML = DB.disciplina.length ? '' : '<tr><td colspan="5" style="color:#777; text-align:center;">Nenhuma infração registada.</td></tr>';
+        for (var dc = 0; dc < DB.disciplina.length; dc++) {
+          var itemD = DB.disciplina[dc];
+          tbDisc.innerHTML += '<tr><td><b>' + itemD.atleta + '</b></td><td>' + itemD.data + '</td><td><span style="color:#F87171; font-weight:bold;">' + itemD.tipo + '</span></td><td>' + itemD.desc + '</td><td>' + itemD.medida + '</td></tr>';
+        }
+      }
+
+      var tbPat = document.getElementById('tb-patrimonio');
+      if (tbPat) {
+        tbPat.innerHTML = DB.patrimonio.length ? '' : '<tr><td colspan="4" style="color:#777; text-align:center;">Nenhum material listado.</td></tr>';
+        for (var pt = 0; pt < DB.patrimonio.length; pt++) {
+          var pItem = DB.patrimonio[pt];
+          tbPat.innerHTML += '<tr><td><b>' + pItem.item + '</b></td><td>' + pItem.total + '</td><td><b style="color:#E5A93C;">' + pItem.disp + '</b></td><td>' + pItem.estado + '</td></tr>';
+        }
+      }
+
+      var boxA = document.getElementById('box-admins');
+      if (boxA) {
+        boxA.innerHTML = '';
+        var linkBaseAdmin = window.location.href.split('#')[0].split('?')[0];
+        for (var a = 0; a < DB.admins.length; a++) {
+          var aObj = DB.admins[a];
+          var admKey = 'adm' + (a+1);
+          var pinAdm = DB.pins[admKey] || "1111";
+          var telAdmClean = (aObj.telefone || '').replace(/\D/g, '');
+          var linkExclusivoAdmin = linkBaseAdmin + "#admin";
+          var linkWppAdm = "https://wa.me/244" + telAdmClean + "?text=" + encodeURIComponent("🛡️ *ACESSO ADMINISTRATIVO – FC ESPANHA*\n\nOlá " + aObj.nome + "!\nFoste cadastrado como " + aObj.cargo + ".\n\n🔑 *A tua Senha/PIN de Acesso:* " + pinAdm + "\n🌐 *Link Direto de Acesso:* " + linkExclusivoAdmin + "\n\n⚠️ Todas as acções realizadas dentro da plataforma ficam registadas no Livro de Auditoria com o teu nome.");
+
+          boxA.innerHTML += '<div style="background:#1A1A1F; border:1px solid #28282D; border-radius:6px; padding:12px; margin-bottom:8px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">' +
+            '<div>' +
+              '<span style="color:#E5A93C; font-size:10px; font-weight:bold;">VAGA 0' + (a+1) + '</span>' +
+              '<h3 style="font-size:14px; margin:2px 0;">' + aObj.nome + '</h3>' +
+              '<p style="font-size:11px; color:#888;">Telefone: ' + aObj.telefone + ' | PIN Atual: <b style="color:#34D399;">' + pinAdm + '</b></p>' +
+            '</div>' +
+            '<div style="display:flex; gap:6px; flex-wrap:wrap;">' +
+              '<a href="' + linkWppAdm + '" target="_blank" class="btn btn-wpp" style="font-size:10px;">📲 Enviar Acesso & Link WhatsApp</a>' +
+              (perfil === 'dev' ? '<button class="btn btn-gold" onclick="editarAdmin(' + aObj.id + ')">Editar Dados</button>' : '') +
+              (perfil === 'dev' ? '<button class="btn btn-dark" onclick="alterarPINAdmin(\'' + admKey + '\')">Mudar Senha</button>' : '') +
+            '</div>' +
+          '</div>';
+        }
+      }
+
+      var tbAud = document.getElementById('tb-auditoria');
+      if (tbAud) {
+        tbAud.innerHTML = DB.auditoria.length ? '' : '<tr><td colspan="4" style="color:#777; text-align:center;">Nenhum registo de auditoria no histórico.</td></tr>';
+        for (var au = 0; au < DB.auditoria.length; au++) {
+          var log = DB.auditoria[au];
+          tbAud.innerHTML += '<tr>' +
+            '<td><span style="color:#888;">' + log.dataHora + '</span></td>' +
+            '<td><b>' + log.autor + '</b></td>' +
+            '<td><span style="color:#E5A93C; font-size:10px; font-weight:bold;">' + log.perfil + '</span></td>' +
+            '<td>' + log.acao + '</td>' +
+          '</tr>';
+        }
+      }
+
+      // ÁREA PESSOAL DO ATLETA (ISOLADA)
+      if (perfil === 'jogador') {
+        var atleta = obterAtletaSessao();
+        setText('atleta-nome', atleta.nome + " #" + atleta.numero);
+        setText('atleta-desc', atleta.posicao + " • " + atleta.bairro + " • " + calcularIdade(atleta.nasc));
+        setText('atleta-golos-box', "⚽ " + (atleta.golos || 0) + " Golos Marcados no FC ESPANHA");
+        setText('atleta-cred-box', atleta.credencial);
+        setText('atleta-entrada-box', formatarDataBR(atleta.dataEntrada));
+        
+        var elFotoCard = document.getElementById('atleta-foto-box');
+        if (elFotoCard) elFotoCard.src = atleta.foto || SILHUETA_PADRAO;
+
+        var tbHistAtleta = document.getElementById('tb-historico-atleta');
+        if (tbHistAtleta) {
+          tbHistAtleta.innerHTML = '';
+          var totalPagoAtleta = 0;
+          for (var hq = 0; hq < DB.historicoQuotas.length; hq++) {
+            var itemHq = DB.historicoQuotas[hq];
+            if (itemHq.atleta === atleta.nome) {
+              totalPagoAtleta += itemHq.valor;
+              var modoInd = (itemHq.metodo && itemHq.metodo.indexOf('Express') !== -1) ? '📲 Express' : '💵 Dinheiro Vivo';
+              var linkWppReciboAtleta = "https://wa.me/244" + (atleta.telefone || '935523498').replace(/\D/g, '') + "?text=" + encodeURIComponent("🧾 *MEU RECIBO INDIVIDUAL – FC ESPANHA*\n\nSemana: " + itemHq.mes + "\nValor: " + kz(itemHq.valor) + "\nModalidade: " + itemHq.metodo + "\nRef/Obs: " + itemHq.ref);
+              tbHistAtleta.innerHTML += '<tr><td>' + itemHq.mes + '</td><td style="color:#34D399; font-weight:bold;">' + kz(itemHq.valor) + '</td><td><span style="color:#E5A93C;">' + modoInd + '</span></td><td><a href="' + linkWppReciboAtleta + '" target="_blank" class="btn btn-wpp" style="padding:4px 8px; font-size:10px;">📲 Recibo</a></td></tr>';
+            }
+          }
+          if (!tbHistAtleta.innerHTML) tbHistAtleta.innerHTML = '<tr><td colspan="4" style="color:#777; text-align:center;">Nenhuma quota registada em teu nome até ao momento.</td></tr>';
+          setText('atleta-val-total', "Total Pago: " + kz(totalPagoAtleta));
+        }
+
+        var tbDiscAtleta = document.getElementById('tb-disciplina-atleta');
+        if (tbDiscAtleta) {
+          tbDiscAtleta.innerHTML = '';
+          var countDisc = 0;
+          for (var dAt = 0; dAt < DB.disciplina.length; dAt++) {
+            var inf = DB.disciplina[dAt];
+            if (inf.atleta === atleta.nome) {
+              countDisc++;
+              tbDiscAtleta.innerHTML += '<tr><td>' + inf.data + '</td><td style="color:#F87171; font-weight:bold;">' + inf.tipo + '</td><td>' + inf.desc + '</td><td>' + inf.medida + '</td></tr>';
+            }
+          }
+          if (countDisc === 0) tbDiscAtleta.innerHTML = '<tr><td colspan="4" style="color:#34D399; text-align:center;">Processo disciplinar limpo! Nenhuma falta registada.</td></tr>';
+        }
+
+        var tbPatAtleta = document.getElementById('tb-patrimonio-atleta');
+        if (tbPatAtleta) {
+          tbPatAtleta.innerHTML = DB.patrimonio.length ? '' : '<tr><td colspan="4" style="color:#777; text-align:center;">Nenhum material listado.</td></tr>';
+          for (var pa = 0; pa < DB.patrimonio.length; pa++) {
+            var itemPa = DB.patrimonio[pa];
+            tbPatAtleta.innerHTML += '<tr><td><b>' + itemPa.item + '</b></td><td>' + itemPa.total + '</td><td><b style="color:#E5A93C;">' + itemPa.disp + '</b></td><td>' + itemPa.estado + '</td></tr>';
+          }
+        }
+
+        var linkSaude = "https://wa.me/244935523498?text=" + encodeURIComponent("🚨 *COMUNICADO DE SAÚDE – FC ESPANHA*\n\nSou o atleta " + atleta.nome + " (#" + atleta.numero + ", Código: " + atleta.credencial + ") e venho comunicar uma situação de lesão/doença.");
+        var btnSaude = document.getElementById('btn-comunicar-saude');
+        if (btnSaude) btnSaude.href = linkSaude;
+
+        var linkEnvioComp = "https://wa.me/244935523498?text=" + encodeURIComponent("🧾 *PAGAMENTO DE QUOTA DOMINICAL – FC ESPANHA*\n\nSou o atleta " + atleta.nome + " (#" + atleta.numero + ", Código: " + atleta.credencial + ") e venho notificar o pagamento da minha quota semanal de domingo.");
+        var btnComp = document.getElementById('btn-wpp-enviar-comp');
+        if (btnComp) btnComp.href = linkEnvioComp;
+      }
+
+      filtrarControleQuotas();
+    }
+
+    function solicitarAlteracaoDados() {
+      var atleta = obterAtletaSessao();
+      var info = prompt("Descreva a alteração pretendida (Ex: Novo contacto telefónico ou bairro):");
+      if (!info) return;
+      var linkWpp = "https://wa.me/244935523498?text=" + encodeURIComponent("📝 *PEDIDO DE CORRECÇÃO DE DADOS – FC ESPANHA*\n\nAtleta: " + atleta.nome + " (Código: " + atleta.credencial + ")\nSolicitação: " + info);
+      window.open(linkWpp, '_blank');
+      alert("A sua solicitação foi enviada para o WhatsApp da direcção para validação.");
+    }
+
+    function abrirModalJogador() {
+      if (!verificarPermissaoAdmin()) return;
+      var prev = document.getElementById('preview-foto-cad');
+      if (prev) prev.src = SILHUETA_PADRAO;
+      setValue('inp-foto-base64', SILHUETA_PADRAO);
+      setValue('inp-foto-arquivo', '');
+      setValue('cad-nome', '');
+      setValue('cad-num', '');
+      setValue('cad-tel', '');
+      setValue('cad-entrada', obterDataHoje());
+      abrirModal('modal-cad-jogador');
+    }
+
+    function salvarAtletaComFoto() {
+      if (!verificarPermissaoAdmin()) return;
+      var elNome = document.getElementById('cad-nome');
+      var elNum = document.getElementById('cad-num');
+      var elNasc = document.getElementById('cad-nasc');
+      var elEntrada = document.getElementById('cad-entrada');
+      var elPos = document.getElementById('cad-pos');
+      var elTel = document.getElementById('cad-tel');
+      var elBairro = document.getElementById('cad-bairro');
+      var elFoto = document.getElementById('inp-foto-base64');
+
+      var nome = elNome ? elNome.value.trim() : "";
+      var num = elNum ? parseInt(elNum.value) : NaN;
+      var nasc = elNasc ? elNasc.value : "2004-01-01";
+      var entrada = (elEntrada && elEntrada.value) ? elEntrada.value : obterDataHoje();
+      var pos = (elPos && elPos.value.trim()) ? elPos.value.trim() : "Avançado";
+      var tel = elTel ? elTel.value.trim() : "";
+      var bairro = (elBairro && elBairro.value.trim()) ? elBairro.value.trim() : "Luanda";
+      var foto = (elFoto && elFoto.value) ? elFoto.value : SILHUETA_PADRAO;
+
+      if (!nome || isNaN(num) || !tel) {
+        alert("Preencha o Nome, Número da Camisola e Contacto Telefónico!");
+        return;
+      }
+
+      for (var i = 0; i < DB.jogadores.length; i++) {
+        if (DB.jogadores[i].numero === num) {
+          alert("❌ A camisola #" + num + " já pertence ao atleta " + DB.jogadores[i].nome + "!");
+          return;
+        }
+      }
+
+      var credencialUnica = "FCE-" + Math.floor(1000 + Math.random() * 9000);
+
+      var novoAtleta = {
+        id: Date.now(),
+        nome: nome,
+        numero: num,
+        nasc: nasc,
+        dataEntrada: entrada,
+        posicao: pos,
+        golos: 0,
+        telefone: tel,
+        bairro: bairro,
+        credencial: credencialUnica,
+        foto: foto
+      };
+
+      DB.jogadores.push(novoAtleta);
+      registarAuditoria("Cadastrou atleta #" + num + " " + nome + " (Entrada: " + formatarDataBR(entrada) + ")");
+      fecharModal('modal-cad-jogador');
+      desenhar();
+
+      var telLimpo = tel.replace(/\D/g, '');
+      var linkBase = window.location.href.split('#')[0].split('?')[0];
+      var linkExclusivoAtleta = linkBase + "#atleta";
+      var msg = "⚽ *BEM-VINDO AO FC ESPANHA*\n\nOlá *" + nome + "*!\nFoste inscrito oficialmente no plantel do FC ESPANHA.\n\n👕 Camisola: #" + num + "\n⚽ Posição: " + pos + "\n📅 No Clube Desde: " + formatarDataBR(entrada) + "\n🔑 *O teu Código Exclusivo de Acesso:* *" + credencialUnica + "*\n\n🌐 *Link Direto para a tua Área do Atleta:*\n" + linkExclusivoAtleta + "\n\nModalidades de Quota:\n1. 📲 Express: 935 523 498\n2. 💵 Em Cash (Dinheiro Vivo) ao Tesoureiro no campo.";
+      var linkWpp = "https://wa.me/244" + telLimpo + "?text=" + encodeURIComponent(msg);
+
+      mostrarAviso("✅ Atleta #" + num + " registado na nuvem! A abrir WhatsApp...");
+      window.open(linkWpp, '_blank');
+    }
+
+    function abrirModalEditarJogador(id) {
+      if (!verificarPermissaoAdmin()) return;
+      var jog = null;
+      for (var i = 0; i < DB.jogadores.length; i++) {
+        if (DB.jogadores[i].id === id) { jog = DB.jogadores[i]; break; }
+      }
+      if (!jog) return;
+
+      setValue('edit-jog-id', jog.id);
+      setValue('edit-jog-nome', jog.nome);
+      setValue('edit-jog-num', jog.numero);
+      setValue('edit-jog-nasc', jog.nasc || '2004-01-01');
+      setValue('edit-jog-entrada', jog.dataEntrada || obterDataHoje());
+      setValue('edit-jog-golos', jog.golos || 0);
+      setValue('edit-jog-pos', jog.posicao);
+      setValue('edit-jog-tel', jog.telefone);
+      setValue('edit-jog-bairro', jog.bairro);
+      setValue('edit-jog-foto-base64', jog.foto || SILHUETA_PADRAO);
+      
+      var prev = document.getElementById('preview-foto-edit');
+      if (prev) prev.src = jog.foto || SILHUETA_PADRAO;
+
+      abrirModal('modal-edit-jogador');
+    }
+
+    function salvarEdicaoJogador() {
+      if (!verificarPermissaoAdmin()) return;
+      var id = Number(document.getElementById('edit-jog-id').value);
+      var nome = document.getElementById('edit-jog-nome').value.trim();
+      var num = parseInt(document.getElementById('edit-jog-num').value);
+      var nasc = document.getElementById('edit-jog-nasc').value;
+      var entrada = document.getElementById('edit-jog-entrada').value || obterDataHoje();
+      var golos = parseInt(document.getElementById('edit-jog-golos').value) || 0;
+      var pos = document.getElementById('edit-jog-pos').value.trim();
+      var tel = document.getElementById('edit-jog-tel').value.trim();
+      var bairro = document.getElementById('edit-jog-bairro').value.trim();
+      var foto = document.getElementById('edit-jog-foto-base64').value || SILHUETA_PADRAO;
+
+      for (var i = 0; i < DB.jogadores.length; i++) {
+        if (DB.jogadores[i].id !== id && DB.jogadores[i].numero === num) {
+          alert("❌ A camisola #" + num + " já pertence a " + DB.jogadores[i].nome + "!");
+          return;
+        }
+      }
+
+      for (var k = 0; k < DB.jogadores.length; k++) {
+        if (DB.jogadores[k].id === id) {
+          DB.jogadores[k].nome = nome;
+          DB.jogadores[k].numero = num;
+          DB.jogadores[k].nasc = nasc;
+          DB.jogadores[k].dataEntrada = entrada;
+          DB.jogadores[k].golos = golos;
+          DB.jogadores[k].posicao = pos;
+          DB.jogadores[k].telefone = tel;
+          DB.jogadores[k].bairro = bairro;
+          DB.jogadores[k].foto = foto;
+          break;
+        }
+      }
+
+      registarAuditoria("Editou dados do atleta #" + num + " " + nome);
+      fecharModal('modal-edit-jogador');
+      desenhar();
+      mostrarAviso("✅ Atleta #" + num + " actualizado com sucesso!");
+    }
+
+    function removerJogador(id) {
+      if (!verificarPermissaoAdmin()) return;
+      if (!confirm("Tem a certeza de que deseja remover este atleta do plantel oficial?")) return;
+      var removido = null;
+      DB.jogadores = DB.jogadores.filter(function(j) {
+        if (j.id === id) removido = j;
+        return j.id !== id;
+      });
+      registarAuditoria("Eliminou atleta #" + (removido ? removido.numero + " " + removido.nome : id));
+      desenhar();
+      mostrarAviso("Atleta removido da plataforma.");
+    }
+
+    function abrirModalAnuncio() {
+      if (!verificarPermissaoAdmin()) return;
+      abrirModal('modal-anuncio');
+    }
+    
+    function salvarAnuncio() {
+      if (!verificarPermissaoAdmin()) return;
+      var tit = document.getElementById('anun-titulo').value.trim();
+      var txt = document.getElementById('anun-texto').value.trim();
+      if (!tit || !txt) { alert("Preencha o título e o texto."); return; }
+
+      DB.anuncios.unshift({
+        id: Date.now(),
+        titulo: tit,
+        texto: txt,
+        data: obterDataHoje(),
+        autor: obterNomeUsuarioAtual()
+      });
+
+      registarAuditoria("Publicou anúncio: " + tit);
+      fecharModal('modal-anuncio');
+      desenhar();
+      mostrarAviso("📢 Comunicado oficial publicado!");
+    }
+
+    function abrirModalDisciplina() {
+      if (!verificarPermissaoAdmin()) return;
+      if (DB.jogadores.length === 0) { alert("Cadastre primeiro atletas no plantel."); return; }
+      var sel = document.getElementById('disc-atleta');
+      if (sel) {
+        sel.innerHTML = '';
+        for (var i = 0; i < DB.jogadores.length; i++) {
+          sel.innerHTML += '<option value="' + DB.jogadores[i].nome + '">#' + DB.jogadores[i].numero + ' ' + DB.jogadores[i].nome + '</option>';
+        }
+      }
+      abrirModal('modal-disciplina');
+    }
+
+    function salvarDisciplina() {
+      if (!verificarPermissaoAdmin()) return;
+      var atl =
