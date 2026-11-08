@@ -1,23 +1,3 @@
- <script>. Isso causava um erro fatal no JavaScript
-    (ReferenceError), impedindo o carregamento da lista de atletas, o
-    redirecionamento ao WhatsApp e a correta separação entre a tela de jogador e
-    de administrador.
-2.  Envio via WhatsApp: Com o JavaScript quebrando no cadastro, o comando do
-    WhatsApp nunca era executado. Agora o código foi corrigido e inclui também
-    um botão de contingência caso o bloqueador de pop-ups do navegador tente
-    barrar.
-3.  Login do Jogador entrando na Administração: Foi corrigido com a
-    implementação das funções que faltavam; o atleta agora só vê estritamente a
-    sua área individual e o mural de comunicados.
-4.  Nome no cabeçalho: Atualizado de "Eduardo Ferreira Alfredo" para "Eduardo
-    Alfredo".
-5.  Acesso Desenvolvedor em três pontos (...): A aba "👑 Desenvolvedor" foi
-    retirada do seletor visível e posicionada discretamente como um botão de
-    três pontos (...) no canto superior direito do cartão de entrada.
-
-Código Completo Corrigido (index.html)
-
-Substitua todo o conteúdo do seu arquivo index.html pelo código abaixo:
 
 <!DOCTYPE html>
 <html lang="pt-AO">
@@ -144,15 +124,22 @@ Substitua todo o conteúdo do seu arquivo index.html pelo código abaixo:
       padding-top: 12px; border-top: 1px solid #1E2D56;
     }
 
-    @media print {
-      .no-print { display: none !important; }
-      body { background: white !important; color: black !important; padding: 0; margin: 0; }
-      .area-pdf-oficial { display: block !important; padding: 20px; background: white !important; color: black !important; }
-      .area-pdf-oficial table { border-collapse: collapse; width: 100%; margin-top: 14px; font-size: 11px; color: black !important; }
-      .area-pdf-oficial th { background: #F1F5F9 !important; color: black !important; border: 1px solid #333 !important; padding: 6px; }
-      .area-pdf-oficial td { border: 1px solid #666 !important; padding: 5px 6px; color: black !important; }
-      .area-pdf-oficial h1, .area-pdf-oficial h2, .area-pdf-oficial h3 { color: #0F172A !important; }
+    /* Modal do Visualizador Oficial de Documentos / Relatórios */
+    .papel-a4-preview {
+      background: white !important;
+      color: #0F172A !important;
+      border-radius: 8px;
+      padding: 24px;
+      width: 100%;
+      max-width: 820px;
+      max-height: 85vh;
+      overflow-y: auto;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.9);
+      font-size: 12px;
     }
+    .papel-a4-preview table { width: 100%; border-collapse: collapse; margin-top: 12px; }
+    .papel-a4-preview th { background: #F1F5F9; color: black; border: 1px solid #333; padding: 6px; text-transform: uppercase; font-size: 10px; }
+    .papel-a4-preview td { border: 1px solid #666; padding: 5px 6px; color: #1E293B; }
   </style>
 </head>
 <body>
@@ -230,7 +217,7 @@ Substitua todo o conteúdo do seu arquivo index.html pelo código abaixo:
   <div id="plataforma-conteudo" style="display:none;">
 
     <!-- Topo da Plataforma com Imagem do Clube e Perfil Atual -->
-    <div class="topo no-print">
+    <div class="topo">
       <div style="display:flex; align-items:center; gap:10px;">
         <div id="box-emblema-topo" style="width:36px; height:46px;"></div>
         <div>
@@ -251,7 +238,7 @@ Substitua todo o conteúdo do seu arquivo index.html pelo código abaixo:
     </div>
 
     <!-- Canal Oficial WhatsApp -->
-    <div class="box-grupo-wpp no-print">
+    <div class="box-grupo-wpp">
       <div style="display:flex; align-items:center; gap:8px;">
         <span style="font-size:18px;">💬</span>
         <div>
@@ -265,7 +252,7 @@ Substitua todo o conteúdo do seu arquivo index.html pelo código abaixo:
     </div>
 
     <!-- Aviso de Bloqueio -->
-    <div id="box-aviso-bloqueio" class="box-bloqueio-aviso no-print" style="display:none;">
+    <div id="box-aviso-bloqueio" class="box-bloqueio-aviso" style="display:none;">
       <div style="display:flex; align-items:center; gap:8px;">
         <span style="font-size:18px;">🔒</span>
         <div>
@@ -276,7 +263,7 @@ Substitua todo o conteúdo do seu arquivo index.html pelo código abaixo:
     </div>
 
     <!-- MENU DE NAVEGAÇÃO INTERNO -->
-    <div id="box-menu-navegacao" class="menu-nav no-print">
+    <div id="box-menu-navegacao" class="menu-nav">
       <button id="tab-painel" class="active" onclick="abrirAba('painel')">📊 Painel Geral</button>
       <button id="tab-anuncios" onclick="abrirAba('anuncios')">📢 Comunicados</button>
       <button id="tab-plantel" onclick="abrirAba('plantel')">👥 Plantel de Jogadores</button>
@@ -293,7 +280,7 @@ Substitua todo o conteúdo do seu arquivo index.html pelo código abaixo:
     </div>
 
     <!-- 1. PAINEL PRINCIPAL -->
-    <div id="aba-painel" class="no-print">
+    <div id="aba-painel">
       <div class="card">
         <div class="grid-stats">
           <div class="stat-box"><p>Jogadores Activos</p><h3 id="stat-plantel-activos" style="color:#10B981;">0</h3></div>
@@ -335,7 +322,7 @@ Substitua todo o conteúdo do seu arquivo index.html pelo código abaixo:
     </div>
 
     <!-- 2. COMUNICADOS -->
-    <div id="aba-anuncios" style="display:none;" class="no-print">
+    <div id="aba-anuncios" style="display:none;">
       <div class="card">
         <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
           <div>
@@ -349,7 +336,7 @@ Substitua todo o conteúdo do seu arquivo index.html pelo código abaixo:
     </div>
 
     <!-- 3. PLANTEL DE JOGADORES -->
-    <div id="aba-plantel" style="display:none;" class="no-print">
+    <div id="aba-plantel" style="display:none;">
       <div class="card">
         <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px; margin-bottom:12px;">
           <div>
@@ -418,7 +405,7 @@ Substitua todo o conteúdo do seu arquivo index.html pelo código abaixo:
     </div>
 
     <!-- 4. QUOTAS DOMINICAIS -->
-    <div id="aba-financas" style="display:none;" class="no-print">
+    <div id="aba-financas" style="display:none;">
       <div class="box-express">
         <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;">
           <div>
@@ -475,7 +462,7 @@ Substitua todo o conteúdo do seu arquivo index.html pelo código abaixo:
     </div>
 
     <!-- 5. RECEITAS & DESPESAS -->
-    <div id="aba-receitas-despesas" style="display:none;" class="no-print">
+    <div id="aba-receitas-despesas" style="display:none;">
       <div class="card">
         <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px; margin-bottom:12px;">
           <div>
@@ -510,7 +497,7 @@ Substitua todo o conteúdo do seu arquivo index.html pelo código abaixo:
     </div>
 
     <!-- 6. JOGOS & RESULTADOS -->
-    <div id="aba-jogos" style="display:none;" class="no-print">
+    <div id="aba-jogos" style="display:none;">
       <div class="card">
         <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px; margin-bottom:10px;">
           <div>
@@ -530,7 +517,7 @@ Substitua todo o conteúdo do seu arquivo index.html pelo código abaixo:
     </div>
 
     <!-- 7. ESTATÍSTICAS -->
-    <div id="aba-estatisticas" style="display:none;" class="no-print">
+    <div id="aba-estatisticas" style="display:none;">
       <div class="card">
         <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
           <div>
@@ -547,7 +534,7 @@ Substitua todo o conteúdo do seu arquivo index.html pelo código abaixo:
     </div>
 
     <!-- 8. DISCIPLINA -->
-    <div id="aba-disciplina" style="display:none;" class="no-print">
+    <div id="aba-disciplina" style="display:none;">
       <div class="card">
         <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
           <div>
@@ -564,7 +551,7 @@ Substitua todo o conteúdo do seu arquivo index.html pelo código abaixo:
     </div>
 
     <!-- 9. PATRIMÓNIO -->
-    <div id="aba-patrimonio" style="display:none;" class="no-print">
+    <div id="aba-patrimonio" style="display:none;">
       <div class="card">
         <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
           <div>
@@ -581,7 +568,7 @@ Substitua todo o conteúdo do seu arquivo index.html pelo código abaixo:
     </div>
 
     <!-- 10. ADMINS & AUDITORIA -->
-    <div id="aba-admins" style="display:none;" class="no-print">
+    <div id="aba-admins" style="display:none;">
       <div class="card">
         <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-bottom:14px; border-bottom:1px solid #1E2D56; padding-bottom:10px;">
           <div>
@@ -608,7 +595,7 @@ Substitua todo o conteúdo do seu arquivo index.html pelo código abaixo:
     </div>
 
     <!-- 11. CENTRO DE RELATÓRIOS -->
-    <div id="aba-relatorio" style="display:none;" class="no-print">
+    <div id="aba-relatorio" style="display:none;">
       <div class="card">
         <h2 style="font-size:16px; font-weight:bold; color:#E5A93C; margin-bottom:4px;">📄 Centro de Emissão de Documentos e Relatórios</h2>
         <p style="font-size:11px; color:#94A3B8; margin-bottom:16px;">Documentos formatados para folha A4 com carimbo institucional e exportação para folhas de cálculo Excel:</p>
@@ -618,7 +605,7 @@ Substitua todo o conteúdo do seu arquivo index.html pelo código abaixo:
             <h3 style="font-size:13px; font-weight:bold; color:#FFF; margin-bottom:4px;">👥 Lista Nominal do Plantel</h3>
             <p style="font-size:10px; color:#94A3B8; margin-bottom:10px;">Ficha oficial com fotos, antiguidade, camisolas e assinaturas institucionais.</p>
             <div style="display:flex; gap:6px; justify-content:center;">
-              <button class="btn btn-gold" onclick="gerarPDFPlantel()">📄 PDF</button>
+              <button class="btn btn-gold" onclick="gerarPDFPlantel()">📄 Ver / Baixar PDF</button>
               <button class="btn btn-blue" onclick="exportarPlantelExcel()">📊 Excel</button>
             </div>
           </div>
@@ -627,7 +614,7 @@ Substitua todo o conteúdo do seu arquivo index.html pelo código abaixo:
             <h3 style="font-size:13px; font-weight:bold; color:#34D399; margin-bottom:4px;">💰 Balanço da Tesouraria</h3>
             <p style="font-size:10px; color:#94A3B8; margin-bottom:10px;">Receitas, despesas discriminadas, saldo líquido e quotas dominicais.</p>
             <div style="display:flex; gap:6px; justify-content:center;">
-              <button class="btn btn-gold" onclick="gerarPDFFinanceiro()">📄 PDF</button>
+              <button class="btn btn-gold" onclick="gerarPDFFinanceiro()">📄 Ver / Baixar PDF</button>
               <button class="btn btn-blue" onclick="exportarFinanceiroExcel()">📊 Excel</button>
             </div>
           </div>
@@ -636,7 +623,7 @@ Substitua todo o conteúdo do seu arquivo index.html pelo código abaixo:
             <h3 style="font-size:13px; font-weight:bold; color:#F87171; margin-bottom:4px;">⚽ Desempenho & Artilharia</h3>
             <p style="font-size:10px; color:#94A3B8; margin-bottom:10px;">Golos, assistências, partidas realizadas e registo de disciplina da época.</p>
             <div style="display:flex; gap:6px; justify-content:center;">
-              <button class="btn btn-gold" onclick="gerarPDFDesempenho()">📄 PDF</button>
+              <button class="btn btn-gold" onclick="gerarPDFDesempenho()">📄 Ver / Baixar PDF</button>
               <button class="btn btn-blue" onclick="exportarJogosExcel()">📊 Excel</button>
             </div>
           </div>
@@ -645,7 +632,7 @@ Substitua todo o conteúdo do seu arquivo index.html pelo código abaixo:
     </div>
 
     <!-- 12. ÁREA EXCLUSIVA DO ATLETA -->
-    <div id="aba-jogador" style="display:none;" class="no-print">
+    <div id="aba-jogador" style="display:none;">
       <div class="box-express">
         <span style="background:#E5A93C; color:black; font-weight:bold; font-size:10px; padding:2px 6px; border-radius:4px; text-transform:uppercase;">📅 Quotas Dominicais • 2 Modalidades de Pagamento</span>
         <h3 style="font-size:15px; font-weight:bold; margin-top:6px; color:#FFFFFF;">
@@ -666,7 +653,7 @@ Substitua todo o conteúdo do seu arquivo index.html pelo código abaixo:
           🏥 Comunicar Lesão ou Doença à Direcção
         </a>
         <button class="btn btn-gold" onclick="gerarPDFFichaAtleta()">
-          🖨️ Imprimir Minha Ficha Oficial em PDF
+          🖨️ Ver & Baixar Minha Ficha Oficial em PDF
         </button>
       </div>
 
@@ -708,7 +695,7 @@ Substitua todo o conteúdo do seu arquivo index.html pelo código abaixo:
     </div>
 
     <!-- 13. CONFIGURAÇÕES MASTER -->
-    <div id="aba-config" style="display:none;" class="no-print">
+    <div id="aba-config" style="display:none;">
       <div class="card">
         <div style="margin-bottom:14px; border-bottom:1px solid #1E2D56; padding-bottom:8px;">
           <h2 style="font-size:16px; font-weight:bold; color:#E5A93C;">⚙️ Ferramentas & Configurações da Plataforma</h2>
@@ -753,38 +740,25 @@ Substitua todo o conteúdo do seu arquivo index.html pelo código abaixo:
       </div>
     </div>
 
-    <div class="rodape-oficial no-print">
+    <div class="rodape-oficial">
       Desenvolvido por Eduardo Alfredo • FC ESPANHA
     </div>
 
   </div> <!-- FIM DA PLATAFORMA INTERNA -->
 
-  <!-- ================= MODELO DE IMPRESSÃO EM PDF ================= -->
-  <div id="folha-pdf-impressao" class="area-pdf-oficial" style="display:none;">
-    <div style="display:flex; align-items:center; justify-content:space-between; border-bottom:3px solid #0F172A; padding-bottom:8px; margin-bottom:12px;">
-      <div id="box-emblema-pdf" style="width:60px; height:75px;"></div>
-      <div style="text-align:center; flex:1;">
-        <h1 style="font-size:20px; font-weight:900; margin:0; color:#0F172A;">FC ESPANHA</h1>
-        <h3 id="pdf-titulo-documento" style="font-size:13px; font-weight:bold; margin:2px 0; color:#333;">DOCUMENTO OFICIAL</h3>
-        <p style="font-size:10px; color:#555; margin:0;">Luanda • República de Angola • Moeda: Kwanza (Kz)</p>
+  <!-- ================= NOVO: MODAL VISUALIZADOR OFICIAL A4 / PDF (SEM TELA BRANCA) ================= -->
+  <div id="modal-visualizador-pdf" class="modal-box" style="display:none;">
+    <div class="papel-a4-preview">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px; border-bottom:2px solid #CBD5E1; padding-bottom:10px; flex-wrap:wrap; gap:8px;">
+        <span style="font-weight:900; color:#B31317; font-size:14px;">📄 DOCUMENTO INSTITUCIONAL OFICIAL</span>
+        <div style="display:flex; gap:8px;">
+          <button class="btn btn-gold" onclick="acionarImpressaoPDFSegura()">🖨️ Imprimir / Guardar em PDF</button>
+          <button class="btn btn-blue" onclick="baixarArquivoDocumentoHtml()">📥 Baixar Ficheiro</button>
+          <button class="btn btn-dark" onclick="fecharModal('modal-visualizador-pdf')">❌ Fechar</button>
+        </div>
       </div>
-      <div style="text-align:right; font-size:10px; color:#555;">
-        <p>Data de Emissão: <b id="pdf-data-emissao"></b></p>
-        <p>Documento Institucional</p>
-      </div>
-    </div>
-
-    <div id="pdf-conteudo-dinamico"></div>
-
-    <div style="margin-top:45px; display:flex; justify-content:space-between; text-align:center; font-size:11px;">
-      <div style="width:40%;">
-        <p style="border-top:1.5px solid #000; padding-top:5px; font-weight:bold;">O Treinador Principal</p>
-        <span style="font-size:9px; color:#666;">Equipa Técnica • FC ESPANHA</span>
-      </div>
-      <div style="width:40%;">
-        <p style="border-top:1.5px solid #000; padding-top:5px; font-weight:bold;">A Direcção do Clube</p>
-        <span style="font-size:9px; color:#666;">Presidente / Direcção Executiva</span>
-      </div>
+      
+      <div id="documento-area-render"></div>
     </div>
   </div>
 
@@ -1176,6 +1150,8 @@ Substitua todo o conteúdo do seu arquivo index.html pelo código abaixo:
     var adminPrincAutenticado = false;
     var atletaSessaoId = null;
     var marcadoresTempJogo = [];
+    var ultimoHtmlDocumento = "";
+    var ultimoTituloDocumento = "DOCUMENTO_FC_ESPANHA";
 
     function setDisplay(id, display) {
       var el = document.getElementById(id);
@@ -1608,7 +1584,7 @@ Substitua todo o conteúdo do seu arquivo index.html pelo código abaixo:
       return lista;
     }
 
-    // ================= FUNÇÃO CENTRAL: DESENHAR (RENDER DA TELA) =================
+    // ================= FUNÇÃO CENTRAL: DESENHAR =================
     function desenhar() {
       // 1. Estatísticas do Painel
       var ativos = 0, inativos = 0;
@@ -2333,7 +2309,7 @@ Substitua todo o conteúdo do seu arquivo index.html pelo código abaixo:
       mostrarAviso("✅ Atleta registado! A abrir WhatsApp...");
       var win = window.open(linkWpp, '_blank');
       if (!win) {
-        alert("Atleta registado com sucesso!\nClique no botão WhatsApp (📲) na linha do jogador para enviar as credenciais caso a janela tenha sido bloqueada pelo navegador.");
+        alert("Atleta registado com sucesso!\nClique no botão WhatsApp (📲) na linha do jogador para enviar as credenciais caso o pop-up tenha sido bloqueado.");
       }
     }
 
@@ -2600,18 +2576,18 @@ Substitua todo o conteúdo do seu arquivo index.html pelo código abaixo:
       mostrarAviso("ℹ️ Emblema original restaurado.");
     }
 
+    function obterHtmlEmblema() {
+      return DB.fotoClube 
+        ? '<img src="' + DB.fotoClube + '" style="max-width:100%; max-height:100%; border-radius:6px; object-fit:contain;">'
+        : EMBLEMA_PADRAO_SVG;
+    }
+
     function desenharEmblemas() {
       var boxPortal = document.getElementById('box-emblema-portal');
       var boxTopo = document.getElementById('box-emblema-topo');
-      var boxPdf = document.getElementById('box-emblema-pdf');
-
-      var conteudo = DB.fotoClube 
-        ? '<img src="' + DB.fotoClube + '" style="max-width:100%; max-height:100%; border-radius:6px; object-fit:contain;">'
-        : EMBLEMA_PADRAO_SVG;
-
+      var conteudo = obterHtmlEmblema();
       if (boxPortal) boxPortal.innerHTML = conteudo;
       if (boxTopo) boxTopo.innerHTML = conteudo;
-      if (boxPdf) boxPdf.innerHTML = conteudo;
     }
 
     function descarregarBackup() {
@@ -2672,13 +2648,94 @@ Substitua todo o conteúdo do seu arquivo index.html pelo código abaixo:
       alert("✅ Sistema totalmente limpo e pronto.");
     }
 
-    // ================= GERADORES DE RELATÓRIO PDF =================
+    // ================= SISTEMA BLINDADO DE DOCUMENTOS & PDF (SEM TELA BRANCA) =================
+    function abrirVisualizadorDocumento(titulo, htmlCorpo) {
+      ultimoTituloDocumento = titulo;
+      var logoSvg = obterHtmlEmblema();
+
+      var docCompleto = 
+        '<div style="display:flex; align-items:center; justify-content:space-between; border-bottom:3px solid #0F172A; padding-bottom:8px; margin-bottom:12px;">' +
+          '<div style="width:55px; height:65px;">' + logoSvg + '</div>' +
+          '<div style="text-align:center; flex:1;">' +
+            '<h1 style="font-size:20px; font-weight:900; margin:0; color:#0F172A;">FC ESPANHA</h1>' +
+            '<h3 style="font-size:13px; font-weight:bold; margin:2px 0; color:#B31317;">' + titulo + '</h3>' +
+            '<p style="font-size:10px; color:#555; margin:0;">Luanda • República de Angola • Moeda: Kwanza (Kz)</p>' +
+          '</div>' +
+          '<div style="text-align:right; font-size:10px; color:#555;">' +
+            '<p>Emissão: <b>' + obterDataHoraAtual() + '</b></p>' +
+            '<p>Doc. Autêntico</p>' +
+          '</div>' +
+        '</div>' +
+        htmlCorpo +
+        '<div style="margin-top:40px; display:flex; justify-content:space-between; text-align:center; font-size:11px;">' +
+          '<div style="width:40%;">' +
+            '<p style="border-top:1.5px solid #000; padding-top:5px; font-weight:bold; margin-bottom:1px;">O Treinador Principal</p>' +
+            '<span style="font-size:9px; color:#666;">Equipa Técnica • FC ESPANHA</span>' +
+          '</div>' +
+          '<div style="width:40%;">' +
+            '<p style="border-top:1.5px solid #000; padding-top:5px; font-weight:bold; margin-bottom:1px;">A Direcção do Clube</p>' +
+            '<span style="font-size:9px; color:#666;">Presidente / Direcção Executiva</span>' +
+          '</div>' +
+        '</div>';
+
+      ultimoHtmlDocumento = docCompleto;
+      var elRender = document.getElementById('documento-area-render');
+      if (elRender) elRender.innerHTML = docCompleto;
+      abrirModal('modal-visualizador-pdf');
+    }
+
+    function acionarImpressaoPDFSegura() {
+      // Impressão isolada via iframe invisível: o sistema principal NUNCA perde o tema nem fica em branco
+      var iframeId = "iframe-impressao-fcespanha";
+      var antigo = document.getElementById(iframeId);
+      if (antigo) antigo.parentNode.removeChild(antigo);
+
+      var iframe = document.createElement("iframe");
+      iframe.id = iframeId;
+      iframe.style.position = "fixed";
+      iframe.style.right = "0";
+      iframe.style.bottom = "0";
+      iframe.style.width = "0";
+      iframe.style.height = "0";
+      iframe.style.border = "0";
+      document.body.appendChild(iframe);
+
+      var doc = iframe.contentWindow.document;
+      doc.open();
+      doc.write(
+        '<!DOCTYPE html><html><head><meta charset="UTF-8"><title>' + ultimoTituloDocumento + '</title>' +
+        '<style>' +
+        '* { box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif; }' +
+        'body { margin: 20px; color: black; background: white; }' +
+        'table { width: 100%; border-collapse: collapse; margin-top: 12px; font-size: 11px; }' +
+        'th { background: #F1F5F9; border: 1px solid #333; padding: 6px; text-align: left; }' +
+        'td { border: 1px solid #666; padding: 5px 6px; }' +
+        '</style></head><body>' +
+        ultimoHtmlDocumento +
+        '</body></html>'
+      );
+      doc.close();
+
+      setTimeout(function() {
+        iframe.contentWindow.focus();
+        iframe.contentWindow.print();
+      }, 350);
+    }
+
+    function baixarArquivoDocumentoHtml() {
+      var nomeArq = ultimoTituloDocumento.replace(/[^a-zA-Z0-9]/g, '_') + "_" + obterDataHoje() + ".html";
+      var htmlFinal = '<!DOCTYPE html><html><head><meta charset="UTF-8"><title>' + ultimoTituloDocumento + '</title><style>body{font-family:Arial,sans-serif;margin:30px;}table{width:100%;border-collapse:collapse;margin-top:14px;font-size:11px;}th{background:#f1f5f9;border:1px solid #333;padding:6px;text-align:left;}td{border:1px solid #666;padding:5px 6px;}</style></head><body>' + ultimoHtmlDocumento + '</body></html>';
+      var blob = new Blob([htmlFinal], { type: 'text/html;charset=utf-8' });
+      var link = document.createElement("a");
+      link.href = URL.createObjectURL(blob);
+      link.download = nomeArq;
+      link.click();
+      mostrarAviso("📥 Ficheiro do documento descarregado!");
+    }
+
     function gerarPDFPlantel() {
       var lista = obterPlantelFiltradoEOrdenado();
-      if (lista.length === 0) { alert("Cadastre primeiro atletas para gerar a lista."); return; }
-
-      setText('pdf-titulo-documento', 'RELAÇÃO NOMINAL DO PLANTEL SÉNIOR OFICIAL');
-      setText('pdf-data-emissao', obterDataHoraAtual());
+      if (lista.length === 0) { alert("Cadastre primeiro atletas para gerar a relação nominal."); return; }
 
       var html = '<table>' +
         '<thead><tr>' +
@@ -2699,16 +2756,12 @@ Substitua todo o conteúdo do seu arquivo index.html pelo código abaixo:
         '</tr>';
       }
       html += '</tbody></table>' +
-        '<p style="margin-top:10px; font-size:10px; color:#555;">Total de Jogadores: <b>' + lista.length + ' atletas registados</b>.</p>';
+        '<p style="margin-top:10px; font-size:10px; color:#555;">Total de Jogadores Inscritos: <b>' + lista.length + ' atletas</b>.</p>';
 
-      document.getElementById('pdf-conteudo-dinamico').innerHTML = html;
-      window.print();
+      abrirVisualizadorDocumento("RELAÇÃO NOMINAL DO PLANTEL SÉNIOR OFICIAL", html);
     }
 
     function gerarPDFFinanceiro() {
-      setText('pdf-titulo-documento', 'RELATÓRIO FINANCEIRO & BALANÇO DA TESOURARIA');
-      setText('pdf-data-emissao', obterDataHoraAtual());
-
       var saldo = DB.financas.receitas - DB.financas.despesas;
       var totalExpress = 0, totalCash = 0;
       for (var q = 0; q < DB.historicoQuotas.length; q++) {
@@ -2731,95 +2784,4 @@ Substitua todo o conteúdo do seu arquivo index.html pelo código abaixo:
           '<thead><tr><th>Modalidade</th><th>Total Liquidado</th><th>Observações</th></tr></thead>' +
           '<tbody>' +
             '<tr><td>📲 Multicaixa Express (935 523 498)</td><td style="font-weight:bold;">' + kz(totalExpress) + '</td><td>Pagamentos remotos com comprovativo via WhatsApp</td></tr>' +
-            '<tr><td>💵 Em Cash (Dinheiro Vivo)</td><td style="font-weight:bold;">' + kz(totalCash) + '</td><td>Pagamentos em espécie ao Tesoureiro no campo</td></tr>' +
-            '<tr><td><b>TOTAL DE QUOTAS RECEBIDAS</b></td><td style="font-weight:bold; color:#0F172A;">' + kz(DB.financas.quotas) + '</td><td><b>Acumulado total de quotas</b></td></tr>' +
-          '</tbody>' +
-        '</table>';
-
-      document.getElementById('pdf-conteudo-dinamico').innerHTML = html;
-      window.print();
-    }
-
-    function gerarPDFDesempenho() {
-      setText('pdf-titulo-documento', 'RELATÓRIO DE DESEMPENHO, ARTILHARIA & DISCIPLINA');
-      setText('pdf-data-emissao', obterDataHoraAtual());
-
-      var lista = DB.jogadores.slice();
-      lista.sort(function(a,b) { return (b.golos || 0) - (a.golos || 0); });
-
-      var html = '<h4 style="margin:8px 0; color:#0F172A;">1. Tabela de Artilharia (Golos & Assistências):</h4>' +
-        '<table><thead><tr><th>Class.</th><th>Nº</th><th>Nome do Jogador</th><th>Posição</th><th>Jogos</th><th>Golos ⚽</th><th>Assistências 👟</th></tr></thead><tbody>';
-      
-      for (var i = 0; i < lista.length; i++) {
-        html += '<tr>' +
-          '<td style="text-align:center;">' + (i+1) + 'º</td>' +
-          '<td style="text-align:center;"><b>#' + lista[i].numero + '</b></td>' +
-          '<td><b>' + lista[i].nome + '</b></td>' +
-          '<td>' + lista[i].posicao + '</td>' +
-          '<td>' + (lista[i].jogosDisputados || 0) + '</td>' +
-          '<td style="text-align:center; font-weight:bold;">' + (lista[i].golos || 0) + ' ⚽</td>' +
-          '<td style="text-align:center;">' + (lista[i].assistencias || 0) + ' 👟</td>' +
-        '</tr>';
-      }
-      html += '</tbody></table>';
-
-      document.getElementById('pdf-conteudo-dinamico').innerHTML = html;
-      window.print();
-    }
-
-    function gerarPDFFichaAtleta() {
-      var at = obterAtletaSessao();
-      if (!at) return;
-      setText('pdf-titulo-documento', 'FICHA INDIVIDUAL DO ATLETA');
-      setText('pdf-data-emissao', obterDataHoraAtual());
-
-      var html = '<div style="display:flex; gap:16px; align-items:center; border:1px solid #333; padding:10px; margin-bottom:12px;">' +
-        '<img src="' + (at.foto || SILHUETA_PADRAO) + '" style="width:85px; height:85px; border-radius:10px; object-fit:cover; border:2px solid #0F172A;">' +
-        '<div>' +
-          '<h2 style="margin:0; font-size:16px; color:#0F172A;">#' + at.numero + ' ' + at.nome + '</h2>' +
-          '<p style="font-size:11px; margin:2px 0;">Posição: <b>' + at.posicao + '</b> | Situação: <b>' + (at.situacao || 'Activo') + '</b></p>' +
-          '<p style="font-size:11px; margin:2px 0;">Idade: <b>' + calcularIdade(at.nasc) + '</b> (' + formatarDataBR(at.nasc) + ') | Bairro: <b>' + (at.bairro || 'Luanda') + '</b></p>' +
-          '<p style="font-size:11px; margin:2px 0;">No Clube Desde: <b>' + formatarDataBR(at.dataEntrada) + '</b> | Contacto: <b>' + at.telefone + '</b></p>' +
-          '<p style="font-size:11px; margin:2px 0; font-weight:bold;">Estatísticas: ' + (at.golos || 0) + ' Golos ⚽ | ' + (at.assistencias || 0) + ' Assistências 👟</p>' +
-        '</div>' +
-      '</div>' +
-      '<h4 style="margin:10px 0 4px 0; color:#0F172A;">Histórico de Quotas Liquidadas:</h4>' +
-      '<table><thead><tr><th>Nº Recibo</th><th>Período</th><th>Valor Liquidado</th><th>Modalidade</th></tr></thead><tbody>';
-
-      var total = 0, count = 0;
-      for (var i = 0; i < DB.historicoQuotas.length; i++) {
-        var q = DB.historicoQuotas[i];
-        if (q.atleta === at.nome) {
-          count++;
-          total += q.valor;
-          html += '<tr><td>' + (q.recibo || '--') + '</td><td>' + q.mes + '</td><td><b>' + kz(q.valor) + '</b></td><td>' + q.metodo + '</td></tr>';
-        }
-      }
-      if (count === 0) html += '<tr><td colspan="4" style="text-align:center;">Nenhuma quota registada até ao momento.</td></tr>';
-      html += '</tbody></table>' +
-        '<p style="text-align:right; font-size:11px; font-weight:bold; margin-top:6px;">Total Acumulado Pago: ' + kz(total) + '</p>';
-
-      document.getElementById('pdf-conteudo-dinamico').innerHTML = html;
-      window.print();
-    }
-
-    // ================= ARRANQUE DO SISTEMA =================
-    setValue('filtro-domingo-ref', obterDomingoAtual());
-    setValue('cad-entrada', obterDataHoje());
-    setValue('desp-data', obterDataHoje());
-    setValue('jg-data', obterDataHoje());
-
-    desenharEmblemas();
-
-    // Inicia na Tela de Entrada
-    setDisplay('plataforma-conteudo', 'none');
-    setDisplay('tela-login-portal', 'flex');
-    alternarFormLogin('jogador');
-
-    setTimeout(function() {
-      sincronizarComSupabase();
-    }, 150);
-  </script>
-</body>
-</html>
-
+            '<tr><td>💵 Em Cash (Dinheiro Vivo)</td><
