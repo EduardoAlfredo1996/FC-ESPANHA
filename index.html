@@ -1,5 +1,4 @@
 
-
 <!DOCTYPE html>
 <html lang="pt-AO">
 <head>
@@ -185,13 +184,13 @@
     </div>
   </div>
 
-  <!-- 2. ANÚNCIOS -->
+  <!-- 2. ANÚNCIOS (COM EDITAR E ELIMINAR SOB TUTELA DA GESTÃO) -->
   <div id="aba-anuncios" style="display:none;" class="no-print">
     <div class="card">
       <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
         <div>
           <h2 style="font-size:15px; font-weight:bold; color:#E5A93C;">📢 Mural de Anúncios da Direcção</h2>
-          <p style="font-size:10px; color:#888;">Comunicados oficiais sincronizados para todo o plantel.</p>
+          <p style="font-size:10px; color:#888;">Gestão oficial de comunicados: publicar, editar ou eliminar.</p>
         </div>
         <button id="btn-novo-anuncio" class="btn btn-red" onclick="abrirModalAnuncio()">+ Publicar Anúncio</button>
       </div>
@@ -409,7 +408,7 @@
   <div id="aba-relatorio" style="display:none;" class="no-print">
     <div class="card">
       <h2 style="font-size:16px; font-weight:bold; color:#E5A93C; margin-bottom:4px;">📄 Centro de Emissão de Relatórios em PDF</h2>
-      <p style="font-size:11px; color:#888; margin-bottom:16px;">Selecione o documento oficial que deseja descarregar ou imprimir em folha A4:</p>
+      <p style="font-size:11px; color:#888; margin-bottom:16px;">Documentos oficiais formatados para folha A4 com carimbo e assinaturas institucionais:</p>
       
       <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(240px, 1fr)); gap:12px;">
         <div style="background:#1A1A1F; border:1px solid #28282D; border-radius:8px; padding:14px; text-align:center;">
@@ -553,7 +552,7 @@
     Desenvolvido por Eduardo Ferreira Alfredo (2026) • FC ESPANHA
   </div>
 
-  <!-- ================= MODELO DE IMPRESSÃO EM PDF (FOLHA A4 OFICIAL) ================= -->
+  <!-- ================= MODELO DE IMPRESSÃO EM PDF (FOLHA A4 OFICIAL INSTITUCIONAL) ================= -->
   <div id="folha-pdf-impressao" class="area-pdf-oficial" style="display:none;">
     <div style="display:flex; align-items:center; justify-content:space-between; border-bottom:3px solid #8A0A0E; padding-bottom:8px; margin-bottom:12px;">
       <div id="box-emblema-pdf" style="width:60px; height:75px;"></div>
@@ -563,23 +562,23 @@
         <p style="font-size:10px; color:#555; margin:0;">Luanda • República de Angola • Moeda: Kwanza (Kz)</p>
       </div>
       <div style="text-align:right; font-size:10px; color:#555;">
-        <p>Data: <b id="pdf-data-emissao"></b></p>
-        <p>Desenvolvedor: <b>E. Alfredo</b></p>
+        <p>Data de Emissão: <b id="pdf-data-emissao"></b></p>
+        <p>Documento Institucional</p>
       </div>
     </div>
 
     <!-- CORPO DO DOCUMENTO GERADO DINAMICAMENTE -->
     <div id="pdf-conteudo-dinamico"></div>
 
-    <!-- ASSINATURAS E CARIMBO -->
-    <div style="margin-top:40px; display:flex; justify-content:space-between; text-align:center; font-size:11px;">
+    <!-- ASSINATURAS INSTITUCIONAIS (TREINADOR E DIRECÇÃO DO CLUBE) -->
+    <div style="margin-top:45px; display:flex; justify-content:space-between; text-align:center; font-size:11px;">
       <div style="width:40%;">
-        <p style="border-top:1px solid #000; padding-top:4px; font-weight:bold;">O Treinador Principal</p>
-        <span style="font-size:9px; color:#777;">Equipa Técnica FC ESPANHA</span>
+        <p style="border-top:1.5px solid #000; padding-top:5px; font-weight:bold;">O Treinador Principal</p>
+        <span style="font-size:9px; color:#666;">Equipa Técnica • FC ESPANHA</span>
       </div>
       <div style="width:40%;">
-        <p style="border-top:1px solid #000; padding-top:4px; font-weight:bold;">A Direcção / Desenvolvedor Master</p>
-        <span style="font-size:9px; color:#777;">Eduardo Ferreira Alfredo</span>
+        <p style="border-top:1.5px solid #000; padding-top:5px; font-weight:bold;">A Direcção do Clube</p>
+        <span style="font-size:9px; color:#666;">Presidente / Direcção Executiva</span>
       </div>
     </div>
   </div>
@@ -705,7 +704,7 @@
     </div>
   </div>
 
-  <!-- Modal Anúncio -->
+  <!-- Modal Publicar Novo Anúncio -->
   <div id="modal-anuncio" class="modal-box" style="display:none;">
     <div class="modal-corpo">
       <h3 style="color:#E5A93C; font-size:14px; font-weight:bold; margin-bottom:12px; text-transform:uppercase;">Publicar Comunicado no FC ESPANHA</h3>
@@ -714,6 +713,20 @@
       <div style="text-align:right; margin-top:14px;">
         <button class="btn btn-dark" onclick="fecharModal('modal-anuncio')">Cancelar</button>
         <button class="btn btn-red" onclick="salvarAnuncio()">Publicar Comunicado</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- NOVO MODAL: EDITAR ANÚNCIO (EXCLUSIVO GESTÃO / MASTER E ADMINS) -->
+  <div id="modal-edit-anuncio" class="modal-box" style="display:none;">
+    <div class="modal-corpo">
+      <h3 style="color:#E5A93C; font-size:14px; font-weight:bold; margin-bottom:12px; text-transform:uppercase;">✏️ Editar Comunicado Oficial</h3>
+      <input type="hidden" id="edit-anun-id">
+      <div class="campo"><label>Título do Anúncio:</label><input id="edit-anun-titulo" type="text"></div>
+      <div class="campo"><label>Texto do Comunicado:</label><textarea id="edit-anun-texto" rows="5"></textarea></div>
+      <div style="text-align:right; margin-top:14px;">
+        <button class="btn btn-dark" onclick="fecharModal('modal-edit-anuncio')">Cancelar</button>
+        <button class="btn btn-gold" onclick="salvarEdicaoAnuncio()">Guardar Alterações</button>
       </div>
     </div>
   </div>
@@ -944,7 +957,6 @@
       }
     }
 
-    // SINCRONIZAÇÃO NATIVA COM SUPABASE
     function sincronizarComSupabase() {
       atualizarIndicadorNuvem(false, "#FBBF24", "🔄 A sincronizar com o Supabase...");
 
@@ -1411,7 +1423,6 @@
       if (totalPendentes === 0) boxPendentes.innerHTML = '<p style="color:#10B981;">Todos os atletas regularizados nesta semana!</p>';
     }
 
-    // RETORNA PLANTEL FILTRADO E ORDENADO
     function obterPlantelFiltradoEOrdenado() {
       var lista = DB.jogadores.slice();
 
@@ -1484,9 +1495,12 @@
         }
       }
 
+      // MURAL DE ANÚNCIOS (COM OPÇÃO DE EDITAR E ELIMINAR SOB TUTELA DA GESTÃO)
       var boxAnun = document.getElementById('lista-anuncios');
       if (boxAnun) {
         boxAnun.innerHTML = DB.anuncios.length ? '' : '<p style="color:#888; font-size:12px;">Nenhum comunicado publicado.</p>';
+        var eGestaoAnun = (perfil === 'dev' || perfil === 'adm1' || perfil === 'adm2' || perfil === 'adm3');
+
         for (var an = 0; an < DB.anuncios.length; an++) {
           var itemA = DB.anuncios[an];
           var linkNotificarGrupo = "https://wa.me/?text=" + encodeURIComponent("📢 *COMUNICADO OFICIAL – FC ESPANHA*\n\n*" + itemA.titulo + "*\n\n" + itemA.texto + "\n\n_Publicado por: " + itemA.autor + "_");
@@ -1496,15 +1510,19 @@
               '<span style="font-size:10px; color:#888;">' + itemA.data + '</span>' +
             '</div>' +
             '<p style="font-size:12px; color:#FFF; margin:8px 0; line-height:1.4;">' + itemA.texto + '</p>' +
-            '<div style="display:flex; justify-content:space-between; align-items:center; margin-top:8px; border-top:1px solid #28282D; padding-top:6px;">' +
+            '<div style="display:flex; justify-content:space-between; align-items:center; margin-top:8px; border-top:1px solid #28282D; padding-top:6px; flex-wrap:wrap; gap:6px;">' +
               '<span style="font-size:10px; color:#888;">Autor: ' + itemA.autor + '</span>' +
-              '<a href="' + linkNotificarGrupo + '" target="_blank" class="btn btn-wpp" style="font-size:10px; padding:4px 8px;">📲 Notificar no WhatsApp</a>' +
+              '<div style="display:flex; gap:4px; align-items:center;">' +
+                (eGestaoAnun ? '<button class="btn btn-gold" style="font-size:10px; padding:3px 7px;" onclick="abrirModalEditarAnuncio(' + itemA.id + ')">✏️ Editar</button>' : '') +
+                (eGestaoAnun ? '<button class="btn btn-red" style="font-size:10px; padding:3px 7px;" onclick="eliminarAnuncio(' + itemA.id + ')">🗑️ Eliminar</button>' : '') +
+                '<a href="' + linkNotificarGrupo + '" target="_blank" class="btn btn-wpp" style="font-size:10px; padding:4px 8px;">📲 WhatsApp</a>' +
+              '</div>' +
             '</div>' +
           '</div>';
         }
       }
 
-      // TABELA DO PLANTEL COM ORDENAÇÃO E DATA DE ENTRADA
+      // TABELA DO PLANTEL
       var tbPl = document.getElementById('tb-plantel');
       if (tbPl) {
         var listaExibicao = obterPlantelFiltradoEOrdenado();
@@ -1870,8 +1888,11 @@
       mostrarAviso("Atleta removido da plataforma.");
     }
 
+    // ================= GESTÃO DE ANÚNCIOS (PUBLICAR, EDITAR E ELIMINAR) =================
     function abrirModalAnuncio() {
       if (!verificarPermissaoAdmin()) return;
+      setValue('anun-titulo', '');
+      setValue('anun-texto', '');
       abrirModal('modal-anuncio');
     }
     
@@ -1893,6 +1914,57 @@
       fecharModal('modal-anuncio');
       desenhar();
       mostrarAviso("📢 Comunicado oficial publicado!");
+    }
+
+    function abrirModalEditarAnuncio(id) {
+      if (!verificarPermissaoAdmin()) return;
+      var anun = null;
+      for (var i = 0; i < DB.anuncios.length; i++) {
+        if (DB.anuncios[i].id === id) { anun = DB.anuncios[i]; break; }
+      }
+      if (!anun) return;
+
+      setValue('edit-anun-id', anun.id);
+      setValue('edit-anun-titulo', anun.titulo);
+      setValue('edit-anun-texto', anun.texto);
+      abrirModal('modal-edit-anuncio');
+    }
+
+    function salvarEdicaoAnuncio() {
+      if (!verificarPermissaoAdmin()) return;
+      var id = Number(document.getElementById('edit-anun-id').value);
+      var tit = document.getElementById('edit-anun-titulo').value.trim();
+      var txt = document.getElementById('edit-anun-texto').value.trim();
+      if (!tit || !txt) { alert("Preencha o título e o texto."); return; }
+
+      for (var i = 0; i < DB.anuncios.length; i++) {
+        if (DB.anuncios[i].id === id) {
+          DB.anuncios[i].titulo = tit;
+          DB.anuncios[i].texto = txt;
+          DB.anuncios[i].autor = obterNomeUsuarioAtual();
+          break;
+        }
+      }
+
+      registarAuditoria("Editou o comunicado: " + tit);
+      fecharModal('modal-edit-anuncio');
+      desenhar();
+      mostrarAviso("✅ Comunicado atualizado com sucesso!");
+    }
+
+    function eliminarAnuncio(id) {
+      if (!verificarPermissaoAdmin()) return;
+      if (!confirm("Tem a certeza de que deseja eliminar este comunicado oficial?")) return;
+
+      var titRemovido = "";
+      DB.anuncios = DB.anuncios.filter(function(a) {
+        if (a.id === id) titRemovido = a.titulo;
+        return a.id !== id;
+      });
+
+      registarAuditoria("Eliminou comunicado: " + titRemovido);
+      desenhar();
+      mostrarAviso("Comunicado eliminado com sucesso.");
     }
 
     function abrirModalDisciplina() {
@@ -2079,9 +2151,9 @@
       alert("✅ Sistema totalmente limpo e pronto.");
     }
 
-    // ================= GERADORES DE PDF OFICIAIS =================
+    // ================= GERADORES DE PDF OFICIAIS (INSTITUCIONAIS) =================
 
-    // 1. PDF DA LISTA NOMINAL DO PLANTEL
+    // 1. PDF DA LISTA NOMINAL DO PLANTEL (SEM DESENVOLVEDOR NA ASSINATURA)
     function gerarPDFPlantel() {
       var lista = obterPlantelFiltradoEOrdenado();
       if (lista.length === 0) {
@@ -2267,3 +2339,5 @@
   </script>
 </body>
 </html>
+
+O 
