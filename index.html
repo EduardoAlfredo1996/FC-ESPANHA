@@ -1827,4 +1827,83 @@
 
     function abrirModalPatrimonio() {
       if (!verificarPermissaoAdmin()) return;
-      abrir
+      abrirModal('modal-patrimonio');
+    }
+
+    function salvarPatrimonio() {
+      if (!verificarPermissaoAdmin()) return;
+      var nome = document.getElementById('pat-nome').value.trim();
+      var tot = parseInt(document.getElementById('pat-qtd').value) || 1;
+      var disp = parseInt(document.getElementById('pat-disp').value) || 1;
+      var est = document.getElementById('pat-estado').value.trim();
+
+      DB.patrimonio.push({ item: nome, total: tot, disp: disp, estado: est });
+      registarAuditoria("Adicionou ao património: " + nome);
+      fecharModal('modal-patrimonio');
+      desenhar();
+      mostrarAviso("📦 Material registado no património.");
+    }
+
+    function lancarDoacao() {
+      if (!verificarPermissaoAdmin()) return;
+      var orig = prompt("Nome do Doador / Parceiro:", "Comércio Local");
+      if (!orig) return;
+      var desc = prompt("Descrição do Apoio:", "Apoio ao FC ESPANHA") || "Apoio ao clube";
+      var val = parseFloat(prompt("Valor da contribuição em Kwanzas (Kz):", "25000")) || 0;
+
+      DB.doacoes.push({ origem: orig, categoria: "Doação / Patrocínio", descricao: desc, valor: val, data: obterDataHoje() });
+      DB.financas.receitas += val;
+      registarAuditoria("Registou doação de " + kz(val) + " de " + orig);
+      desenhar();
+      mostrarAviso("🎁 Contribuição registada com sucesso!");
+    }
+
+    function lancarQuota() {
+      abrirModalLiquidarQuota();
+    }
+
+    function adicionarJogo() {
+      if (!verificarPermissaoAdmin()) return;
+      var adv = prompt("Nome do adversário:");
+      if (!adv) return;
+      var comp = prompt("Competição:", "Torneio Luanda") || "Torneio Luanda";
+      var res = prompt("Resultado do jogo (Ex: 2 - 1):", "0 - 0") || "0 - 0";
+
+      DB.jogos.push({ adversario: adv, competicao: comp, resultado: res });
+      registarAuditoria("Registou jogo FC Espanha vs " + adv);
+      desenhar();
+      mostrarAviso("✅ Jogo registado com sucesso!");
+    }
+
+    function editarAdmin(id) {
+      if (perfil !== 'dev') return;
+      for (var i = 0; i < DB.admins.length; i++) {
+        if (DB.admins[i].id === id) {
+          var nome = prompt("Novo nome completo para este Administrador:", DB.admins[i].nome);
+          if (nome) DB.admins[i].nome = nome;
+          var tel = prompt("Contacto Telefónico Oficial (Angola):", DB.admins[i].telefone);
+          if (tel) DB.admins[i].telefone = tel;
+          registarAuditoria("Master alterou dados do Administrador Vaga 0" + (i+1));
+          desenhar();
+          mostrarAviso("✅ Administrador actualizado com sucesso!");
+          return;
+        }
+      }
+    }
+
+    function alterarPINAdmin(admKey) {
+      if (perfil !== 'dev') return;
+      var novo = prompt("Introduza o NOVO PIN/Senha para " + admKey.toUpperCase() + " (mínimo 4 dígitos):");
+      if (!novo || novo.length < 4) {
+        alert("❌ O PIN deve conter no mínimo 4 dígitos.");
+        return;
+      }
+      DB.pins[admKey] = novo;
+      registarAuditoria("Master alterou o PIN do " + admKey.toUpperCase());
+      desenhar();
+      alert("✅ Senha do " + admKey.toUpperCase() + " actualizada para: " + novo);
+    }
+
+    function trocarFotoClube(input) {
+      if (perfil !== 'dev') return;
+      if (i
