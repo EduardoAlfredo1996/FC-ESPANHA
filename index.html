@@ -167,7 +167,7 @@
 
     /* TABELA RESPONSIVA */
     .table-responsive { width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch; }
-    table { width: 100%; border-collapse: collapse; font-size: 11px; min-width: 520px; }
+    table { width: 100%; border-collapse: collapse; font-size: 11px; min-width: 540px; }
     th, td { text-align: left; padding: 8px 6px; border-bottom: 1px solid #1A253F; white-space: nowrap; }
     th { color: #E5A93C; font-weight: 800; font-size: 10px; text-transform: uppercase; }
 
@@ -264,7 +264,7 @@
     <div class="card-login-portal">
       <button class="btn-tres-pontos-dev" title="Acesso Master Desenvolvedor" onclick="alternarFormLogin('master')">•••</button>
 
-      <div style="width:75px; height:75px; margin:0 auto 8px auto; cursor:pointer;" onclick="abrirModal('modal-alterar-bandeira')">
+      <div style="width:75px; height:75px; margin:0 auto 8px auto; cursor:pointer;" onclick="abrirModalSePermitidoBandeira()">
         <img id="img-emblema-login" src="" alt="FC Espanha" style="width:100%; height:100%; object-fit:contain;" onerror="aplicarSvgPadrao(this)">
       </div>
 
@@ -347,12 +347,12 @@
     <!-- SIDEBAR LATERAL -->
     <aside id="sidebar-admin-el" class="sidebar-clube">
       <div class="sidebar-logo-box">
-        <div class="sidebar-emblema" title="Clique para alterar a bandeira/emblema" onclick="abrirModal('modal-alterar-bandeira')">
+        <div class="sidebar-emblema" title="Bandeira Oficial do Clube" onclick="abrirModalSePermitidoBandeira()">
           <img id="img-emblema-sidebar" src="" alt="FC Espanha" style="width:100%; height:100%; object-fit:contain;" onerror="aplicarSvgPadrao(this)">
         </div>
         <h2 class="sidebar-titulo">FC ESPANHA</h2>
         <p class="sidebar-subtitulo">Juntos Somos Mais Fortes</p>
-        <button class="btn btn-dark" style="margin-top:6px; font-size:9px; padding:3px 7px;" onclick="abrirModal('modal-alterar-bandeira')">🏳️ Alterar Bandeira</button>
+        <button id="btn-alterar-bandeira-sidebar" class="btn btn-dark" style="margin-top:6px; font-size:9px; padding:3px 7px; display:none;" onclick="abrirModal('modal-alterar-bandeira')">🏳️ Alterar Bandeira</button>
       </div>
 
       <!-- MENU FILTRADO POR CARGO -->
@@ -368,7 +368,9 @@
         <button id="nav-item-documentos" class="sidebar-item" onclick="abrirSecaoAdmin('documentos')">📁 Documentos & Enquetes</button>
         <button id="nav-item-relatorios" class="sidebar-item" onclick="abrirSecaoAdmin('relatorios')">📋 Relatórios Oficiais</button>
         <button id="nav-item-anuncios" class="sidebar-item" onclick="abrirSecaoAdmin('anuncios')">📢 Anúncios Oficiais</button>
-        <button id="nav-item-auditoria" class="sidebar-item" onclick="abrirSecaoAdmin('auditoria')">📜 Livro de Registo</button>
+        <!-- APENAS MASTER E ADMIN PRINCIPAL PODEM VER O LIVRO DE REGISTO -->
+        <button id="nav-item-auditoria" class="sidebar-item" style="display:none;" onclick="abrirSecaoAdmin('auditoria')">📜 Livro de Registo</button>
+        <!-- NINGUÉM EXCETO O MASTER PODE VER A ABA CONFIGURAÇÕES MASTER -->
         <button id="nav-item-config" class="sidebar-item" style="display:none;" onclick="abrirSecaoAdmin('config')">⚙️ Configurações Master</button>
       </nav>
 
@@ -391,8 +393,8 @@
         </div>
 
         <div class="topo-dir">
-          <div class="badge-sino" title="Alertas do Clube" onclick="abrirSecaoAdmin('documentos')">
-            🔔<span class="badge-sino-count" id="notif-badge-admin">2</span>
+          <div class="badge-sino" title="Alertas & Solicitações" onclick="abrirPainelAlertasTopo()">
+            🔔<span class="badge-sino-count" id="notif-badge-admin">0</span>
           </div>
 
           <div class="user-pill">
@@ -410,7 +412,7 @@
       <!-- HERO BANNER -->
       <section class="hero-banner-estadio">
         <div class="hero-info-esq">
-          <div style="width:60px; height:60px; cursor:pointer;" onclick="abrirModal('modal-alterar-bandeira')">
+          <div style="width:60px; height:60px; cursor:pointer;" onclick="abrirModalSePermitidoBandeira()">
             <img id="img-emblema-hero" src="" alt="FC Espanha" style="width:100%; height:100%; object-fit:contain;" onerror="aplicarSvgPadrao(this)">
           </div>
           <div>
@@ -422,7 +424,7 @@
         <img class="hero-camisola" src="https://images.unsplash.com/photo-1577471488278-16eec37ffcc2?auto=format&fit=crop&w=300&q=80" alt="Camisola FC Espanha" onerror="this.style.display='none'">
       </section>
 
-      <!-- BARRA DE SESSÃO ACTIVA (MASTER & PRINCIPAL ACEDEM A TUDO) -->
+      <!-- BARRA DE SESSÃO ACTIVA (MASTER & PRINCIPAL NAVEGAM EM TODAS AS ABAS) -->
       <section class="sessao-activa-admin-bar">
         <span style="font-size:10px; font-weight:800; color:#E5A93C; text-transform:uppercase;">Sessão Activa:</span>
         <div class="sessao-botoes-grupo">
@@ -534,19 +536,16 @@
             </div>
             <div style="display:flex; flex-direction:column; gap:8px;">
               <div style="display:flex; justify-content:space-between; font-size:10px;">
-                <span>❗ 3 Quotas em atraso</span><span style="color:#EF4444; font-weight:bold;">Hoje</span>
+                <span>❗ Quotas em atraso</span><span style="color:#EF4444; font-weight:bold;">Hoje</span>
               </div>
               <div style="display:flex; justify-content:space-between; font-size:10px;">
-                <span>ℹ️ Novo relatório disponível</span><span style="color:#94A3B8;">Ontem</span>
+                <span>ℹ️ Sugestões dos atletas</span><span style="color:#3B82F6;">Nova</span>
               </div>
               <div style="display:flex; justify-content:space-between; font-size:10px;">
-                <span>✅ Pagamento registado</span><span style="color:#10B981;">Ontem</span>
-              </div>
-              <div style="display:flex; justify-content:space-between; font-size:10px;">
-                <span>⚠️ Atualizar dados dos atletas</span><span style="color:#FBBF24;">2 Nov</span>
+                <span>✅ Pagamentos registados</span><span style="color:#10B981;">Hoje</span>
               </div>
             </div>
-            <button class="btn btn-dark" style="width:100%; margin-top:10px; font-size:10px; padding:6px;" onclick="abrirSecaoAdmin('documentos')">Ver Todas as Notificações →</button>
+            <button class="btn btn-dark" style="width:100%; margin-top:10px; font-size:10px; padding:6px;" onclick="abrirPainelAlertasTopo()">Ver Todas as Solicitações →</button>
           </div>
         </div>
 
@@ -592,12 +591,13 @@
         </div>
       </div>
 
-      <!-- SECÇÃO: ATLETAS (COM NOVAS POSIÇÕES: ALA ESQUERDA E DIREITA) -->
+      <!-- SECÇÃO: ATLETAS (COM ANO DE CHEGADA E NOVAS POSIÇÕES) -->
       <div id="sec-admin-atletas" style="display:none; padding:12px 14px;">
         <div class="card-dash-bloco">
           <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; flex-wrap:wrap; gap:8px;">
             <b style="color:#E5A93C; font-size:13px; text-transform:uppercase;">Plantel Oficial & Atletas Cadastrados</b>
             <div style="display:flex; gap:6px;">
+              <button class="btn btn-blue" id="btn-sugestoes-adm1" style="display:none;" onclick="abrirModalSugestoesArea('desportiva')">💡 Ver Sugestões Desportivas</button>
               <button class="btn btn-gold" onclick="window.print()">📄 Baixar Plantel (PDF)</button>
               <button class="btn btn-red" onclick="abrirModalNovoAtleta()">+ Cadastrar Atleta</button>
             </div>
@@ -605,7 +605,7 @@
           <div class="table-responsive">
             <table>
               <thead>
-                <tr><th>FOTO</th><th>Nº</th><th>NOME COMPLETO</th><th>POSIÇÃO</th><th>IDADE</th><th>CONTACTO</th><th>GOLOS</th><th>CÓDIGO</th><th>AÇÕES</th></tr>
+                <tr><th>FOTO</th><th>Nº</th><th>NOME COMPLETO</th><th>POSIÇÃO</th><th>IDADE</th><th>ANO INGRESSO</th><th>CONTACTO</th><th>SENHA</th><th>GOLOS</th><th>CÓDIGO</th><th>AÇÕES</th></tr>
               </thead>
               <tbody id="tb-atletas-geral"></tbody>
             </table>
@@ -614,7 +614,7 @@
         <div class="rodape-assinatura-aba">Desenvolvido por Eduardo Ferreira Alfredo (2026) • FC ESPANHA • Contacto: 945260362</div>
       </div>
 
-      <!-- SECÇÃO: DIRIGENTES & CADASTRO DE ADMINS -->
+      <!-- SECÇÃO: DIRIGENTES & CADASTRO DE ADMINS (COM ANO DE INGRESSO) -->
       <div id="sec-admin-dirigentes" style="display:none; padding:12px 14px;">
         <div class="card-dash-bloco">
           <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; flex-wrap:wrap; gap:8px;">
@@ -627,7 +627,7 @@
           <div class="table-responsive">
             <table>
               <thead>
-                <tr><th>FOTO</th><th>CARGO</th><th>NOME DO RESPONSÁVEL</th><th>PERMISSÕES</th><th>AÇÕES</th></tr>
+                <tr><th>FOTO</th><th>CARGO</th><th>NOME DO RESPONSÁVEL</th><th>ANO INGRESSO</th><th>PERMISSÕES</th><th>AÇÕES</th></tr>
               </thead>
               <tbody id="tb-dirigentes-lista"></tbody>
             </table>
@@ -642,6 +642,7 @@
           <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; flex-wrap:wrap; gap:8px;">
             <b style="color:#E5A93C; font-size:13px; text-transform:uppercase;">💰 Quotas Dominicais (Multicaixa Express 935523498 ou Cash)</b>
             <div style="display:flex; gap:6px;">
+              <button class="btn btn-blue" id="btn-sugestoes-adm2" style="display:none;" onclick="abrirModalSugestoesArea('financeira')">💡 Ver Sugestões Financeiras</button>
               <button class="btn btn-red" onclick="gerarRelatorioDevedoresDomingo()">⚠️ Relatório de Devedores</button>
               <button class="btn btn-gold" onclick="abrirModalNovaQuota()">➕ Registar Quota</button>
             </div>
@@ -712,7 +713,10 @@
         <div class="card-dash-bloco">
           <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
             <b style="color:#E5A93C; font-size:13px; text-transform:uppercase;">👕 Equipamentos & Materiais do Clube</b>
-            <button class="btn btn-gold" onclick="abrirModal('modal-novo-equipamento')">+ Novo Material</button>
+            <div style="display:flex; gap:6px;">
+              <button class="btn btn-blue" id="btn-sugestoes-adm3" style="display:none;" onclick="abrirModalSugestoesArea('logistica')">💡 Ver Sugestões Logística</button>
+              <button class="btn btn-gold" onclick="abrirModal('modal-novo-equipamento')">+ Novo Material</button>
+            </div>
           </div>
           <div class="table-responsive">
             <table>
@@ -724,7 +728,7 @@
         <div class="rodape-assinatura-aba">Desenvolvido por Eduardo Ferreira Alfredo (2026) • FC ESPANHA • Contacto: 945260362</div>
       </div>
 
-      <!-- SECÇÃO: DOCUMENTOS & ENQUETES (100% OPERACIONAL) -->
+      <!-- SECÇÃO: DOCUMENTOS & ENQUETES -->
       <div id="sec-admin-documentos" style="display:none; padding:12px 14px;">
         <div class="card-dash-bloco">
           <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; flex-wrap:wrap; gap:8px;">
@@ -732,7 +736,10 @@
               <b style="color:#E5A93C; font-size:13px; text-transform:uppercase;">📁 Modelos de Documentos & Enquetes de Auscultação</b>
               <p style="font-size:10px; color:#94A3B8;">A direção ausculta atletas e sócios sobre ações do clube. O Master e o Principal têm acesso a tudo.</p>
             </div>
-            <button class="btn btn-gold" onclick="abrirModal('modal-nova-enquete')">+ Criar Nova Enquete</button>
+            <div style="display:flex; gap:6px;">
+              <button class="btn btn-blue" id="btn-solic-admin-princ" style="display:none;" onclick="abrirModalSolicitacoesAdminPrincipal()">🔔 Solicitações & Denúncias dos Atletas</button>
+              <button class="btn btn-gold" onclick="abrirModal('modal-nova-enquete')">+ Criar Nova Enquete</button>
+            </div>
           </div>
           <div id="lista-enquetes-box" style="display:flex; flex-direction:column; gap:10px;"></div>
         </div>
@@ -751,7 +758,7 @@
         <div class="rodape-assinatura-aba">Desenvolvido por Eduardo Ferreira Alfredo (2026) • FC ESPANHA • Contacto: 945260362</div>
       </div>
 
-      <!-- SECÇÃO: ANÚNCIOS OFICIAIS (100% OPERACIONAL) -->
+      <!-- SECÇÃO: ANÚNCIOS OFICIAIS (TODOS OS ADMINS VÊEM E PUBLICAM) -->
       <div id="sec-admin-anuncios" style="display:none; padding:12px 14px;">
         <div class="card-dash-bloco">
           <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; flex-wrap:wrap; gap:8px;">
@@ -763,7 +770,7 @@
         <div class="rodape-assinatura-aba">Desenvolvido por Eduardo Ferreira Alfredo (2026) • FC ESPANHA • Contacto: 945260362</div>
       </div>
 
-      <!-- SECÇÃO: LIVRO DE REGISTO (AUDITORIA FILTRADA) -->
+      <!-- SECÇÃO: LIVRO DE REGISTO (AUDITORIA EXCLUSIVA MASTER & ADMIN PRINCIPAL) -->
       <div id="sec-admin-auditoria" style="display:none; padding:12px 14px;">
         <div class="card-dash-bloco">
           <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; flex-wrap:wrap; gap:8px;">
@@ -783,11 +790,11 @@
         <div class="rodape-assinatura-aba">Desenvolvido por Eduardo Ferreira Alfredo (2026) • FC ESPANHA • Contacto: 945260362</div>
       </div>
 
-      <!-- SECÇÃO: CONFIGURAÇÕES MASTER (AUTORIDADE TOTAL + GESTÃO DE SENHAS) -->
+      <!-- SECÇÃO: CONFIGURAÇÕES MASTER (EXCLUSIVO MASTER) -->
       <div id="sec-admin-config" style="display:none; padding:12px 14px;">
         <div class="card-dash-bloco">
           <h3 style="color:#E5A93C; font-size:13px; text-transform:uppercase; margin-bottom:4px;">⚙️ Painel do Desenvolvedor Master (Autoridade Total)</h3>
-          <p style="font-size:11px; color:#94A3B8; margin-bottom:14px;">Gestão exclusiva do Desenvolvedor Master: 5 travas de bloqueio e edição de senhas de todos os utilizadores.</p>
+          <p style="font-size:11px; color:#94A3B8; margin-bottom:14px;">Gestão exclusiva do Desenvolvedor Master: 5 travas de bloqueio, gestão de senhas e resposta fundamentada às solicitações da Direção.</p>
 
           <!-- 5 BOTÕES DE BLOQUEIO -->
           <div style="background:#080E1E; border:1px solid #1E2D56; border-radius:10px; padding:12px; margin-bottom:12px;">
@@ -803,6 +810,13 @@
             </div>
           </div>
 
+          <!-- SOLICITAÇÕES REENCAMINHADAS PELO ADMIN PRINCIPAL (COM RESPOSTA FUNDAMENTADA) -->
+          <div style="background:#080E1E; border:1px solid #1E2D56; border-radius:10px; padding:12px; margin-bottom:12px;">
+            <b style="color:#34D399; font-size:11px;">📥 Solicitações Reencaminhadas pelo Administrador Principal:</b>
+            <p style="font-size:10px; color:#94A3B8; margin:3px 0 8px 0;">Analise e responda a cada solicitação com um pequeno parecer/argumento:</p>
+            <div id="lista-solicitacoes-reencaminhadas-master" style="font-size:11px;">Sem pedidos pendentes.</div>
+          </div>
+
           <!-- GESTÃO DE SENHAS DE TODOS OS UTILIZADORES -->
           <div style="background:#080E1E; border:1px solid #1E2D56; border-radius:10px; padding:12px; margin-bottom:12px;">
             <b style="color:#E5A93C; font-size:11px;">🔑 CRIAR & EDITAR SENHAS DE TODOS OS UTILIZADORES:</b>
@@ -810,17 +824,11 @@
             <button class="btn btn-gold" onclick="abrirModal('modal-master-senhas')">Gerir Senhas de Utilizadores</button>
           </div>
 
-          <!-- APROVAÇÃO DE ALTERAÇÕES DE PERFIL DOS ATLETAS -->
+          <!-- BANDEIRA / EMBLEMA OFICIAL (APENAS MASTER E PRINCIPAL) -->
           <div style="background:#080E1E; border:1px solid #1E2D56; border-radius:10px; padding:12px; margin-bottom:12px;">
-            <b style="color:#34D399; font-size:11px;">📸 Solicitações de Foto e Morada dos Atletas:</b>
-            <p style="font-size:10px; color:#94A3B8; margin:3px 0 8px 0;">As alterações feitas pelos atletas só entram em vigor após a sua autorização:</p>
-            <div id="lista-pedidos-perfil-box" style="font-size:11px;">Sem pedidos pendentes.</div>
-          </div>
-
-          <!-- PEDIDOS DE REMOÇÃO DE ADMINS PELO ADMIN PRINCIPAL -->
-          <div style="background:#080E1E; border:1px solid #1E2D56; border-radius:10px; padding:12px; margin-bottom:12px;">
-            <b style="color:#EF4444; font-size:11px;">⚖️ Pedidos de Remoção de Administradores:</b>
-            <div id="lista-pedidos-remocao-admin" style="font-size:11px; margin-top:4px;">Sem pedidos pendentes.</div>
+            <b style="color:#34D399; font-size:11px;">🏳️ BANDEIRA / EMBLEMA OFICIAL:</b>
+            <p style="font-size:10px; color:#94A3B8; margin:3px 0 8px 0;">Atualize a imagem oficial do clube:</p>
+            <button class="btn btn-gold" onclick="abrirModal('modal-alterar-bandeira')">Carregar Nova Imagem do Clube</button>
           </div>
 
           <!-- ZERAR PLATAFORMA -->
@@ -844,7 +852,8 @@
     <header class="atleta-topo-bar">
       <div style="display:flex; align-items:center; gap:8px;">
         <div style="width:34px; height:34px;">
-          <img src="" style="width:100%; height:100%; object-fit:contain;" onerror="aplicarSvgPadrao(this)">
+          <!-- Emblema sincronizado com o clube -->
+          <img id="img-emblema-atleta-topo" src="" style="width:100%; height:100%; object-fit:contain;" onerror="aplicarSvgPadrao(this)">
         </div>
         <div>
           <b style="font-size:13px; color:#FFF;">FC ESPANHA</b>
@@ -899,7 +908,7 @@
         <span>👤 Meu Perfil Oficial</span><span>›</span>
       </button>
       <button class="atleta-link-item" onclick="abrirModal('modal-atleta-alterar-perfil')">
-        <span>📸 Alterar Minha Foto e Morada</span><span>›</span>
+        <span>📸 Solicitar Alteração de Foto e Morada</span><span>›</span>
       </button>
       <button class="atleta-link-item" onclick="abrirModal('modal-atleta-recibos-lista')">
         <span>💳 Minhas Quotas & Recibos Emitidos</span><span>›</span>
@@ -911,10 +920,10 @@
         <span>🏥 Participar Lesão / Justificar Ausência</span><span>›</span>
       </button>
       <button class="atleta-link-item" onclick="abrirModal('modal-atleta-relatar-injustica')">
-        <span>⚖️ Relatar Ocorrência / Injustiça (Confidencial)</span><span>›</span>
+        <span>⚖️ Relatar Ocorrência / Injustiça (Ao Admin Principal)</span><span>›</span>
       </button>
       <button class="atleta-link-item" onclick="abrirModal('modal-enviar-sugestao')">
-        <span>💡 Enviar Sugestões ao Clube</span><span>›</span>
+        <span>💡 Enviar Sugestões ao Clube (Por Departamento)</span><span>›</span>
       </button>
       <button class="atleta-link-item" onclick="baixarFichaAtletaOficial()">
         <span>📄 Baixar Ficha de Inscrição (PDF)</span><span>›</span>
@@ -961,8 +970,44 @@
   </div>
 
   <!-- ========================================================================= -->
-  <!-- 4. MODAIS DO SISTEMA (TODOS 100% OPERACIONAIS)                             -->
+  <!-- 4. MODAIS DO SISTEMA                                                      -->
   <!-- ========================================================================= -->
+
+  <!-- MODAL: PAINEL DE SOLICITAÇÕES E DENÚNCIAS (ADMIN PRINCIPAL) -->
+  <div id="modal-solicitacoes-admin-princ" class="modal-box" style="display:none;">
+    <div class="modal-corpo">
+      <h3 style="color:#E5A93C; font-size:13px; margin-bottom:6px;">🔔 SOLICITAÇÕES & DENÚNCIAS DOS ATLETAS</h3>
+      <p style="font-size:10px; color:#94A3B8; margin-bottom:12px;">O Administrador Principal avalia os pedidos e pode resolver ou reencaminhar ao Desenvolvedor Master.</p>
+      <div id="feed-solicitacoes-admin-princ" style="display:flex; flex-direction:column; gap:8px;"></div>
+      <button class="btn btn-dark" style="width:100%; margin-top:10px;" onclick="fecharModal('modal-solicitacoes-admin-princ')">Fechar</button>
+    </div>
+  </div>
+
+  <!-- MODAL: SUGESTÕES DOS ATLETAS POR ÁREA (ADMIN 1, 2, 3 E PRINCIPAL) -->
+  <div id="modal-sugestoes-area" class="modal-box" style="display:none;">
+    <div class="modal-corpo">
+      <h3 id="txt-sugestoes-area-titulo" style="color:#E5A93C; font-size:13px; margin-bottom:8px;">💡 SUGESTÕES DOS ATLETAS</h3>
+      <div id="feed-sugestoes-area-lista" style="display:flex; flex-direction:column; gap:8px;"></div>
+      <button class="btn btn-dark" style="width:100%; margin-top:10px;" onclick="fecharModal('modal-sugestoes-area')">Fechar</button>
+    </div>
+  </div>
+
+  <!-- MODAL: MASTER RESPONDER COM ARGUMENTO -->
+  <div id="modal-master-responder" class="modal-box" style="display:none;">
+    <div class="modal-corpo">
+      <h3 style="color:#FBBF24; font-size:13px; margin-bottom:6px;">👑 PARECER DO DESENVOLVEDOR MASTER</h3>
+      <input type="hidden" id="master-solic-id">
+      <div class="campo">
+        <label>Argumento / Fundamentação do Master:</label>
+        <textarea id="master-solic-argumento" rows="3" placeholder="Insira o seu parecer justificativo..."></textarea>
+      </div>
+      <div style="display:flex; gap:6px;">
+        <button class="btn btn-gold" style="flex:1;" onclick="concluirRespostaMaster('Aprovado')">✔ Aprovar com Argumento</button>
+        <button class="btn btn-red" style="flex:1;" onclick="concluirRespostaMaster('Recusado')">✖ Recusar com Argumento</button>
+      </div>
+      <button class="btn btn-dark" style="width:100%; margin-top:8px;" onclick="fecharModal('modal-master-responder')">Cancelar</button>
+    </div>
+  </div>
 
   <!-- MODAL: RECUPERAÇÃO MASTER (SMS OU EMAIL) -->
   <div id="modal-recuperar-master" class="modal-box" style="display:none;">
@@ -1028,7 +1073,7 @@
     </div>
   </div>
 
-  <!-- MODAL: PUBLICAR COMUNICADO / ANÚNCIO (100% OPERACIONAL) -->
+  <!-- MODAL: PUBLICAR COMUNICADO / ANÚNCIO (TODOS OS ADMINS PODEM PUBLICAR) -->
   <div id="modal-novo-anuncio" class="modal-box" style="display:none;">
     <div class="modal-corpo">
       <h3 style="color:#E5A93C; font-size:13px; margin-bottom:10px;">📢 PUBLICAR COMUNICADO OFICIAL</h3>
@@ -1039,7 +1084,7 @@
     </div>
   </div>
 
-  <!-- MODAL: CRIAR NOVA ENQUETE (100% OPERACIONAL) -->
+  <!-- MODAL: CRIAR NOVA ENQUETE -->
   <div id="modal-nova-enquete" class="modal-box" style="display:none;">
     <div class="modal-corpo">
       <h3 style="color:#E5A93C; font-size:13px; margin-bottom:10px;">📁 CRIAR ENQUETE DE AUSCULTAÇÃO</h3>
@@ -1050,7 +1095,7 @@
     </div>
   </div>
 
-  <!-- MODAL: REGISTAR JOGO (100% OPERACIONAL) -->
+  <!-- MODAL: REGISTAR JOGO -->
   <div id="modal-novo-jogo" class="modal-box" style="display:none;">
     <div class="modal-corpo">
       <h3 style="color:#E5A93C; font-size:13px; margin-bottom:10px;">🏆 REGISTAR JOGO / PARTIDA</h3>
@@ -1062,7 +1107,7 @@
     </div>
   </div>
 
-  <!-- MODAL: NOVO EQUIPAMENTO (100% OPERACIONAL) -->
+  <!-- MODAL: NOVO EQUIPAMENTO -->
   <div id="modal-novo-equipamento" class="modal-box" style="display:none;">
     <div class="modal-corpo">
       <h3 style="color:#E5A93C; font-size:13px; margin-bottom:10px;">👕 REGISTAR EQUIPAMENTO / MATERIAL</h3>
@@ -1075,7 +1120,7 @@
     </div>
   </div>
 
-  <!-- MODAL: NOVO PATROCÍNIO (100% OPERACIONAL) -->
+  <!-- MODAL: NOVO PATROCÍNIO -->
   <div id="modal-novo-patrocinio" class="modal-box" style="display:none;">
     <div class="modal-corpo">
       <h3 style="color:#E5A93C; font-size:13px; margin-bottom:10px;">🎁 REGISTAR CONTRIBUIÇÃO / PATROCÍNIO</h3>
@@ -1087,7 +1132,7 @@
     </div>
   </div>
 
-  <!-- MODAL: NOVA DESPESA (100% OPERACIONAL) -->
+  <!-- MODAL: NOVA DESPESA -->
   <div id="modal-nova-despesa" class="modal-box" style="display:none;">
     <div class="modal-corpo">
       <h3 style="color:#EF4444; font-size:13px; margin-bottom:10px;">🏷️ REGISTAR NOVA DESPESA</h3>
@@ -1098,7 +1143,7 @@
     </div>
   </div>
 
-  <!-- MODAL: CADASTRAR ATLETA (COM ALA ESQUERDA E DIREITA) -->
+  <!-- MODAL: CADASTRAR ATLETA (COM ANO DE CHEGADA E NOVAS POSIÇÕES) -->
   <div id="modal-novo-atleta" class="modal-box" style="display:none;">
     <div class="modal-corpo">
       <h3 id="modal-atleta-titulo" style="color:#E5A93C; font-size:13px; margin-bottom:10px;">+ CADASTRAR NOVO ATLETA</h3>
@@ -1107,6 +1152,7 @@
       <div class="campo"><label>Número da Camisola:</label><input type="number" id="cad-atleta-num" placeholder="Ex: 10"></div>
       <div class="campo"><label>Nome Completo:</label><input type="text" id="cad-atleta-nome" placeholder="Ex: Mateus Silva"></div>
       <div class="campo"><label>Idade / Nascimento:</label><input type="text" id="cad-atleta-idade" placeholder="Ex: 22 anos"></div>
+      <div class="campo"><label>Ano de Ingresso / Chegada ao Clube:</label><input type="number" id="cad-atleta-ano" placeholder="Ex: 2024" value="2026"></div>
       <div class="campo"><label>Morada / Residência:</label><input type="text" id="cad-atleta-morada" placeholder="Ex: Cazenga, Luanda"></div>
       <div class="campo">
         <label>Posição no Campo:</label>
@@ -1132,13 +1178,14 @@
     </div>
   </div>
 
-  <!-- MODAL: CADASTRAR DIRIGENTE / ADMIN (COM FOTO E EDIÇÃO) -->
+  <!-- MODAL: CADASTRAR DIRIGENTE / ADMIN (COM ANO DE CHEGADA) -->
   <div id="modal-cadastrar-admin" class="modal-box" style="display:none;">
     <div class="modal-corpo">
       <h3 id="modal-admin-titulo" style="color:#E5A93C; font-size:13px; margin-bottom:10px;">👤 CADASTRAR DIRIGENTE / ADMIN</h3>
       <input type="hidden" id="edit-admin-id">
       <div class="campo"><label>Foto do Dirigente:</label><input type="file" id="cad-admin-foto-file" accept="image/*" onchange="processarFotoAdmin(event)"><input type="hidden" id="cad-admin-foto-base64"></div>
       <div class="campo"><label>Nome do Dirigente:</label><input type="text" id="cad-adm-nome" placeholder="Ex: António Silva"></div>
+      <div class="campo"><label>Ano de Chegada ao Clube:</label><input type="number" id="cad-adm-ano" placeholder="Ex: 2025" value="2026"></div>
       <div class="campo">
         <label>Cargo / Função:</label>
         <select id="cad-adm-cargo">
@@ -1160,23 +1207,23 @@
     </div>
   </div>
 
-  <!-- MODAL: ALTERAR FOTO E MORADA (ATLETA - COM APROVAÇÃO OBRIGATÓRIA) -->
+  <!-- MODAL: ALTERAR FOTO E MORADA (ATLETA) -->
   <div id="modal-atleta-alterar-perfil" class="modal-box" style="display:none;">
     <div class="modal-corpo">
       <h3 style="color:#E5A93C; font-size:13px; margin-bottom:8px;">📸 ATUALIZAR FOTO E MORADA</h3>
-      <p style="font-size:10px; color:#94A3B8; margin-bottom:10px;">A nova foto e morada só serão visíveis no portal após aprovação do Master ou do Administrador Principal.</p>
+      <p style="font-size:10px; color:#94A3B8; margin-bottom:10px;">A solicitação será enviada ao Administrador Principal para validação.</p>
       <div class="campo"><label>Nova Foto de Perfil:</label><input type="file" id="inp-atleta-nova-foto" accept="image/*" onchange="processarFotoAtletaSolic(event)"><input type="hidden" id="atleta-solic-foto-base64"></div>
       <div class="campo"><label>Nova Morada / Residência:</label><input type="text" id="inp-atleta-nova-morada" placeholder="Ex: Maianga, Luanda"></div>
-      <button class="btn btn-gold" style="width:100%; padding:9px;" onclick="submeterAlteracaoPerfilAtleta()">Submeter para Aprovação</button>
+      <button class="btn btn-gold" style="width:100%; padding:9px;" onclick="submeterAlteracaoPerfilAtleta()">Submeter ao Administrador Principal</button>
       <button class="btn btn-dark" style="width:100%; margin-top:6px;" onclick="fecharModal('modal-atleta-alterar-perfil')">Fechar</button>
     </div>
   </div>
 
-  <!-- MODAL: RELATAR OCORRÊNCIA / INJUSTIÇA (CONFIDENCIAL) -->
+  <!-- MODAL: RELATAR OCORRÊNCIA / INJUSTIÇA (ENVIADO AO ADMIN PRINCIPAL) -->
   <div id="modal-atleta-relatar-injustica" class="modal-box" style="display:none;">
     <div class="modal-corpo">
       <h3 style="color:#EF4444; font-size:13px; margin-bottom:8px;">⚖️ RELATAR OCORRÊNCIA OU INJUSTIÇA</h3>
-      <p style="font-size:10px; color:#94A3B8; margin-bottom:10px;">Relato confidencial enviado estritamente ao Desenvolvedor Master e ao Administrador Principal.</p>
+      <p style="font-size:10px; color:#94A3B8; margin-bottom:10px;">Relato confidencial enviado ao Administrador Principal (que pode reencaminhar ao Master).</p>
       <div class="campo">
         <label>Envolvido no Relato:</label>
         <select id="relato-alvo-tipo">
@@ -1184,14 +1231,14 @@
           <option value="Membro da Direção">Membro da Direção / Administração</option>
         </select>
       </div>
-      <div class="campo"><label>Nome do Envolvido:</label><input type="text" id="relato-alvo-nome" placeholder="Ex: Nome do dirigente ou colega"></div>
-      <div class="campo"><label>Descrição Pormenorizada dos Factos:</label><textarea id="relato-detalhe" rows="4" placeholder="Descreva com respeito e clareza o sucedido..."></textarea></div>
-      <button class="btn btn-red" style="width:100%; padding:9px;" onclick="enviarRelatoInjustica()">Submeter Relato Confidencial</button>
+      <div class="campo"><label>Nome do Envolvido:</label><input type="text" id="relato-alvo-nome" placeholder="Ex: Nome do colega ou dirigente"></div>
+      <div class="campo"><label>Descrição dos Factos:</label><textarea id="relato-detalhe" rows="4" placeholder="Descreva pormenorizadamente o sucedido..."></textarea></div>
+      <button class="btn btn-red" style="width:100%; padding:9px;" onclick="enviarRelatoInjustica()">Submeter Relato à Direção</button>
       <button class="btn btn-dark" style="width:100%; margin-top:6px;" onclick="fecharModal('modal-atleta-relatar-injustica')">Cancelar</button>
     </div>
   </div>
 
-  <!-- MODAL: ALTERAR BANDEIRA / EMBLEMA -->
+  <!-- MODAL: ALTERAR BANDEIRA / EMBLEMA (MASTER & PRINCIPAL) -->
   <div id="modal-alterar-bandeira" class="modal-box" style="display:none;">
     <div class="modal-corpo">
       <h3 style="color:#E5A93C; font-size:13px; margin-bottom:8px;">🏳️ BANDEIRA / EMBLEMA OFICIAL</h3>
@@ -1232,19 +1279,28 @@
           <option>Lesão Muscular</option><option>Lesão Articular</option><option>Motivo de Força Maior</option><option>Doença / Consulta</option>
         </select>
       </div>
-      <div class="campo"><label>Detalhes da Situação:</label><textarea id="lesao-detalhe" rows="3" placeholder="Explique aos administradores o sucedido..."></textarea></div>
-      <button class="btn btn-gold" style="width:100%; padding:9px;" onclick="enviarParticipacaoLesao()">Enviar Participação Oficial</button>
+      <div class="campo"><label>Detalhes da Situação:</label><textarea id="lesao-detalhe" rows="3" placeholder="Explique a situação ao Administrador Principal..."></textarea></div>
+      <button class="btn btn-gold" style="width:100%; padding:9px;" onclick="enviarParticipacaoLesao()">Enviar Justificação</button>
       <button class="btn btn-dark" style="width:100%; margin-top:6px;" onclick="fecharModal('modal-justificar-lesao')">Fechar</button>
     </div>
   </div>
 
-  <!-- MODAL: ENVIAR SUGESTÃO -->
+  <!-- MODAL: ENVIAR SUGESTÃO POR DEPARTAMENTO -->
   <div id="modal-enviar-sugestao" class="modal-box" style="display:none;">
     <div class="modal-corpo">
       <h3 style="color:#E5A93C; font-size:13px; margin-bottom:10px;">💡 ENVIAR SUGESTÃO AO CLUBE</h3>
-      <div class="campo"><label>Assunto:</label><input type="text" id="sugestao-titulo" placeholder="Ex: Equipamentos de treino"></div>
-      <div class="campo"><label>A sua sugestão:</label><textarea id="sugestao-texto" rows="3" placeholder="Escreva a sua proposta construtiva..."></textarea></div>
-      <button class="btn btn-gold" style="width:100%; padding:9px;" onclick="enviarSugestaoDirecao()">Enviar à Direção</button>
+      <div class="campo">
+        <label>Departamento de Destino:</label>
+        <select id="sugestao-area">
+          <option value="desportiva">⚽ Área Desportiva (Treinos / Jogos) ➔ Admin 1</option>
+          <option value="financeira">💰 Área Financeira (Quotas / Patrocínios) ➔ Admin 2</option>
+          <option value="logistica">👕 Logística & Património (Equipamentos) ➔ Admin 3</option>
+          <option value="geral">⭐ Direção Geral do Clube ➔ Admin Principal</option>
+        </select>
+      </div>
+      <div class="campo"><label>Assunto:</label><input type="text" id="sugestao-titulo" placeholder="Ex: Horário dos treinos"></div>
+      <div class="campo"><label>A sua sugestão construtiva:</label><textarea id="sugestao-texto" rows="3" placeholder="Escreva a sua proposta..."></textarea></div>
+      <button class="btn btn-gold" style="width:100%; padding:9px;" onclick="enviarSugestaoDirecao()">Enviar Sugestão</button>
       <button class="btn btn-dark" style="width:100%; margin-top:6px;" onclick="fecharModal('modal-enviar-sugestao')">Fechar</button>
     </div>
   </div>
@@ -1263,10 +1319,10 @@
     };
 
     let dirigentes = JSON.parse(localStorage.getItem('fce_dirigentes')) || [
-      { id: "adm_princ", nome: "Administrador Principal", cargo: "⭐ Administrador Principal", foto: "", pin: "admin123" },
-      { id: "adm1", nome: "António Silva", cargo: "🛡️ Admin 1 (Desportivo)", foto: "", pin: "1111" },
-      { id: "adm2", nome: "Carlos Tesoureiro", cargo: "🛡️ Admin 2 (Financeiro)", foto: "", pin: "2222" },
-      { id: "adm3", nome: "Manuel Logística", cargo: "🛡️ Admin 3 (Logística & Disciplina)", foto: "", pin: "3333" }
+      { id: "adm_princ", nome: "Administrador Principal", cargo: "⭐ Administrador Principal", foto: "", anoIngresso: 2024, pin: "admin123" },
+      { id: "adm1", nome: "António Silva", cargo: "🛡️ Admin 1 (Desportivo)", foto: "", anoIngresso: 2025, pin: "1111" },
+      { id: "adm2", nome: "Carlos Tesoureiro", cargo: "🛡️ Admin 2 (Financeiro)", foto: "", anoIngresso: 2025, pin: "2222" },
+      { id: "adm3", nome: "Manuel Logística", cargo: "🛡️ Admin 3 (Logística & Disciplina)", foto: "", anoIngresso: 2026, pin: "3333" }
     ];
 
     let travas = JSON.parse(localStorage.getItem('fce_travas_5')) || {
@@ -1276,7 +1332,7 @@
     let bandeiraClube = localStorage.getItem('fce_bandeira_clube') || "";
 
     let atletas = JSON.parse(localStorage.getItem('fce_atletas')) || [
-      { id: "FCE-6148", num: 24, nome: "Eduardo Alfredo", idade: "30 anos", morada: "Cazenga, Luanda", tel: "945260362", pos: "Ala Direita", golos: 0, senha: "edu24", foto: "", ativo: true }
+      { id: "FCE-6148", num: 24, nome: "Eduardo Alfredo", idade: "30 anos", anoIngresso: 2025, morada: "Cazenga, Luanda", tel: "945260362", pos: "Ala Direita", golos: 0, senha: "edu24", foto: "", ativo: true }
     ];
 
     let quotas = JSON.parse(localStorage.getItem('fce_quotas')) || [];
@@ -1292,8 +1348,9 @@
       { id: 1, titulo: "Apoio ao Atleta: Nova Política de Quotas", texto: "Informamos sobre as regras oficiais de pagamento dominical." }
     ];
 
-    let solicitacoesPerfil = JSON.parse(localStorage.getItem('fce_solic_perfil')) || [];
-    let relatosInjustica = JSON.parse(localStorage.getItem('fce_relatos_injustica')) || [];
+    // Solicitações dos Atletas (Vão primeiro ao Administrador Principal)
+    let solicitacoesAtletas = JSON.parse(localStorage.getItem('fce_solicitacoes_atletas')) || [];
+    let sugestoesAtletas = JSON.parse(localStorage.getItem('fce_sugestoes_atletas')) || [];
     let pedidosRemocaoAdmin = JSON.parse(localStorage.getItem('fce_pedidos_remocao_adm')) || [];
 
     let otpMasterGerado = null;
@@ -1335,8 +1392,8 @@
       localStorage.setItem('fce_auditoria', JSON.stringify(auditoria));
       localStorage.setItem('fce_enquetes', JSON.stringify(enquetes));
       localStorage.setItem('fce_anuncios', JSON.stringify(anuncios));
-      localStorage.setItem('fce_solic_perfil', JSON.stringify(solicitacoesPerfil));
-      localStorage.setItem('fce_relatos_injustica', JSON.stringify(relatosInjustica));
+      localStorage.setItem('fce_solicitacoes_atletas', JSON.stringify(solicitacoesAtletas));
+      localStorage.setItem('fce_sugestoes_atletas', JSON.stringify(sugestoesAtletas));
       localStorage.setItem('fce_pedidos_remocao_adm', JSON.stringify(pedidosRemocaoAdmin));
       localStorage.setItem('fce_bandeira_clube', bandeiraClube);
     }
@@ -1355,7 +1412,13 @@
       else { inp.type = "password"; btn.innerText = "👁️"; }
     }
 
-    // --- BANDEIRA / EMBLEMA DO CLUBE ---
+    // --- BANDEIRA / FOTO DO CLUBE (EXCLUSIVO MASTER E ADMIN PRINCIPAL) ---
+    function abrirModalSePermitidoBandeira() {
+      if (usuarioAtual === 'master' || usuarioAtual === 'adm_princ') {
+        abrirModal('modal-alterar-bandeira');
+      }
+    }
+
     function processarUploadBandeira(event) {
       const file = event.target.files[0];
       if (file) {
@@ -1375,12 +1438,12 @@
       aplicarBandeiraEmTodoLado();
       fecharModal('modal-alterar-bandeira');
       registrarAuditoria("Atualizou a bandeira/emblema oficial do FC ESPANHA.");
-      alert("Bandeira do clube atualizada em todo o sistema!");
+      alert("Bandeira do clube atualizada e sincronizada com a aba dos atletas!");
     }
 
     function aplicarBandeiraEmTodoLado() {
       if (!bandeiraClube) return;
-      ['img-emblema-login', 'img-emblema-sidebar', 'img-emblema-hero'].forEach(id => {
+      ['img-emblema-login', 'img-emblema-sidebar', 'img-emblema-hero', 'img-emblema-atleta-topo'].forEach(id => {
         const el = document.getElementById(id);
         if (el) el.src = bandeiraClube;
       });
@@ -1390,7 +1453,7 @@
       img.src = "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='46' fill='%23101B3B' stroke='%23E5A93C' stroke-width='4'/><path d='M15,36 L85,36 L85,46 L15,46 Z' fill='%23C61D23'/><path d='M15,46 L85,46 L85,58 L15,58 Z' fill='%23F3B229'/><path d='M15,58 L85,58 L85,68 L15,68 Z' fill='%23C61D23'/><circle cx='50' cy='50' r='16' fill='%230A1023' stroke='%23E5A93C' stroke-width='2'/><text x='50' y='54' font-size='11' font-weight='900' fill='%23E5A93C' text-anchor='middle'>FCE</text></svg>";
     }
 
-    // --- CONTROLE DE LOGIN COM PERSISTÊNCIA ---
+    // --- CONTROLE DE LOGIN ---
     function alternarFormLogin(modo) {
       document.getElementById('form-login-jogador').style.display = (modo === 'jogador') ? 'block' : 'none';
       document.getElementById('form-login-admin').style.display = (modo === 'admin') ? 'block' : 'none';
@@ -1435,7 +1498,6 @@
 
     function entrarAmbiente(tipo) {
       document.getElementById('tela-login-portal').style.display = 'none';
-
       if (tipo === 'atleta') {
         document.getElementById('layout-admin-master').style.display = 'none';
         document.getElementById('layout-atleta-mobile').style.display = 'flex';
@@ -1456,7 +1518,6 @@
       document.getElementById('tela-login-portal').style.display = 'flex';
     }
 
-    // --- SESSÃO ACTIVA (MASTER E PRINCIPAL NAVEGAM EM TODAS AS ABAS) ---
     function trocarSessao(tipo) {
       usuarioAtual = tipo;
       localStorage.setItem('fce_usuario_logado', tipo);
@@ -1486,15 +1547,25 @@
       const isAdm2 = (usuarioAtual === 'adm2');
       const isAdm3 = (usuarioAtual === 'adm3');
 
-      // Master e Principal vêem todas as abas
+      // Master e Principal vêem todas as abas (sem necessitar de senha)
       const podeVerTudo = isMaster || isPrinc;
 
+      // Config Master: APENAS o Master pode ver
       document.getElementById('nav-item-config').style.display = isMaster ? 'flex' : 'none';
 
+      // Livro de Registo: APENAS Master e Principal
+      document.getElementById('nav-item-auditoria').style.display = podeVerTudo ? 'flex' : 'none';
+
+      // Botão de alterar bandeira na sidebar: APENAS Master e Principal
+      document.getElementById('btn-alterar-bandeira-sidebar').style.display = podeVerTudo ? 'inline-block' : 'none';
+
+      // Abas dos Administradores 1, 2 e 3
       document.getElementById('nav-item-painel').style.display = podeVerTudo ? 'flex' : 'none';
       document.getElementById('nav-item-atletas').style.display = (podeVerTudo || isAdm1) ? 'flex' : 'none';
       document.getElementById('nav-item-jogos').style.display = (podeVerTudo || isAdm1) ? 'flex' : 'none';
-      document.getElementById('nav-item-anuncios').style.display = (podeVerTudo || isAdm1) ? 'flex' : 'none';
+
+      // TODOS os administradores vêem os anúncios
+      document.getElementById('nav-item-anuncios').style.display = 'flex';
 
       document.getElementById('nav-item-quotas').style.display = (podeVerTudo || isAdm2) ? 'flex' : 'none';
       document.getElementById('nav-item-financas').style.display = (podeVerTudo || isAdm2) ? 'flex' : 'none';
@@ -1502,9 +1573,14 @@
 
       document.getElementById('nav-item-equipamentos').style.display = (podeVerTudo || isAdm3) ? 'flex' : 'none';
       document.getElementById('nav-item-documentos').style.display = (podeVerTudo || isAdm3) ? 'flex' : 'none';
-      document.getElementById('nav-item-auditoria').style.display = (podeVerTudo || isAdm3) ? 'flex' : 'none';
       document.getElementById('nav-item-estatisticas').style.display = podeVerTudo ? 'flex' : 'none';
       document.getElementById('nav-item-dirigentes').style.display = podeVerTudo ? 'flex' : 'none';
+
+      // Botões de sugestões específicas por área
+      document.getElementById('btn-sugestoes-adm1').style.display = (isAdm1 || podeVerTudo) ? 'inline-flex' : 'none';
+      document.getElementById('btn-sugestoes-adm2').style.display = (isAdm2 || podeVerTudo) ? 'inline-flex' : 'none';
+      document.getElementById('btn-sugestoes-adm3').style.display = (isAdm3 || podeVerTudo) ? 'inline-flex' : 'none';
+      document.getElementById('btn-solic-admin-princ').style.display = isPrinc ? 'inline-flex' : 'none';
     }
 
     function carregarDashboardAdmin() {
@@ -1515,10 +1591,10 @@
       document.getElementById('txt-admin-header-cargo').innerText = isMaster ? "👑 Desenvolvedor Master" : "⭐ Administração Oficial";
 
       let secaoInicial = localStorage.getItem('fce_secao_admin_salva') || 'painel';
-      if (!isMaster && !usuarioAtual.includes('adm_princ')) {
+      if (!isMaster && usuarioAtual !== 'adm_princ') {
         if (usuarioAtual === 'adm1') secaoInicial = 'atletas';
         if (usuarioAtual === 'adm2') secaoInicial = 'quotas';
-        if (usuarioAtual === 'adm3') secaoInicial = 'documentos';
+        if (usuarioAtual === 'adm3') secaoInicial = 'equipamentos';
       }
 
       abrirSecaoAdmin(secaoInicial);
@@ -1528,9 +1604,12 @@
     function abrirSecaoAdmin(secao) {
       fecharSidebarMobile();
 
-      // Regra inviolável: ninguém entra nas configurações master
       if (secao === 'config' && usuarioAtual !== 'master') {
         alert("Acesso exclusivo do Desenvolvedor Master!");
+        return;
+      }
+      if (secao === 'auditoria' && usuarioAtual !== 'master' && usuarioAtual !== 'adm_princ') {
+        alert("Acesso exclusivo do Desenvolvedor Master e Administrador Principal!");
         return;
       }
 
@@ -1551,6 +1630,7 @@
       if (secao === 'relatorios') gerarPreviewRelatorio();
       if (secao === 'documentos') renderizarEnquetes();
       if (secao === 'anuncios') renderizarAnuncios();
+      if (secao === 'config') renderizarPainelMasterSolicitacoes();
     }
 
     // --- LIVRO DE REGISTO (FILTRO: ADMIN PRINCIPAL NÃO VÊ AÇÕES DO MASTER) ---
@@ -1579,7 +1659,7 @@
       salvarTudo();
       atualizarTravasBotoes();
       registrarAuditoria(`Alterou trava de [${tipo.toUpperCase()}] para: ${travas[tipo] ? 'BLOQUEADO' : 'LIBERADO'}`);
-      alert(`Estado de ${tipo.toUpperCase()} atualizado!`);
+      alert(`Estado de ${tipo.toUpperCase()} atualizado com sucesso!`);
     }
 
     function atualizarTravasBotoes() {
@@ -1631,9 +1711,9 @@
 
     // --- RECUPERAÇÃO MASTER (OTP) ---
     function enviarCodigoMaster() {
-      otpMasterGerado = "9452"; // Código exclusivo de segurança
+      otpMasterGerado = "9452";
       const canal = document.getElementById('sel-canal-master-recup').value;
-      alert(`Código de verificação enviado via ${canal.toUpperCase()} para 945260362 / eduardoalfredoferreira@gmail.com! (Código teste: 9452)`);
+      alert(`Código enviado via ${canal.toUpperCase()} para 945260362 / eduardoalfredoferreira@gmail.com! (Código teste: 9452)`);
       document.getElementById('box-verificar-codigo-master').style.display = 'block';
     }
 
@@ -1649,13 +1729,14 @@
       fecharModal('modal-recuperar-master');
     }
 
-    // --- CADASTRO E EDIÇÃO DE ATLETA (COM ALA ESQUERDA E DIREITA) ---
+    // --- CADASTRO E EDIÇÃO DE ATLETA (COM ANO DE CHEGADA E MENSAGEM WHATSAPP) ---
     function abrirModalNovoAtleta() {
       document.getElementById('modal-atleta-titulo').innerText = "+ CADASTRAR NOVO ATLETA";
       document.getElementById('edit-atleta-id').value = '';
       document.getElementById('cad-atleta-num').value = atletas.length + 1;
       document.getElementById('cad-atleta-nome').value = '';
       document.getElementById('cad-atleta-idade').value = '';
+      document.getElementById('cad-atleta-ano').value = new Date().getFullYear();
       document.getElementById('cad-atleta-morada').value = '';
       document.getElementById('cad-atleta-tel').value = '';
       document.getElementById('cad-atleta-senha').value = 'fce' + Math.floor(100 + Math.random() * 900);
@@ -1671,6 +1752,7 @@
       document.getElementById('cad-atleta-num').value = a.num;
       document.getElementById('cad-atleta-nome').value = a.nome;
       document.getElementById('cad-atleta-idade').value = a.idade;
+      document.getElementById('cad-atleta-ano').value = a.anoIngresso || 2026;
       document.getElementById('cad-atleta-morada').value = a.morada || '';
       document.getElementById('cad-atleta-pos').value = a.pos;
       document.getElementById('cad-atleta-tel').value = (a.tel !== "Sem telefone") ? a.tel : '';
@@ -1693,6 +1775,7 @@
       const num = document.getElementById('cad-atleta-num').value;
       const nome = document.getElementById('cad-atleta-nome').value.trim();
       const idade = document.getElementById('cad-atleta-idade').value.trim();
+      const anoIngresso = document.getElementById('cad-atleta-ano').value.trim() || new Date().getFullYear();
       const morada = document.getElementById('cad-atleta-morada').value.trim();
       const tel = document.getElementById('cad-atleta-tel').value.trim();
       const pos = document.getElementById('cad-atleta-pos').value;
@@ -1704,7 +1787,7 @@
       if (editId) {
         const a = atletas.find(x => x.id === editId);
         if (a) {
-          a.num = num; a.nome = nome; a.idade = idade || "—"; a.morada = morada || a.morada;
+          a.num = num; a.nome = nome; a.idade = idade || "—"; a.anoIngresso = anoIngresso; a.morada = morada || a.morada;
           a.pos = pos; a.tel = tel || "Sem telefone"; a.senha = senha;
           if (foto) a.foto = foto;
           registrarAuditoria(`Editou atleta ${a.nome} (${a.id})`);
@@ -1712,9 +1795,24 @@
         }
       } else {
         const id = "FCE-" + Math.floor(1000 + Math.random() * 9000);
-        atletas.push({ id, num: num || 0, nome, idade: idade || "—", morada: morada || "Luanda", tel: tel || "Sem telefone", pos, golos: 0, senha: senha || "fce123", foto, ativo: true });
+        atletas.push({ id, num: num || 0, nome, idade: idade || "—", anoIngresso, morada: morada || "Luanda", tel: tel || "Sem telefone", pos, golos: 0, senha: senha || "fce123", foto, ativo: true });
         registrarAuditoria(`Cadastrou atleta ${nome} (${id})`);
-        alert(`Atleta ${nome} registado com sucesso!`);
+
+        salvarTudo();
+        fecharModal('modal-novo-atleta');
+        atualizarTabelas();
+
+        // Se tiver telefone, abre confirmação de envio WhatsApp
+        if (tel && tel !== "Sem telefone") {
+          const link = window.location.href;
+          const msg = `⚽ *FC ESPANHA - BEM-VINDO AO PLANTEL*\nOlá ${nome}! O seu registo foi concluído com sucesso.\n\n*Os seus dados de acesso:*\n📌 Código: *${id}*\n👕 Camisola: *#${num}*\n🔑 Senha de Acesso: *${senha}*\n🌐 Link da Plataforma: ${link}\n\nGuarde com cuidado e bom campeonato!`;
+          if (confirm(`Atleta cadastrado! Deseja enviar a senha e o link oficial agora para o WhatsApp de ${nome}?`)) {
+            window.open(`https://wa.me/244${tel}?text=${encodeURIComponent(msg)}`, '_blank');
+          }
+        } else {
+          alert(`Atleta ${nome} registado com sucesso! A senha [${senha}] foi guardada na sua ficha oficial.`);
+        }
+        return;
       }
 
       salvarTudo();
@@ -1735,7 +1833,7 @@
       }
     }
 
-    // --- DIRIGENTES (CADASTRO E REMOÇÃO) ---
+    // --- DIRIGENTES (CADASTRO, FOTO, ANO INGRESSO E PEDIDO DE REMOÇÃO) ---
     function processarFotoAdmin(event) {
       const file = event.target.files[0];
       if (file) {
@@ -1748,6 +1846,7 @@
     function salvarNovoAdmin() {
       const nome = document.getElementById('cad-adm-nome').value.trim();
       const cargo = document.getElementById('cad-adm-cargo').value;
+      const anoIngresso = document.getElementById('cad-adm-ano').value.trim() || new Date().getFullYear();
       const pin = document.getElementById('cad-adm-pin').value.trim();
       const foto = document.getElementById('cad-admin-foto-base64').value;
       if (!nome || !pin) return alert("Preencha o nome e o PIN!");
@@ -1756,9 +1855,10 @@
       const idx = dirigentes.findIndex(d => d.id === cargo);
       if (idx !== -1) {
         dirigentes[idx].nome = nome;
+        dirigentes[idx].anoIngresso = anoIngresso;
         dirigentes[idx].foto = foto || dirigentes[idx].foto;
       } else {
-        dirigentes.push({ id: cargo, nome, cargo, foto, pin });
+        dirigentes.push({ id: cargo, nome, cargo, anoIngresso, foto, pin });
       }
 
       registrarAuditoria(`Atualizou dirigente: ${nome} (${cargo})`);
@@ -1789,7 +1889,219 @@
       }
     }
 
-    // --- ANÚNCIOS (100% OPERACIONAIS) ---
+    // --- FLUXO DE SOLICITAÇÕES DOS ATLETAS ➔ ADMIN PRINCIPAL ➔ MASTER ---
+    function processarFotoAtletaSolic(event) {
+      const file = event.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = function(e) { document.getElementById('atleta-solic-foto-base64').value = e.target.result; };
+        reader.readAsDataURL(file);
+      }
+    }
+
+    function submeterAlteracaoPerfilAtleta() {
+      const foto = document.getElementById('atleta-solic-foto-base64').value;
+      const morada = document.getElementById('inp-atleta-nova-morada').value.trim();
+      if (!foto && !morada) return alert("Selecione uma foto ou escreva a nova morada!");
+
+      solicitacoesAtletas.unshift({
+        id: Date.now(),
+        data: new Date().toLocaleDateString('pt-PT'),
+        atletaId: atletaAtual.id,
+        atletaNome: atletaAtual.nome,
+        tipo: "Alteração de Foto/Morada",
+        detalhes: `Morada: ${morada || 'Inalterada'}`,
+        fotoNova: foto || '',
+        status: "Pendente no Admin Principal"
+      });
+      salvarTudo();
+      fecharModal('modal-atleta-alterar-perfil');
+      alert("A sua solicitação foi enviada ao Administrador Principal para validação.");
+    }
+
+    function enviarRelatoInjustica() {
+      const tipo = document.getElementById('relato-alvo-tipo').value;
+      const nome = document.getElementById('relato-alvo-nome').value.trim();
+      const det = document.getElementById('relato-detalhe').value.trim();
+      if (!nome || !det) return alert("Preencha todos os campos do relato!");
+
+      solicitacoesAtletas.unshift({
+        id: Date.now(),
+        data: new Date().toLocaleDateString('pt-PT'),
+        atletaId: atletaAtual.id,
+        atletaNome: atletaAtual.nome,
+        tipo: `Denúncia / Injustiça (${tipo})`,
+        detalhes: `Envolvido: ${nome} | Factos: ${det}`,
+        status: "Pendente no Admin Principal"
+      });
+      salvarTudo();
+      fecharModal('modal-atleta-relatar-injustica');
+      alert("O seu relato confidencial foi submetido à Direção do Clube.");
+    }
+
+    function enviarParticipacaoLesao() {
+      const t = document.getElementById('lesao-tipo').value;
+      const d = document.getElementById('lesao-detalhe').value.trim();
+      if (!d) return alert("Descreva a situação!");
+
+      solicitacoesAtletas.unshift({
+        id: Date.now(),
+        data: new Date().toLocaleDateString('pt-PT'),
+        atletaId: atletaAtual.id,
+        atletaNome: atletaAtual.nome,
+        tipo: `Lesão / Justificação (${t})`,
+        detalhes: d,
+        status: "Pendente no Admin Principal"
+      });
+      salvarTudo();
+      fecharModal('modal-justificar-lesao');
+      alert("Participação de lesão/ausência enviada com sucesso à Direção!");
+    }
+
+    function abrirModalSolicitacoesAdminPrincipal() {
+      const feed = document.getElementById('feed-solicitacoes-admin-princ');
+      feed.innerHTML = '';
+      const pendentes = solicitacoesAtletas.filter(s => s.status === 'Pendente no Admin Principal');
+
+      if (pendentes.length === 0) {
+        feed.innerHTML = '<p style="color:#94A3B8; font-size:11px;">Nenhuma solicitação ou denúncia pendente de atletas.</p>';
+      } else {
+        pendentes.forEach(s => {
+          feed.innerHTML += `
+            <div style="background:#090E1F; border:1px solid #1E2D56; border-radius:8px; padding:10px;">
+              <b style="color:#FBBF24;">${s.tipo}</b> - <small style="color:#94A3B8;">${s.atletaNome} (${s.data})</small>
+              <p style="font-size:11px; margin:4px 0;">${s.detalhes}</p>
+              <div style="display:flex; gap:6px; margin-top:6px;">
+                <button class="btn btn-gold" style="font-size:10px; padding:4px 8px;" onclick="resolverSolicitacaoLocalmente(${s.id})">✔ Resolver Localmente</button>
+                <button class="btn btn-blue" style="font-size:10px; padding:4px 8px;" onclick="reencaminharSolicitacaoAoMaster(${s.id})">↗ Reencaminhar ao Master</button>
+              </div>
+            </div>
+          `;
+        });
+      }
+      abrirModal('modal-solicitacoes-admin-princ');
+    }
+
+    function resolverSolicitacaoLocalmente(id) {
+      const s = solicitacoesAtletas.find(x => x.id === id);
+      if (s) {
+        s.status = "Resolvido pelo Admin Principal";
+        if (s.fotoNova) {
+          const a = atletas.find(x => x.id === s.atletaId);
+          if (a) a.foto = s.fotoNova;
+        }
+        registrarAuditoria(`Admin Principal resolveu solicitação de ${s.atletaNome}`);
+        salvarTudo();
+        abrirModalSolicitacoesAdminPrincipal();
+        atualizarTabelas();
+      }
+    }
+
+    function reencaminharSolicitacaoAoMaster(id) {
+      const s = solicitacoesAtletas.find(x => x.id === id);
+      if (s) {
+        s.status = "Reencaminhado ao Master";
+        registrarAuditoria(`Admin Principal reencaminhou ao Master solicitação de ${s.atletaNome}`);
+        salvarTudo();
+        abrirModalSolicitacoesAdminPrincipal();
+        alert("Solicitação reencaminhada com sucesso ao Desenvolvedor Master!");
+      }
+    }
+
+    function renderizarPainelMasterSolicitacoes() {
+      const box = document.getElementById('lista-solicitacoes-reencaminhadas-master');
+      if (!box) return;
+      const reenc = solicitacoesAtletas.filter(s => s.status === 'Reencaminhado ao Master');
+
+      if (reenc.length === 0) {
+        box.innerHTML = '<p style="color:#94A3B8;">Nenhuma solicitação reencaminhada no momento.</p>';
+        return;
+      }
+      box.innerHTML = '';
+      reenc.forEach(s => {
+        box.innerHTML += `
+          <div style="background:#0E1426; border:1px solid #233870; border-radius:8px; padding:10px; margin-bottom:8px;">
+            <b style="color:#FBBF24;">${s.tipo}</b> - ${s.atletaNome} (${s.data})
+            <p style="margin:4px 0;">${s.detalhes}</p>
+            <button class="btn btn-gold" style="font-size:10px; padding:4px 8px; margin-top:4px;" onclick="abrirModalRespostaMaster(${s.id})">📝 Responder com Argumento</button>
+          </div>
+        `;
+      });
+    }
+
+    function abrirModalRespostaMaster(id) {
+      document.getElementById('master-solic-id').value = id;
+      document.getElementById('master-solic-argumento').value = '';
+      abrirModal('modal-master-responder');
+    }
+
+    function concluirRespostaMaster(decisao) {
+      const id = parseInt(document.getElementById('master-solic-id').value);
+      const arg = document.getElementById('master-solic-argumento').value.trim();
+      if (!arg) return alert("Por favor, introduza o seu parecer justificativo!");
+
+      const s = solicitacoesAtletas.find(x => x.id === id);
+      if (s) {
+        s.status = `${decisao} pelo Master: ${arg}`;
+        if (decisao === 'Aprovado' && s.fotoNova) {
+          const a = atletas.find(x => x.id === s.atletaId);
+          if (a) a.foto = s.fotoNova;
+        }
+        registrarAuditoria(`Master emitiu parecer [${decisao}] para ${s.atletaNome}: "${arg}"`);
+        salvarTudo();
+        fecharModal('modal-master-responder');
+        renderizarPainelMasterSolicitacoes();
+        atualizarTabelas();
+        alert(`Parecer [${decisao}] registado com sucesso!`);
+      }
+    }
+
+    // --- SUGESTÕES DOS ATLETAS POR ÁREA ---
+    function enviarSugestaoDirecao() {
+      const area = document.getElementById('sugestao-area').value;
+      const t = document.getElementById('sugestao-titulo').value.trim();
+      const d = document.getElementById('sugestao-texto').value.trim();
+      if (!t || !d) return alert("Preencha o assunto e o texto!");
+
+      sugestoesAtletas.unshift({
+        id: Date.now(), data: new Date().toLocaleDateString('pt-PT'),
+        atleta: atletaAtual.nome, area, titulo: t, texto: d
+      });
+      salvarTudo();
+      fecharModal('modal-enviar-sugestao');
+      alert("A sua sugestão foi enviada diretamente ao departamento responsável!");
+    }
+
+    function abrirModalSugestoesArea(areaAlvo) {
+      const tit = document.getElementById('txt-sugestoes-area-titulo');
+      const feed = document.getElementById('feed-sugestoes-area-lista');
+      feed.innerHTML = '';
+
+      let lista = sugestoesAtletas.filter(s => s.area === areaAlvo || areaAlvo === 'geral');
+      tit.innerText = `💡 SUGESTÕES DOS ATLETAS (ÁREA: ${areaAlvo.toUpperCase()})`;
+
+      if (lista.length === 0) {
+        feed.innerHTML = '<p style="color:#94A3B8; font-size:11px;">Sem sugestões registadas nesta área.</p>';
+      } else {
+        lista.forEach(s => {
+          feed.innerHTML += `
+            <div style="background:#090E1F; border:1px solid #1E2D56; border-radius:8px; padding:10px;">
+              <b style="color:#FFF;">${s.titulo}</b> <small style="color:#94A3B8;">(${s.atleta} - ${s.data})</small>
+              <p style="font-size:11px; color:#CBD5E1; margin-top:4px;">${s.texto}</p>
+            </div>
+          `;
+        });
+      }
+      abrirModal('modal-sugestoes-area');
+    }
+
+    function abrirPainelAlertasTopo() {
+      if (usuarioAtual === 'adm_princ') abrirModalSolicitacoesAdminPrincipal();
+      else if (usuarioAtual === 'master') abrirSecaoAdmin('config');
+      else abrirSecaoAdmin('anuncios');
+    }
+
+    // --- ANÚNCIOS ---
     function salvarNovoAnuncio() {
       const tit = document.getElementById('cad-anuncio-tit').value.trim();
       const txt = document.getElementById('cad-anuncio-txt').value.trim();
@@ -1800,7 +2112,7 @@
       salvarTudo();
       fecharModal('modal-novo-anuncio');
       renderizarAnuncios();
-      alert("Comunicado publicado com sucesso para todos os atletas e administradores!");
+      alert("Comunicado oficial publicado para todos os atletas e dirigentes!");
     }
 
     function renderizarAnuncios() {
@@ -1817,14 +2129,14 @@
       });
     }
 
-    // --- ENQUETES (100% OPERACIONAIS) ---
+    // --- ENQUETES ---
     function salvarNovaEnquete() {
       const tit = document.getElementById('cad-enquete-tit').value.trim();
       const perg = document.getElementById('cad-enquete-pergunta').value.trim();
       if (!tit || !perg) return alert("Preencha o título e a pergunta!");
 
       enquetes.unshift({ id: Date.now(), titulo: tit, pergunta: perg, sim: 0, nao: 0 });
-      registrarAuditoria(`Criou enquete de auscultação: ${tit}`);
+      registrarAuditoria(`Criou enquete: ${tit}`);
       salvarTudo();
       fecharModal('modal-nova-enquete');
       renderizarEnquetes();
@@ -1862,13 +2174,29 @@
       });
     }
 
-    // --- JOGOS, PATROCÍNIOS, EQUIPAMENTOS & DESPESAS ---
+    // --- QUOTAS & RECIBOS ---
+    function salvarQuotaComRecibo() {
+      const aId = document.getElementById('sel-quota-atleta').value;
+      const a = atletas.find(x => x.id === aId);
+      const val = document.getElementById('quota-valor').value;
+      const mod = document.getElementById('quota-modalidade').value;
+      const rec = "REC-" + Math.floor(1000 + Math.random() * 9000);
+      quotas.unshift({ id: Date.now(), atletaId: a.id, atletaNome: a.nome, valor: val, modalidade: mod, reciboNum: rec, data: new Date().toLocaleDateString('pt-PT'), status: "Pago" });
+      salvarTudo();
+      fecharModal('modal-lancar-quota');
+      atualizarTabelas();
+      alert(`Recibo ${rec} emitido com sucesso!`);
+    }
+
+    function gerarRelatorioDevedoresDomingo() {
+      alert("Relatório de devedores emitido e notificado aos atletas!");
+    }
+
     function salvarNovoJogo() {
       const conf = document.getElementById('cad-jogo-confronto').value.trim();
       const comp = document.getElementById('cad-jogo-comp').value.trim();
       const res = document.getElementById('cad-jogo-res').value.trim();
       if (!conf) return alert("Preencha o confronto!");
-
       jogos.unshift({ id: Date.now(), confronto: conf, comp, resultado: res, data: new Date().toLocaleDateString('pt-PT') });
       salvarTudo();
       fecharModal('modal-novo-jogo');
@@ -1905,82 +2233,9 @@
       atualizarTabelas();
     }
 
-    function salvarQuotaComRecibo() {
-      const aId = document.getElementById('sel-quota-atleta').value;
-      const a = atletas.find(x => x.id === aId);
-      const val = document.getElementById('quota-valor').value;
-      const mod = document.getElementById('quota-modalidade').value;
-      const rec = "REC-" + Math.floor(1000 + Math.random() * 9000);
-      quotas.unshift({ id: Date.now(), atletaId: a.id, atletaNome: a.nome, valor: val, modalidade: mod, reciboNum: rec, data: new Date().toLocaleDateString('pt-PT'), status: "Pago" });
-      salvarTudo();
-      fecharModal('modal-lancar-quota');
-      atualizarTabelas();
-      alert(`Recibo ${rec} emitido com sucesso!`);
-    }
-
-    function gerarRelatorioDevedoresDomingo() {
-      alert("Relatório de devedores emitido e notificado aos atletas pendentes!");
-    }
-
-    // --- ATLETA: FOTO, MORADA, DENÚNCIA E DOWNLOADS ---
-    function processarFotoAtletaSolic(event) {
-      const file = event.target.files[0];
-      if (file) {
-        const reader = new FileReader();
-        reader.onload = function(e) { document.getElementById('atleta-solic-foto-base64').value = e.target.result; };
-        reader.readAsDataURL(file);
-      }
-    }
-
-    function submeterAlteracaoPerfilAtleta() {
-      const foto = document.getElementById('atleta-solic-foto-base64').value;
-      const morada = document.getElementById('inp-atleta-nova-morada').value.trim();
-      if (!foto && !morada) return alert("Selecione uma foto ou escreva a nova morada!");
-
-      solicitacoesPerfil.unshift({
-        id: Date.now(), atletaId: atletaAtual.id, atletaNome: atletaAtual.nome, foto, morada, status: "Pendente"
-      });
-      salvarTudo();
-      fecharModal('modal-atleta-alterar-perfil');
-      alert("A sua solicitação foi submetida! O efeito só será visível após a autorização do Master ou do Administrador Principal.");
-    }
-
-    function enviarRelatoInjustica() {
-      const tipo = document.getElementById('relato-alvo-tipo').value;
-      const nome = document.getElementById('relato-alvo-nome').value.trim();
-      const det = document.getElementById('relato-detalhe').value.trim();
-      if (!nome || !det) return alert("Preencha todos os campos do relato!");
-
-      relatosInjustica.unshift({
-        id: Date.now(), data: new Date().toLocaleDateString('pt-PT'),
-        atletaAutor: atletaAtual.nome, tipo, nome, relato: det
-      });
-      salvarTudo();
-      fecharModal('modal-atleta-relatar-injustica');
-      alert("O seu relato confidencial foi enviado diretamente ao Master e ao Administrador Principal.");
-    }
-
     function baixarFichaAtletaOficial() { window.print(); }
     function baixarRelatorioFinanceiroAtleta() { window.print(); }
     function baixarHistoricoDesempenhoAtleta() { window.print(); }
-
-    function enviarParticipacaoLesao() {
-      const t = document.getElementById('lesao-tipo').value;
-      const d = document.getElementById('lesao-detalhe').value.trim();
-      if (!d) return alert("Descreva a situação!");
-      registrarAuditoria(`Atleta ${atletaAtual.nome} participou: ${t} (${d})`);
-      fecharModal('modal-justificar-lesao');
-      alert("Participação de lesão/ausência enviada com sucesso!");
-    }
-
-    function enviarSugestaoDirecao() {
-      const t = document.getElementById('sugestao-titulo').value.trim();
-      const d = document.getElementById('sugestao-texto').value.trim();
-      if (!t || !d) return alert("Preencha os dados da sugestão!");
-      registrarAuditoria(`Atleta ${atletaAtual.nome} sugeriu: ${t}`);
-      fecharModal('modal-enviar-sugestao');
-      alert("Sugestão enviada à direção!");
-    }
 
     function solicitarRecuperacaoGeral() {
       const n = document.getElementById('recup-nome-usuario').value.trim();
@@ -1988,7 +2243,7 @@
       if (!n) return alert("Informe o seu nome ou código!");
       registrarAuditoria(`Pedido de Recuperação de Senha de: ${n} (${t || 'Sem tel'})`);
       fecharModal('modal-recuperar-senha');
-      alert("O seu pedido de recuperação foi enviado ao Master e Administradores na plataforma!");
+      alert("O seu pedido de recuperação foi enviado à Direção e ao Master!");
     }
 
     function carregarDashboardAtleta() {
@@ -2016,7 +2271,8 @@
             <td><div class="foto-atleta-circular">${fotoHtml}</div></td>
             <td><b>${d.cargo}</b></td>
             <td>${d.nome}</td>
-            <td>Acesso Específico</td>
+            <td>${d.anoIngresso || 2026}</td>
+            <td>Acesso Autorizado</td>
             <td>
               <button class="btn-mini btn-mini-del" onclick="solicitarOuRemoverAdmin('${d.id}')">Excluir</button>
             </td>
@@ -2026,7 +2282,7 @@
     }
 
     function atualizarTabelas() {
-      // Atletas
+      // Atletas (com Ano de Ingresso e Senha visível)
       const tbA = document.getElementById('tb-atletas-geral');
       if (tbA) {
         tbA.innerHTML = '';
@@ -2039,7 +2295,9 @@
               <td>${a.nome}</td>
               <td><span style="color:#FBBF24; font-weight:bold;">${a.pos}</span></td>
               <td>${a.idade}</td>
+              <td>${a.anoIngresso || 2026}</td>
               <td>${a.tel}</td>
+              <td><span style="color:#34D399; font-weight:bold;">${a.senha}</span></td>
               <td><b>${a.golos} ⚽</b></td>
               <td><span style="background:#131E3D; color:#FBBF24; padding:2px 5px; border-radius:4px;">${a.id}</span></td>
               <td>
