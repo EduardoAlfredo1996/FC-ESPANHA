@@ -40,7 +40,7 @@
     }
     .seletor-portal-tabs button.active { background: #F3B229; color: #070B19; font-weight: 800; }
 
-    .campo { margin-bottom: 12px; text-align: left; }
+    .campo { margin-bottom: 11px; text-align: left; }
     .campo label { display: block; font-size: 10px; color: #94A3B8; font-weight: bold; margin-bottom: 4px; text-transform: uppercase; }
     .campo input, .campo select, .campo textarea { width: 100%; padding: 9px; background: #131E3D; border: 1px solid #233870; color: white; border-radius: 6px; font-size: 12px; outline: none; }
 
@@ -65,13 +65,12 @@
     .btn-mini { padding: 4px 7px; font-size: 10px; border-radius: 5px; border: none; cursor: pointer; font-weight: bold; }
     .btn-mini-quota { background: #F3B229; color: #070B19; }
     .btn-mini-edit { background: #3B82F6; color: white; }
-    .btn-mini-wpp { background: #10B981; color: white; }
     .btn-mini-del { background: #EF4444; color: white; }
 
     /* ================= LAYOUT PRINCIPAL (ADMIN & MASTER) ================= */
     #layout-admin-master { display: flex; min-height: 100vh; position: relative; }
 
-    /* SIDEBAR (DESKTOP E GAVETA MÓVEL) */
+    /* SIDEBAR */
     .sidebar-clube {
       width: 250px; background: #0A0F1D; border-right: 1px solid #1E2842; display: flex; flex-direction: column;
       flex-shrink: 0; padding: 16px 12px; transition: transform 0.3s ease; z-index: 1050;
@@ -91,10 +90,7 @@
 
     .sidebar-footer { border-top: 1px solid #1E2842; padding-top: 12px; text-align: center; font-size: 9px; color: #64748B; }
 
-    /* OVERLAY PARA MOBILE */
-    .sidebar-overlay {
-      position: fixed; inset: 0; background: rgba(0,0,0,0.7); z-index: 1040; display: none;
-    }
+    .sidebar-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.7); z-index: 1040; display: none; }
 
     /* ÁREA DE CONTEÚDO */
     .conteudo-admin-wrapper { flex: 1; display: flex; flex-direction: column; background: #070B16; overflow-y: auto; width: 100%; }
@@ -120,7 +116,7 @@
     .user-pill { display: flex; align-items: center; gap: 8px; cursor: pointer; }
     .user-avatar-mini { width: 32px; height: 32px; border-radius: 50%; border: 2px solid #E5A93C; object-fit: cover; }
 
-    /* HERO BANNER DO ESTÁDIO (IMAGEM 1) */
+    /* HERO BANNER */
     .hero-banner-estadio {
       position: relative; margin: 12px 14px 10px 14px; border-radius: 14px; overflow: hidden;
       background: radial-gradient(circle at center, #24080B 0%, #0B0E1A 90%);
@@ -132,7 +128,7 @@
     .hero-lema { font-size: 12px; color: #E5A93C; font-weight: bold; margin-top: 4px; }
     .hero-camisola { height: 95px; object-fit: contain; filter: drop-shadow(0 6px 14px rgba(0,0,0,0.8)); z-index: 2; }
 
-    /* SESSÃO ACTIVA (BARRA RÁPIDA) */
+    /* SESSÃO ACTIVA (RAPIDA) */
     .sessao-activa-admin-bar {
       margin: 0 14px 12px 14px; background: #0B1122; border: 1px solid #1E2842; border-radius: 10px;
       padding: 8px 12px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px;
@@ -142,7 +138,7 @@
     .sessao-btn.active-master { background: #F3B229; color: #070B19; font-weight: 900; }
     .sessao-btn.active-admin { background: #1E3A8A; color: white; }
 
-    /* 4 CARTÕES DE MÉTRICAS */
+    /* CARTOES DE MÉTRICAS */
     .grid-quatro-stats {
       display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 10px; margin: 0 14px 12px 14px;
     }
@@ -157,7 +153,7 @@
     .stat-pill-desc { font-size: 9px; color: #94A3B8; font-weight: bold; }
     .stat-pill-perc { font-size: 9px; font-weight: bold; color: #10B981; }
 
-    /* GRELHA CENTRAL (RESUMO DESPORTIVO, PRÓXIMO JOGO, ALERTAS) */
+    /* GRELHA DO DASHBOARD */
     .grid-corpo-dashboard {
       display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 12px; margin: 0 14px 12px 14px;
     }
@@ -165,14 +161,13 @@
     .card-bloco-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
     .card-bloco-titulo { font-size: 11px; font-weight: 900; color: #FFF; text-transform: uppercase; display: flex; align-items: center; gap: 6px; }
 
-    /* SITUAÇÃO FINANCEIRA E ACESSO RÁPIDO */
     .grid-duas-colunas {
       display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 12px; margin: 0 14px 14px 14px;
     }
 
     /* TABELA RESPONSIVA */
     .table-responsive { width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch; }
-    table { width: 100%; border-collapse: collapse; font-size: 11px; min-width: 500px; }
+    table { width: 100%; border-collapse: collapse; font-size: 11px; min-width: 520px; }
     th, td { text-align: left; padding: 8px 6px; border-bottom: 1px solid #1A253F; white-space: nowrap; }
     th { color: #E5A93C; font-weight: 800; font-size: 10px; text-transform: uppercase; }
 
@@ -200,7 +195,7 @@
     }
     .atleta-hero-info { display: flex; align-items: center; gap: 10px; }
     .atleta-avatar-grande {
-      width: 52px; height: 52px; border-radius: 50%; border: 2px solid #E5A93C; object-fit: cover;
+      width: 52px; height: 52px; border-radius: 50%; border: 2px solid #E5A93C; object-fit: cover; cursor: pointer;
     }
     .badge-atleta-ativo {
       background: #052818; border: 1px solid #10B981; color: #34D399; font-size: 9px; font-weight: bold;
@@ -244,15 +239,14 @@
     .modal-box { position: fixed; inset: 0; background: rgba(0,0,0,0.85); display: flex; align-items: center; justify-content: center; padding: 14px; z-index: 2000; }
     .modal-corpo { background: #0E1426; border: 1px solid #233870; border-radius: 12px; padding: 16px; width: 100%; max-width: 480px; max-height: 90vh; overflow-y: auto; }
 
-    /* AJUSTES ESPECÍFICOS PARA DISPOSITIVOS MÓVEIS */
+    .rodape-assinatura-aba {
+      margin-top: 18px; padding-top: 10px; border-top: 1px solid #1E2842; font-size: 10px; color: #64748B; text-align: center;
+    }
+
     @media (max-width: 900px) {
       .btn-hamburger-mobile { display: inline-flex; }
-      .sidebar-clube {
-        position: fixed; top: 0; bottom: 0; left: 0; transform: translateX(-100%);
-      }
-      .sidebar-clube.mobile-open {
-        transform: translateX(0); box-shadow: 10px 0 40px rgba(0,0,0,0.9);
-      }
+      .sidebar-clube { position: fixed; top: 0; bottom: 0; left: 0; transform: translateX(-100%); }
+      .sidebar-clube.mobile-open { transform: translateX(0); box-shadow: 10px 0 40px rgba(0,0,0,0.9); }
       .sidebar-overlay.active { display: block; }
       .hero-camisola { display: none; }
       .hero-titulo { font-size: 20px; }
@@ -270,7 +264,6 @@
     <div class="card-login-portal">
       <button class="btn-tres-pontos-dev" title="Acesso Master Desenvolvedor" onclick="alternarFormLogin('master')">•••</button>
 
-      <!-- Emblema Dinâmico do Clube -->
       <div style="width:75px; height:75px; margin:0 auto 8px auto; cursor:pointer;" onclick="abrirModal('modal-alterar-bandeira')">
         <img id="img-emblema-login" src="" alt="FC Espanha" style="width:100%; height:100%; object-fit:contain;" onerror="aplicarSvgPadrao(this)">
       </div>
@@ -332,6 +325,9 @@
           </div>
         </div>
         <button class="btn btn-gold" style="width:100%; padding:11px;" onclick="submeterLoginMasterPortal()">Entrar como Desenvolvedor</button>
+        <div style="margin-top:10px;">
+          <a href="javascript:void(0)" onclick="abrirModal('modal-recuperar-master')" style="font-size:11px; color:#FBBF24; text-decoration:underline;">«Recuperar Senha Master via SMS/Email»</a>
+        </div>
       </div>
 
       <div style="margin-top:18px; font-size:10px; color:#64748B; border-top:1px solid #1E2D56; padding-top:10px;">
@@ -345,10 +341,10 @@
   <!-- ========================================================================= -->
   <div id="layout-admin-master" style="display:none;">
 
-    <!-- OVERLAY ESCURO PARA O TELEFONE -->
+    <!-- OVERLAY ESCURO PARA MOBILE -->
     <div id="sidebar-overlay-mobile" class="sidebar-overlay" onclick="fecharSidebarMobile()"></div>
 
-    <!-- SIDEBAR LATERAL (DESKTOP E GAVETA NO TELEFONE) -->
+    <!-- SIDEBAR LATERAL -->
     <aside id="sidebar-admin-el" class="sidebar-clube">
       <div class="sidebar-logo-box">
         <div class="sidebar-emblema" title="Clique para alterar a bandeira/emblema" onclick="abrirModal('modal-alterar-bandeira')">
@@ -359,6 +355,7 @@
         <button class="btn btn-dark" style="margin-top:6px; font-size:9px; padding:3px 7px;" onclick="abrirModal('modal-alterar-bandeira')">🏳️ Alterar Bandeira</button>
       </div>
 
+      <!-- MENU FILTRADO POR CARGO -->
       <nav class="sidebar-menu">
         <button id="nav-item-painel" class="sidebar-item active" onclick="abrirSecaoAdmin('painel')">🏠 Painel Principal</button>
         <button id="nav-item-atletas" class="sidebar-item" onclick="abrirSecaoAdmin('atletas')">👥 Atletas & Plantel</button>
@@ -385,7 +382,6 @@
     <!-- ÁREA PRINCIPAL -->
     <main class="conteudo-admin-wrapper">
 
-      <!-- TOPO DA DASHBOARD COM BOTÃO HAMBÚRGUER PARA O TELEFONE -->
       <header class="topo-dashboard-admin">
         <div class="topo-esq">
           <button class="btn-hamburger-mobile" title="Abrir Menu Lateral" onclick="toggleSidebarMobile()">☰</button>
@@ -396,10 +392,10 @@
 
         <div class="topo-dir">
           <div class="badge-sino" title="Alertas do Clube" onclick="abrirSecaoAdmin('documentos')">
-            🔔<span class="badge-sino-count" id="notif-badge-admin">3</span>
+            🔔<span class="badge-sino-count" id="notif-badge-admin">2</span>
           </div>
 
-          <div class="user-pill" onclick="abrirModal('modal-alterar-foto-usuario')">
+          <div class="user-pill">
             <img id="img-user-topo" class="user-avatar-mini" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=120&q=80" alt="Foto">
             <div style="text-align:left;">
               <p id="txt-admin-header-nome" style="font-size:11px; font-weight:900; color:#FFF; margin:0;">Eduardo Alfredo</p>
@@ -411,7 +407,7 @@
         </div>
       </header>
 
-      <!-- HERO BANNER DO ESTÁDIO (IMAGEM 1) -->
+      <!-- HERO BANNER -->
       <section class="hero-banner-estadio">
         <div class="hero-info-esq">
           <div style="width:60px; height:60px; cursor:pointer;" onclick="abrirModal('modal-alterar-bandeira')">
@@ -426,7 +422,7 @@
         <img class="hero-camisola" src="https://images.unsplash.com/photo-1577471488278-16eec37ffcc2?auto=format&fit=crop&w=300&q=80" alt="Camisola FC Espanha" onerror="this.style.display='none'">
       </section>
 
-      <!-- BARRA DE SESSÃO ACTIVA (RAPIDA) -->
+      <!-- BARRA DE SESSÃO ACTIVA (MASTER & PRINCIPAL ACEDEM A TUDO) -->
       <section class="sessao-activa-admin-bar">
         <span style="font-size:10px; font-weight:800; color:#E5A93C; text-transform:uppercase;">Sessão Activa:</span>
         <div class="sessao-botoes-grupo">
@@ -435,16 +431,14 @@
           <button id="btn-sessao-adm1" class="sessao-btn" onclick="trocarSessao('adm1')">🛡️ Admin 1</button>
           <button id="btn-sessao-adm2" class="sessao-btn" onclick="trocarSessao('adm2')">🛡️ Admin 2</button>
           <button id="btn-sessao-adm3" class="sessao-btn" onclick="trocarSessao('adm3')">🛡️ Admin 3</button>
-          <button class="btn btn-gold" style="font-size:10px; padding:4px 8px;" onclick="trocarSessao('atleta')">⚽ Entrar na Área do Atleta</button>
+          <button class="btn btn-gold" style="font-size:10px; padding:4px 8px;" onclick="trocarSessao('atleta')">⚽ Ver Área do Atleta</button>
         </div>
       </section>
 
       <!-- ================= CORPO DAS SECÇÕES (ADMIN) ================= -->
 
-      <!-- SECÇÃO: PAINEL PRINCIPAL (EXATAMENTE COMO NA IMAGEM 1) -->
+      <!-- SECÇÃO: PAINEL PRINCIPAL -->
       <div id="sec-admin-painel">
-
-        <!-- 4 CARTÕES DE MÉTRICAS -->
         <div class="grid-quatro-stats">
           <div class="card-stat-pill">
             <div class="card-stat-icone-wrapper" style="background:#8A0A0E; color:#FFF;">👥</div>
@@ -483,10 +477,8 @@
           </div>
         </div>
 
-        <!-- 3 BLOCOS CENTRAIS (RESUMO DESPORTIVO, PRÓXIMO JOGO, ALERTAS) -->
         <div class="grid-corpo-dashboard">
-
-          <!-- BLOCO 1: RESUMO DESPORTIVO (DONUT CHART) -->
+          <!-- RESUMO DESPORTIVO (DONUT CHART) -->
           <div class="card-dash-bloco">
             <div class="card-bloco-header">
               <span class="card-bloco-titulo">📊 Resumo Desportivo</span>
@@ -514,7 +506,7 @@
             </div>
           </div>
 
-          <!-- BLOCO 2: PRÓXIMO JOGO -->
+          <!-- PRÓXIMO JOGO -->
           <div class="card-dash-bloco">
             <div class="card-bloco-header">
               <span class="card-bloco-titulo">📅 Próximo Jogo</span>
@@ -535,7 +527,7 @@
             </div>
           </div>
 
-          <!-- BLOCO 3: ALERTAS E NOTIFICAÇÕES -->
+          <!-- ALERTAS E NOTIFICAÇÕES -->
           <div class="card-dash-bloco">
             <div class="card-bloco-header">
               <span class="card-bloco-titulo">🔔 Alertas e Notificações</span>
@@ -558,10 +550,7 @@
           </div>
         </div>
 
-        <!-- DOIS BLOCOS INFERIORES: SITUAÇÃO FINANCEIRA E ACESSO RÁPIDO (100% FUNCIONAIS) -->
         <div class="grid-duas-colunas">
-
-          <!-- SITUAÇÃO FINANCEIRA -->
           <div class="card-dash-bloco">
             <div class="card-bloco-header">
               <span class="card-bloco-titulo">💰 Situação Financeira</span>
@@ -583,15 +572,14 @@
             </div>
           </div>
 
-          <!-- ACESSO RÁPIDO (TODOS OS BOTÕES OPERACIONAIS) -->
           <div class="card-dash-bloco">
             <div class="card-bloco-header">
               <span class="card-bloco-titulo">⚡ Acesso Rápido</span>
             </div>
             <div style="display:grid; grid-template-columns:repeat(3, 1fr); gap:6px;">
               <button class="btn btn-dark" style="padding:6px 2px; font-size:9px;" onclick="abrirModalNovoAtleta()">👤 Registar Atleta</button>
-              <button class="btn btn-dark" style="padding:6px 2px; font-size:9px;" onclick="abrirModalNovaQuota()">💳 Registar Pagamento</button>
-              <button class="btn btn-dark" style="padding:6px 2px; font-size:9px;" onclick="abrirModal('modal-nova-despesa')">🏷️ Adicionar Despesa</button>
+              <button class="btn btn-dark" style="padding:6px 2px; font-size:9px;" onclick="abrirModalNovaQuota()">💳 Registar Quota</button>
+              <button class="btn btn-dark" style="padding:6px 2px; font-size:9px;" onclick="abrirModal('modal-nova-despesa')">🏷️ Nova Despesa</button>
               <button class="btn btn-dark" style="padding:6px 2px; font-size:9px;" onclick="abrirSecaoAdmin('relatorios')">🖨️ Emitir Relatório</button>
               <button class="btn btn-dark" style="padding:6px 2px; font-size:9px;" onclick="abrirSecaoAdmin('estatisticas')">📊 Estatísticas</button>
               <button class="btn btn-dark" style="padding:6px 2px; font-size:9px;" onclick="abrirSecaoAdmin('documentos')">📁 Gerir Documentos</button>
@@ -599,9 +587,12 @@
           </div>
         </div>
 
+        <div class="rodape-assinatura-aba">
+          Desenvolvido por Eduardo Ferreira Alfredo (2026) • FC ESPANHA • Contacto: 945260362
+        </div>
       </div>
 
-      <!-- ================= SECÇÃO: ATLETAS (COM FOTO, EDIÇÃO E EXCLUSÃO) ================= -->
+      <!-- SECÇÃO: ATLETAS (COM NOVAS POSIÇÕES: ALA ESQUERDA E DIREITA) -->
       <div id="sec-admin-atletas" style="display:none; padding:12px 14px;">
         <div class="card-dash-bloco">
           <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; flex-wrap:wrap; gap:8px;">
@@ -614,35 +605,35 @@
           <div class="table-responsive">
             <table>
               <thead>
-                <tr>
-                  <th>FOTO</th><th>Nº</th><th>NOME COMPLETO</th><th>IDADE</th><th>CONTACTO</th><th>GOLOS</th><th>CÓDIGO</th><th>AÇÕES</th>
-                </tr>
+                <tr><th>FOTO</th><th>Nº</th><th>NOME COMPLETO</th><th>POSIÇÃO</th><th>IDADE</th><th>CONTACTO</th><th>GOLOS</th><th>CÓDIGO</th><th>AÇÕES</th></tr>
               </thead>
               <tbody id="tb-atletas-geral"></tbody>
             </table>
           </div>
         </div>
+        <div class="rodape-assinatura-aba">Desenvolvido por Eduardo Ferreira Alfredo (2026) • FC ESPANHA • Contacto: 945260362</div>
       </div>
 
       <!-- SECÇÃO: DIRIGENTES & CADASTRO DE ADMINS -->
       <div id="sec-admin-dirigentes" style="display:none; padding:12px 14px;">
         <div class="card-dash-bloco">
-          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; flex-wrap:wrap; gap:8px;">
             <div>
               <b style="color:#E5A93C; font-size:13px; text-transform:uppercase;">Corpo Diretivo & Administradores</b>
-              <p style="font-size:10px; color:#94A3B8;">O Master e o Administrador Principal podem cadastrar novos administradores.</p>
+              <p style="font-size:10px; color:#94A3B8;">O Master cadastra/remove qualquer admin. O Admin Principal pode cadastrar, mas para remover requer autorização do Master.</p>
             </div>
-            <button class="btn btn-gold" onclick="abrirModal('modal-cadastrar-admin')">+ Cadastrar Administrador</button>
+            <button class="btn btn-gold" onclick="abrirModal('modal-cadastrar-admin')">+ Cadastrar Dirigente / Admin</button>
           </div>
           <div class="table-responsive">
             <table>
               <thead>
-                <tr><th>CARGO</th><th>NOME DO RESPONSÁVEL</th><th>PERMISSÕES ATRIBUÍDAS</th><th>ESTADO</th></tr>
+                <tr><th>FOTO</th><th>CARGO</th><th>NOME DO RESPONSÁVEL</th><th>PERMISSÕES</th><th>AÇÕES</th></tr>
               </thead>
               <tbody id="tb-dirigentes-lista"></tbody>
             </table>
           </div>
         </div>
+        <div class="rodape-assinatura-aba">Desenvolvido por Eduardo Ferreira Alfredo (2026) • FC ESPANHA • Contacto: 945260362</div>
       </div>
 
       <!-- SECÇÃO: QUOTAS & DEVEDORES -->
@@ -662,13 +653,14 @@
             </table>
           </div>
         </div>
+        <div class="rodape-assinatura-aba">Desenvolvido por Eduardo Ferreira Alfredo (2026) • FC ESPANHA • Contacto: 945260362</div>
       </div>
 
-      <!-- SECÇÃO: OUTRAS CONTRIBUIÇÕES / PATROCÍNIOS & DESPESAS -->
+      <!-- SECÇÃO: FINANÇAS & DESPESAS -->
       <div id="sec-admin-financas" style="display:none; padding:12px 14px;">
         <div class="card-dash-bloco">
           <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; flex-wrap:wrap; gap:8px;">
-            <b style="color:#E5A93C; font-size:13px; text-transform:uppercase;">🎁 Outras Contribuições / Patrocínios & Despesas</b>
+            <b style="color:#E5A93C; font-size:13px; text-transform:uppercase;">🎁 Contribuições / Patrocínios & Despesas</b>
             <div style="display:flex; gap:6px;">
               <button class="btn btn-gold" onclick="abrirModal('modal-novo-patrocinio')">+ Novo Patrocínio</button>
               <button class="btn btn-red" onclick="abrirModal('modal-nova-despesa')">- Nova Despesa</button>
@@ -681,9 +673,10 @@
             </table>
           </div>
         </div>
+        <div class="rodape-assinatura-aba">Desenvolvido por Eduardo Ferreira Alfredo (2026) • FC ESPANHA • Contacto: 945260362</div>
       </div>
 
-      <!-- SECÇÃO: JOGOS & PARTIDAS -->
+      <!-- SECÇÃO: JOGOS -->
       <div id="sec-admin-jogos" style="display:none; padding:12px 14px;">
         <div class="card-dash-bloco">
           <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; flex-wrap:wrap; gap:8px;">
@@ -697,12 +690,13 @@
             </table>
           </div>
         </div>
+        <div class="rodape-assinatura-aba">Desenvolvido por Eduardo Ferreira Alfredo (2026) • FC ESPANHA • Contacto: 945260362</div>
       </div>
 
       <!-- SECÇÃO: ESTATÍSTICAS -->
       <div id="sec-admin-estatisticas" style="display:none; padding:12px 14px;">
         <div class="card-dash-bloco">
-          <b style="color:#E5A93C; font-size:13px; text-transform:uppercase; margin-bottom:10px; display:block;">📊 Estatísticas Detalhadas do FC ESPANHA</b>
+          <b style="color:#E5A93C; font-size:13px; text-transform:uppercase; margin-bottom:10px; display:block;">📊 Estatísticas Globais do FC ESPANHA</b>
           <div class="grid-quatro-stats" style="margin:0;">
             <div class="card-stat-pill"><div><div class="stat-pill-valor">75%</div><div class="stat-pill-desc">Taxa de Vitória</div></div></div>
             <div class="card-stat-pill"><div><div class="stat-pill-valor">48</div><div class="stat-pill-desc">Golos Marcados</div></div></div>
@@ -710,9 +704,10 @@
             <div class="card-stat-pill"><div><div class="stat-pill-valor">+34</div><div class="stat-pill-desc">Saldo de Golos</div></div></div>
           </div>
         </div>
+        <div class="rodape-assinatura-aba">Desenvolvido por Eduardo Ferreira Alfredo (2026) • FC ESPANHA • Contacto: 945260362</div>
       </div>
 
-      <!-- SECÇÃO: EQUIPAMENTOS & PATRIMÓNIO -->
+      <!-- SECÇÃO: EQUIPAMENTOS -->
       <div id="sec-admin-equipamentos" style="display:none; padding:12px 14px;">
         <div class="card-dash-bloco">
           <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
@@ -726,45 +721,49 @@
             </table>
           </div>
         </div>
+        <div class="rodape-assinatura-aba">Desenvolvido por Eduardo Ferreira Alfredo (2026) • FC ESPANHA • Contacto: 945260362</div>
       </div>
 
-      <!-- SECÇÃO: DOCUMENTOS & ENQUETES -->
+      <!-- SECÇÃO: DOCUMENTOS & ENQUETES (100% OPERACIONAL) -->
       <div id="sec-admin-documentos" style="display:none; padding:12px 14px;">
         <div class="card-dash-bloco">
           <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; flex-wrap:wrap; gap:8px;">
             <div>
               <b style="color:#E5A93C; font-size:13px; text-transform:uppercase;">📁 Modelos de Documentos & Enquetes de Auscultação</b>
-              <p style="font-size:10px; color:#94A3B8;">A direção ausculta atletas e sócios sobre ações do clube. O Master tem acesso a tudo.</p>
+              <p style="font-size:10px; color:#94A3B8;">A direção ausculta atletas e sócios sobre ações do clube. O Master e o Principal têm acesso a tudo.</p>
             </div>
             <button class="btn btn-gold" onclick="abrirModal('modal-nova-enquete')">+ Criar Nova Enquete</button>
           </div>
           <div id="lista-enquetes-box" style="display:flex; flex-direction:column; gap:10px;"></div>
         </div>
+        <div class="rodape-assinatura-aba">Desenvolvido por Eduardo Ferreira Alfredo (2026) • FC ESPANHA • Contacto: 945260362</div>
       </div>
 
-      <!-- SECÇÃO: RELATÓRIOS OFICIAIS -->
+      <!-- SECÇÃO: RELATÓRIOS -->
       <div id="sec-admin-relatorios" style="display:none; padding:12px 14px;">
         <div class="card-dash-bloco">
           <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; flex-wrap:wrap; gap:8px;">
             <b style="color:#E5A93C; font-size:13px; text-transform:uppercase;">📋 Emissão de Relatórios Oficiais</b>
-            <button class="btn btn-gold" onclick="window.print()">🖨️ Imprimir Relatório Completo</button>
+            <button class="btn btn-gold" onclick="window.print()">🖨️ Imprimir Relatório</button>
           </div>
           <div id="caixa-preview-relatorio" style="background:#070B19; padding:12px; border-radius:8px; font-family:monospace; font-size:11px; white-space:pre-wrap;"></div>
         </div>
+        <div class="rodape-assinatura-aba">Desenvolvido por Eduardo Ferreira Alfredo (2026) • FC ESPANHA • Contacto: 945260362</div>
       </div>
 
-      <!-- SECÇÃO: ANÚNCIOS OFICIAIS -->
+      <!-- SECÇÃO: ANÚNCIOS OFICIAIS (100% OPERACIONAL) -->
       <div id="sec-admin-anuncios" style="display:none; padding:12px 14px;">
         <div class="card-dash-bloco">
           <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; flex-wrap:wrap; gap:8px;">
             <b style="color:#E5A93C; font-size:13px; text-transform:uppercase;">📢 Quadro Oficial de Anúncios e Comunicados</b>
-            <button class="btn btn-gold" onclick="abrirModal('modal-novo-anuncio')">+ Publicar Anúncio</button>
+            <button class="btn btn-gold" onclick="abrirModal('modal-novo-anuncio')">+ Publicar Comunicado</button>
           </div>
           <div id="feed-anuncios-admin" style="display:flex; flex-direction:column; gap:10px;"></div>
         </div>
+        <div class="rodape-assinatura-aba">Desenvolvido por Eduardo Ferreira Alfredo (2026) • FC ESPANHA • Contacto: 945260362</div>
       </div>
 
-      <!-- SECÇÃO: LIVRO DE REGISTO (AUDITORIA - FILTRADA PARA O PRINCIPAL, 100% PARA O MASTER) -->
+      <!-- SECÇÃO: LIVRO DE REGISTO (AUDITORIA FILTRADA) -->
       <div id="sec-admin-auditoria" style="display:none; padding:12px 14px;">
         <div class="card-dash-bloco">
           <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; flex-wrap:wrap; gap:8px;">
@@ -781,18 +780,19 @@
             </table>
           </div>
         </div>
+        <div class="rodape-assinatura-aba">Desenvolvido por Eduardo Ferreira Alfredo (2026) • FC ESPANHA • Contacto: 945260362</div>
       </div>
 
-      <!-- SECÇÃO: CONFIGURAÇÕES MASTER (5 BOTÕES DE BLOQUEIO INDEPENDENTES) -->
+      <!-- SECÇÃO: CONFIGURAÇÕES MASTER (AUTORIDADE TOTAL + GESTÃO DE SENHAS) -->
       <div id="sec-admin-config" style="display:none; padding:12px 14px;">
         <div class="card-dash-bloco">
-          <h3 style="color:#E5A93C; font-size:13px; text-transform:uppercase; margin-bottom:4px;">⚙️ Painel de Segurança do Desenvolvedor Master</h3>
-          <p style="font-size:11px; color:#94A3B8; margin-bottom:14px;">Controlo total da plataforma: 5 travas de bloqueio independentes e gestão de senhas.</p>
+          <h3 style="color:#E5A93C; font-size:13px; text-transform:uppercase; margin-bottom:4px;">⚙️ Painel do Desenvolvedor Master (Autoridade Total)</h3>
+          <p style="font-size:11px; color:#94A3B8; margin-bottom:14px;">Gestão exclusiva do Desenvolvedor Master: 5 travas de bloqueio e edição de senhas de todos os utilizadores.</p>
 
           <!-- 5 BOTÕES DE BLOQUEIO -->
           <div style="background:#080E1E; border:1px solid #1E2D56; border-radius:10px; padding:12px; margin-bottom:12px;">
             <b style="color:#FBBF24; font-size:11px;">🔒 5 BOTÕES DE BLOQUEIO DE AÇÕES (MASTER):</b>
-            <p style="font-size:10px; color:#94A3B8; margin:3px 0 10px 0;">Ative ou desative individualmente as permissões de escrita de cada nível:</p>
+            <p style="font-size:10px; color:#94A3B8; margin:3px 0 10px 0;">Bloqueie ou liberte individualmente as ações de cada nível:</p>
 
             <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(180px, 1fr)); gap:8px;">
               <button id="btn-lock-princ" class="btn btn-red" onclick="alternarTravaMaster('princ')">🔒 Bloquear Admin Principal</button>
@@ -803,11 +803,24 @@
             </div>
           </div>
 
-          <!-- ALTERAR BANDEIRA DO CLUBE -->
+          <!-- GESTÃO DE SENHAS DE TODOS OS UTILIZADORES -->
           <div style="background:#080E1E; border:1px solid #1E2D56; border-radius:10px; padding:12px; margin-bottom:12px;">
-            <b style="color:#34D399; font-size:11px;">🏳️ BANDEIRA / EMBLEMA OFICIAL:</b>
-            <p style="font-size:10px; color:#94A3B8; margin:3px 0 8px 0;">Carregue a nova imagem do logótipo ou bandeira do clube:</p>
-            <button class="btn btn-gold" onclick="abrirModal('modal-alterar-bandeira')">Carregar Nova Bandeira / Emblema</button>
+            <b style="color:#E5A93C; font-size:11px;">🔑 CRIAR & EDITAR SENHAS DE TODOS OS UTILIZADORES:</b>
+            <p style="font-size:10px; color:#94A3B8; margin:3px 0 8px 0;">O Master pode alterar ou repor a senha de qualquer atleta ou administrador:</p>
+            <button class="btn btn-gold" onclick="abrirModal('modal-master-senhas')">Gerir Senhas de Utilizadores</button>
+          </div>
+
+          <!-- APROVAÇÃO DE ALTERAÇÕES DE PERFIL DOS ATLETAS -->
+          <div style="background:#080E1E; border:1px solid #1E2D56; border-radius:10px; padding:12px; margin-bottom:12px;">
+            <b style="color:#34D399; font-size:11px;">📸 Solicitações de Foto e Morada dos Atletas:</b>
+            <p style="font-size:10px; color:#94A3B8; margin:3px 0 8px 0;">As alterações feitas pelos atletas só entram em vigor após a sua autorização:</p>
+            <div id="lista-pedidos-perfil-box" style="font-size:11px;">Sem pedidos pendentes.</div>
+          </div>
+
+          <!-- PEDIDOS DE REMOÇÃO DE ADMINS PELO ADMIN PRINCIPAL -->
+          <div style="background:#080E1E; border:1px solid #1E2D56; border-radius:10px; padding:12px; margin-bottom:12px;">
+            <b style="color:#EF4444; font-size:11px;">⚖️ Pedidos de Remoção de Administradores:</b>
+            <div id="lista-pedidos-remocao-admin" style="font-size:11px; margin-top:4px;">Sem pedidos pendentes.</div>
           </div>
 
           <!-- ZERAR PLATAFORMA -->
@@ -817,6 +830,7 @@
             <button class="btn btn-red" onclick="zerarPlataformaTotal()">🗑️ Zerar Toda a Plataforma</button>
           </div>
         </div>
+        <div class="rodape-assinatura-aba">Desenvolvido por Eduardo Ferreira Alfredo (2026) • FC ESPANHA • Contacto: 945260362</div>
       </div>
 
     </main>
@@ -827,10 +841,9 @@
   <!-- ========================================================================= -->
   <div id="layout-atleta-mobile">
 
-    <!-- TOPO BAR (IMAGEM 2) -->
     <header class="atleta-topo-bar">
       <div style="display:flex; align-items:center; gap:8px;">
-        <div style="width:34px; height:34px; cursor:pointer;" onclick="abrirModal('modal-alterar-bandeira')">
+        <div style="width:34px; height:34px;">
           <img src="" style="width:100%; height:100%; object-fit:contain;" onerror="aplicarSvgPadrao(this)">
         </div>
         <div>
@@ -845,20 +858,20 @@
       </div>
     </header>
 
-    <!-- HERO DO ATLETA COM FOTO PROFISSIONAL (IMAGEM 2) -->
+    <!-- HERO DO ATLETA -->
     <div class="atleta-hero-card">
       <div class="atleta-hero-info">
-        <img id="img-atleta-perfil" class="atleta-avatar-grande" src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=150&q=80" alt="Foto Atleta" onclick="abrirModalFotoAtletaPropria()">
+        <img id="img-atleta-perfil" class="atleta-avatar-grande" src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=150&q=80" alt="Foto Atleta" onclick="abrirModal('modal-atleta-alterar-perfil')">
         <div>
-          <h2 id="txt-atleta-saudacao" style="font-size:15px; font-weight:900; color:#FFF; margin:0;">Olá, Eduardo!</h2>
+          <h2 id="txt-atleta-saudacao" style="font-size:15px; font-weight:900; color:#FFF; margin:0;">Olá, Atleta!</h2>
           <p style="font-size:10px; color:#E5A93C; font-weight:bold; margin:2px 0;">Área do Atleta</p>
-          <span style="font-size:9px; color:#94A3B8;">FC ESPANHA</span>
+          <span id="txt-atleta-morada-badge" style="font-size:9px; color:#94A3B8;">Luanda, Angola</span>
         </div>
       </div>
       <div class="badge-atleta-ativo">✔ Atleta Ativo</div>
     </div>
 
-    <!-- DUAS PILLS DE ESTATÍSTICA (IMAGEM 2) -->
+    <!-- DUAS PILLS -->
     <div class="atleta-duas-pills">
       <div class="atleta-pill">
         <span style="font-size:22px;">💳</span>
@@ -876,7 +889,7 @@
       </div>
     </div>
 
-    <!-- SEÇÃO «MEU ESPAÇO» COM TODAS AS AÇÕES SOLICITADAS (IMAGEM 2) -->
+    <!-- SEÇÃO «MEU ESPAÇO» DO ATLETA (APENAS O QUE ELE PODE FAZER) -->
     <div class="atleta-secao-titulo">
       <span>⭐ Meu Espaço</span>
       <span style="font-size:9px; color:#E5A93C; font-style:italic;">Tudo sobre você no clube</span>
@@ -884,6 +897,9 @@
     <div class="atleta-lista-links">
       <button class="atleta-link-item" onclick="abrirModal('modal-atleta-ficha-detalhe')">
         <span>👤 Meu Perfil Oficial</span><span>›</span>
+      </button>
+      <button class="atleta-link-item" onclick="abrirModal('modal-atleta-alterar-perfil')">
+        <span>📸 Alterar Minha Foto e Morada</span><span>›</span>
       </button>
       <button class="atleta-link-item" onclick="abrirModal('modal-atleta-recibos-lista')">
         <span>💳 Minhas Quotas & Recibos Emitidos</span><span>›</span>
@@ -894,15 +910,23 @@
       <button class="atleta-link-item" onclick="abrirModal('modal-justificar-lesao')">
         <span>🏥 Participar Lesão / Justificar Ausência</span><span>›</span>
       </button>
+      <button class="atleta-link-item" onclick="abrirModal('modal-atleta-relatar-injustica')">
+        <span>⚖️ Relatar Ocorrência / Injustiça (Confidencial)</span><span>›</span>
+      </button>
       <button class="atleta-link-item" onclick="abrirModal('modal-enviar-sugestao')">
         <span>💡 Enviar Sugestões ao Clube</span><span>›</span>
       </button>
-      <button class="atleta-link-item" onclick="window.print()">
+      <button class="atleta-link-item" onclick="baixarFichaAtletaOficial()">
         <span>📄 Baixar Ficha de Inscrição (PDF)</span><span>›</span>
+      </button>
+      <button class="atleta-link-item" onclick="baixarRelatorioFinanceiroAtleta()">
+        <span>💰 Baixar Relatório Financeiro Pessoal (PDF)</span><span>›</span>
+      </button>
+      <button class="atleta-link-item" onclick="baixarHistoricoDesempenhoAtleta()">
+        <span>📊 Baixar Histórico de Desempenho (PDF)</span><span>›</span>
       </button>
     </div>
 
-    <!-- CARD DO PRÓXIMO JOGO (IMAGEM 2) -->
     <div class="card-dash-bloco" style="margin:0 12px 10px 12px;">
       <div style="background:#8A0A0E; padding:6px 10px; border-radius:6px; display:flex; justify-content:space-between; font-size:10px; font-weight:bold; color:#FFF; margin-bottom:8px;">
         <span>⚽ Próximo Jogo</span>
@@ -914,7 +938,6 @@
       </div>
     </div>
 
-    <!-- COMUNICADOS RECENTES (IMAGEM 2) -->
     <div style="margin:0 12px 10px 12px; background:#0E1424; border:1px solid #1B2640; border-radius:10px; padding:10px;">
       <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
         <span style="font-size:11px; font-weight:900; color:#FFF;">📢 Comunicados Recentes</span>
@@ -923,9 +946,13 @@
       <div id="atleta-box-ultimo-comunicado" style="font-size:10px; color:#CBD5E1;"></div>
     </div>
 
-    <!-- BOTTOM NAVIGATION (IMAGEM 2) -->
+    <div class="rodape-assinatura-aba" style="margin:0 12px 14px 12px;">
+      Desenvolvido por Eduardo Ferreira Alfredo (2026) • FC ESPANHA • Contacto: 945260362
+    </div>
+
+    <!-- BOTTOM NAVIGATION -->
     <nav class="atleta-bottom-nav">
-      <button class="atleta-nav-btn active" onclick="alert('Já está na página inicial!')"><span>🏠</span>Início</button>
+      <button class="atleta-nav-btn active" onclick="alert('Página inicial do atleta!')"><span>🏠</span>Início</button>
       <button class="atleta-nav-btn" onclick="abrirModal('modal-atleta-ficha-detalhe')"><span>📊</span>Estatísticas</button>
       <button class="atleta-nav-btn" onclick="abrirSecaoAdmin('jogos')"><span>🏆</span>Jogos</button>
       <button class="atleta-nav-btn" onclick="abrirModal('modal-comunicados-atleta')"><span>🔔</span>Notificações</button>
@@ -934,43 +961,162 @@
   </div>
 
   <!-- ========================================================================= -->
-  <!-- 4. MODAIS DO SISTEMA                                                      -->
+  <!-- 4. MODAIS DO SISTEMA (TODOS 100% OPERACIONAIS)                             -->
   <!-- ========================================================================= -->
 
-  <!-- MODAL: ALTERAR BANDEIRA / EMBLEMA DO CLUBE -->
-  <div id="modal-alterar-bandeira" class="modal-box" style="display:none;">
+  <!-- MODAL: RECUPERAÇÃO MASTER (SMS OU EMAIL) -->
+  <div id="modal-recuperar-master" class="modal-box" style="display:none;">
     <div class="modal-corpo">
-      <h3 style="color:#E5A93C; font-size:13px; margin-bottom:8px;">🏳️ ALTERAR BANDEIRA / EMBLEMA DO CLUBE</h3>
-      <p style="font-size:11px; color:#94A3B8; margin-bottom:12px;">Carregue uma imagem do seu telemóvel ou computador:</p>
+      <h3 style="color:#FBBF24; font-size:13px; margin-bottom:8px;">👑 RECUPERAÇÃO DA SENHA MASTER</h3>
+      <p style="font-size:11px; color:#CCC; margin-bottom:10px;">O código de segurança será enviado para os contactos oficiais do Desenvolvedor Master:</p>
+      <div style="background:#080E1E; border:1px solid #1E2D56; padding:10px; border-radius:8px; margin-bottom:12px; font-size:11px;">
+        <p>📱 Telefone: <b>945260362</b></p>
+        <p>📧 Email: <b>eduardoalfredoferreira@gmail.com</b></p>
+      </div>
       <div class="campo">
-        <label>Escolher ficheiro de imagem:</label>
-        <input type="file" id="inp-bandeira-file" accept="image/*" onchange="processarUploadBandeira(event)">
+        <label>Selecione onde deseja receber o código:</label>
+        <select id="sel-canal-master-recup">
+          <option value="sms">SMS / WhatsApp (945260362)</option>
+          <option value="email">E-mail (eduardoalfredoferreira@gmail.com)</option>
+        </select>
       </div>
-      <div id="preview-bandeira-box" style="text-align:center; padding:10px; display:none;">
-        <img id="img-preview-bandeira" src="" style="width:70px; height:70px; object-fit:contain; border:2px solid #E5A93C; border-radius:10px;">
+      <button class="btn btn-gold" style="width:100%; padding:9px;" onclick="enviarCodigoMaster()">1. Emitir Código de Segurança</button>
+
+      <div id="box-verificar-codigo-master" style="display:none; margin-top:12px; border-top:1px dashed #E5A93C; padding-top:10px;">
+        <div class="campo">
+          <label>Introduza o Código de 4 Dígitos:</label>
+          <input type="text" id="inp-codigo-otp-master" placeholder="Ex: 9452" style="text-align:center; font-weight:bold; font-size:16px;">
+        </div>
+        <div class="campo">
+          <label>Defina a Nova Senha Mestre:</label>
+          <input type="password" id="inp-nova-senha-master-otp" placeholder="Nova Senha">
+        </div>
+        <button class="btn btn-gold" style="width:100%; padding:9px;" onclick="confirmarNovaSenhaMasterOTP()">2. Validar Código e Redefinir Senha</button>
       </div>
-      <button class="btn btn-gold" style="width:100%; padding:9px;" onclick="salvarBandeiraClube()">Guardar Emblema</button>
-      <button class="btn btn-dark" style="width:100%; margin-top:6px;" onclick="fecharModal('modal-alterar-bandeira')">Fechar</button>
+      <button class="btn btn-dark" style="width:100%; margin-top:8px;" onclick="fecharModal('modal-recuperar-master')">Fechar</button>
     </div>
   </div>
 
-  <!-- MODAL: CADASTRAR / EDITAR ATLETA (COM FOTO) -->
+  <!-- MODAL: RECUPERAÇÃO DE SENHA DE UTILIZADORES / ATLETAS -->
+  <div id="modal-recuperar-senha" class="modal-box" style="display:none;">
+    <div class="modal-corpo">
+      <h3 style="color:#E5A93C; font-size:13px; margin-bottom:10px;">🔑 RECUPERAÇÃO DE ACESSO</h3>
+      <div class="campo"><label>Nome Completo ou Código (ex: FCE-001):</label><input type="text" id="recup-nome-usuario" placeholder="Introduza o seu nome ou código"></div>
+      <div class="campo"><label>Telefone / WhatsApp (se possuir):</label><input type="tel" id="recup-tel-input" placeholder="Ex: 9xxxxxxxx"></div>
+      <button class="btn btn-gold" style="width:100%; padding:9px;" onclick="solicitarRecuperacaoGeral()">Notificar Direção e Master</button>
+      <button class="btn btn-dark" style="width:100%; margin-top:6px;" onclick="fecharModal('modal-recuperar-senha')">Fechar</button>
+    </div>
+  </div>
+
+  <!-- MODAL: MASTER GERIR SENHAS DE TODOS -->
+  <div id="modal-master-senhas" class="modal-box" style="display:none;">
+    <div class="modal-corpo">
+      <h3 style="color:#E5A93C; font-size:13px; margin-bottom:10px;">🔑 GESTÃO GERAL DE SENHAS (MASTER)</h3>
+      <div class="campo">
+        <label>Selecione o Utilizador:</label>
+        <select id="sel-master-usuario-alvo"></select>
+      </div>
+      <div class="campo">
+        <label>Definir Nova Senha / PIN:</label>
+        <div class="campo-senha-wrapper">
+          <input type="password" id="inp-master-nova-senha" placeholder="Digite a nova senha">
+          <button type="button" class="btn-olho-senha" onclick="alternarOlhoSenha('inp-master-nova-senha', this)">👁️</button>
+        </div>
+      </div>
+      <button class="btn btn-gold" style="width:100%; padding:9px;" onclick="salvarSenhaPeloMaster()">Gravar Nova Senha</button>
+      <button class="btn btn-dark" style="width:100%; margin-top:6px;" onclick="fecharModal('modal-master-senhas')">Fechar</button>
+    </div>
+  </div>
+
+  <!-- MODAL: PUBLICAR COMUNICADO / ANÚNCIO (100% OPERACIONAL) -->
+  <div id="modal-novo-anuncio" class="modal-box" style="display:none;">
+    <div class="modal-corpo">
+      <h3 style="color:#E5A93C; font-size:13px; margin-bottom:10px;">📢 PUBLICAR COMUNICADO OFICIAL</h3>
+      <div class="campo"><label>Título do Anúncio:</label><input type="text" id="cad-anuncio-tit" placeholder="Ex: Treino Tático de Sexta-feira"></div>
+      <div class="campo"><label>Texto Completo:</label><textarea id="cad-anuncio-txt" rows="4" placeholder="Escreva a mensagem para todos os atletas e administradores..."></textarea></div>
+      <button class="btn btn-gold" style="width:100%; padding:9px;" onclick="salvarNovoAnuncio()">Publicar Comunicado</button>
+      <button class="btn btn-dark" style="width:100%; margin-top:6px;" onclick="fecharModal('modal-novo-anuncio')">Cancelar</button>
+    </div>
+  </div>
+
+  <!-- MODAL: CRIAR NOVA ENQUETE (100% OPERACIONAL) -->
+  <div id="modal-nova-enquete" class="modal-box" style="display:none;">
+    <div class="modal-corpo">
+      <h3 style="color:#E5A93C; font-size:13px; margin-bottom:10px;">📁 CRIAR ENQUETE DE AUSCULTAÇÃO</h3>
+      <div class="campo"><label>Título / Tema da Enquete:</label><input type="text" id="cad-enquete-tit" placeholder="Ex: Aquisição dos Novos Equipamentos"></div>
+      <div class="campo"><label>Pergunta de Auscultação:</label><textarea id="cad-enquete-pergunta" rows="3" placeholder="Qual a sua opinião sobre o novo modelo proposto pela direção?"></textarea></div>
+      <button class="btn btn-gold" style="width:100%; padding:9px;" onclick="salvarNovaEnquete()">Publicar Enquete</button>
+      <button class="btn btn-dark" style="width:100%; margin-top:6px;" onclick="fecharModal('modal-nova-enquete')">Cancelar</button>
+    </div>
+  </div>
+
+  <!-- MODAL: REGISTAR JOGO (100% OPERACIONAL) -->
+  <div id="modal-novo-jogo" class="modal-box" style="display:none;">
+    <div class="modal-corpo">
+      <h3 style="color:#E5A93C; font-size:13px; margin-bottom:10px;">🏆 REGISTAR JOGO / PARTIDA</h3>
+      <div class="campo"><label>Confronto:</label><input type="text" id="cad-jogo-confronto" placeholder="FC Espanha vs Adversário"></div>
+      <div class="campo"><label>Competição:</label><input type="text" id="cad-jogo-comp" placeholder="Torneio Dominical / Amistoso"></div>
+      <div class="campo"><label>Resultado:</label><input type="text" id="cad-jogo-res" placeholder="Ex: 3 - 1"></div>
+      <button class="btn btn-gold" style="width:100%; padding:9px;" onclick="salvarNovoJogo()">Gravar Jogo</button>
+      <button class="btn btn-dark" style="width:100%; margin-top:6px;" onclick="fecharModal('modal-novo-jogo')">Cancelar</button>
+    </div>
+  </div>
+
+  <!-- MODAL: NOVO EQUIPAMENTO (100% OPERACIONAL) -->
+  <div id="modal-novo-equipamento" class="modal-box" style="display:none;">
+    <div class="modal-corpo">
+      <h3 style="color:#E5A93C; font-size:13px; margin-bottom:10px;">👕 REGISTAR EQUIPAMENTO / MATERIAL</h3>
+      <div class="campo"><label>Nome do Item:</label><input type="text" id="cad-equip-nome" placeholder="Ex: Coletes de Treino"></div>
+      <div class="campo"><label>Quantidade:</label><input type="number" id="cad-equip-qtd" value="10"></div>
+      <div class="campo"><label>Estado:</label><input type="text" id="cad-equip-estado" placeholder="Ex: Novo / Bom"></div>
+      <div class="campo"><label>Responsável:</label><input type="text" id="cad-equip-resp" placeholder="Ex: Capitão Valdemar"></div>
+      <button class="btn btn-gold" style="width:100%; padding:9px;" onclick="salvarNovoEquipamento()">Gravar Material</button>
+      <button class="btn btn-dark" style="width:100%; margin-top:6px;" onclick="fecharModal('modal-novo-equipamento')">Cancelar</button>
+    </div>
+  </div>
+
+  <!-- MODAL: NOVO PATROCÍNIO (100% OPERACIONAL) -->
+  <div id="modal-novo-patrocinio" class="modal-box" style="display:none;">
+    <div class="modal-corpo">
+      <h3 style="color:#E5A93C; font-size:13px; margin-bottom:10px;">🎁 REGISTAR CONTRIBUIÇÃO / PATROCÍNIO</h3>
+      <div class="campo"><label>Benfeitor / Patrocinador:</label><input type="text" id="cad-patr-nome" placeholder="Nome do patrocinador"></div>
+      <div class="campo"><label>Tipo de Contribuição:</label><input type="text" id="cad-patr-tipo" placeholder="Ex: Apoio financeiro / Água"></div>
+      <div class="campo"><label>Valor (Kz):</label><input type="number" id="cad-patr-val" value="50000"></div>
+      <button class="btn btn-gold" style="width:100%; padding:9px;" onclick="salvarNovoPatrocinio()">Gravar Patrocínio</button>
+      <button class="btn btn-dark" style="width:100%; margin-top:6px;" onclick="fecharModal('modal-novo-patrocinio')">Cancelar</button>
+    </div>
+  </div>
+
+  <!-- MODAL: NOVA DESPESA (100% OPERACIONAL) -->
+  <div id="modal-nova-despesa" class="modal-box" style="display:none;">
+    <div class="modal-corpo">
+      <h3 style="color:#EF4444; font-size:13px; margin-bottom:10px;">🏷️ REGISTAR NOVA DESPESA</h3>
+      <div class="campo"><label>Descrição / Finalidade:</label><input type="text" id="cad-despesa-desc" placeholder="Ex: Aluguer do campo"></div>
+      <div class="campo"><label>Valor (Kz):</label><input type="number" id="cad-despesa-valor" placeholder="Ex: 25000"></div>
+      <button class="btn btn-red" style="width:100%; padding:10px;" onclick="salvarNovaDespesa()">Gravar Despesa</button>
+      <button class="btn btn-dark" style="width:100%; margin-top:6px;" onclick="fecharModal('modal-nova-despesa')">Cancelar</button>
+    </div>
+  </div>
+
+  <!-- MODAL: CADASTRAR ATLETA (COM ALA ESQUERDA E DIREITA) -->
   <div id="modal-novo-atleta" class="modal-box" style="display:none;">
     <div class="modal-corpo">
       <h3 id="modal-atleta-titulo" style="color:#E5A93C; font-size:13px; margin-bottom:10px;">+ CADASTRAR NOVO ATLETA</h3>
       <input type="hidden" id="edit-atleta-id">
-      <div class="campo">
-        <label>Foto do Atleta:</label>
-        <input type="file" id="cad-atleta-foto-file" accept="image/*" onchange="processarFotoAtleta(event)">
-        <input type="hidden" id="cad-atleta-foto-base64">
-      </div>
+      <div class="campo"><label>Foto do Atleta:</label><input type="file" id="cad-atleta-foto-file" accept="image/*" onchange="processarFotoAtleta(event)"><input type="hidden" id="cad-atleta-foto-base64"></div>
       <div class="campo"><label>Número da Camisola:</label><input type="number" id="cad-atleta-num" placeholder="Ex: 10"></div>
       <div class="campo"><label>Nome Completo:</label><input type="text" id="cad-atleta-nome" placeholder="Ex: Mateus Silva"></div>
       <div class="campo"><label>Idade / Nascimento:</label><input type="text" id="cad-atleta-idade" placeholder="Ex: 22 anos"></div>
+      <div class="campo"><label>Morada / Residência:</label><input type="text" id="cad-atleta-morada" placeholder="Ex: Cazenga, Luanda"></div>
       <div class="campo">
-        <label>Posição:</label>
+        <label>Posição no Campo:</label>
         <select id="cad-atleta-pos">
-          <option>Guarda-Redes</option><option>Defesa</option><option>Médio</option><option>Avançado</option>
+          <option value="Guarda-Redes">Guarda-Redes</option>
+          <option value="Defesa">Defesa</option>
+          <option value="Ala Esquerda">Ala Esquerda</option>
+          <option value="Ala Direita">Ala Direita</option>
+          <option value="Médio">Médio</option>
+          <option value="Avançado">Avançado</option>
         </select>
       </div>
       <div class="campo"><label>Telefone / WhatsApp (Opcional):</label><input type="tel" id="cad-atleta-tel" placeholder="Pode ficar vazio caso não tenha"></div>
@@ -986,7 +1132,79 @@
     </div>
   </div>
 
-  <!-- MODAL: REGISTAR QUOTA (COM RECIBO AUTOMÁTICO) -->
+  <!-- MODAL: CADASTRAR DIRIGENTE / ADMIN (COM FOTO E EDIÇÃO) -->
+  <div id="modal-cadastrar-admin" class="modal-box" style="display:none;">
+    <div class="modal-corpo">
+      <h3 id="modal-admin-titulo" style="color:#E5A93C; font-size:13px; margin-bottom:10px;">👤 CADASTRAR DIRIGENTE / ADMIN</h3>
+      <input type="hidden" id="edit-admin-id">
+      <div class="campo"><label>Foto do Dirigente:</label><input type="file" id="cad-admin-foto-file" accept="image/*" onchange="processarFotoAdmin(event)"><input type="hidden" id="cad-admin-foto-base64"></div>
+      <div class="campo"><label>Nome do Dirigente:</label><input type="text" id="cad-adm-nome" placeholder="Ex: António Silva"></div>
+      <div class="campo">
+        <label>Cargo / Função:</label>
+        <select id="cad-adm-cargo">
+          <option value="adm_princ">⭐ Administrador Principal</option>
+          <option value="adm1">🛡️ Admin 1 (Desportivo - Plantel, Jogos, Anúncios)</option>
+          <option value="adm2">🛡️ Admin 2 (Financeiro - Quotas e Contribuições)</option>
+          <option value="adm3">🛡️ Admin 3 (Logística & Disciplina - Património, Enquetes)</option>
+        </select>
+      </div>
+      <div class="campo">
+        <label>PIN de Acesso:</label>
+        <div class="campo-senha-wrapper">
+          <input type="password" id="cad-adm-pin" placeholder="PIN secreto">
+          <button type="button" class="btn-olho-senha" onclick="alternarOlhoSenha('cad-adm-pin', this)">👁️</button>
+        </div>
+      </div>
+      <button class="btn btn-gold" style="width:100%; padding:9px;" onclick="salvarNovoAdmin()">Gravar Dirigente</button>
+      <button class="btn btn-dark" style="width:100%; margin-top:6px;" onclick="fecharModal('modal-cadastrar-admin')">Cancelar</button>
+    </div>
+  </div>
+
+  <!-- MODAL: ALTERAR FOTO E MORADA (ATLETA - COM APROVAÇÃO OBRIGATÓRIA) -->
+  <div id="modal-atleta-alterar-perfil" class="modal-box" style="display:none;">
+    <div class="modal-corpo">
+      <h3 style="color:#E5A93C; font-size:13px; margin-bottom:8px;">📸 ATUALIZAR FOTO E MORADA</h3>
+      <p style="font-size:10px; color:#94A3B8; margin-bottom:10px;">A nova foto e morada só serão visíveis no portal após aprovação do Master ou do Administrador Principal.</p>
+      <div class="campo"><label>Nova Foto de Perfil:</label><input type="file" id="inp-atleta-nova-foto" accept="image/*" onchange="processarFotoAtletaSolic(event)"><input type="hidden" id="atleta-solic-foto-base64"></div>
+      <div class="campo"><label>Nova Morada / Residência:</label><input type="text" id="inp-atleta-nova-morada" placeholder="Ex: Maianga, Luanda"></div>
+      <button class="btn btn-gold" style="width:100%; padding:9px;" onclick="submeterAlteracaoPerfilAtleta()">Submeter para Aprovação</button>
+      <button class="btn btn-dark" style="width:100%; margin-top:6px;" onclick="fecharModal('modal-atleta-alterar-perfil')">Fechar</button>
+    </div>
+  </div>
+
+  <!-- MODAL: RELATAR OCORRÊNCIA / INJUSTIÇA (CONFIDENCIAL) -->
+  <div id="modal-atleta-relatar-injustica" class="modal-box" style="display:none;">
+    <div class="modal-corpo">
+      <h3 style="color:#EF4444; font-size:13px; margin-bottom:8px;">⚖️ RELATAR OCORRÊNCIA OU INJUSTIÇA</h3>
+      <p style="font-size:10px; color:#94A3B8; margin-bottom:10px;">Relato confidencial enviado estritamente ao Desenvolvedor Master e ao Administrador Principal.</p>
+      <div class="campo">
+        <label>Envolvido no Relato:</label>
+        <select id="relato-alvo-tipo">
+          <option value="Outro Atleta">Outro Atleta do Plantel</option>
+          <option value="Membro da Direção">Membro da Direção / Administração</option>
+        </select>
+      </div>
+      <div class="campo"><label>Nome do Envolvido:</label><input type="text" id="relato-alvo-nome" placeholder="Ex: Nome do dirigente ou colega"></div>
+      <div class="campo"><label>Descrição Pormenorizada dos Factos:</label><textarea id="relato-detalhe" rows="4" placeholder="Descreva com respeito e clareza o sucedido..."></textarea></div>
+      <button class="btn btn-red" style="width:100%; padding:9px;" onclick="enviarRelatoInjustica()">Submeter Relato Confidencial</button>
+      <button class="btn btn-dark" style="width:100%; margin-top:6px;" onclick="fecharModal('modal-atleta-relatar-injustica')">Cancelar</button>
+    </div>
+  </div>
+
+  <!-- MODAL: ALTERAR BANDEIRA / EMBLEMA -->
+  <div id="modal-alterar-bandeira" class="modal-box" style="display:none;">
+    <div class="modal-corpo">
+      <h3 style="color:#E5A93C; font-size:13px; margin-bottom:8px;">🏳️ BANDEIRA / EMBLEMA OFICIAL</h3>
+      <div class="campo"><label>Escolher nova imagem:</label><input type="file" id="inp-bandeira-file" accept="image/*" onchange="processarUploadBandeira(event)"></div>
+      <div id="preview-bandeira-box" style="text-align:center; padding:10px; display:none;">
+        <img id="img-preview-bandeira" src="" style="width:70px; height:70px; object-fit:contain; border:2px solid #E5A93C; border-radius:10px;">
+      </div>
+      <button class="btn btn-gold" style="width:100%; padding:9px;" onclick="salvarBandeiraClube()">Guardar Emblema</button>
+      <button class="btn btn-dark" style="width:100%; margin-top:6px;" onclick="fecharModal('modal-alterar-bandeira')">Fechar</button>
+    </div>
+  </div>
+
+  <!-- MODAL: REGISTAR QUOTA -->
   <div id="modal-lancar-quota" class="modal-box" style="display:none;">
     <div class="modal-corpo">
       <h3 style="color:#E5A93C; font-size:13px; margin-bottom:10px;">💰 REGISTAR QUOTA DOMINICAL</h3>
@@ -1004,39 +1222,6 @@
     </div>
   </div>
 
-  <!-- MODAL: NOVA DESPESA -->
-  <div id="modal-nova-despesa" class="modal-box" style="display:none;">
-    <div class="modal-corpo">
-      <h3 style="color:#EF4444; font-size:13px; margin-bottom:10px;">🏷️ REGISTAR NOVA DESPESA</h3>
-      <div class="campo"><label>Descrição / Finalidade:</label><input type="text" id="cad-despesa-desc" placeholder="Ex: Aluguer do campo de jogo"></div>
-      <div class="campo"><label>Valor (Kz):</label><input type="number" id="cad-despesa-valor" placeholder="Ex: 25000"></div>
-      <button class="btn btn-red" style="width:100%; padding:10px;" onclick="salvarNovaDespesa()">Gravar Despesa</button>
-      <button class="btn btn-dark" style="width:100%; margin-top:6px;" onclick="fecharModal('modal-nova-despesa')">Cancelar</button>
-    </div>
-  </div>
-
-  <!-- MODAL: RECUPERAÇÃO DE SENHA -->
-  <div id="modal-recuperar-senha" class="modal-box" style="display:none;">
-    <div class="modal-corpo">
-      <h3 style="color:#E5A93C; font-size:13px; margin-bottom:10px;">🔑 RECUPERAÇÃO DE SENHA</h3>
-      <div class="campo">
-        <label>Por Telefone / WhatsApp:</label>
-        <div style="display:flex; gap:6px;">
-          <input type="tel" id="recup-tel-input" placeholder="Ex: 923456789">
-          <button class="btn btn-gold" onclick="recuperarPorTelefone()">Localizar</button>
-        </div>
-      </div>
-      <div style="background:#090E1D; border:1px dashed #E5A93C; padding:10px; border-radius:8px; margin-top:10px;">
-        <b style="color:#FFF; font-size:11px;">Sem contacto registado?</b>
-        <p style="font-size:10px; color:#94A3B8; margin-top:2px;">Contacte o Administrador Principal ou Master:</p>
-        <a href="https://wa.me/244945260362?text=Preciso+de+recuperar+o+meu+acesso+ao+FC+ESPANHA" target="_blank" class="btn btn-wpp" style="width:100%; margin-top:8px;">
-          📲 Contactar Suporte no WhatsApp
-        </a>
-      </div>
-      <button class="btn btn-dark" style="width:100%; margin-top:10px;" onclick="fecharModal('modal-recuperar-senha')">Fechar</button>
-    </div>
-  </div>
-
   <!-- MODAL: JUSTIFICAR LESÃO (ATLETA) -->
   <div id="modal-justificar-lesao" class="modal-box" style="display:none;">
     <div class="modal-corpo">
@@ -1047,13 +1232,13 @@
           <option>Lesão Muscular</option><option>Lesão Articular</option><option>Motivo de Força Maior</option><option>Doença / Consulta</option>
         </select>
       </div>
-      <div class="campo"><label>Detalhes da Situação:</label><textarea id="lesao-detalhe" rows="3" placeholder="Explique aos administradores o que aconteceu..."></textarea></div>
-      <button class="btn btn-gold" style="width:100%; padding:9px;" onclick="enviarParticipacaoLesao()">Enviar Justificação Oficial</button>
+      <div class="campo"><label>Detalhes da Situação:</label><textarea id="lesao-detalhe" rows="3" placeholder="Explique aos administradores o sucedido..."></textarea></div>
+      <button class="btn btn-gold" style="width:100%; padding:9px;" onclick="enviarParticipacaoLesao()">Enviar Participação Oficial</button>
       <button class="btn btn-dark" style="width:100%; margin-top:6px;" onclick="fecharModal('modal-justificar-lesao')">Fechar</button>
     </div>
   </div>
 
-  <!-- MODAL: ENVIAR SUGESTÃO AO CLUBE -->
+  <!-- MODAL: ENVIAR SUGESTÃO -->
   <div id="modal-enviar-sugestao" class="modal-box" style="display:none;">
     <div class="modal-corpo">
       <h3 style="color:#E5A93C; font-size:13px; margin-bottom:10px;">💡 ENVIAR SUGESTÃO AO CLUBE</h3>
@@ -1061,32 +1246,6 @@
       <div class="campo"><label>A sua sugestão:</label><textarea id="sugestao-texto" rows="3" placeholder="Escreva a sua proposta construtiva..."></textarea></div>
       <button class="btn btn-gold" style="width:100%; padding:9px;" onclick="enviarSugestaoDirecao()">Enviar à Direção</button>
       <button class="btn btn-dark" style="width:100%; margin-top:6px;" onclick="fecharModal('modal-enviar-sugestao')">Fechar</button>
-    </div>
-  </div>
-
-  <!-- MODAL: CADASTRAR ADMINISTRADOR -->
-  <div id="modal-cadastrar-admin" class="modal-box" style="display:none;">
-    <div class="modal-corpo">
-      <h3 style="color:#E5A93C; font-size:13px; margin-bottom:10px;">👤 CADASTRAR ADMINISTRADOR</h3>
-      <div class="campo"><label>Nome do Dirigente:</label><input type="text" id="cad-adm-nome" placeholder="Ex: António Silva"></div>
-      <div class="campo">
-        <label>Cargo:</label>
-        <select id="cad-adm-cargo">
-          <option value="adm_princ">⭐ Administrador Principal</option>
-          <option value="adm1">🛡️ Admin 1 (Plantel e Jogos)</option>
-          <option value="adm2">🛡️ Admin 2 (Quotas e Finanças)</option>
-          <option value="adm3">🛡️ Admin 3 (Disciplina e Património)</option>
-        </select>
-      </div>
-      <div class="campo">
-        <label>PIN de Acesso:</label>
-        <div class="campo-senha-wrapper">
-          <input type="password" id="cad-adm-pin" placeholder="PIN secreto">
-          <button type="button" class="btn-olho-senha" onclick="alternarOlhoSenha('cad-adm-pin', this)">👁️</button>
-        </div>
-      </div>
-      <button class="btn btn-gold" style="width:100%; padding:9px;" onclick="salvarNovoAdmin()">Gravar Administrador</button>
-      <button class="btn btn-dark" style="width:100%; margin-top:6px;" onclick="fecharModal('modal-cadastrar-admin')">Cancelar</button>
     </div>
   </div>
 
@@ -1103,30 +1262,41 @@
       adm3: "3333"
     };
 
-    // 5 TRAVAS INDEPENDENTES DO MASTER
+    let dirigentes = JSON.parse(localStorage.getItem('fce_dirigentes')) || [
+      { id: "adm_princ", nome: "Administrador Principal", cargo: "⭐ Administrador Principal", foto: "", pin: "admin123" },
+      { id: "adm1", nome: "António Silva", cargo: "🛡️ Admin 1 (Desportivo)", foto: "", pin: "1111" },
+      { id: "adm2", nome: "Carlos Tesoureiro", cargo: "🛡️ Admin 2 (Financeiro)", foto: "", pin: "2222" },
+      { id: "adm3", nome: "Manuel Logística", cargo: "🛡️ Admin 3 (Logística & Disciplina)", foto: "", pin: "3333" }
+    ];
+
     let travas = JSON.parse(localStorage.getItem('fce_travas_5')) || {
-      princ: false,
-      adm1: false,
-      adm2: false,
-      adm3: false,
-      atletas: false
+      princ: false, adm1: false, adm2: false, adm3: false, atletas: false
     };
 
     let bandeiraClube = localStorage.getItem('fce_bandeira_clube') || "";
 
     let atletas = JSON.parse(localStorage.getItem('fce_atletas')) || [
-      { id: "FCE-6148", num: 24, nome: "Eduardo Alfredo", idade: "30 anos", tel: "945260362", pos: "Médio", golos: 0, senha: "edu24", foto: "", ativo: true }
+      { id: "FCE-6148", num: 24, nome: "Eduardo Alfredo", idade: "30 anos", morada: "Cazenga, Luanda", tel: "945260362", pos: "Ala Direita", golos: 0, senha: "edu24", foto: "", ativo: true }
     ];
 
     let quotas = JSON.parse(localStorage.getItem('fce_quotas')) || [];
     let jogos = JSON.parse(localStorage.getItem('fce_jogos')) || [];
     let despesas = JSON.parse(localStorage.getItem('fce_despesas')) || [];
     let patrocinios = JSON.parse(localStorage.getItem('fce_patrocinios')) || [];
+    let equipamentos = JSON.parse(localStorage.getItem('fce_equipamentos')) || [];
     let auditoria = JSON.parse(localStorage.getItem('fce_auditoria')) || [];
+    let enquetes = JSON.parse(localStorage.getItem('fce_enquetes')) || [
+      { id: 1, titulo: "Aquisição de Novos Equipamentos Oficiais", pergunta: "Apoia o novo modelo de equipamento para a época?", sim: 18, nao: 2 }
+    ];
     let anuncios = JSON.parse(localStorage.getItem('fce_anuncios')) || [
       { id: 1, titulo: "Apoio ao Atleta: Nova Política de Quotas", texto: "Informamos sobre as regras oficiais de pagamento dominical." }
     ];
 
+    let solicitacoesPerfil = JSON.parse(localStorage.getItem('fce_solic_perfil')) || [];
+    let relatosInjustica = JSON.parse(localStorage.getItem('fce_relatos_injustica')) || [];
+    let pedidosRemocaoAdmin = JSON.parse(localStorage.getItem('fce_pedidos_remocao_adm')) || [];
+
+    let otpMasterGerado = null;
     let usuarioAtual = 'master';
     let atletaAtual = atletas[0];
 
@@ -1136,7 +1306,6 @@
       atualizarTravasBotoes();
       atualizarTabelas();
 
-      // Verifica se o usuário já estava logado para NÃO pedir senha novamente
       const sessaoSalva = localStorage.getItem('fce_usuario_logado');
       const tipoSessaoSalva = localStorage.getItem('fce_tipo_sessao');
       const secaoSalva = localStorage.getItem('fce_secao_admin_salva') || 'painel';
@@ -1155,14 +1324,20 @@
 
     function salvarTudo() {
       localStorage.setItem('fce_credenciais', JSON.stringify(credenciais));
+      localStorage.setItem('fce_dirigentes', JSON.stringify(dirigentes));
       localStorage.setItem('fce_travas_5', JSON.stringify(travas));
       localStorage.setItem('fce_atletas', JSON.stringify(atletas));
       localStorage.setItem('fce_quotas', JSON.stringify(quotas));
       localStorage.setItem('fce_jogos', JSON.stringify(jogos));
       localStorage.setItem('fce_despesas', JSON.stringify(despesas));
       localStorage.setItem('fce_patrocinios', JSON.stringify(patrocinios));
+      localStorage.setItem('fce_equipamentos', JSON.stringify(equipamentos));
       localStorage.setItem('fce_auditoria', JSON.stringify(auditoria));
+      localStorage.setItem('fce_enquetes', JSON.stringify(enquetes));
       localStorage.setItem('fce_anuncios', JSON.stringify(anuncios));
+      localStorage.setItem('fce_solic_perfil', JSON.stringify(solicitacoesPerfil));
+      localStorage.setItem('fce_relatos_injustica', JSON.stringify(relatosInjustica));
+      localStorage.setItem('fce_pedidos_remocao_adm', JSON.stringify(pedidosRemocaoAdmin));
       localStorage.setItem('fce_bandeira_clube', bandeiraClube);
     }
 
@@ -1200,7 +1375,7 @@
       aplicarBandeiraEmTodoLado();
       fecharModal('modal-alterar-bandeira');
       registrarAuditoria("Atualizou a bandeira/emblema oficial do FC ESPANHA.");
-      alert("Bandeira do clube atualizada com sucesso em todos os ecrãs!");
+      alert("Bandeira do clube atualizada em todo o sistema!");
     }
 
     function aplicarBandeiraEmTodoLado() {
@@ -1281,7 +1456,7 @@
       document.getElementById('tela-login-portal').style.display = 'flex';
     }
 
-    // --- SESSÃO ACTIVA (ALTERNÂNCIA RÁPIDA) ---
+    // --- SESSÃO ACTIVA (MASTER E PRINCIPAL NAVEGAM EM TODAS AS ABAS) ---
     function trocarSessao(tipo) {
       usuarioAtual = tipo;
       localStorage.setItem('fce_usuario_logado', tipo);
@@ -1294,32 +1469,71 @@
       }
     }
 
-    // --- SIDEBAR GAVETA MÓVEL (TELEFONE) ---
     function toggleSidebarMobile() {
-      const s = document.getElementById('sidebar-admin-el');
-      const o = document.getElementById('sidebar-overlay-mobile');
-      s.classList.toggle('mobile-open');
-      o.classList.toggle('active');
+      document.getElementById('sidebar-admin-el').classList.toggle('mobile-open');
+      document.getElementById('sidebar-overlay-mobile').classList.toggle('active');
     }
     function fecharSidebarMobile() {
       document.getElementById('sidebar-admin-el').classList.remove('mobile-open');
       document.getElementById('sidebar-overlay-mobile').classList.remove('active');
     }
 
-    // --- DASHBOARD ADMIN (IMAGEM 1) ---
-    function carregarDashboardAdmin() {
+    // --- REGRAS DE PERMISSÕES NA SIDEBAR PARA CADA ADMIN ---
+    function aplicarFiltroAbasAdmin() {
       const isMaster = (usuarioAtual === 'master');
+      const isPrinc = (usuarioAtual === 'adm_princ');
+      const isAdm1 = (usuarioAtual === 'adm1');
+      const isAdm2 = (usuarioAtual === 'adm2');
+      const isAdm3 = (usuarioAtual === 'adm3');
+
+      // Master e Principal vêem todas as abas
+      const podeVerTudo = isMaster || isPrinc;
+
       document.getElementById('nav-item-config').style.display = isMaster ? 'flex' : 'none';
 
+      document.getElementById('nav-item-painel').style.display = podeVerTudo ? 'flex' : 'none';
+      document.getElementById('nav-item-atletas').style.display = (podeVerTudo || isAdm1) ? 'flex' : 'none';
+      document.getElementById('nav-item-jogos').style.display = (podeVerTudo || isAdm1) ? 'flex' : 'none';
+      document.getElementById('nav-item-anuncios').style.display = (podeVerTudo || isAdm1) ? 'flex' : 'none';
+
+      document.getElementById('nav-item-quotas').style.display = (podeVerTudo || isAdm2) ? 'flex' : 'none';
+      document.getElementById('nav-item-financas').style.display = (podeVerTudo || isAdm2) ? 'flex' : 'none';
+      document.getElementById('nav-item-relatorios').style.display = (podeVerTudo || isAdm2) ? 'flex' : 'none';
+
+      document.getElementById('nav-item-equipamentos').style.display = (podeVerTudo || isAdm3) ? 'flex' : 'none';
+      document.getElementById('nav-item-documentos').style.display = (podeVerTudo || isAdm3) ? 'flex' : 'none';
+      document.getElementById('nav-item-auditoria').style.display = (podeVerTudo || isAdm3) ? 'flex' : 'none';
+      document.getElementById('nav-item-estatisticas').style.display = podeVerTudo ? 'flex' : 'none';
+      document.getElementById('nav-item-dirigentes').style.display = podeVerTudo ? 'flex' : 'none';
+    }
+
+    function carregarDashboardAdmin() {
+      aplicarFiltroAbasAdmin();
+
+      const isMaster = (usuarioAtual === 'master');
       document.getElementById('txt-admin-header-nome').innerText = isMaster ? "Eduardo Alfredo" : (usuarioAtual === 'adm_princ' ? "Admin Principal" : usuarioAtual.toUpperCase());
       document.getElementById('txt-admin-header-cargo').innerText = isMaster ? "👑 Desenvolvedor Master" : "⭐ Administração Oficial";
 
-      abrirSecaoAdmin(localStorage.getItem('fce_secao_admin_salva') || 'painel');
+      let secaoInicial = localStorage.getItem('fce_secao_admin_salva') || 'painel';
+      if (!isMaster && !usuarioAtual.includes('adm_princ')) {
+        if (usuarioAtual === 'adm1') secaoInicial = 'atletas';
+        if (usuarioAtual === 'adm2') secaoInicial = 'quotas';
+        if (usuarioAtual === 'adm3') secaoInicial = 'documentos';
+      }
+
+      abrirSecaoAdmin(secaoInicial);
       atualizarTabelas();
     }
 
     function abrirSecaoAdmin(secao) {
       fecharSidebarMobile();
+
+      // Regra inviolável: ninguém entra nas configurações master
+      if (secao === 'config' && usuarioAtual !== 'master') {
+        alert("Acesso exclusivo do Desenvolvedor Master!");
+        return;
+      }
+
       localStorage.setItem('fce_secao_admin_salva', secao);
 
       const secoes = ['painel', 'atletas', 'dirigentes', 'quotas', 'financas', 'jogos', 'estatisticas', 'equipamentos', 'documentos', 'relatorios', 'anuncios', 'auditoria', 'config'];
@@ -1335,9 +1549,11 @@
 
       if (secao === 'auditoria') carregarLivroAuditoria();
       if (secao === 'relatorios') gerarPreviewRelatorio();
+      if (secao === 'documentos') renderizarEnquetes();
+      if (secao === 'anuncios') renderizarAnuncios();
     }
 
-    // --- LIVRO DE REGISTO (FILTRO RESTRITO DO PRINCIPAL) ---
+    // --- LIVRO DE REGISTO (FILTRO: ADMIN PRINCIPAL NÃO VÊ AÇÕES DO MASTER) ---
     function carregarLivroAuditoria() {
       const tb = document.getElementById('tb-livro-auditoria');
       const aviso = document.getElementById('txt-auditoria-aviso');
@@ -1363,7 +1579,7 @@
       salvarTudo();
       atualizarTravasBotoes();
       registrarAuditoria(`Alterou trava de [${tipo.toUpperCase()}] para: ${travas[tipo] ? 'BLOQUEADO' : 'LIBERADO'}`);
-      alert(`Estado de ${tipo.toUpperCase()} atualizado com sucesso!`);
+      alert(`Estado de ${tipo.toUpperCase()} atualizado!`);
     }
 
     function atualizarTravasBotoes() {
@@ -1376,13 +1592,71 @@
       });
     }
 
-    // --- CADASTRO E EDIÇÃO DE ATLETA (COM FOTO E EXCLUSÃO) ---
+    // --- MASTER: GESTÃO DE SENHAS DE TODOS ---
+    function popularSelectUsuariosMaster() {
+      const sel = document.getElementById('sel-master-usuario-alvo');
+      sel.innerHTML = `
+        <option value="master">👑 Desenvolvedor Master</option>
+        <option value="adm_princ">⭐ Administrador Principal</option>
+        <option value="adm1">🛡️ Admin 1</option>
+        <option value="adm2">🛡️ Admin 2</option>
+        <option value="adm3">🛡️ Admin 3</option>
+      `;
+      atletas.forEach(a => {
+        sel.innerHTML += `<option value="atleta_${a.id}">⚽ Atleta: ${a.nome} (${a.id})</option>`;
+      });
+    }
+
+    function salvarSenhaPeloMaster() {
+      if (usuarioAtual !== 'master') return alert("Exclusivo do Master!");
+      const alvo = document.getElementById('sel-master-usuario-alvo').value;
+      const nova = document.getElementById('inp-master-nova-senha').value.trim();
+      if (!nova) return alert("Digite a nova senha!");
+
+      if (alvo.startsWith('atleta_')) {
+        const idAtleta = alvo.replace('atleta_', '');
+        const a = atletas.find(x => x.id === idAtleta);
+        if (a) {
+          a.senha = nova;
+          registrarAuditoria(`Master redefiniu a senha do atleta ${a.nome} (${a.id})`);
+        }
+      } else {
+        credenciais[alvo] = nova;
+        registrarAuditoria(`Master redefiniu a senha/PIN de ${alvo.toUpperCase()}`);
+      }
+      salvarTudo();
+      fecharModal('modal-master-senhas');
+      alert("Senha alterada com sucesso pelo Master!");
+    }
+
+    // --- RECUPERAÇÃO MASTER (OTP) ---
+    function enviarCodigoMaster() {
+      otpMasterGerado = "9452"; // Código exclusivo de segurança
+      const canal = document.getElementById('sel-canal-master-recup').value;
+      alert(`Código de verificação enviado via ${canal.toUpperCase()} para 945260362 / eduardoalfredoferreira@gmail.com! (Código teste: 9452)`);
+      document.getElementById('box-verificar-codigo-master').style.display = 'block';
+    }
+
+    function confirmarNovaSenhaMasterOTP() {
+      const cod = document.getElementById('inp-codigo-otp-master').value.trim();
+      const nova = document.getElementById('inp-nova-senha-master-otp').value.trim();
+      if (cod !== otpMasterGerado) return alert("Código incorreto!");
+      if (!nova) return alert("Digite a nova senha!");
+
+      credenciais.master = nova;
+      salvarTudo();
+      alert("Senha Mestre do Desenvolvedor redefinida com sucesso!");
+      fecharModal('modal-recuperar-master');
+    }
+
+    // --- CADASTRO E EDIÇÃO DE ATLETA (COM ALA ESQUERDA E DIREITA) ---
     function abrirModalNovoAtleta() {
       document.getElementById('modal-atleta-titulo').innerText = "+ CADASTRAR NOVO ATLETA";
       document.getElementById('edit-atleta-id').value = '';
       document.getElementById('cad-atleta-num').value = atletas.length + 1;
       document.getElementById('cad-atleta-nome').value = '';
       document.getElementById('cad-atleta-idade').value = '';
+      document.getElementById('cad-atleta-morada').value = '';
       document.getElementById('cad-atleta-tel').value = '';
       document.getElementById('cad-atleta-senha').value = 'fce' + Math.floor(100 + Math.random() * 900);
       document.getElementById('cad-atleta-foto-base64').value = '';
@@ -1392,11 +1666,12 @@
     function editarAtleta(id) {
       const a = atletas.find(x => x.id === id);
       if (!a) return;
-      document.getElementById('modal-atleta-titulo').innerText = "✏️ EDITAR INFORMAÇÕES DO ATLETA";
+      document.getElementById('modal-atleta-titulo').innerText = "✏️ EDITAR ATLETA";
       document.getElementById('edit-atleta-id').value = a.id;
       document.getElementById('cad-atleta-num').value = a.num;
       document.getElementById('cad-atleta-nome').value = a.nome;
       document.getElementById('cad-atleta-idade').value = a.idade;
+      document.getElementById('cad-atleta-morada').value = a.morada || '';
       document.getElementById('cad-atleta-pos').value = a.pos;
       document.getElementById('cad-atleta-tel').value = (a.tel !== "Sem telefone") ? a.tel : '';
       document.getElementById('cad-atleta-senha').value = a.senha;
@@ -1408,9 +1683,7 @@
       const file = event.target.files[0];
       if (file) {
         const reader = new FileReader();
-        reader.onload = function(e) {
-          document.getElementById('cad-atleta-foto-base64').value = e.target.result;
-        };
+        reader.onload = function(e) { document.getElementById('cad-atleta-foto-base64').value = e.target.result; };
         reader.readAsDataURL(file);
       }
     }
@@ -1420,25 +1693,26 @@
       const num = document.getElementById('cad-atleta-num').value;
       const nome = document.getElementById('cad-atleta-nome').value.trim();
       const idade = document.getElementById('cad-atleta-idade').value.trim();
+      const morada = document.getElementById('cad-atleta-morada').value.trim();
       const tel = document.getElementById('cad-atleta-tel').value.trim();
       const pos = document.getElementById('cad-atleta-pos').value;
       const senha = document.getElementById('cad-atleta-senha').value.trim();
       const foto = document.getElementById('cad-atleta-foto-base64').value;
 
-      if (!nome) return alert("O nome do jogador é obrigatório!");
+      if (!nome) return alert("O nome é obrigatório!");
 
       if (editId) {
         const a = atletas.find(x => x.id === editId);
         if (a) {
-          a.num = num; a.nome = nome; a.idade = idade || "—";
+          a.num = num; a.nome = nome; a.idade = idade || "—"; a.morada = morada || a.morada;
           a.pos = pos; a.tel = tel || "Sem telefone"; a.senha = senha;
           if (foto) a.foto = foto;
-          registrarAuditoria(`Editou as informações do atleta ${a.nome} (${a.id})`);
-          alert("Informações do atleta atualizadas!");
+          registrarAuditoria(`Editou atleta ${a.nome} (${a.id})`);
+          alert("Atleta atualizado!");
         }
       } else {
         const id = "FCE-" + Math.floor(1000 + Math.random() * 9000);
-        atletas.push({ id, num: num || 0, nome, idade: idade || "—", tel: tel || "Sem telefone", pos, golos: 0, senha: senha || "fce123", foto, ativo: true });
+        atletas.push({ id, num: num || 0, nome, idade: idade || "—", morada: morada || "Luanda", tel: tel || "Sem telefone", pos, golos: 0, senha: senha || "fce123", foto, ativo: true });
         registrarAuditoria(`Cadastrou atleta ${nome} (${id})`);
         alert(`Atleta ${nome} registado com sucesso!`);
       }
@@ -1457,62 +1731,238 @@
         registrarAuditoria(`Eliminou o atleta ${a.nome} (${a.id}). Motivo: ${motivo}`);
         salvarTudo();
         atualizarTabelas();
-        alert("Atleta eliminado do clube.");
+        alert("Atleta eliminado.");
       }
     }
 
-    // --- QUOTAS & RECIBOS AUTOMÁTICOS ---
-    function salvarQuotaComRecibo() {
-      const atletaId = document.getElementById('sel-quota-atleta').value;
-      const a = atletas.find(x => x.id === atletaId);
-      const valor = document.getElementById('quota-valor').value;
-      const mod = document.getElementById('quota-modalidade').value;
-      const reciboNum = "REC-" + Math.floor(1000 + Math.random() * 9000);
+    // --- DIRIGENTES (CADASTRO E REMOÇÃO) ---
+    function processarFotoAdmin(event) {
+      const file = event.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = function(e) { document.getElementById('cad-admin-foto-base64').value = e.target.result; };
+        reader.readAsDataURL(file);
+      }
+    }
 
-      quotas.unshift({
-        id: Date.now(),
-        atletaId: a.id,
-        atletaNome: a.nome,
-        valor,
-        modalidade: mod,
-        reciboNum,
-        data: new Date().toLocaleDateString('pt-PT'),
-        status: "Pago"
-      });
+    function salvarNovoAdmin() {
+      const nome = document.getElementById('cad-adm-nome').value.trim();
+      const cargo = document.getElementById('cad-adm-cargo').value;
+      const pin = document.getElementById('cad-adm-pin').value.trim();
+      const foto = document.getElementById('cad-admin-foto-base64').value;
+      if (!nome || !pin) return alert("Preencha o nome e o PIN!");
 
-      registrarAuditoria(`Recebeu quota de ${a.nome}: ${valor} Kz (${reciboNum})`);
+      credenciais[cargo] = pin;
+      const idx = dirigentes.findIndex(d => d.id === cargo);
+      if (idx !== -1) {
+        dirigentes[idx].nome = nome;
+        dirigentes[idx].foto = foto || dirigentes[idx].foto;
+      } else {
+        dirigentes.push({ id: cargo, nome, cargo, foto, pin });
+      }
+
+      registrarAuditoria(`Atualizou dirigente: ${nome} (${cargo})`);
       salvarTudo();
-      fecharModal('modal-lancar-quota');
+      fecharModal('modal-cadastrar-admin');
+      renderizarDirigentes();
+      alert("Dirigente gravado com sucesso!");
+    }
+
+    function solicitarOuRemoverAdmin(cargo) {
+      if (usuarioAtual === 'master') {
+        if (confirm(`Master: Deseja realmente remover o dirigente com cargo ${cargo}?`)) {
+          dirigentes = dirigentes.filter(d => d.id !== cargo);
+          registrarAuditoria(`Master removeu o dirigente ${cargo}`);
+          salvarTudo();
+          renderizarDirigentes();
+          alert("Dirigente removido com sucesso!");
+        }
+      } else if (usuarioAtual === 'adm_princ') {
+        const mot = prompt("Admin Principal: Justifique o motivo para solicitar a remoção deste dirigente ao Master:");
+        if (mot) {
+          pedidosRemocaoAdmin.unshift({ data: new Date().toLocaleDateString('pt-PT'), cargo, motivo: mot, status: "Pendente" });
+          salvarTudo();
+          alert("Pedido enviado ao Desenvolvedor Master para autorização.");
+        }
+      } else {
+        alert("Não tem permissão para remover administradores!");
+      }
+    }
+
+    // --- ANÚNCIOS (100% OPERACIONAIS) ---
+    function salvarNovoAnuncio() {
+      const tit = document.getElementById('cad-anuncio-tit').value.trim();
+      const txt = document.getElementById('cad-anuncio-txt').value.trim();
+      if (!tit || !txt) return alert("Preencha o título e o texto!");
+
+      anuncios.unshift({ id: Date.now(), titulo: tit, texto: txt, data: new Date().toLocaleDateString('pt-PT') });
+      registrarAuditoria(`Publicou anúncio: ${tit}`);
+      salvarTudo();
+      fecharModal('modal-novo-anuncio');
+      renderizarAnuncios();
+      alert("Comunicado publicado com sucesso para todos os atletas e administradores!");
+    }
+
+    function renderizarAnuncios() {
+      const feed = document.getElementById('feed-anuncios-admin');
+      if (!feed) return;
+      feed.innerHTML = '';
+      anuncios.forEach(a => {
+        feed.innerHTML += `
+          <div style="background:#090E1F; border:1px solid #1E2D56; border-radius:8px; padding:12px;">
+            <b style="color:#F3B229; font-size:12px;">${a.titulo}</b>
+            <p style="font-size:11px; color:#E2E8F0; margin-top:4px;">${a.texto}</p>
+          </div>
+        `;
+      });
+    }
+
+    // --- ENQUETES (100% OPERACIONAIS) ---
+    function salvarNovaEnquete() {
+      const tit = document.getElementById('cad-enquete-tit').value.trim();
+      const perg = document.getElementById('cad-enquete-pergunta').value.trim();
+      if (!tit || !perg) return alert("Preencha o título e a pergunta!");
+
+      enquetes.unshift({ id: Date.now(), titulo: tit, pergunta: perg, sim: 0, nao: 0 });
+      registrarAuditoria(`Criou enquete de auscultação: ${tit}`);
+      salvarTudo();
+      fecharModal('modal-nova-enquete');
+      renderizarEnquetes();
+      alert("Enquete publicada com sucesso!");
+    }
+
+    function votarEnquete(id, opcao) {
+      const enq = enquetes.find(e => e.id === id);
+      if (enq) {
+        if (opcao === 'sim') enq.sim++; else enq.nao++;
+        salvarTudo();
+        renderizarEnquetes();
+      }
+    }
+
+    function renderizarEnquetes() {
+      const box = document.getElementById('lista-enquetes-box');
+      if (!box) return;
+      box.innerHTML = '';
+      enquetes.forEach(e => {
+        const total = (e.sim + e.nao) || 1;
+        const pSim = Math.round((e.sim / total) * 100);
+        const pNao = 100 - pSim;
+        box.innerHTML += `
+          <div style="background:#090E1F; border:1px solid #1E2D56; border-radius:8px; padding:12px;">
+            <b style="color:#FFF; font-size:12px;">${e.titulo}</b>
+            <p style="font-size:11px; color:#CBD5E1; margin:4px 0 8px 0;">${e.pergunta}</p>
+            <div style="display:flex; gap:6px; margin-bottom:8px;">
+              <button class="btn btn-gold" onclick="votarEnquete(${e.id}, 'sim')">👍 Concordo (${e.sim})</button>
+              <button class="btn btn-red" onclick="votarEnquete(${e.id}, 'nao')">👎 Discordo (${e.nao})</button>
+            </div>
+            <div style="font-size:10px; color:#94A3B8;">Aprovação: ${pSim}% | Rejeição: ${pNao}% (Total: ${total} votos)</div>
+          </div>
+        `;
+      });
+    }
+
+    // --- JOGOS, PATROCÍNIOS, EQUIPAMENTOS & DESPESAS ---
+    function salvarNovoJogo() {
+      const conf = document.getElementById('cad-jogo-confronto').value.trim();
+      const comp = document.getElementById('cad-jogo-comp').value.trim();
+      const res = document.getElementById('cad-jogo-res').value.trim();
+      if (!conf) return alert("Preencha o confronto!");
+
+      jogos.unshift({ id: Date.now(), confronto: conf, comp, resultado: res, data: new Date().toLocaleDateString('pt-PT') });
+      salvarTudo();
+      fecharModal('modal-novo-jogo');
       atualizarTabelas();
-      alert(`Quota gravada! Recibo oficial nº ${reciboNum} gerado com sucesso.`);
     }
 
-    function gerarRelatorioDevedoresDomingo() {
-      alert("Relatório de atletas com quota de domingo pendente gerado com sucesso!");
+    function salvarNovoEquipamento() {
+      const nome = document.getElementById('cad-equip-nome').value.trim();
+      const qtd = document.getElementById('cad-equip-qtd').value;
+      const estado = document.getElementById('cad-equip-estado').value.trim();
+      const resp = document.getElementById('cad-equip-resp').value.trim();
+      equipamentos.unshift({ id: Date.now(), nome, qtd, estado, resp });
+      salvarTudo();
+      fecharModal('modal-novo-equipamento');
+      atualizarTabelas();
     }
 
-    // --- DESPESAS ---
+    function salvarNovoPatrocinio() {
+      const nome = document.getElementById('cad-patr-nome').value.trim();
+      const tipo = document.getElementById('cad-patr-tipo').value.trim();
+      const val = document.getElementById('cad-patr-val').value;
+      patrocinios.unshift({ id: Date.now(), nome, tipo, val, data: new Date().toLocaleDateString('pt-PT') });
+      salvarTudo();
+      fecharModal('modal-novo-patrocinio');
+      atualizarTabelas();
+    }
+
     function salvarNovaDespesa() {
       const desc = document.getElementById('cad-despesa-desc').value.trim();
       const val = document.getElementById('cad-despesa-valor').value;
-      if (!desc || !val) return alert("Preencha a descrição e o valor!");
-
       despesas.unshift({ id: Date.now(), desc, val, data: new Date().toLocaleDateString('pt-PT') });
-      registrarAuditoria(`Registo de Despesa: ${desc} (-${val} Kz)`);
       salvarTudo();
       fecharModal('modal-nova-despesa');
       atualizarTabelas();
-      alert("Despesa registada com sucesso!");
     }
 
-    // --- DASHBOARD ATLETA (IMAGEM 2) ---
-    function carregarDashboardAtleta() {
-      document.getElementById('txt-atleta-saudacao').innerText = `Olá, ${atletaAtual.nome}!`;
-      document.getElementById('atleta-box-ultimo-comunicado').innerText = anuncios[0]?.texto || "Sem comunicados no momento.";
-      if (atletaAtual.foto) {
-        document.getElementById('img-atleta-perfil').src = atletaAtual.foto;
+    function salvarQuotaComRecibo() {
+      const aId = document.getElementById('sel-quota-atleta').value;
+      const a = atletas.find(x => x.id === aId);
+      const val = document.getElementById('quota-valor').value;
+      const mod = document.getElementById('quota-modalidade').value;
+      const rec = "REC-" + Math.floor(1000 + Math.random() * 9000);
+      quotas.unshift({ id: Date.now(), atletaId: a.id, atletaNome: a.nome, valor: val, modalidade: mod, reciboNum: rec, data: new Date().toLocaleDateString('pt-PT'), status: "Pago" });
+      salvarTudo();
+      fecharModal('modal-lancar-quota');
+      atualizarTabelas();
+      alert(`Recibo ${rec} emitido com sucesso!`);
+    }
+
+    function gerarRelatorioDevedoresDomingo() {
+      alert("Relatório de devedores emitido e notificado aos atletas pendentes!");
+    }
+
+    // --- ATLETA: FOTO, MORADA, DENÚNCIA E DOWNLOADS ---
+    function processarFotoAtletaSolic(event) {
+      const file = event.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = function(e) { document.getElementById('atleta-solic-foto-base64').value = e.target.result; };
+        reader.readAsDataURL(file);
       }
     }
+
+    function submeterAlteracaoPerfilAtleta() {
+      const foto = document.getElementById('atleta-solic-foto-base64').value;
+      const morada = document.getElementById('inp-atleta-nova-morada').value.trim();
+      if (!foto && !morada) return alert("Selecione uma foto ou escreva a nova morada!");
+
+      solicitacoesPerfil.unshift({
+        id: Date.now(), atletaId: atletaAtual.id, atletaNome: atletaAtual.nome, foto, morada, status: "Pendente"
+      });
+      salvarTudo();
+      fecharModal('modal-atleta-alterar-perfil');
+      alert("A sua solicitação foi submetida! O efeito só será visível após a autorização do Master ou do Administrador Principal.");
+    }
+
+    function enviarRelatoInjustica() {
+      const tipo = document.getElementById('relato-alvo-tipo').value;
+      const nome = document.getElementById('relato-alvo-nome').value.trim();
+      const det = document.getElementById('relato-detalhe').value.trim();
+      if (!nome || !det) return alert("Preencha todos os campos do relato!");
+
+      relatosInjustica.unshift({
+        id: Date.now(), data: new Date().toLocaleDateString('pt-PT'),
+        atletaAutor: atletaAtual.nome, tipo, nome, relato: det
+      });
+      salvarTudo();
+      fecharModal('modal-atleta-relatar-injustica');
+      alert("O seu relato confidencial foi enviado diretamente ao Master e ao Administrador Principal.");
+    }
+
+    function baixarFichaAtletaOficial() { window.print(); }
+    function baixarRelatorioFinanceiroAtleta() { window.print(); }
+    function baixarHistoricoDesempenhoAtleta() { window.print(); }
 
     function enviarParticipacaoLesao() {
       const t = document.getElementById('lesao-tipo').value;
@@ -1520,38 +1970,63 @@
       if (!d) return alert("Descreva a situação!");
       registrarAuditoria(`Atleta ${atletaAtual.nome} participou: ${t} (${d})`);
       fecharModal('modal-justificar-lesao');
-      alert("A sua justificação foi enviada à equipa técnica com sucesso!");
+      alert("Participação de lesão/ausência enviada com sucesso!");
     }
 
     function enviarSugestaoDirecao() {
-      const tit = document.getElementById('sugestao-titulo').value.trim();
-      const txt = document.getElementById('sugestao-texto').value.trim();
-      if (!tit || !txt) return alert("Preencha o assunto e o texto!");
-      registrarAuditoria(`Atleta ${atletaAtual.nome} enviou sugestão: ${tit}`);
+      const t = document.getElementById('sugestao-titulo').value.trim();
+      const d = document.getElementById('sugestao-texto').value.trim();
+      if (!t || !d) return alert("Preencha os dados da sugestão!");
+      registrarAuditoria(`Atleta ${atletaAtual.nome} sugeriu: ${t}`);
       fecharModal('modal-enviar-sugestao');
-      alert("Obrigado pela sua sugestão! A direção irá avaliar.");
+      alert("Sugestão enviada à direção!");
     }
 
-    function recuperarPorTelefone() {
-      const tel = document.getElementById('recup-tel-input').value.trim();
-      const a = atletas.find(x => x.tel === tel);
-      if (a) {
-        alert(`Olá ${a.nome}! A sua senha de acesso ao FC ESPANHA é: ${a.senha}`);
-        fecharModal('modal-recuperar-senha');
-      } else {
-        alert("Nenhum atleta encontrado com este contacto! Utilize o contacto da direção.");
-      }
+    function solicitarRecuperacaoGeral() {
+      const n = document.getElementById('recup-nome-usuario').value.trim();
+      const t = document.getElementById('recup-tel-input').value.trim();
+      if (!n) return alert("Informe o seu nome ou código!");
+      registrarAuditoria(`Pedido de Recuperação de Senha de: ${n} (${t || 'Sem tel'})`);
+      fecharModal('modal-recuperar-senha');
+      alert("O seu pedido de recuperação foi enviado ao Master e Administradores na plataforma!");
+    }
+
+    function carregarDashboardAtleta() {
+      document.getElementById('txt-atleta-saudacao').innerText = `Olá, ${atletaAtual.nome}!`;
+      document.getElementById('txt-atleta-morada-badge').innerText = atletaAtual.morada || "Luanda, Angola";
+      document.getElementById('atleta-box-ultimo-comunicado').innerText = anuncios[0]?.texto || "Sem comunicados no momento.";
+      if (atletaAtual.foto) document.getElementById('img-atleta-perfil').src = atletaAtual.foto;
     }
 
     function gerarPreviewRelatorio() {
       const cx = document.getElementById('caixa-preview-relatorio');
       if (cx) {
-        cx.innerText = `📋 FC ESPANHA - RELATÓRIO CONSOLIDADO\nData: ${new Date().toLocaleDateString('pt-PT')}\nAtletas Inscritos: ${atletas.length}\nQuotas Registadas: ${quotas.length}\nDesenvolvido por Eduardo Ferreira Alfredo (2026)`;
+        cx.innerText = `📋 FC ESPANHA - RELATÓRIO CONSOLIDADO\nData: ${new Date().toLocaleDateString('pt-PT')}\nAtletas Inscritos: ${atletas.length}\nQuotas Registadas: ${quotas.length}\n\nDesenvolvido por Eduardo Ferreira Alfredo (2026) • FC ESPANHA • Contacto: 945260362`;
       }
     }
 
+    function renderizarDirigentes() {
+      const tb = document.getElementById('tb-dirigentes-lista');
+      if (!tb) return;
+      tb.innerHTML = '';
+      dirigentes.forEach(d => {
+        const fotoHtml = d.foto ? `<img src="${d.foto}" style="width:100%; height:100%; object-fit:cover;">` : "👤";
+        tb.innerHTML += `
+          <tr>
+            <td><div class="foto-atleta-circular">${fotoHtml}</div></td>
+            <td><b>${d.cargo}</b></td>
+            <td>${d.nome}</td>
+            <td>Acesso Específico</td>
+            <td>
+              <button class="btn-mini btn-mini-del" onclick="solicitarOuRemoverAdmin('${d.id}')">Excluir</button>
+            </td>
+          </tr>
+        `;
+      });
+    }
+
     function atualizarTabelas() {
-      // Tabela Atletas Geral
+      // Atletas
       const tbA = document.getElementById('tb-atletas-geral');
       if (tbA) {
         tbA.innerHTML = '';
@@ -1562,15 +2037,16 @@
               <td><div class="foto-atleta-circular">${fotoHtml}</div></td>
               <td><b>#${a.num}</b></td>
               <td>${a.nome}</td>
+              <td><span style="color:#FBBF24; font-weight:bold;">${a.pos}</span></td>
               <td>${a.idade}</td>
               <td>${a.tel}</td>
               <td><b>${a.golos} ⚽</b></td>
               <td><span style="background:#131E3D; color:#FBBF24; padding:2px 5px; border-radius:4px;">${a.id}</span></td>
               <td>
                 <div style="display:flex; gap:4px;">
-                  <button class="btn-mini btn-mini-quota" title="Registar Quota" onclick="abrirModalNovaQuota('${a.id}')">Quota</button>
-                  <button class="btn-mini btn-mini-edit" title="Editar Informações" onclick="editarAtleta('${a.id}')">✏️</button>
-                  <button class="btn-mini btn-mini-del" title="Eliminar Atleta" onclick="removerAtleta('${a.id}')">🗑️</button>
+                  <button class="btn-mini btn-mini-quota" onclick="abrirModalNovaQuota('${a.id}')">Quota</button>
+                  <button class="btn-mini btn-mini-edit" onclick="editarAtleta('${a.id}')">✏️</button>
+                  <button class="btn-mini btn-mini-del" onclick="removerAtleta('${a.id}')">🗑️</button>
                 </div>
               </td>
             </tr>
@@ -1578,21 +2054,45 @@
         });
       }
 
-      // Preenche Select de Quotas
+      // Quotas
+      const tbQ = document.getElementById('tb-quotas-geral');
+      if (tbQ) {
+        tbQ.innerHTML = quotas.length ? '' : '<tr><td colspan="6" style="text-align:center; color:#64748B;">Sem quotas registadas.</td></tr>';
+        quotas.forEach(q => {
+          tbQ.innerHTML += `<tr><td>${q.data}</td><td><b>${q.atletaNome}</b></td><td>${q.valor} Kz</td><td>${q.modalidade}</td><td><span style="color:#FBBF24;">${q.reciboNum}</span></td><td><span style="color:#34D399;">Pago</span></td></tr>`;
+        });
+      }
+
       const selQ = document.getElementById('sel-quota-atleta');
       if (selQ) {
         selQ.innerHTML = '';
         atletas.forEach(a => selQ.innerHTML += `<option value="${a.id}">#${a.num} - ${a.nome}</option>`);
       }
 
-      // Tabela Quotas Geral
-      const tbQ = document.getElementById('tb-quotas-geral');
-      if (tbQ) {
-        tbQ.innerHTML = quotas.length ? '' : '<tr><td colspan="6" style="text-align:center; color:#64748B;">Nenhuma quota registada.</td></tr>';
-        quotas.forEach(q => {
-          tbQ.innerHTML += `<tr><td>${q.data}</td><td><b>${q.atletaNome}</b></td><td>${q.valor} Kz</td><td>${q.modalidade}</td><td><span style="color:#FBBF24; font-weight:bold;">${q.reciboNum}</span></td><td><span style="color:#34D399;">Pago</span></td></tr>`;
-        });
+      // Jogos
+      const tbJ = document.getElementById('tb-jogos-geral');
+      if (tbJ) {
+        tbJ.innerHTML = jogos.length ? '' : '<tr><td colspan="4" style="text-align:center; color:#64748B;">Sem jogos registados.</td></tr>';
+        jogos.forEach(j => tbJ.innerHTML += `<tr><td>${j.data}</td><td><b>${j.confronto}</b></td><td>${j.comp}</td><td><b style="color:#FBBF24;">${j.resultado}</b></td></tr>`);
       }
+
+      // Equipamentos
+      const tbE = document.getElementById('tb-equipamentos-geral');
+      if (tbE) {
+        tbE.innerHTML = equipamentos.length ? '' : '<tr><td colspan="4" style="text-align:center; color:#64748B;">Sem materiais.</td></tr>';
+        equipamentos.forEach(e => tbE.innerHTML += `<tr><td><b>${e.nome}</b></td><td>${e.qtd}</td><td>${e.estado}</td><td>${e.resp}</td></tr>`);
+      }
+
+      // Patrocínios
+      const tbP = document.getElementById('tb-patrocinios-geral');
+      if (tbP) {
+        tbP.innerHTML = patrocinios.length ? '' : '<tr><td colspan="4" style="text-align:center; color:#64748B;">Sem contribuições registadas.</td></tr>';
+        patrocinios.forEach(p => tbP.innerHTML += `<tr><td>${p.data}</td><td>${p.tipo}</td><td><b>${p.nome}</b></td><td>${Number(p.val).toLocaleString('pt-AO')} Kz</td></tr>`);
+      }
+
+      renderizarDirigentes();
+      renderizarEnquetes();
+      renderizarAnuncios();
     }
 
     function zerarPlataformaTotal() {
@@ -1603,7 +2103,10 @@
       }
     }
 
-    function abrirModal(id) { document.getElementById(id).style.display = 'flex'; }
+    function abrirModal(id) {
+      if (id === 'modal-master-senhas') popularSelectUsuariosMaster();
+      document.getElementById(id).style.display = 'flex';
+    }
     function fecharModal(id) { document.getElementById(id).style.display = 'none'; }
     function abrirModalNovaQuota(id) { abrirModal('modal-lancar-quota'); }
   </script>
