@@ -1,4 +1,5 @@
 
+
 <!DOCTYPE html>
 <html lang="pt-AO">
 <head>
@@ -367,9 +368,7 @@
         <button id="nav-item-documentos" class="sidebar-item" onclick="abrirSecaoAdmin('documentos')">📁 Documentos & Enquetes</button>
         <button id="nav-item-relatorios" class="sidebar-item" onclick="abrirSecaoAdmin('relatorios')">📋 Relatórios Oficiais</button>
         <button id="nav-item-anuncios" class="sidebar-item" onclick="abrirSecaoAdmin('anuncios')">📢 Anúncios Oficiais</button>
-        <!-- APENAS MASTER E ADMIN PRINCIPAL PODEM VER O LIVRO DE REGISTO -->
         <button id="nav-item-auditoria" class="sidebar-item" style="display:none;" onclick="abrirSecaoAdmin('auditoria')">📜 Livro de Registo</button>
-        <!-- NINGUÉM EXCETO O MASTER PODE VER A ABA CONFIGURAÇÕES MASTER -->
         <button id="nav-item-config" class="sidebar-item" style="display:none;" onclick="abrirSecaoAdmin('config')">⚙️ Configurações Master</button>
       </nav>
 
@@ -392,6 +391,10 @@
         </div>
 
         <div class="topo-dir">
+          <div id="indicador-nuvem-topo" style="font-size:10px; font-weight:bold; color:#10B981; background:#0D1F18; border:1px solid #10B981; padding:3px 8px; border-radius:12px;">
+            🟢 Supabase Conectado
+          </div>
+
           <div class="badge-sino" title="Alertas & Solicitações" onclick="abrirPainelAlertasTopo()">
             🔔<span class="badge-sino-count" id="notif-badge-admin">0</span>
           </div>
@@ -438,48 +441,48 @@
 
       <!-- ================= CORPO DAS SECÇÕES (ADMIN) ================= -->
 
-      <!-- SECÇÃO: PAINEL PRINCIPAL -->
+      <!-- SECÇÃO: PAINEL PRINCIPAL (VALORES DINÂMICOS CONECTADOS AO SUPABASE/ESTADO) -->
       <div id="sec-admin-painel">
         <div class="grid-quatro-stats">
           <div class="card-stat-pill">
             <div class="card-stat-icone-wrapper" style="background:#8A0A0E; color:#FFF;">👥</div>
             <div>
-              <div class="stat-pill-valor" id="stat-atlet-reg">120</div>
+              <div class="stat-pill-valor" id="stat-atlet-reg">0</div>
               <div class="stat-pill-desc">Atletas Registados</div>
             </div>
-            <div class="stat-pill-perc">↑ +5%</div>
+            <div class="stat-pill-perc" id="stat-atlet-trend">0%</div>
           </div>
 
           <div class="card-stat-pill">
             <div class="card-stat-icone-wrapper" style="background:#5B3F08; color:#FBBF24;">💰</div>
             <div>
-              <div class="stat-pill-valor" id="stat-quotas-reg">85%</div>
+              <div class="stat-pill-valor" id="stat-quotas-reg">0%</div>
               <div class="stat-pill-desc">Quotas Regularizadas</div>
             </div>
-            <div class="stat-pill-perc">↑ +2%</div>
+            <div class="stat-pill-perc" id="stat-quotas-trend">0%</div>
           </div>
 
           <div class="card-stat-pill">
             <div class="card-stat-icone-wrapper" style="background:#201A09; color:#E5A93C;">🏆</div>
             <div>
-              <div class="stat-pill-valor" id="stat-jogos-real">12</div>
+              <div class="stat-pill-valor" id="stat-jogos-real">0</div>
               <div class="stat-pill-desc">Jogos Realizados</div>
             </div>
-            <div class="stat-pill-perc">↑ +1%</div>
+            <div class="stat-pill-perc" id="stat-jogos-trend">0%</div>
           </div>
 
           <div class="card-stat-pill">
             <div class="card-stat-icone-wrapper" style="background:#0F241A; color:#10B981;">📈</div>
             <div>
-              <div class="stat-pill-valor" id="stat-vitorias-total">24</div>
+              <div class="stat-pill-valor" id="stat-vitorias-total">0</div>
               <div class="stat-pill-desc">Vitórias</div>
             </div>
-            <div class="stat-pill-perc">↑ +3%</div>
+            <div class="stat-pill-perc" id="stat-vitorias-trend">0%</div>
           </div>
         </div>
 
         <div class="grid-corpo-dashboard">
-          <!-- RESUMO DESPORTIVO (DONUT CHART) -->
+          <!-- RESUMO DESPORTIVO (DONUT CHART DINÂMICO) -->
           <div class="card-dash-bloco">
             <div class="card-bloco-header">
               <span class="card-bloco-titulo">📊 Resumo Desportivo</span>
@@ -487,22 +490,20 @@
             </div>
             <div style="display:flex; align-items:center; justify-content:space-around; padding:10px 0; flex-wrap:wrap; gap:8px;">
               <div style="position:relative; width:100px; height:100px; display:flex; align-items:center; justify-content:center;">
-                <svg width="100" height="100" viewBox="0 0 42 42" style="transform:rotate(-90deg);">
-                  <circle cx="21" cy="21" r="15.915" fill="transparent" stroke="#10B981" stroke-width="5" stroke-dasharray="75 25" stroke-dashoffset="0"></circle>
-                  <circle cx="21" cy="21" r="15.915" fill="transparent" stroke="#3B82F6" stroke-width="5" stroke-dasharray="19 81" stroke-dashoffset="-75"></circle>
-                  <circle cx="21" cy="21" r="15.915" fill="transparent" stroke="#EF4444" stroke-width="5" stroke-dasharray="6 94" stroke-dashoffset="-94"></circle>
+                <svg id="svg-donut-desportivo" width="100" height="100" viewBox="0 0 42 42" style="transform:rotate(-90deg);">
+                  <!-- Gerado dinamicamente -->
                 </svg>
                 <div style="position:absolute; text-align:center;">
-                  <b style="font-size:15px; color:#FFF;">75%</b>
+                  <b id="txt-taxa-vitorias-donut" style="font-size:15px; color:#FFF;">0%</b>
                   <p style="font-size:8px; color:#94A3B8;">Vitórias</p>
                 </div>
               </div>
 
               <div style="font-size:11px; display:flex; flex-direction:column; gap:5px;">
-                <div style="display:flex; justify-content:space-between; gap:14px;"><span>🟢 Vitórias</span><b>24</b></div>
-                <div style="display:flex; justify-content:space-between; gap:14px;"><span>🔵 Empates</span><b>6</b></div>
-                <div style="display:flex; justify-content:space-between; gap:14px;"><span>🔴 Derrotas</span><b>2</b></div>
-                <div style="border-top:1px solid #1E2842; padding-top:4px; color:#E5A93C; font-weight:bold;">⚽ 32 Jogos Totais</div>
+                <div style="display:flex; justify-content:space-between; gap:14px;"><span>🟢 Vitórias</span><b id="txt-vit-count">0</b></div>
+                <div style="display:flex; justify-content:space-between; gap:14px;"><span>🔵 Empates</span><b id="txt-emp-count">0</b></div>
+                <div style="display:flex; justify-content:space-between; gap:14px;"><span>🔴 Derrotas</span><b id="txt-der-count">0</b></div>
+                <div style="border-top:1px solid #1E2842; padding-top:4px; color:#E5A93C; font-weight:bold;" id="txt-total-jogos-donut">⚽ 0 Jogos Totais</div>
               </div>
             </div>
           </div>
@@ -520,8 +521,8 @@
                 <b style="font-size:15px; color:#F3B229;">VS</b>
                 <div style="width:34px; height:34px; border-radius:50%; background:#1E3A8A; display:flex; align-items:center; justify-content:center; font-size:16px;">★</div>
               </div>
-              <b style="font-size:12px; color:#FFF;">FC ESPANHA <span style="color:#64748B;">vs</span> ADVERSÁRIO FC</b>
-              <p style="font-size:10px; color:#94A3B8; margin-top:2px;">🗓️ Sáb, 15 Nov 2026 • ⏰ 16:00</p>
+              <b style="font-size:12px; color:#FFF;" id="txt-proximo-confronto">FC ESPANHA vs ADVERSÁRIO FC</b>
+              <p style="font-size:10px; color:#94A3B8; margin-top:2px;" id="txt-proximo-data">🗓️ Sábado • ⏰ 16:00</p>
               <p style="font-size:10px; color:#E5A93C;">📍 Estádio do Clube</p>
 
               <button class="btn btn-gold" style="width:100%; margin-top:8px; padding:6px;" onclick="abrirSecaoAdmin('jogos')">📅 Ver Calendário</button>
@@ -533,22 +534,15 @@
             <div class="card-bloco-header">
               <span class="card-bloco-titulo">🔔 Alertas e Notificações</span>
             </div>
-            <div style="display:flex; flex-direction:column; gap:8px;">
-              <div style="display:flex; justify-content:space-between; font-size:10px;">
-                <span>❗ Quotas em atraso</span><span style="color:#EF4444; font-weight:bold;">Hoje</span>
-              </div>
-              <div style="display:flex; justify-content:space-between; font-size:10px;">
-                <span>ℹ️ Sugestões dos atletas</span><span style="color:#3B82F6;">Nova</span>
-              </div>
-              <div style="display:flex; justify-content:space-between; font-size:10px;">
-                <span>✅ Pagamentos registados</span><span style="color:#10B981;">Hoje</span>
-              </div>
+            <div style="display:flex; flex-direction:column; gap:8px;" id="box-feed-alertas-painel">
+              <!-- Gerado dinamicamente -->
             </div>
             <button class="btn btn-dark" style="width:100%; margin-top:10px; font-size:10px; padding:6px;" onclick="abrirPainelAlertasTopo()">Ver Todas as Solicitações →</button>
           </div>
         </div>
 
         <div class="grid-duas-colunas">
+          <!-- SITUAÇÃO FINANCEIRA DINÂMICA -->
           <div class="card-dash-bloco">
             <div class="card-bloco-header">
               <span class="card-bloco-titulo">💰 Situação Financeira</span>
@@ -557,15 +551,15 @@
             <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:8px; text-align:center;">
               <div>
                 <p style="font-size:9px; color:#94A3B8;">Receitas</p>
-                <b id="fin-receitas-val" style="font-size:13px; color:#10B981;">1.250.000 Kz</b>
+                <b id="fin-receitas-val" style="font-size:13px; color:#10B981;">0,00 Kz</b>
               </div>
               <div>
                 <p style="font-size:9px; color:#94A3B8;">Despesas</p>
-                <b id="fin-despesas-val" style="font-size:13px; color:#EF4444;">980.000 Kz</b>
+                <b id="fin-despesas-val" style="font-size:13px; color:#EF4444;">0,00 Kz</b>
               </div>
               <div>
                 <p style="font-size:9px; color:#94A3B8;">Saldo Atual</p>
-                <b id="fin-saldo-val" style="font-size:13px; color:#FBBF24;">270.000 Kz</b>
+                <b id="fin-saldo-val" style="font-size:13px; color:#FBBF24;">0,00 Kz</b>
               </div>
             </div>
           </div>
@@ -693,15 +687,15 @@
         <div class="rodape-assinatura-aba">Desenvolvido por Eduardo Ferreira Alfredo (2026) • FC ESPANHA • Contacto: 945260362</div>
       </div>
 
-      <!-- SECÇÃO: ESTATÍSTICAS -->
+      <!-- SECÇÃO: ESTATÍSTICAS (DINÂMICAS) -->
       <div id="sec-admin-estatisticas" style="display:none; padding:12px 14px;">
         <div class="card-dash-bloco">
           <b style="color:#E5A93C; font-size:13px; text-transform:uppercase; margin-bottom:10px; display:block;">📊 Estatísticas Globais do FC ESPANHA</b>
           <div class="grid-quatro-stats" style="margin:0;">
-            <div class="card-stat-pill"><div><div class="stat-pill-valor">75%</div><div class="stat-pill-desc">Taxa de Vitória</div></div></div>
-            <div class="card-stat-pill"><div><div class="stat-pill-valor">48</div><div class="stat-pill-desc">Golos Marcados</div></div></div>
-            <div class="card-stat-pill"><div><div class="stat-pill-valor">14</div><div class="stat-pill-desc">Golos Sofridos</div></div></div>
-            <div class="card-stat-pill"><div><div class="stat-pill-valor">+34</div><div class="stat-pill-desc">Saldo de Golos</div></div></div>
+            <div class="card-stat-pill"><div><div class="stat-pill-valor" id="estat-taxa-vit">0%</div><div class="stat-pill-desc">Taxa de Vitória</div></div></div>
+            <div class="card-stat-pill"><div><div class="stat-pill-valor" id="estat-golos-marc">0</div><div class="stat-pill-desc">Golos Marcados</div></div></div>
+            <div class="card-stat-pill"><div><div class="stat-pill-valor" id="estat-jogos-tot">0</div><div class="stat-pill-desc">Jogos Oficiais</div></div></div>
+            <div class="card-stat-pill"><div><div class="stat-pill-valor" id="estat-atletas-tot">0</div><div class="stat-pill-desc">Plantel Ativo</div></div></div>
           </div>
         </div>
         <div class="rodape-assinatura-aba">Desenvolvido por Eduardo Ferreira Alfredo (2026) • FC ESPANHA • Contacto: 945260362</div>
@@ -809,7 +803,7 @@
             </div>
           </div>
 
-          <!-- SOLICITAÇÕES REENCAMINHADAS PELO ADMIN PRINCIPAL (COM RESPOSTA FUNDAMENTADA) -->
+          <!-- SOLICITAÇÕES REENCAMINHADAS PELO ADMIN PRINCIPAL -->
           <div style="background:#080E1E; border:1px solid #1E2D56; border-radius:10px; padding:12px; margin-bottom:12px;">
             <b style="color:#34D399; font-size:11px;">📥 Solicitações Reencaminhadas pelo Administrador Principal:</b>
             <p style="font-size:10px; color:#94A3B8; margin:3px 0 8px 0;">Analise e responda a cada solicitação com um pequeno parecer/argumento:</p>
@@ -830,10 +824,10 @@
             <button class="btn btn-gold" onclick="abrirModal('modal-alterar-bandeira')">Carregar Nova Imagem do Clube</button>
           </div>
 
-          <!-- ZERAR PLATAFORMA -->
+          <!-- ZERAR PLATAFORMA (TUDO A ZERO) -->
           <div style="background:#260C10; border:1px solid #EF4444; border-radius:10px; padding:12px;">
             <b style="color:#EF4444; font-size:11px;">🚨 ZERAR PLATAFORMA DE FÁBRICA:</b>
-            <p style="font-size:10px; color:#FCA5A5; margin:3px 0 8px 0;">Apaga todos os dados e repõe a versão original. Ação irreversível.</p>
+            <p style="font-size:10px; color:#FCA5A5; margin:3px 0 8px 0;">Apaga todos os dados e repõe a zero (atletas, jogos, quotas, gráficos, saldo). Ação irreversível.</p>
             <button class="btn btn-red" onclick="zerarPlataformaTotal()">🗑️ Zerar Toda a Plataforma</button>
           </div>
         </div>
@@ -851,7 +845,6 @@
     <header class="atleta-topo-bar">
       <div style="display:flex; align-items:center; gap:8px;">
         <div style="width:34px; height:34px;">
-          <!-- Emblema sincronizado com o clube -->
           <img id="img-emblema-atleta-topo" src="" style="width:100%; height:100%; object-fit:contain;" onerror="aplicarSvgPadrao(this)">
         </div>
         <div>
@@ -891,13 +884,13 @@
       <div class="atleta-pill">
         <span style="font-size:22px;">🏆</span>
         <div>
-          <b id="txt-atleta-jogos-contagem" style="font-size:12px; color:#FBBF24;">12</b>
+          <b id="txt-atleta-jogos-contagem" style="font-size:12px; color:#FBBF24;">0</b>
           <p style="font-size:9px; color:#94A3B8;">Jogos Realizados</p>
         </div>
       </div>
     </div>
 
-    <!-- SEÇÃO «MEU ESPAÇO» DO ATLETA (APENAS O QUE ELE PODE FAZER) -->
+    <!-- SEÇÃO «MEU ESPAÇO» DO ATLETA -->
     <div class="atleta-secao-titulo">
       <span>⭐ Meu Espaço</span>
       <span style="font-size:9px; color:#E5A93C; font-style:italic;">Tudo sobre você no clube</span>
@@ -938,11 +931,11 @@
     <div class="card-dash-bloco" style="margin:0 12px 10px 12px;">
       <div style="background:#8A0A0E; padding:6px 10px; border-radius:6px; display:flex; justify-content:space-between; font-size:10px; font-weight:bold; color:#FFF; margin-bottom:8px;">
         <span>⚽ Próximo Jogo</span>
-        <span>🗓️ Sábado, 15 Nov 2026</span>
+        <span id="atleta-txt-proximo-data">🗓️ Próximo Confronto</span>
       </div>
       <div style="text-align:center;">
-        <b style="font-size:12px; color:#FFF;">FC ESPANHA <span style="color:#FBBF24;">VS</span> ADVERSÁRIO FC</b>
-        <p style="font-size:10px; color:#94A3B8; margin-top:2px;">⏰ 16:00 • 📍 Estádio do Clube</p>
+        <b style="font-size:12px; color:#FFF;" id="atleta-txt-proximo-confronto">FC ESPANHA vs ADVERSÁRIO FC</b>
+        <p style="font-size:10px; color:#94A3B8; margin-top:2px;">📍 Estádio do Clube</p>
       </div>
     </div>
 
@@ -982,7 +975,7 @@
     </div>
   </div>
 
-  <!-- MODAL: SUGESTÕES DOS ATLETAS POR ÁREA (ADMIN 1, 2, 3 E PRINCIPAL) -->
+  <!-- MODAL: SUGESTÕES DOS ATLETAS POR ÁREA -->
   <div id="modal-sugestoes-area" class="modal-box" style="display:none;">
     <div class="modal-corpo">
       <h3 id="txt-sugestoes-area-titulo" style="color:#E5A93C; font-size:13px; margin-bottom:8px;">💡 SUGESTÕES DOS ATLETAS</h3>
@@ -1072,7 +1065,7 @@
     </div>
   </div>
 
-  <!-- MODAL: PUBLICAR COMUNICADO / ANÚNCIO (TODOS OS ADMINS PODEM PUBLICAR) -->
+  <!-- MODAL: PUBLICAR COMUNICADO / ANÚNCIO -->
   <div id="modal-novo-anuncio" class="modal-box" style="display:none;">
     <div class="modal-corpo">
       <h3 style="color:#E5A93C; font-size:13px; margin-bottom:10px;">📢 PUBLICAR COMUNICADO OFICIAL</h3>
@@ -1094,13 +1087,21 @@
     </div>
   </div>
 
-  <!-- MODAL: REGISTAR JOGO -->
+  <!-- MODAL: REGISTAR JOGO COM SELEÇÃO DO TIPO DE RESULTADO (V / E / D) -->
   <div id="modal-novo-jogo" class="modal-box" style="display:none;">
     <div class="modal-corpo">
       <h3 style="color:#E5A93C; font-size:13px; margin-bottom:10px;">🏆 REGISTAR JOGO / PARTIDA</h3>
-      <div class="campo"><label>Confronto:</label><input type="text" id="cad-jogo-confronto" placeholder="FC Espanha vs Adversário"></div>
+      <div class="campo"><label>Confronto:</label><input type="text" id="cad-jogo-confronto" placeholder="Ex: FC Espanha vs Cazenga FC"></div>
       <div class="campo"><label>Competição:</label><input type="text" id="cad-jogo-comp" placeholder="Torneio Dominical / Amistoso"></div>
-      <div class="campo"><label>Resultado:</label><input type="text" id="cad-jogo-res" placeholder="Ex: 3 - 1"></div>
+      <div class="campo"><label>Resultado Oficial:</label><input type="text" id="cad-jogo-res" placeholder="Ex: 3 - 1"></div>
+      <div class="campo">
+        <label>Desfecho para o FC ESPANHA:</label>
+        <select id="cad-jogo-tipo-res">
+          <option value="V">🟢 Vitória do FC ESPANHA</option>
+          <option value="E">🔵 Empate</option>
+          <option value="D">🔴 Derrota</option>
+        </select>
+      </div>
       <button class="btn btn-gold" style="width:100%; padding:9px;" onclick="salvarNovoJogo()">Gravar Jogo</button>
       <button class="btn btn-dark" style="width:100%; margin-top:6px;" onclick="fecharModal('modal-novo-jogo')">Cancelar</button>
     </div>
@@ -1142,7 +1143,7 @@
     </div>
   </div>
 
-  <!-- MODAL: CADASTRAR ATLETA (COM ANO DE CHEGADA E NOVAS POSIÇÕES) -->
+  <!-- MODAL: CADASTRAR ATLETA -->
   <div id="modal-novo-atleta" class="modal-box" style="display:none;">
     <div class="modal-corpo">
       <h3 id="modal-atleta-titulo" style="color:#E5A93C; font-size:13px; margin-bottom:10px;">+ CADASTRAR NOVO ATLETA</h3>
@@ -1177,7 +1178,7 @@
     </div>
   </div>
 
-  <!-- MODAL: CADASTRAR DIRIGENTE / ADMIN (COM ANO DE CHEGADA) -->
+  <!-- MODAL: CADASTRAR DIRIGENTE / ADMIN -->
   <div id="modal-cadastrar-admin" class="modal-box" style="display:none;">
     <div class="modal-corpo">
       <h3 id="modal-admin-titulo" style="color:#E5A93C; font-size:13px; margin-bottom:10px;">👤 CADASTRAR DIRIGENTE / ADMIN</h3>
@@ -1218,7 +1219,7 @@
     </div>
   </div>
 
-  <!-- MODAL: RELATAR OCORRÊNCIA / INJUSTIÇA (ENVIADO AO ADMIN PRINCIPAL) -->
+  <!-- MODAL: RELATAR OCORRÊNCIA / INJUSTIÇA -->
   <div id="modal-atleta-relatar-injustica" class="modal-box" style="display:none;">
     <div class="modal-corpo">
       <h3 style="color:#EF4444; font-size:13px; margin-bottom:8px;">⚖️ RELATAR OCORRÊNCIA OU INJUSTIÇA</h3>
@@ -1237,7 +1238,7 @@
     </div>
   </div>
 
-  <!-- MODAL: ALTERAR BANDEIRA / EMBLEMA (MASTER & PRINCIPAL) -->
+  <!-- MODAL: ALTERAR BANDEIRA / EMBLEMA -->
   <div id="modal-alterar-bandeira" class="modal-box" style="display:none;">
     <div class="modal-corpo">
       <h3 style="color:#E5A93C; font-size:13px; margin-bottom:8px;">🏳️ BANDEIRA / EMBLEMA OFICIAL</h3>
@@ -1268,7 +1269,7 @@
     </div>
   </div>
 
-  <!-- MODAL: JUSTIFICAR LESÃO (ATLETA) -->
+  <!-- MODAL: JUSTIFICAR LESÃO -->
   <div id="modal-justificar-lesao" class="modal-box" style="display:none;">
     <div class="modal-corpo">
       <h3 style="color:#E5A93C; font-size:13px; margin-bottom:10px;">🏥 PARTICIPAR LESÃO OU AUSÊNCIA</h3>
@@ -1284,7 +1285,7 @@
     </div>
   </div>
 
-  <!-- MODAL: ENVIAR SUGESTÃO POR DEPARTAMENTO -->
+  <!-- MODAL: ENVIAR SUGESTÃO -->
   <div id="modal-enviar-sugestao" class="modal-box" style="display:none;">
     <div class="modal-corpo">
       <h3 style="color:#E5A93C; font-size:13px; margin-bottom:10px;">💡 ENVIAR SUGESTÃO AO CLUBE</h3>
@@ -1305,7 +1306,7 @@
   </div>
 
   <!-- ========================================================================= -->
-  <!-- 5. MOTOR JAVASCRIPT & SUPABASE                                           -->
+  <!-- 5. MOTOR JAVASCRIPT & SUPABASE COM CÁLCULOS DINÂMICOS                    -->
   <!-- ========================================================================= -->
   <script>
     // --- ESTADO & CREDENCIAIS ---
@@ -1330,33 +1331,26 @@
 
     let bandeiraClube = localStorage.getItem('fce_bandeira_clube') || "";
 
-    let atletas = JSON.parse(localStorage.getItem('fce_atletas')) || [
-      { id: "FCE-6148", num: 24, nome: "Eduardo Alfredo", idade: "30 anos", anoIngresso: 2025, morada: "Cazenga, Luanda", tel: "945260362", pos: "Ala Direita", golos: 0, senha: "edu24", foto: "", ativo: true }
-    ];
-
+    // INICIALIZAÇÃO DINÂMICA (Começa estritamente com os dados reais gravados)
+    let atletas = JSON.parse(localStorage.getItem('fce_atletas')) || [];
     let quotas = JSON.parse(localStorage.getItem('fce_quotas')) || [];
     let jogos = JSON.parse(localStorage.getItem('fce_jogos')) || [];
     let despesas = JSON.parse(localStorage.getItem('fce_despesas')) || [];
     let patrocinios = JSON.parse(localStorage.getItem('fce_patrocinios')) || [];
     let equipamentos = JSON.parse(localStorage.getItem('fce_equipamentos')) || [];
     let auditoria = JSON.parse(localStorage.getItem('fce_auditoria')) || [];
-    let enquetes = JSON.parse(localStorage.getItem('fce_enquetes')) || [
-      { id: 1, titulo: "Aquisição de Novos Equipamentos Oficiais", pergunta: "Apoia o novo modelo de equipamento para a época?", sim: 18, nao: 2 }
-    ];
-    let anuncios = JSON.parse(localStorage.getItem('fce_anuncios')) || [
-      { id: 1, titulo: "Apoio ao Atleta: Nova Política de Quotas", texto: "Informamos sobre as regras oficiais de pagamento dominical." }
-    ];
+    let enquetes = JSON.parse(localStorage.getItem('fce_enquetes')) || [];
+    let anuncios = JSON.parse(localStorage.getItem('fce_anuncios')) || [];
 
-    // Solicitações dos Atletas (Vão primeiro ao Administrador Principal)
     let solicitacoesAtletas = JSON.parse(localStorage.getItem('fce_solicitacoes_atletas')) || [];
     let sugestoesAtletas = JSON.parse(localStorage.getItem('fce_sugestoes_atletas')) || [];
     let pedidosRemocaoAdmin = JSON.parse(localStorage.getItem('fce_pedidos_remocao_adm')) || [];
 
     let otpMasterGerado = null;
     let usuarioAtual = 'master';
-    let atletaAtual = atletas[0];
+    let atletaAtual = atletas[0] || { nome: "Atleta", id: "FCE-000", golos: 0, pos: "Médio", morada: "Luanda", anoIngresso: 2026 };
 
-    // --- AO CARREGAR A PÁGINA (PERSISTÊNCIA AUTOMÁTICA) ---
+    // --- AO CARREGAR A PÁGINA (PERSISTÊNCIA AUTOMÁTICA E CÁLCULO) ---
     window.addEventListener('DOMContentLoaded', () => {
       aplicarBandeiraEmTodoLado();
       atualizarTravasBotoes();
@@ -1369,7 +1363,7 @@
       if (sessaoSalva && sessaoSalva !== 'false') {
         usuarioAtual = sessaoSalva;
         if (tipoSessaoSalva === 'atleta') {
-          atletaAtual = atletas.find(x => x.senha === localStorage.getItem('fce_atleta_senha_temp')) || atletas[0];
+          atletaAtual = atletas.find(x => x.senha === localStorage.getItem('fce_atleta_senha_temp')) || atletas[0] || atletaAtual;
           entrarAmbiente('atleta');
         } else {
           entrarAmbiente('admin');
@@ -1411,7 +1405,7 @@
       else { inp.type = "password"; btn.innerText = "👁️"; }
     }
 
-    // --- BANDEIRA / FOTO DO CLUBE (EXCLUSIVO MASTER E ADMIN PRINCIPAL) ---
+    // --- BANDEIRA / FOTO DO CLUBE ---
     function abrirModalSePermitidoBandeira() {
       if (usuarioAtual === 'master' || usuarioAtual === 'adm_princ') {
         abrirModal('modal-alterar-bandeira');
@@ -1538,7 +1532,7 @@
       document.getElementById('sidebar-overlay-mobile').classList.remove('active');
     }
 
-    // --- REGRAS DE PERMISSÕES NA SIDEBAR PARA CADA ADMIN ---
+    // --- REGRAS DE PERMISSÕES NA SIDEBAR ---
     function aplicarFiltroAbasAdmin() {
       const isMaster = (usuarioAtual === 'master');
       const isPrinc = (usuarioAtual === 'adm_princ');
@@ -1546,24 +1540,16 @@
       const isAdm2 = (usuarioAtual === 'adm2');
       const isAdm3 = (usuarioAtual === 'adm3');
 
-      // Master e Principal vêem todas as abas (sem necessitar de senha)
       const podeVerTudo = isMaster || isPrinc;
 
-      // Config Master: APENAS o Master pode ver
       document.getElementById('nav-item-config').style.display = isMaster ? 'flex' : 'none';
-
-      // Livro de Registo: APENAS Master e Principal
       document.getElementById('nav-item-auditoria').style.display = podeVerTudo ? 'flex' : 'none';
-
-      // Botão de alterar bandeira na sidebar: APENAS Master e Principal
       document.getElementById('btn-alterar-bandeira-sidebar').style.display = podeVerTudo ? 'inline-block' : 'none';
 
-      // Abas dos Administradores 1, 2 e 3
       document.getElementById('nav-item-painel').style.display = podeVerTudo ? 'flex' : 'none';
       document.getElementById('nav-item-atletas').style.display = (podeVerTudo || isAdm1) ? 'flex' : 'none';
       document.getElementById('nav-item-jogos').style.display = (podeVerTudo || isAdm1) ? 'flex' : 'none';
 
-      // TODOS os administradores vêem os anúncios
       document.getElementById('nav-item-anuncios').style.display = 'flex';
 
       document.getElementById('nav-item-quotas').style.display = (podeVerTudo || isAdm2) ? 'flex' : 'none';
@@ -1575,7 +1561,6 @@
       document.getElementById('nav-item-estatisticas').style.display = podeVerTudo ? 'flex' : 'none';
       document.getElementById('nav-item-dirigentes').style.display = podeVerTudo ? 'flex' : 'none';
 
-      // Botões de sugestões específicas por área
       document.getElementById('btn-sugestoes-adm1').style.display = (isAdm1 || podeVerTudo) ? 'inline-flex' : 'none';
       document.getElementById('btn-sugestoes-adm2').style.display = (isAdm2 || podeVerTudo) ? 'inline-flex' : 'none';
       document.getElementById('btn-sugestoes-adm3').style.display = (isAdm3 || podeVerTudo) ? 'inline-flex' : 'none';
@@ -1630,9 +1615,106 @@
       if (secao === 'documentos') renderizarEnquetes();
       if (secao === 'anuncios') renderizarAnuncios();
       if (secao === 'config') renderizarPainelMasterSolicitacoes();
+      if (secao === 'painel') renderizarPainelDinamico();
     }
 
-    // --- LIVRO DE REGISTO (FILTRO: ADMIN PRINCIPAL NÃO VÊ AÇÕES DO MASTER) ---
+    // --- CÁLCULO DINÂMICO DO PAINEL PRINCIPAL (100% BASEADO EM DADOS REAIS) ---
+    function renderizarPainelDinamico() {
+      // 1. Total de Atletas
+      const totalAtletas = atletas.length;
+      document.getElementById('stat-atlet-reg').innerText = totalAtletas;
+      document.getElementById('stat-atlet-trend').innerText = totalAtletas > 0 ? "Ativo" : "0%";
+
+      // 2. Quotas Regularizadas %
+      const atletasComQuotaPaga = new Set(quotas.filter(q => q.status === 'Pago').map(q => q.atletaId)).size;
+      const percQuotas = totalAtletas > 0 ? Math.round((atletasComQuotaPaga / totalAtletas) * 100) : 0;
+      document.getElementById('stat-quotas-reg').innerText = `${percQuotas}%`;
+      document.getElementById('stat-quotas-trend').innerText = `${percQuotas}%`;
+
+      // 3. Jogos e Vitórias
+      const totalJogos = jogos.length;
+      const vit = jogos.filter(j => j.tipoResultado === 'V').length;
+      const emp = jogos.filter(j => j.tipoResultado === 'E').length;
+      const der = jogos.filter(j => j.tipoResultado === 'D').length;
+
+      document.getElementById('stat-jogos-real').innerText = totalJogos;
+      document.getElementById('stat-vitorias-total').innerText = vit;
+      document.getElementById('stat-vitorias-trend').innerText = totalJogos > 0 ? `${Math.round((vit/totalJogos)*100)}%` : "0%";
+
+      // 4. Resumo Desportivo (Donut Chart SVG)
+      const percVit = totalJogos > 0 ? Math.round((vit / totalJogos) * 100) : 0;
+      const percEmp = totalJogos > 0 ? Math.round((emp / totalJogos) * 100) : 0;
+      const percDer = totalJogos > 0 ? (100 - percVit - percEmp) : 0;
+
+      document.getElementById('txt-taxa-vitorias-donut').innerText = `${percVit}%`;
+      document.getElementById('txt-vit-count').innerText = vit;
+      document.getElementById('txt-emp-count').innerText = emp;
+      document.getElementById('txt-der-count').innerText = der;
+      document.getElementById('txt-total-jogos-donut').innerText = `⚽ ${totalJogos} Jogos Totais`;
+
+      const svgDonut = document.getElementById('svg-donut-desportivo');
+      if (totalJogos === 0) {
+        svgDonut.innerHTML = `<circle cx="21" cy="21" r="15.915" fill="transparent" stroke="#1E2842" stroke-width="5"></circle>`;
+      } else {
+        svgDonut.innerHTML = `
+          <circle cx="21" cy="21" r="15.915" fill="transparent" stroke="#10B981" stroke-width="5" stroke-dasharray="${percVit} ${100 - percVit}" stroke-dashoffset="0"></circle>
+          <circle cx="21" cy="21" r="15.915" fill="transparent" stroke="#3B82F6" stroke-width="5" stroke-dasharray="${percEmp} ${100 - percEmp}" stroke-dashoffset="-${percVit}"></circle>
+          <circle cx="21" cy="21" r="15.915" fill="transparent" stroke="#EF4444" stroke-width="5" stroke-dasharray="${percDer} ${100 - percDer}" stroke-dashoffset="-${percVit + percEmp}"></circle>
+        `;
+      }
+
+      // 5. Situação Financeira (Receitas - Despesas = Saldo)
+      const recQuotas = quotas.filter(q => q.status === 'Pago').reduce((acc, q) => acc + Number(q.valor || 0), 0);
+      const recPatr = patrocinios.reduce((acc, p) => acc + Number(p.val || 0), 0);
+      const totalRec = recQuotas + recPatr;
+
+      const totalDesp = despesas.reduce((acc, d) => acc + Number(d.val || 0), 0);
+      const saldo = totalRec - totalDesp;
+
+      document.getElementById('fin-receitas-val').innerText = totalRec.toLocaleString('pt-AO') + " Kz";
+      document.getElementById('fin-despesas-val').innerText = totalDesp.toLocaleString('pt-AO') + " Kz";
+      document.getElementById('fin-saldo-val').innerText = saldo.toLocaleString('pt-AO') + " Kz";
+      document.getElementById('fin-saldo-val').style.color = saldo >= 0 ? "#FBBF24" : "#EF4444";
+
+      // 6. Próximo Jogo
+      const prox = jogos[0];
+      if (prox) {
+        document.getElementById('txt-proximo-confronto').innerText = prox.confronto;
+        document.getElementById('txt-proximo-data').innerText = `🗓️ ${prox.data || 'Sábado'} • ${prox.comp || 'Oficial'}`;
+        const proxAtleta = document.getElementById('atleta-txt-proximo-confronto');
+        if (proxAtleta) {
+          proxAtleta.innerText = prox.confronto;
+          document.getElementById('atleta-txt-proximo-data').innerText = `🗓️ ${prox.data || 'Sábado'}`;
+        }
+      }
+
+      // 7. Alertas e Notificações no Painel
+      const boxAlertas = document.getElementById('box-feed-alertas-painel');
+      const quotasAtrasadas = Math.max(0, totalAtletas - atletasComQuotaPaga);
+      boxAlertas.innerHTML = `
+        <div style="display:flex; justify-content:space-between; font-size:10px;">
+          <span>❗ Quotas em atraso: <b>${quotasAtrasadas}</b></span><span style="color:#EF4444; font-weight:bold;">${quotasAtrasadas > 0 ? 'Pendente' : 'Regular'}</span>
+        </div>
+        <div style="display:flex; justify-content:space-between; font-size:10px;">
+          <span>ℹ️ Sugestões dos atletas: <b>${sugestoesAtletas.length}</b></span><span style="color:#3B82F6;">${sugestoesAtletas.length > 0 ? 'Novas' : '0'}</span>
+        </div>
+        <div style="display:flex; justify-content:space-between; font-size:10px;">
+          <span>✅ Quotas registadas: <b>${quotas.length}</b></span><span style="color:#10B981;">Atual</span>
+        </div>
+      `;
+
+      // Estatísticas Gerais
+      const estatVit = document.getElementById('estat-taxa-vit');
+      if (estatVit) {
+        estatVit.innerText = `${percVit}%`;
+        const totalGolos = atletas.reduce((acc, a) => acc + Number(a.golos || 0), 0);
+        document.getElementById('estat-golos-marc').innerText = totalGolos;
+        document.getElementById('estat-jogos-tot').innerText = totalJogos;
+        document.getElementById('estat-atletas-tot').innerText = totalAtletas;
+      }
+    }
+
+    // --- LIVRO DE REGISTO (AUDITORIA) ---
     function carregarLivroAuditoria() {
       const tb = document.getElementById('tb-livro-auditoria');
       const aviso = document.getElementById('txt-auditoria-aviso');
@@ -1658,7 +1740,7 @@
       salvarTudo();
       atualizarTravasBotoes();
       registrarAuditoria(`Alterou trava de [${tipo.toUpperCase()}] para: ${travas[tipo] ? 'BLOQUEADO' : 'LIBERADO'}`);
-      alert(`Estado de ${tipo.toUpperCase()} atualizado com sucesso!`);
+      alert(`Estado de ${tipo.toUpperCase()} atualizado!`);
     }
 
     function atualizarTravasBotoes() {
@@ -1671,7 +1753,7 @@
       });
     }
 
-    // --- MASTER: GESTÃO DE SENHAS DE TODOS ---
+    // --- MASTER: GESTÃO DE SENHAS ---
     function popularSelectUsuariosMaster() {
       const sel = document.getElementById('sel-master-usuario-alvo');
       sel.innerHTML = `
@@ -1728,7 +1810,7 @@
       fecharModal('modal-recuperar-master');
     }
 
-    // --- CADASTRO E EDIÇÃO DE ATLETA (COM ANO DE CHEGADA E MENSAGEM WHATSAPP) ---
+    // --- CADASTRO E EDIÇÃO DE ATLETA ---
     function abrirModalNovoAtleta() {
       document.getElementById('modal-atleta-titulo').innerText = "+ CADASTRAR NOVO ATLETA";
       document.getElementById('edit-atleta-id').value = '';
@@ -1801,7 +1883,6 @@
         fecharModal('modal-novo-atleta');
         atualizarTabelas();
 
-        // Se tiver telefone, abre confirmação de envio WhatsApp
         if (tel && tel !== "Sem telefone") {
           const link = window.location.href;
           const msg = `⚽ *FC ESPANHA - BEM-VINDO AO PLANTEL*\nOlá ${nome}! O seu registo foi concluído com sucesso.\n\n*Os seus dados de acesso:*\n📌 Código: *${id}*\n👕 Camisola: *#${num}*\n🔑 Senha de Acesso: *${senha}*\n🌐 Link da Plataforma: ${link}\n\nGuarde com cuidado e bom campeonato!`;
@@ -1832,7 +1913,7 @@
       }
     }
 
-    // --- DIRIGENTES (CADASTRO, FOTO, ANO INGRESSO E PEDIDO DE REMOÇÃO) ---
+    // --- DIRIGENTES ---
     function processarFotoAdmin(event) {
       const file = event.target.files[0];
       if (file) {
@@ -1888,7 +1969,7 @@
       }
     }
 
-    // --- FLUXO DE SOLICITAÇÕES DOS ATLETAS ➔ ADMIN PRINCIPAL ➔ MASTER ---
+    // --- SOLICITAÇÕES DOS ATLETAS ---
     function processarFotoAtletaSolic(event) {
       const file = event.target.files[0];
       if (file) {
@@ -2195,8 +2276,10 @@
       const conf = document.getElementById('cad-jogo-confronto').value.trim();
       const comp = document.getElementById('cad-jogo-comp').value.trim();
       const res = document.getElementById('cad-jogo-res').value.trim();
+      const tipoRes = document.getElementById('cad-jogo-tipo-res').value;
       if (!conf) return alert("Preencha o confronto!");
-      jogos.unshift({ id: Date.now(), confronto: conf, comp, resultado: res, data: new Date().toLocaleDateString('pt-PT') });
+
+      jogos.unshift({ id: Date.now(), confronto: conf, comp, resultado: res, tipoResultado: tipoRes, data: new Date().toLocaleDateString('pt-PT') });
       salvarTudo();
       fecharModal('modal-novo-jogo');
       atualizarTabelas();
@@ -2249,13 +2332,14 @@
       document.getElementById('txt-atleta-saudacao').innerText = `Olá, ${atletaAtual.nome}!`;
       document.getElementById('txt-atleta-morada-badge').innerText = atletaAtual.morada || "Luanda, Angola";
       document.getElementById('atleta-box-ultimo-comunicado').innerText = anuncios[0]?.texto || "Sem comunicados no momento.";
+      document.getElementById('txt-atleta-jogos-contagem').innerText = jogos.length;
       if (atletaAtual.foto) document.getElementById('img-atleta-perfil').src = atletaAtual.foto;
     }
 
     function gerarPreviewRelatorio() {
       const cx = document.getElementById('caixa-preview-relatorio');
       if (cx) {
-        cx.innerText = `📋 FC ESPANHA - RELATÓRIO CONSOLIDADO\nData: ${new Date().toLocaleDateString('pt-PT')}\nAtletas Inscritos: ${atletas.length}\nQuotas Registadas: ${quotas.length}\n\nDesenvolvido por Eduardo Ferreira Alfredo (2026) • FC ESPANHA • Contacto: 945260362`;
+        cx.innerText = `📋 FC ESPANHA - RELATÓRIO CONSOLIDADO\nData: ${new Date().toLocaleDateString('pt-PT')}\nAtletas Inscritos: ${atletas.length}\nQuotas Registadas: ${quotas.length}\nJogos Realizados: ${jogos.length}\n\nDesenvolvido por Eduardo Ferreira Alfredo (2026) • FC ESPANHA • Contacto: 945260362`;
       }
     }
 
@@ -2281,7 +2365,7 @@
     }
 
     function atualizarTabelas() {
-      // Atletas (com Ano de Ingresso e Senha visível)
+      // 1. Atletas
       const tbA = document.getElementById('tb-atletas-geral');
       if (tbA) {
         tbA.innerHTML = '';
@@ -2311,7 +2395,7 @@
         });
       }
 
-      // Quotas
+      // 2. Quotas
       const tbQ = document.getElementById('tb-quotas-geral');
       if (tbQ) {
         tbQ.innerHTML = quotas.length ? '' : '<tr><td colspan="6" style="text-align:center; color:#64748B;">Sem quotas registadas.</td></tr>';
@@ -2326,21 +2410,21 @@
         atletas.forEach(a => selQ.innerHTML += `<option value="${a.id}">#${a.num} - ${a.nome}</option>`);
       }
 
-      // Jogos
+      // 3. Jogos
       const tbJ = document.getElementById('tb-jogos-geral');
       if (tbJ) {
         tbJ.innerHTML = jogos.length ? '' : '<tr><td colspan="4" style="text-align:center; color:#64748B;">Sem jogos registados.</td></tr>';
         jogos.forEach(j => tbJ.innerHTML += `<tr><td>${j.data}</td><td><b>${j.confronto}</b></td><td>${j.comp}</td><td><b style="color:#FBBF24;">${j.resultado}</b></td></tr>`);
       }
 
-      // Equipamentos
+      // 4. Equipamentos
       const tbE = document.getElementById('tb-equipamentos-geral');
       if (tbE) {
         tbE.innerHTML = equipamentos.length ? '' : '<tr><td colspan="4" style="text-align:center; color:#64748B;">Sem materiais.</td></tr>';
         equipamentos.forEach(e => tbE.innerHTML += `<tr><td><b>${e.nome}</b></td><td>${e.qtd}</td><td>${e.estado}</td><td>${e.resp}</td></tr>`);
       }
 
-      // Patrocínios
+      // 5. Patrocínios
       const tbP = document.getElementById('tb-patrocinios-geral');
       if (tbP) {
         tbP.innerHTML = patrocinios.length ? '' : '<tr><td colspan="4" style="text-align:center; color:#64748B;">Sem contribuições registadas.</td></tr>';
@@ -2350,12 +2434,31 @@
       renderizarDirigentes();
       renderizarEnquetes();
       renderizarAnuncios();
+      renderizarPainelDinamico();
     }
 
+    // --- ZERAR TOTALMENTE A PLATAFORMA (TUDO A ZERO GARANTIDO) ---
     function zerarPlataformaTotal() {
       if (usuarioAtual !== 'master') return alert("Exclusivo do Master!");
       if (confirm("ATENÇÃO: Deseja apagar todos os dados e restaurar o FC ESPANHA aos padrões de fábrica?")) {
-        localStorage.clear();
+        atletas = [];
+        quotas = [];
+        jogos = [];
+        despesas = [];
+        patrocinios = [];
+        equipamentos = [];
+        auditoria = [];
+        enquetes = [];
+        anuncios = [];
+        solicitacoesAtletas = [];
+        sugestoesAtletas = [];
+        pedidosRemocaoAdmin = [];
+        bandeiraClube = "";
+
+        salvarTudo();
+        atualizarTabelas();
+        renderizarPainelDinamico();
+        alert("Plataforma restaurada com sucesso! Todos os dados, gráficos e saldos foram zerados.");
         location.reload();
       }
     }
@@ -2369,4 +2472,3 @@
   </script>
 </body>
 </html>
-
