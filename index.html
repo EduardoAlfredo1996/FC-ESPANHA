@@ -1360,28 +1360,47 @@
       setTxt('fin-saldo-val', `${(rec - desp).toLocaleString('pt-AO')} Kz`);
     }
 
+   // =========================================================================
+    // MÓDULO EXCLUSIVO: CHAT DA DIREÇÃO (ENVIO, EDIÇÃO E EXCLUSÃO)
     // =========================================================================
-    // CHAT DA DIREÇÃO (INSTANTÂNEO)
-    // =========================================================================
+
+    // 1. CARREGAR E RENDERIZAR O FEED COM BOTÕES DE EDITAR E APAGAR
     function carregarChatDirecao() {
       const box = document.getElementById('box-chat-direcao-feed');
       if (!box) return;
+
       box.innerHTML = chatDirecao.length ? '' : '<p style="color:#64748B; font-size:11px; text-align:center; padding:15px;">Sem mensagens na comunicação interna.</p>';
+
       chatDirecao.forEach(m => {
-        const souEu = (m.idAutor === usuarioAtual);
+        // Verifica se a mensagem foi enviada pelo utilizador com sessão iniciada (ou Master)
+        const souAutor = (m.idAutor === usuarioAtual || usuarioAtual === 'master');
+
+        const botoesAcao = souAutor ? `
+          <div style="display:flex; gap:4px; align-items:center;">
+            <button class="btn-mini btn-mini-edit" title="Editar Mensagem" onclick="editarMensagemChatDirecao(${m.id})">✏️</button>
+            <button class="btn-mini btn-mini-del" title="Apagar Mensagem" onclick="removerMensagemChatDirecao(${m.id})">🗑️</button>
+          </div>
+        ` : '';
+
         box.innerHTML += `
-          <div style="background:#0F172E; border:1px solid ${souEu ? '#E5A93C' : '#1E2842'}; padding:8px 10px; border-radius:8px; font-size:11px;">
-            <div style="display:flex; justify-content:space-between;">
+          <div style="background:#0F172E; border:1px solid ${souAutor ? '#E5A93C' : '#1E2842'}; padding:8px 10px; border-radius:8px; font-size:11px; margin-bottom:4px;">
+            <div style="display:flex; justify-content:space-between; align-items:center;">
               <b style="color:#FBBF24;">${m.autor} <small style="color:#94A3B8;">(${m.cargo})</small></b>
-              <small style="color:#64748B;">${m.hora}</small>
+              <div style="display:flex; align-items:center; gap:6px;">
+                <small style="color:#64748B; font-size:9px;">${m.hora}</small>
+                ${botoesAcao}
+              </div>
             </div>
-            <p style="color:#E2E8F0; margin-top:3px;">${m.texto}</p>
+            <p style="color:#E2E8F0; margin-top:4px; white-space:pre-wrap;" id="msg-corpo-${m.id}">${m.texto}</p>
           </div>
         `;
       });
+
+      // Rola automaticamente para o fim
       box.scrollTop = box.scrollHeight;
     }
 
+    // 2. ENVIAR NOVA MENSAGEM (INSTANTÂNEO)
     function enviarMensagemChatDirecao() {
       const inp = document.getElementById('inp-chat-direcao-msg');
       if (!inp) return;
@@ -1390,17 +1409,61 @@
 
       const d = dirigentes.find(x => x.id === usuarioAtual);
       const autor = (usuarioAtual === 'master') ? 'Eduardo Alfredo (Master)' : (d ? d.nome : usuarioAtual.toUpperCase());
-      const cargo = (usuarioAtual === 'master') ? '👑 Master' : 'Diretivo';
+      const cargo = (usuarioAtual === 'master') ? '👑 Master' : (d ? d.cargo : 'Direção');
 
-      chatDirecao.push({
-        id: Date.now(), idAutor: usuarioAtual, autor, cargo, texto: txt,
+      const novaMensagem = {
+        id: Date.now(),
+        idAutor: usuarioAtual,
+        autor,
+        cargo,
+        texto: txt,
         hora: new Date().toLocaleTimeString('pt-PT', { hour: '2-digit', minute: '2-digit' })
-      });
+      };
 
-      inp.value = '';
+      chatDirecao.push(novaMensagem);
       salvarTudo();
+      inp.value = '';
       carregarChatDirecao();
       inp.focus();
+    }
+
+    // 3. EDITAR MENSAGEM (APENAS PELO AUTOR)
+    function editarMensagemChatDirecao(id) {
+      const msg = chatDirecao.find(m => m.id === id);
+      if (!msg) return;
+
+      if (msg.idAutor !== usuarioAtual && usuarioAtual !== 'master') {
+        alert("Apenas quem enviou a mensagem pode editá-la!");
+        return;
+      }
+
+      const textoAtual = msg.texto.replace(' (editada)', '');
+      const novoTexto = prompt("Editar a sua mensagem:", textoAtual);
+
+      if (novoTexto !== null && novoTexto.trim() !== "") {
+        msg.texto = novoTexto.trim() + " (editada)";
+        salvarTudo();
+        carregarChatDirecao();
+      }
+    }
+
+    // 4. APAGAR MENSAGEM (APENAS PELO AUTOR)
+    function removerMensagemChatDirecao(id) {
+      const msg = chatDirecao.find(m => m.id === id);
+      if (!msg) return;
+
+      if (msg.idAutor !== usuarioAtual && usuarioAtual !== 'master') {
+        alert("Apenas quem enviou a mensagem pode apagá-la!");
+        return;
+      }
+
+      if (confirm("Deseja apagar definitivamente esta mensagem?")) {
+        chatDirecao = chatDirecao.filter(m => m.id !== id);
+        salvarTudo();
+        carregarChatDirecao();
+      }
+    } 
+      }
     }
 
     // =========================================================================
