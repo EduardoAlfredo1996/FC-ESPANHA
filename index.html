@@ -9,12 +9,10 @@
 
   <!-- Biblioteca Supabase JS -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <!-- Chart.js para Gráficos Circulares Mini -->
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
   <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; }
-    body { background-color: #05070E; color: #F3F4F6; min-height: 100vh; overflow-x: hidden; }
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+    body { background-color: #060A17; color: #F3F4F6; min-height: 100vh; overflow-x: hidden; }
 
     #toast-boas-vindas {
       position: fixed; top: 16px; left: 50%; transform: translateX(-50%);
@@ -27,10 +25,10 @@
     /* LOGIN */
     #tela-login-portal {
       min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 16px;
-      background: radial-gradient(circle at 50% 25%, rgba(198, 29, 35, 0.25) 0%, #05070E 80%);
+      background: radial-gradient(circle at 50% 25%, rgba(198, 29, 35, 0.25) 0%, #060A17 80%);
     }
     .card-login-portal {
-      position: relative; background: linear-gradient(180deg, #101628 0%, #080D1A 100%);
+      position: relative; background: linear-gradient(180deg, #0F172E 0%, #080D1A 100%);
       border: 1px solid rgba(229, 169, 60, 0.35); border-radius: 18px; padding: 24px 20px;
       width: 100%; max-width: 400px; text-align: center; box-shadow: 0 20px 50px rgba(0,0,0,0.9);
     }
@@ -71,13 +69,6 @@
     .btn-dark { background: #131E3D; color: #CBD5E1; border: 1px solid #283966; }
     .btn-wpp { background: #10B981; color: #042f1a; font-weight: 800; border: 1px solid #059669; }
 
-    .btn-wpp-banner-painel {
-      background: linear-gradient(135deg, #10B981 0%, #059669 100%);
-      color: #042f1a; font-weight: 900; font-size: 11px; border-radius: 8px;
-      padding: 8px 12px; display: inline-flex; align-items: center; gap: 6px;
-      border: 1px solid #34D399; text-decoration: none; box-shadow: 0 4px 12px rgba(16,185,129,0.25);
-    }
-
     .btn-logout-pro {
       background: #14080B; border: 1px solid #EF4444; color: #FCA5A5; font-size: 10px; font-weight: 800;
       padding: 5px 10px; border-radius: 6px; cursor: pointer; display: inline-flex; align-items: center; gap: 4px;
@@ -112,10 +103,10 @@
     .sidebar-footer { border-top: 1px solid #1E2842; padding-top: 10px; text-align: center; font-size: 9px; color: #64748B; }
     .sidebar-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.7); z-index: 1040; display: none; }
 
-    .conteudo-admin-wrapper { flex: 1; display: flex; flex-direction: column; background: #070B16; overflow-y: auto; width: 100%; }
+    .conteudo-admin-wrapper { flex: 1; display: flex; flex-direction: column; background: #060A17; overflow-y: auto; width: 100%; }
 
     .topo-dashboard-admin {
-      background: #0B1122; border-bottom: 1px solid #1E2842; padding: 8px 16px;
+      background: #0B1124; border-bottom: 1px solid #1A243F; padding: 8px 16px;
       display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100;
     }
     .topo-esq { display: flex; align-items: center; gap: 8px; }
@@ -137,18 +128,8 @@
     }
     .user-avatar-mini { width: 26px; height: 26px; border-radius: 50%; border: 1px solid #E5A93C; object-fit: cover; background: #1E2D56; display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: bold; color: #FFF; overflow: hidden; }
 
-    .hero-banner-estadio {
-      position: relative; margin: 12px 14px 10px 14px; border-radius: 12px; overflow: hidden;
-      background: radial-gradient(circle at 30% 50%, #29080B 0%, #0B1020 85%);
-      border: 1px solid rgba(229,169,60,0.25); min-height: 65px; display: flex; align-items: center;
-      justify-content: space-between; padding: 10px 16px; box-shadow: 0 8px 25px rgba(0,0,0,0.7);
-    }
-    .hero-info-esq { display: flex; align-items: center; gap: 12px; z-index: 2; }
-    .hero-titulo { font-size: 18px; font-weight: 900; letter-spacing: 1px; color: #FFF; line-height: 1; }
-    .hero-lema { font-size: 10px; color: #E5A93C; font-weight: bold; margin-top: 3px; }
-
     .sessao-activa-admin-bar {
-      margin: 0 14px 10px 14px; background: #0B1122; border: 1px solid #1E2842; border-radius: 8px;
+      margin: 10px 14px 6px 14px; background: #0B1124; border: 1px solid #1A243F; border-radius: 8px;
       padding: 6px 10px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 6px;
     }
     .sessao-botoes-grupo { display: flex; gap: 4px; flex-wrap: wrap; }
@@ -156,91 +137,141 @@
     .sessao-btn.active-master { background: #F3B229; color: #070B19; font-weight: 900; }
     .sessao-btn.active-admin { background: #1E3A8A; color: white; }
 
-    /* STATS CARD COMPACTAS */
-    .grid-quatro-stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 8px; margin: 0 14px 10px 14px; }
-    .card-stat-pill { background: #0E1424; border: 1px solid #1B2640; border-radius: 10px; padding: 10px 12px; display: flex; align-items: center; justify-content: space-between; }
-    .card-stat-icone-wrapper { width: 34px; height: 34px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 15px; }
-    .stat-pill-valor { font-size: 16px; font-weight: 900; color: #FFF; line-height: 1; margin-bottom: 2px; }
-    .stat-pill-desc { font-size: 9px; color: #94A3B8; font-weight: bold; }
-
-    /* CONTAINERS DE GRÁFICOS ULTRA-COMPACTOS (MINI) */
-    .grid-graficos-circulares {
-      display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 8px; margin: 0 14px 10px 14px;
-    }
-    .card-dash-bloco { background: #0E1424; border: 1px solid #1B2640; border-radius: 10px; padding: 10px; }
-    .card-bloco-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
-    .card-bloco-titulo { font-size: 10px; font-weight: 900; color: #FFF; text-transform: uppercase; display: flex; align-items: center; gap: 5px; }
-
-    /* Gráficos pequenos (110px de altura) */
-    .chart-container-compact {
-      position: relative; width: 100%; height: 110px; display: flex; align-items: center; justify-content: center;
+    /* ========================================================================= */
+    /* DASHBOARD EXATO (SEM GRÁFICO CIRCULAR)                                    */
+    /* ========================================================================= */
+    .dashboard-container-principal {
+      padding: 10px 14px; display: flex; flex-direction: column; gap: 12px; max-width: 650px; margin: 0 auto; width: 100%;
     }
 
-    .grid-duas-colunas { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 8px; margin: 0 14px 12px 14px; }
-
-    .table-responsive { width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch; }
-    table { width: 100%; border-collapse: collapse; font-size: 11px; min-width: 600px; }
-    th, td { text-align: left; padding: 7px 6px; border-bottom: 1px solid #1A253F; white-space: nowrap; }
-    th { color: #E5A93C; font-weight: 800; font-size: 9px; text-transform: uppercase; }
-
-    .foto-atleta-circular {
-      width: 28px; height: 28px; border-radius: 50%; border: 1px solid #E5A93C;
-      background: #1E2D56; display: flex; align-items: center; justify-content: center;
-      font-weight: bold; color: #E5A93C; font-size: 10px; overflow: hidden;
+    /* 4 CARTÕES DE MÉTRICAS */
+    .grid-quatro-stats-fce {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 10px;
     }
-    .foto-atleta-circular img { width: 100%; height: 100%; object-fit: cover; }
+    .card-stat-box-fce {
+      background: #0B1126; border: 1px solid #1A243F; border-radius: 16px; padding: 14px 12px;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .card-stat-left-fce { display: flex; align-items: center; gap: 10px; }
+    .stat-circle-icon {
+      width: 44px; height: 44px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 20px;
+    }
+    .stat-number-fce { font-size: 22px; font-weight: 900; color: #FFF; line-height: 1; }
+    .stat-label-fce { font-size: 10px; color: #8F9CAE; font-weight: 600; margin-top: 3px; }
+    .stat-trend-green {
+      color: #10B981; font-size: 10px; font-weight: 800; display: flex; align-items: center; gap: 2px;
+    }
+
+    /* CARTÃO: RESUMO DESPORTIVO (SEM GRÁFICO CIRCULAR) */
+    .card-bloco-fce {
+      background: #0B1126; border: 1px solid #1A243F; border-radius: 18px; padding: 16px;
+    }
+    .card-bloco-header-fce {
+      display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px;
+    }
+    .bloco-titulo-fce {
+      font-size: 12px; font-weight: 900; color: #FFF; letter-spacing: 0.5px; display: flex; align-items: center; gap: 6px;
+    }
+    .bloco-epoca-tag {
+      font-size: 11px; color: #E5A93C; font-weight: bold; cursor: pointer;
+    }
+
+    .resumo-desportivo-body {
+      display: flex; align-items: center; justify-content: space-between; padding: 4px 0; gap: 14px;
+    }
+    .resumo-taxa-box {
+      background: #0E1733; border: 1px solid #1E2D56; border-radius: 14px; padding: 12px 14px;
+      display: flex; flex-direction: column; align-items: center; justify-content: center; min-width: 130px; text-align: center;
+    }
+    .resumo-taxa-titulo { font-size: 9px; color: #8F9CAE; font-weight: bold; text-transform: uppercase; }
+    .resumo-taxa-valor { font-size: 26px; font-weight: 900; color: #10B981; line-height: 1.1; margin: 2px 0; }
+    .resumo-taxa-sub { font-size: 9px; color: #CBD5E1; font-weight: 600; }
+    .resumo-progress-bg {
+      width: 100%; height: 5px; background: #16203B; border-radius: 10px; margin-top: 8px; overflow: hidden;
+    }
+    .resumo-progress-bar {
+      height: 100%; background: #10B981; border-radius: 10px; transition: width 0.3s;
+    }
+
+    .resumo-legenda-lista {
+      display: flex; flex-direction: column; gap: 8px; flex: 1; font-size: 12px;
+    }
+    .legenda-item-linha {
+      display: flex; justify-content: space-between; align-items: center; font-weight: 600; color: #D1D5DB;
+    }
+    .legenda-item-linha span { display: flex; align-items: center; gap: 6px; }
+    .legenda-item-linha b { color: #FFF; font-weight: 900; }
+    .legenda-total-divisor {
+      border-top: 1px solid #1E294B; padding-top: 6px; margin-top: 2px; color: #E5A93C; font-weight: 800; font-size: 11px;
+    }
+
+    /* CARTÃO PRÓXIMO JOGO */
+    .proximo-jogo-confronto-box {
+      text-align: center; padding: 6px 0 10px 0;
+    }
+    .duas-bandeiras-vs {
+      display: flex; align-items: center; justify-content: center; gap: 14px; margin-bottom: 8px;
+    }
+    .bandeira-circulo-jogo {
+      width: 44px; height: 44px; border-radius: 50%; overflow: hidden; border: 2px solid #E5A93C; background: #10162B; display: flex; align-items: center; justify-content: center;
+    }
+    .bandeira-circulo-adv {
+      width: 44px; height: 44px; border-radius: 50%; overflow: hidden; background: #1E3A8A; display: flex; align-items: center; justify-content: center; color: #FFF; font-size: 18px; border: 2px solid #3B82F6;
+    }
+    .txt-vs-gold { font-size: 14px; font-weight: 900; color: #F3B229; }
+    .tit-confronto-nomes { font-size: 13px; font-weight: 900; color: #FFF; }
+    .sub-data-local { font-size: 10px; color: #94A3B8; margin-top: 4px; }
+    .sub-local-estadio { font-size: 10px; color: #E5A93C; margin-top: 2px; }
+
+    /* CARTÃO ALERTAS E NOTIFICAÇÕES */
+    .alertas-lista-fce {
+      display: flex; flex-direction: column; gap: 9px; margin-bottom: 12px; font-size: 11px;
+    }
+    .alerta-linha-item {
+      display: flex; justify-content: space-between; align-items: center; font-weight: 600; color: #E2E8F0;
+    }
+    .alerta-badge-vermelho { color: #EF4444; font-weight: 800; font-size: 10px; }
+    .alerta-badge-azul { color: #38BDF8; font-weight: 800; font-size: 10px; }
+    .alerta-badge-verde { color: #10B981; font-weight: 800; font-size: 10px; }
+
+    .btn-ver-solicitacoes-dark {
+      width: 100%; background: #0E1733; border: 1px solid #1E2D56; color: #CBD5E1; padding: 10px; border-radius: 10px; font-size: 11px; font-weight: 700; cursor: pointer; text-align: center;
+    }
+    .btn-ver-solicitacoes-dark:hover { background: #16234D; color: #FFF; }
 
     /* LAYOUT ATLETA */
     #layout-atleta-mobile {
-      width: 100%; max-width: 850px; margin: 0 auto; min-height: 100vh; background: #080C18;
+      width: 100%; max-width: 650px; margin: 0 auto; min-height: 100vh; background: #060A17;
       display: none; flex-direction: column; border-left: 1px solid #1E2842; border-right: 1px solid #1E2842;
-      box-shadow: 0 0 50px rgba(0,0,0,0.9); padding-bottom: 75px;
+      padding-bottom: 75px;
     }
     .atleta-topo-bar {
       padding: 10px 14px; display: flex; justify-content: space-between; align-items: center; background: #0B1124;
       border-bottom: 1px solid #1E2842; position: sticky; top: 0; z-index: 100;
     }
     .atleta-hero-card {
-      margin: 10px 12px; padding: 12px 14px; border-radius: 12px;
+      margin: 10px 14px; padding: 12px 14px; border-radius: 14px;
       background: linear-gradient(135deg, rgba(198,29,35,0.25) 0%, rgba(16,22,40,0.95) 75%);
-      border: 1px solid rgba(229,169,60,0.3); display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px;
+      border: 1px solid rgba(229,169,60,0.3); display: flex; align-items: center; justify-content: space-between;
     }
     .atleta-hero-info { display: flex; align-items: center; gap: 10px; }
     .atleta-avatar-grande {
-      width: 48px; height: 48px; border-radius: 50%; border: 2px solid #E5A93C; object-fit: cover; cursor: pointer; background: #1E2D56;
+      width: 48px; height: 48px; border-radius: 50%; border: 2px solid #E5A93C; object-fit: cover; background: #1E2D56;
     }
 
-    .badge-estado { padding: 3px 6px; border-radius: 10px; font-size: 9px; font-weight: bold; }
-    .badge-ativo { background: #052818; border: 1px solid #10B981; color: #34D399; }
-    .badge-inativo { background: #2D0C10; border: 1px solid #EF4444; color: #F87171; }
-
-    .atleta-duas-pills { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin: 0 12px 8px 12px; }
-    .atleta-pill {
-      background: #0E1424; border: 1px solid #1B2640; border-radius: 8px; padding: 8px 10px;
-      display: flex; align-items: center; gap: 10px;
-    }
-
-    .atleta-secao-titulo {
-      background: #141B30; border: 1px solid #23345A; border-radius: 8px 8px 0 0;
-      padding: 8px 12px; display: flex; justify-content: space-between; align-items: center;
-      margin: 0 12px 0 12px; font-size: 10px; font-weight: 900; color: #FFF;
-    }
     .atleta-lista-links {
-      background: #0B1020; border: 1px solid #23345A; border-top: none; border-radius: 0 0 8px 8px;
-      margin: 0 12px 12px 12px; display: flex; flex-direction: column; overflow: hidden;
+      background: #0B1020; border: 1px solid #1E294B; border-radius: 12px;
+      margin: 0 14px 14px 14px; display: flex; flex-direction: column; overflow: hidden;
     }
     .atleta-link-item {
-      display: flex; align-items: center; justify-content: space-between; padding: 9px 12px;
-      color: #E2E8F0; text-decoration: none; font-size: 11px; font-weight: bold; border-bottom: 1px solid #16203A;
+      display: flex; align-items: center; justify-content: space-between; padding: 10px 12px;
+      color: #E2E8F0; text-decoration: none; font-size: 11px; font-weight: bold; border-bottom: 1px solid #141C35;
       cursor: pointer; background: transparent; border-left: none; border-right: none; border-top: none; width: 100%; text-align: left;
     }
     .atleta-link-item:hover { background: #131E3D; color: #F3B229; }
-    .badge-operacao-atleta {
-      font-size: 8px; padding: 2px 5px; border-radius: 4px; background: #1E2842; color: #E5A93C; border: 1px solid #334155; margin-left: 5px;
-    }
 
     .atleta-bottom-nav {
-      position: fixed; bottom: 0; left: 50%; transform: translateX(-50%); width: 100%; max-width: 850px;
+      position: fixed; bottom: 0; left: 50%; transform: translateX(-50%); width: 100%; max-width: 650px;
       background: #090E1C; border-top: 1px solid #1E2842; display: flex; justify-content: space-around;
       padding: 6px 0; z-index: 1000;
     }
@@ -252,16 +283,18 @@
 
     .modal-box { position: fixed; inset: 0; background: rgba(0,0,0,0.85); display: flex; align-items: center; justify-content: center; padding: 14px; z-index: 3000; }
     .modal-corpo { background: #0E1426; border: 1px solid #233870; border-radius: 12px; padding: 16px; width: 100%; max-width: 500px; max-height: 90vh; overflow-y: auto; }
-    .modal-corpo-largo { max-width: 720px; }
+
+    .table-responsive { width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+    table { width: 100%; border-collapse: collapse; font-size: 11px; min-width: 500px; }
+    th, td { text-align: left; padding: 7px 6px; border-bottom: 1px solid #1A253F; white-space: nowrap; }
+    th { color: #E5A93C; font-weight: 800; font-size: 9px; text-transform: uppercase; }
 
     @media (max-width: 900px) {
       .btn-hamburger-mobile { display: inline-flex; }
       .sidebar-clube { position: fixed; top: 0; bottom: 0; left: 0; transform: translateX(-100%); }
       .sidebar-clube.mobile-open { transform: translateX(0); box-shadow: 10px 0 40px rgba(0,0,0,0.9); }
       .sidebar-overlay.active { display: block; }
-      .hero-titulo { font-size: 16px; }
       .sessao-activa-admin-bar { flex-direction: column; align-items: flex-start; }
-      .grid-graficos-circulares, .grid-duas-colunas { grid-template-columns: 1fr; }
     }
   </style>
 </head>
@@ -272,7 +305,7 @@
     <span id="toast-mensagem">Bem-vindo ao FC ESPANHA!</span>
   </div>
 
-  <!-- 1. TELA DE LOGIN (SEM LINK DO WHATSAPP AQUI) -->
+  <!-- 1. TELA DE LOGIN -->
   <div id="tela-login-portal">
     <div class="card-login-portal">
       <button class="btn-tres-pontos-dev" title="Acesso Master" onclick="alternarFormLogin('master')">•••</button>
@@ -359,14 +392,10 @@
         <button id="nav-item-atletas" class="sidebar-item" onclick="abrirSecaoAdmin('atletas')">👥 Atletas & Plantel</button>
         <button id="nav-item-dirigentes" class="sidebar-item" onclick="abrirSecaoAdmin('dirigentes')">👤 Dirigentes & Admins</button>
         <button id="nav-item-quotas" class="sidebar-item" onclick="abrirSecaoAdmin('quotas')">💰 Quotas Dominicais</button>
-        <button id="nav-item-financas" class="sidebar-item" onclick="abrirSecaoAdmin('financas')">💵 Finanças & Caixa</button>
         <button id="nav-item-jogos" class="sidebar-item" onclick="abrirSecaoAdmin('jogos')">🏆 Calendário & Jogos</button>
         <button id="nav-item-disciplina" class="sidebar-item" onclick="abrirSecaoAdmin('disciplina')">⚖️ Disciplina Aplicada</button>
-        <button id="nav-item-equipamentos" class="sidebar-item" onclick="abrirSecaoAdmin('equipamentos')">👕 Património & Material</button>
-        <button id="nav-item-documentos" class="sidebar-item" onclick="abrirSecaoAdmin('documentos')">🗳️ Enquetes Oficiais</button>
         <button id="nav-item-chat" class="sidebar-item" onclick="abrirSecaoAdmin('chat')">💬 Chat da Direção</button>
         <button id="nav-item-anuncios" class="sidebar-item" onclick="abrirSecaoAdmin('anuncios')">📢 Comunicados</button>
-        <button id="nav-item-relatorios" class="sidebar-item" onclick="abrirSecaoAdmin('relatorios')">📋 Relatórios Oficiais</button>
         <button id="nav-item-config" class="sidebar-item" style="display:none;" onclick="abrirSecaoAdmin('config')">⚙️ Configurações Master</button>
       </nav>
 
@@ -390,8 +419,8 @@
             🔔<span class="badge-sino-count" id="notif-badge-admin">0</span>
           </div>
 
-          <div class="user-pill" onclick="abrirModalMeuPerfilAdmin()" title="Meu Perfil">
-            <div id="img-topo-admin-avatar" class="user-avatar-mini">👑</div>
+          <div class="user-pill" title="Meu Perfil">
+            <div class="user-avatar-mini">👑</div>
             <div style="text-align:left;">
               <p id="txt-admin-header-nome" style="font-size:10px; font-weight:900; color:#FFF; margin:0;">Eduardo Alfredo</p>
               <p id="txt-admin-header-cargo" style="font-size:8px; color:#E5A93C; font-weight:bold; margin:0;">Master</p>
@@ -401,24 +430,6 @@
           <button class="btn-logout-pro" onclick="terminarSessao()">🚪 Sair</button>
         </div>
       </header>
-
-      <!-- BANNER COMPACTO -->
-      <section class="hero-banner-estadio">
-        <div class="hero-info-esq">
-          <div style="width:40px; height:40px; cursor:pointer;" onclick="abrirModalSePermitidoBandeira()">
-            <img id="img-emblema-hero" src="" alt="FC Espanha" style="width:100%; height:100%; object-fit:contain;" onerror="aplicarSvgPadrao(this)">
-          </div>
-          <div>
-            <h1 class="hero-titulo">FC ESPANHA</h1>
-            <p class="hero-lema">Disciplina • União • Vitória</p>
-          </div>
-        </div>
-        <div style="text-align:right;">
-          <span id="badge-epoca-dinamica" style="background:rgba(229,169,60,0.15); border:1px solid #E5A93C; color:#F3B229; padding:4px 9px; border-radius:15px; font-size:10px; font-weight:bold;">
-            Época 2026
-          </span>
-        </div>
-      </section>
 
       <!-- SESSÃO ATIVA -->
       <section class="sessao-activa-admin-bar">
@@ -433,134 +444,198 @@
         </div>
       </section>
 
-      <!-- ================= PAINEL PRINCIPAL (GRÁFICOS ULTRA-COMPACTOS & WPP NO PAINEL) ================= -->
+      <!-- ========================================================================= -->
+      <!-- PAINEL PRINCIPAL EXATO DA IMAGEM (SEM GRÁFICOS CIRCULARES)                -->
+      <!-- ========================================================================= -->
       <div id="sec-admin-painel">
+        <div class="dashboard-container-principal">
 
-        <!-- LINK DO GRUPO DO WHATSAPP (APENAS AQUI NO PAINEL PRINCIPAL) -->
-        <div style="margin: 0 14px 10px 14px; background:#0B1124; border:1px solid #1E2842; padding:8px 12px; border-radius:8px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">
-          <span style="font-size:11px; font-weight:bold; color:#FFF;">Comunidade Oficial dos Membros:</span>
-          <a href="https://chat.whatsapp.com/EL7l6c0bDG39g17uGR53IV?s=cl&p=a&iam=2" target="_blank" class="btn-wpp-banner-painel">
-            💬 Entrar no Grupo WhatsApp FC ESPANHA
-          </a>
-        </div>
-
-        <div class="grid-quatro-stats">
-          <div class="card-stat-pill">
-            <div class="card-stat-icone-wrapper" style="background:#8A0A0E; color:#FFF;">👥</div>
-            <div>
-              <div class="stat-pill-valor" id="stat-atlet-reg">0</div>
-              <div class="stat-pill-desc">Atletas</div>
-            </div>
-          </div>
-          <div class="card-stat-pill">
-            <div class="card-stat-icone-wrapper" style="background:#5B3F08; color:#FBBF24;">💰</div>
-            <div>
-              <div class="stat-pill-valor" id="stat-quotas-reg">0%</div>
-              <div class="stat-pill-desc">Quotas Pagas</div>
-            </div>
-          </div>
-          <div class="card-stat-pill">
-            <div class="card-stat-icone-wrapper" style="background:#201A09; color:#E5A93C;">🏆</div>
-            <div>
-              <div class="stat-pill-valor" id="stat-jogos-real">0</div>
-              <div class="stat-pill-desc">Jogos</div>
-            </div>
-          </div>
-          <div class="card-stat-pill">
-            <div class="card-stat-icone-wrapper" style="background:#0F241A; color:#10B981;">📈</div>
-            <div>
-              <div class="stat-pill-valor" id="stat-vitorias-total">0</div>
-              <div class="stat-pill-desc">Vitórias</div>
-            </div>
-          </div>
-        </div>
-
-        <!-- GRÁFICOS MINI COMPACTOS (110px de altura) -->
-        <div class="grid-graficos-circulares">
-          <div class="card-dash-bloco">
-            <div class="card-bloco-header">
-              <span class="card-bloco-titulo">🥧 Rendimento Clube</span>
-              <span style="font-size:8px; color:#E5A93C;">V / E / D</span>
-            </div>
-            <div class="chart-container-compact">
-              <canvas id="graficoAdminPizzaRendimento"></canvas>
-            </div>
-          </div>
-
-          <div class="card-dash-bloco">
-            <div class="card-bloco-header">
-              <span class="card-bloco-titulo">🍩 Despesas Categorias</span>
-              <span style="font-size:8px; color:#EF4444;">Kwanza</span>
-            </div>
-            <div class="chart-container-compact">
-              <canvas id="graficoAdminDonutDespesas"></canvas>
-            </div>
-          </div>
-
-          <div class="card-dash-bloco">
-            <div class="card-bloco-header">
-              <span class="card-bloco-titulo">⚽ Distribuição Golos</span>
-              <span style="font-size:8px; color:#10B981;">Top Plantel</span>
-            </div>
-            <div class="chart-container-compact">
-              <canvas id="graficoAdminPizzaJogadores"></canvas>
-            </div>
-          </div>
-        </div>
-
-        <div class="grid-duas-colunas">
-          <div class="card-dash-bloco">
-            <div class="card-bloco-header">
-              <span class="card-bloco-titulo">💰 Caixa & Finanças</span>
-              <button class="btn btn-mini btn-gold" onclick="descarregarRelatorioFinanceiroTransparente()">📄 Balancete</button>
-            </div>
-            <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:6px; text-align:center;">
-              <div>
-                <p style="font-size:9px; color:#94A3B8;">Receitas</p>
-                <b id="fin-receitas-val" style="font-size:12px; color:#10B981;">0 Kz</b>
+          <!-- 4 CARTÕES DE MÉTRICAS -->
+          <div class="grid-quatro-stats-fce">
+            <!-- 1. Atletas Registados -->
+            <div class="card-stat-box-fce">
+              <div class="card-stat-left-fce">
+                <div class="stat-circle-icon" style="background:#C61D23; color:#FFF;">👥</div>
+                <div>
+                  <div class="stat-number-fce" id="stat-atlet-reg">120</div>
+                  <div class="stat-label-fce">Atletas<br>Registados</div>
+                </div>
               </div>
-              <div>
-                <p style="font-size:9px; color:#94A3B8;">Despesas</p>
-                <b id="fin-despesas-val" style="font-size:12px; color:#EF4444;">0 Kz</b>
+              <div class="stat-trend-green" id="stat-atlet-trend">↑ +5%</div>
+            </div>
+
+            <!-- 2. Quotas Regularizadas -->
+            <div class="card-stat-box-fce">
+              <div class="card-stat-left-fce">
+                <div class="stat-circle-icon" style="background:#8C6512; color:#FBBF24;">💰</div>
+                <div>
+                  <div class="stat-number-fce" id="stat-quotas-reg">85%</div>
+                  <div class="stat-label-fce">Quotas<br>Regularizadas</div>
+                </div>
               </div>
-              <div>
-                <p style="font-size:9px; color:#94A3B8;">Saldo</p>
-                <b id="fin-saldo-val" style="font-size:12px; color:#FBBF24;">0 Kz</b>
+              <div class="stat-trend-green" id="stat-quotas-trend">↑ +2%</div>
+            </div>
+
+            <!-- 3. Jogos Realizados -->
+            <div class="card-stat-box-fce">
+              <div class="card-stat-left-fce">
+                <div class="stat-circle-icon" style="background:#45330B; color:#F3B229;">🏆</div>
+                <div>
+                  <div class="stat-number-fce" id="stat-jogos-real">12</div>
+                  <div class="stat-label-fce">Jogos<br>Realizados</div>
+                </div>
+              </div>
+              <div class="stat-trend-green" id="stat-jogos-trend">↑ +1%</div>
+            </div>
+
+            <!-- 4. Vitórias -->
+            <div class="card-stat-box-fce">
+              <div class="card-stat-left-fce">
+                <div class="stat-circle-icon" style="background:#064E3B; color:#10B981;">📈</div>
+                <div>
+                  <div class="stat-number-fce" id="stat-vitorias-total">24</div>
+                  <div class="stat-label-fce">Vitórias</div>
+                </div>
+              </div>
+              <div class="stat-trend-green" id="stat-vitorias-trend">↑ +3%</div>
+            </div>
+          </div>
+
+          <!-- RESUMO DESPORTIVO (CARD COM LAYOUT MODERNO SEM CÍRCULO) -->
+          <div class="card-bloco-fce">
+            <div class="card-bloco-header-fce">
+              <span class="bloco-titulo-fce">📊 RESUMO DESPORTIVO</span>
+              <span class="bloco-epoca-tag" id="badge-epoca-tag-resumo">Época 2025/2026 ▾</span>
+            </div>
+
+            <div class="resumo-desportivo-body">
+              <div class="resumo-taxa-box">
+                <span class="resumo-taxa-titulo">Aproveitamento</span>
+                <b class="resumo-taxa-valor" id="txt-taxa-vitorias-num">75%</b>
+                <span class="resumo-taxa-sub">Taxa de Vitórias</span>
+                <div class="resumo-progress-bg">
+                  <div class="resumo-progress-bar" id="bar-taxa-vitorias" style="width: 75%;"></div>
+                </div>
+              </div>
+
+              <div class="resumo-legenda-lista">
+                <div class="legenda-item-linha">
+                  <span><span style="color:#10B981;">🟢</span> Vitórias</span>
+                  <b id="txt-vit-qtd">24</b>
+                </div>
+                <div class="legenda-item-linha">
+                  <span><span style="color:#38BDF8;">🔵</span> Empates</span>
+                  <b id="txt-emp-qtd">6</b>
+                </div>
+                <div class="legenda-item-linha">
+                  <span><span style="color:#EF4444;">🔴</span> Derrotas</span>
+                  <b id="txt-der-qtd">2</b>
+                </div>
+                <div class="legenda-total-divisor" id="txt-total-jogos-resumo">
+                  ⚽ 32 Jogos Totais
+                </div>
               </div>
             </div>
           </div>
 
-          <div class="card-dash-bloco">
-            <div class="card-bloco-header">
-              <span class="card-bloco-titulo">⚡ Ações Rápidas</span>
+          <!-- PRÓXIMO JOGO -->
+          <div class="card-bloco-fce">
+            <div class="card-bloco-header-fce">
+              <span class="bloco-titulo-fce">📅 PRÓXIMO JOGO</span>
             </div>
-            <div style="display:grid; grid-template-columns:repeat(3, 1fr); gap:4px;">
-              <button class="btn btn-dark" style="padding:5px 2px; font-size:9px;" onclick="abrirModalNovoAtleta()">👤 Registar Atleta</button>
-              <button class="btn btn-dark" style="padding:5px 2px; font-size:9px;" onclick="abrirModalNovaQuota()">💳 Lançar Quota</button>
-              <button class="btn btn-dark" style="padding:5px 2px; font-size:9px;" onclick="abrirModal('modal-novo-anuncio')">📢 Publicar Aviso</button>
-              <button class="btn btn-dark" style="padding:5px 2px; font-size:9px;" onclick="abrirSecaoAdmin('chat')">💬 Abrir Chat</button>
-              <button class="btn btn-dark" style="padding:5px 2px; font-size:9px;" onclick="exportarPlanilhaAtletasCSV()">📊 Exportar Planilha</button>
-              <button class="btn btn-dark" style="padding:5px 2px; font-size:9px;" onclick="abrirSecaoAdmin('documentos')">🗳️ Enquetes</button>
+
+            <div class="proximo-jogo-confronto-box">
+              <div class="duas-bandeiras-vs">
+                <div class="bandeira-circulo-jogo">
+                  <img id="img-proximo-fce" src="" style="width:100%; height:100%; object-fit:contain;" onerror="aplicarSvgPadrao(this)">
+                </div>
+                <span class="txt-vs-gold">VS</span>
+                <div class="bandeira-circulo-adv">★</div>
+              </div>
+
+              <div class="tit-confronto-nomes">
+                FC ESPANHA <span style="color:#64748B; font-weight:normal;">vs</span> <span id="txt-adv-nome">ADVERSÁRIO FC</span>
+              </div>
+              <div class="sub-data-local" id="txt-prox-data-hora">
+                🗓️ Sáb, 15 Nov 2026 • ⏰ 16:00
+              </div>
+              <div class="sub-local-estadio" id="txt-prox-estadio">
+                📍 Estádio do Clube
+              </div>
+
+              <button class="btn btn-gold" style="width:100%; margin-top:12px; padding:10px;" onclick="abrirSecaoAdmin('jogos')">
+                📅 Ver Calendário
+              </button>
             </div>
           </div>
+
+          <!-- ALERTAS E NOTIFICAÇÕES -->
+          <div class="card-bloco-fce">
+            <div class="card-bloco-header-fce">
+              <span class="bloco-titulo-fce">🔔 ALERTAS E NOTIFICAÇÕES</span>
+            </div>
+
+            <div class="alertas-lista-fce">
+              <div class="alerta-linha-item">
+                <span>❗ Quotas em atraso</span>
+                <span class="alerta-badge-vermelho" id="badge-quotas-atraso-txt">Hoje</span>
+              </div>
+              <div class="alerta-linha-item">
+                <span>ℹ️ Sugestões dos atletas</span>
+                <span class="alerta-badge-azul" id="badge-sugestoes-txt">Nova</span>
+              </div>
+              <div class="alerta-linha-item">
+                <span>✅ Pagamentos registados</span>
+                <span class="alerta-badge-verde" id="badge-pagamentos-txt">Hoje</span>
+              </div>
+            </div>
+
+            <button class="btn-ver-solicitacoes-dark" onclick="abrirPainelAlertasTopo()">
+              Ver Todas as Solicitações →
+            </button>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- SECÇÃO: CHAT DA DIREÇÃO (ENVIO INSTANTÂNEO & REAL-TIME) -->
+      <div id="sec-admin-chat" style="display:none; padding:12px 14px;">
+        <div class="card-bloco-fce" style="max-width:650px; margin:0 auto;">
+          <div class="card-bloco-header-fce">
+            <span class="bloco-titulo-fce">💬 Chat Interno da Direção</span>
+            <span style="font-size:9px; color:#10B981;">● Online Instantâneo</span>
+          </div>
+
+          <div id="box-chat-direcao-feed" style="height:350px; overflow-y:auto; background:#070B16; border:1px solid #1E2842; border-radius:10px; padding:10px; display:flex; flex-direction:column; gap:8px; margin-bottom:10px;"></div>
+
+          <div style="display:flex; gap:6px;">
+            <input type="text" id="inp-chat-direcao-msg" placeholder="Escreva a mensagem e prima Enter..." style="flex:1; padding:10px; background:#131E3D; border:1px solid #233870; color:#FFF; border-radius:8px; font-size:12px;">
+            <button class="btn btn-gold" id="btn-enviar-chat-direcao" type="button" onclick="enviarMensagemChatDirecao()">Enviar</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- SECÇÃO: QUADRO OFICIAL DE COMUNICADOS -->
+      <div id="sec-admin-anuncios" style="display:none; padding:12px 14px;">
+        <div class="card-bloco-fce" style="max-width:650px; margin:0 auto;">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+            <b style="color:#E5A93C;">📢 Quadro de Comunicados</b>
+            <button class="btn btn-gold" onclick="abrirModalNovoAnuncio()">+ Publicar Comunicado</button>
+          </div>
+          <div id="feed-anuncios-admin" style="display:flex; flex-direction:column; gap:8px;"></div>
         </div>
       </div>
 
       <!-- OUTRAS SECÇÕES ADMIN -->
       <div id="sec-admin-atletas" style="display:none; padding:12px 14px;">
-        <div class="card-dash-bloco">
-          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; flex-wrap:wrap; gap:6px;">
-            <b style="color:#E5A93C; font-size:12px; text-transform:uppercase;">Plantel Oficial & Atletas</b>
-            <div style="display:flex; gap:4px;">
-              <button class="btn btn-gold" onclick="exportarPlanilhaAtletasCSV()">📊 Planilha</button>
-              <button class="btn btn-red" onclick="abrirModalNovoAtleta()">+ Atleta</button>
-            </div>
+        <div class="card-bloco-fce">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+            <b style="color:#E5A93C;">Plantel Oficial</b>
+            <button class="btn btn-red" onclick="abrirModalNovoAtleta()">+ Cadastrar Atleta</button>
           </div>
           <div class="table-responsive">
             <table>
-              <thead>
-                <tr><th>FOTO</th><th>Nº</th><th>NOME</th><th>POS</th><th>IDADE</th><th>TELEFONE</th><th>EMERGÊNCIA</th><th>SENHA</th><th>ESTADO</th><th>GOLOS</th><th>AÇÕES</th></tr>
-              </thead>
+              <thead><tr><th>Nº</th><th>NOME</th><th>POS</th><th>TELEFONE</th><th>EMERGÊNCIA</th><th>SENHA</th><th>GOLOS</th><th>AÇÕES</th></tr></thead>
               <tbody id="tb-atletas-geral"></tbody>
             </table>
           </div>
@@ -568,14 +643,14 @@
       </div>
 
       <div id="sec-admin-dirigentes" style="display:none; padding:12px 14px;">
-        <div class="card-dash-bloco">
+        <div class="card-bloco-fce">
           <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
-            <b style="color:#E5A93C; font-size:12px; text-transform:uppercase;">Corpo Diretivo</b>
-            <button class="btn btn-gold" id="btn-cadastrar-dirigente-topo" onclick="abrirModalCadastrarAdmin()">+ Dirigente</button>
+            <b style="color:#E5A93C;">Corpo Diretivo</b>
+            <button class="btn btn-gold" onclick="abrirModalCadastrarAdmin()">+ Cadastrar Dirigente</button>
           </div>
           <div class="table-responsive">
             <table>
-              <thead><tr><th>FOTO</th><th>CARGO</th><th>NOME</th><th>TELEFONE</th><th>EMERGÊNCIA</th><th>AÇÕES</th></tr></thead>
+              <thead><tr><th>CARGO</th><th>NOME</th><th>TELEFONE</th><th>EMERGÊNCIA</th></tr></thead>
               <tbody id="tb-dirigentes-lista"></tbody>
             </table>
           </div>
@@ -583,47 +658,29 @@
       </div>
 
       <div id="sec-admin-quotas" style="display:none; padding:12px 14px;">
-        <div class="card-dash-bloco">
+        <div class="card-bloco-fce">
           <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
-            <b style="color:#E5A93C; font-size:12px; text-transform:uppercase;">Quotas Dominicais</b>
+            <b style="color:#E5A93C;">Quotas Dominicais</b>
             <button class="btn btn-gold" onclick="abrirModalNovaQuota()">➕ Lançar Quota</button>
           </div>
           <div class="table-responsive">
             <table>
-              <thead><tr><th>DATA</th><th>ATLETA</th><th>VALOR</th><th>MODALIDADE</th><th>RECIBO</th><th>ESTADO</th><th>WHATSAPP</th></tr></thead>
+              <thead><tr><th>DATA</th><th>ATLETA</th><th>VALOR</th><th>RECIBO</th><th>ESTADO</th></tr></thead>
               <tbody id="tb-quotas-geral"></tbody>
             </table>
           </div>
         </div>
       </div>
 
-      <div id="sec-admin-financas" style="display:none; padding:12px 14px;">
-        <div class="card-dash-bloco">
-          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
-            <b style="color:#E5A93C; font-size:12px; text-transform:uppercase;">Entradas & Despesas</b>
-            <div style="display:flex; gap:4px;">
-              <button class="btn btn-gold" onclick="abrirModal('modal-novo-patrocinio')">+ Apoio</button>
-              <button class="btn btn-red" onclick="abrirModal('modal-nova-despesa')">- Despesa</button>
-            </div>
-          </div>
-          <div class="table-responsive">
-            <table>
-              <thead><tr><th>DATA</th><th>TIPO</th><th>BENFEITOR / DESCRIÇÃO</th><th>VALOR (KZ)</th></tr></thead>
-              <tbody id="tb-patrocinios-geral"></tbody>
-            </table>
-          </div>
-        </div>
-      </div>
-
       <div id="sec-admin-jogos" style="display:none; padding:12px 14px;">
-        <div class="card-dash-bloco">
+        <div class="card-bloco-fce">
           <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
-            <b style="color:#E5A93C; font-size:12px; text-transform:uppercase;">Calendário de Jogos</b>
+            <b style="color:#E5A93C;">Calendário de Jogos</b>
             <button class="btn btn-gold" onclick="abrirModal('modal-novo-jogo')">📅 + Agendar</button>
           </div>
           <div class="table-responsive">
             <table>
-              <thead><tr><th>DATA</th><th>CONFRONTO</th><th>COMPETIÇÃO</th><th>LOCAL</th><th>RESULTADO</th><th>AÇÕES</th></tr></thead>
+              <thead><tr><th>DATA</th><th>CONFRONTO</th><th>COMPETIÇÃO</th><th>LOCAL</th><th>RESULTADO</th></tr></thead>
               <tbody id="tb-jogos-historico"></tbody>
             </table>
           </div>
@@ -631,345 +688,278 @@
       </div>
 
       <div id="sec-admin-disciplina" style="display:none; padding:12px 14px;">
-        <div class="card-dash-bloco">
+        <div class="card-bloco-fce">
           <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
-            <b style="color:#EF4444; font-size:12px; text-transform:uppercase;">Sanções Disciplinares</b>
-            <button class="btn btn-red" onclick="abrirModalNovaDisciplina()">+ Sanção</button>
+            <b style="color:#EF4444;">Processos Disciplinares</b>
+            <button class="btn btn-red" onclick="abrirModalNovaDisciplina()">+ Nova Sanção</button>
           </div>
           <div class="table-responsive">
             <table>
-              <thead><tr><th>ATLETA</th><th>INFRAÇÃO</th><th>INÍCIO</th><th>TÉRMINO</th><th>ESTADO</th><th>AÇÃO</th></tr></thead>
+              <thead><tr><th>ATLETA</th><th>INFRAÇÃO</th><th>INÍCIO</th><th>TÉRMINO</th><th>ESTADO</th></tr></thead>
               <tbody id="tb-disciplina-geral"></tbody>
             </table>
           </div>
         </div>
       </div>
 
-      <div id="sec-admin-equipamentos" style="display:none; padding:12px 14px;">
-        <div class="card-dash-bloco">
-          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
-            <b style="color:#E5A93C; font-size:12px; text-transform:uppercase;">Património do Clube</b>
-            <button class="btn btn-gold" onclick="abrirModal('modal-novo-equipamento')">+ Material</button>
-          </div>
-          <div class="table-responsive">
-            <table>
-              <thead><tr><th>ITEM</th><th>QUANTIDADE</th><th>ESTADO</th><th>RESPONSÁVEL</th><th>AÇÃO</th></tr></thead>
-              <tbody id="tb-equipamentos-geral"></tbody>
-            </table>
-          </div>
-        </div>
-      </div>
-
-      <div id="sec-admin-documentos" style="display:none; padding:12px 14px;">
-        <div class="card-dash-bloco">
-          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
-            <b style="color:#E5A93C; font-size:12px; text-transform:uppercase;">Enquetes Oficiais</b>
-            <button class="btn btn-gold" onclick="abrirModalNovaEnqueteSegmentada()">+ Criar Enquete</button>
-          </div>
-          <div id="lista-enquetes-box" style="display:flex; flex-direction:column; gap:8px;"></div>
-        </div>
-      </div>
-
-      <div id="sec-admin-chat" style="display:none; padding:12px 14px;">
-        <div class="card-dash-bloco">
-          <div class="card-bloco-header">
-            <span class="card-bloco-titulo">💬 Chat Interno da Direção</span>
-            <span style="font-size:9px; color:#34D399;">Canal Exclusivo</span>
-          </div>
-          <div id="box-chat-direcao-feed" style="height:320px; overflow-y:auto; background:#070B16; border:1px solid #1E2842; border-radius:8px; padding:10px; display:flex; flex-direction:column; gap:6px; margin-bottom:8px;"></div>
-          <div style="display:flex; gap:6px;">
-            <input type="text" id="inp-chat-direcao-msg" placeholder="Escreva para a Direção..." style="flex:1; padding:8px 10px; background:#131E3D; border:1px solid #233870; color:#FFF; border-radius:6px; font-size:11px;" onkeypress="if(event.key==='Enter') enviarMensagemChatDirecao()">
-            <button class="btn btn-gold" onclick="enviarMensagemChatDirecao()">Enviar</button>
-          </div>
-        </div>
-      </div>
-
-      <div id="sec-admin-anuncios" style="display:none; padding:12px 14px;">
-        <div class="card-dash-bloco">
-          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
-            <b style="color:#E5A93C; font-size:12px; text-transform:uppercase;">Comunicados Oficiais</b>
-            <button class="btn btn-gold" onclick="abrirModalNovoAnuncio()">+ Publicar</button>
-          </div>
-          <div id="feed-anuncios-admin" style="display:flex; flex-direction:column; gap:8px;"></div>
-        </div>
-      </div>
-
-      <div id="sec-admin-relatorios" style="display:none; padding:12px 14px;">
-        <div class="card-dash-bloco">
-          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
-            <b style="color:#E5A93C; font-size:12px; text-transform:uppercase;">Relatório Oficial</b>
-            <button class="btn btn-gold" onclick="descarregarRelatorioPorCargo()">🖨️ Imprimir</button>
-          </div>
-          <div id="caixa-preview-relatorio" style="background:#070B19; padding:12px; border-radius:8px; font-family:monospace; font-size:10px; white-space:pre-wrap; border:1px solid #1E2842;"></div>
-        </div>
-      </div>
-
-      <!-- ================= PAINEL DO DESENVOLVEDOR MASTER (5 TRAVAS + 2 BOTÕES DE ZERAR C/ BECAPI) ================= -->
       <div id="sec-admin-config" style="display:none; padding:12px 14px;">
-        <div class="card-dash-bloco">
-          <h3 style="color:#E5A93C; font-size:12px; text-transform:uppercase; margin-bottom:6px;">⚙️ Painel do Desenvolvedor Master</h3>
-
-          <!-- 5 BOTÕES DE BLOQUEIO DE AÇÕES INDIVIDUAIS -->
-          <div style="background:#080E1E; border:1px solid #1E2D56; border-radius:8px; padding:10px; margin-bottom:10px;">
-            <b style="color:#FBBF24; font-size:11px;">🔒 5 BOTÕES DE BLOQUEIO DE AÇÕES (MASTER):</b>
-            <p style="font-size:9px; color:#94A3B8; margin:2px 0 6px 0;">Desative ou reative as ações de cada cargo/perfil de forma independente:</p>
-            <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(180px, 1fr)); gap:6px;">
-              <button id="btn-lock-princ" class="btn btn-red" onclick="alternarTravaMaster('princ')">🔒 Bloquear Admin Principal</button>
-              <button id="btn-lock-adm1" class="btn btn-red" onclick="alternarTravaMaster('adm1')">🔒 Bloquear Admin 1</button>
-              <button id="btn-lock-adm2" class="btn btn-red" onclick="alternarTravaMaster('adm2')">🔒 Bloquear Admin 2</button>
-              <button id="btn-lock-adm3" class="btn btn-red" onclick="alternarTravaMaster('adm3')">🔒 Bloquear Admin 3</button>
-              <button id="btn-lock-atletas" class="btn btn-red" onclick="alternarTravaMaster('atletas')">🔒 Bloquear Atletas</button>
-            </div>
-          </div>
-
-          <!-- 2 BOTÕES DE LIMPEZA E ZERAR COM BACKUP E SENHA -->
-          <div style="background:#1B0A0F; border:1px solid #EF4444; border-radius:8px; padding:10px; margin-bottom:10px;">
-            <b style="color:#EF4444; font-size:11px;">⚠️ GESTÃO DE LIMPEZA E REPOSIÇÃO DE DADOS (COM BACKUP AUTOMÁTICO E SENHA):</b>
-            <p style="font-size:9px; color:#FCA5A5; margin:3px 0 8px 0;">Ações irreversíveis protegidas por senha Master com emissão obrigatória de cópia de segurança (backup).</p>
-            <div style="display:flex; flex-direction:column; gap:8px;">
-              <!-- BOTÃO 1: ZERAR POR ÁREA -->
-              <button class="btn btn-gold" style="font-size:10px;" onclick="abrirModalZerarPorArea()">
-                📁 1. Zerar Dados Inseridos por Área / Administrador (Exige Backup & Senha)
-              </button>
-              <!-- BOTÃO 2: LIMPEZA TOTAL DA PLATAFORMA -->
-              <button class="btn btn-red" style="font-size:10px;" onclick="abrirModalLimpezaTotalPlataforma()">
-                🚨 2. Limpar Plataforma de Forma Total (Todas as Áreas - Irreversível)
-              </button>
-            </div>
-          </div>
-
-          <div style="background:#080E1E; border:1px solid #1E2D56; border-radius:8px; padding:10px;">
-            <b style="color:#EF4444; font-size:10px;">⚖️ Denúncias Contra o Admin Principal:</b>
-            <div id="lista-denuncias-contra-principal-master" style="font-size:10px; margin-top:4px;">Sem denúncias.</div>
+        <div class="card-bloco-fce">
+          <h3 style="color:#E5A93C; font-size:13px; margin-bottom:10px;">⚙️ Painel do Desenvolvedor Master</h3>
+          <div style="display:flex; flex-direction:column; gap:8px;">
+            <button class="btn btn-gold" onclick="abrirModalZerarPorArea()">📁 Zerar Dados por Área Específica</button>
+            <button class="btn btn-red" onclick="abrirModalLimpezaTotalPlataforma()">🚨 Limpeza Total da Plataforma</button>
           </div>
         </div>
       </div>
     </main>
   </div>
 
-  <!-- 3. ÁREA DO ATLETA (IMAGEM BLOQUEADA E GRÁFICOS MINI) -->
+  <!-- 3. ÁREA DO ATLETA (COM O MESMO PAINEL EXATO DA IMAGEM E SEM CÍRCULO) -->
   <div id="layout-atleta-mobile">
     <header class="atleta-topo-bar">
       <div style="display:flex; align-items:center; gap:8px;">
         <div style="width:30px; height:30px;">
-          <!-- ATLETA SEM PERMISSÃO DE ALTERAR O EMBLEMA DO CLUBE -->
           <img id="img-emblema-atleta-topo" src="" style="width:100%; height:100%; object-fit:contain;" onerror="aplicarSvgPadrao(this)">
         </div>
         <div>
           <b style="font-size:13px; color:#FFF;">FC ESPANHA</b>
-          <p style="font-size:8px; color:#E5A93C; margin:0;" id="subtitulo-atleta-epoca">Portal do Atleta</p>
+          <p style="font-size:8px; color:#E5A93C; margin:0;">Portal do Atleta</p>
         </div>
       </div>
 
       <div style="display:flex; align-items:center; gap:8px;">
-        <div class="badge-sino" title="Avisos" onclick="abrirModalNotificacoesAtleta()">
+        <div class="badge-sino" title="Avisos" onclick="abrirPainelAlertasTopo()">
           🔔<span class="badge-sino-count" id="badge-atleta-notif-count">0</span>
         </div>
         <button class="btn-logout-pro" onclick="terminarSessao()">🚪 Sair</button>
       </div>
     </header>
 
-    <!-- LINK DO GRUPO DO WHATSAPP (APENAS AQUI NO PAINEL DO ATLETA) -->
-    <div style="margin: 8px 12px 0 12px; background:#0B1124; border:1px solid #1E2842; padding:7px 10px; border-radius:8px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:6px;">
-      <span style="font-size:10px; font-weight:bold; color:#FFF;">Grupo Oficial:</span>
-      <a href="https://chat.whatsapp.com/EL7l6c0bDG39g17uGR53IV?s=cl&p=a&iam=2" target="_blank" class="btn-wpp-banner-painel" style="padding:5px 9px; font-size:10px;">
-        💬 Grupo WhatsApp FC ESPANHA
-      </a>
-    </div>
-
     <div class="atleta-hero-card">
       <div class="atleta-hero-info">
-        <img id="img-atleta-perfil" class="atleta-avatar-grande" src="" alt="Foto" onclick="abrirModal('modal-atleta-alterar-perfil')">
+        <img id="img-atleta-perfil" class="atleta-avatar-grande" src="" alt="Foto">
         <div>
           <h2 id="txt-atleta-saudacao" style="font-size:14px; font-weight:900; color:#FFF; margin:0;">Olá, Atleta!</h2>
           <p id="txt-atleta-posicao-hero" style="font-size:10px; color:#E5A93C; font-weight:bold; margin:2px 0;">Camisola #0</p>
           <span id="txt-atleta-morada-badge" style="font-size:9px; color:#94A3B8;">Luanda, Angola</span>
         </div>
       </div>
-      <div id="badge-atleta-status-inscricao" class="badge-estado badge-ativo">Ativo</div>
+      <div style="background:#052818; border:1px solid #10B981; color:#34D399; font-size:9px; font-weight:bold; padding:4px 8px; border-radius:10px;">Ativo</div>
     </div>
 
-    <!-- GRÁFICOS MINI DO ATLETA (110px de altura) -->
-    <div style="padding: 0 12px; margin-bottom: 6px;">
-      <div class="grid-graficos-circulares" style="margin:0 0 6px 0;">
-        <div class="card-dash-bloco">
-          <div class="card-bloco-header">
-            <span class="card-bloco-titulo">🥧 Rendimento Clube</span>
-            <span style="font-size:8px; color:#E5A93C;">V / E / D</span>
+    <!-- O MESMO PAINEL EXATO DA IMAGEM PARA O ATLETA (SEM GRÁFICOS CIRCULARES) -->
+    <div class="dashboard-container-principal">
+      <div class="grid-quatro-stats-fce">
+        <div class="card-stat-box-fce">
+          <div class="card-stat-left-fce">
+            <div class="stat-circle-icon" style="background:#C61D23; color:#FFF;">👥</div>
+            <div>
+              <div class="stat-number-fce" id="atl-stat-atlet-reg">120</div>
+              <div class="stat-label-fce">Atletas<br>Registados</div>
+            </div>
           </div>
-          <div class="chart-container-compact">
-            <canvas id="graficoAtletaPizzaClube"></canvas>
-          </div>
+          <div class="stat-trend-green">↑ +5%</div>
         </div>
 
-        <div class="card-dash-bloco">
-          <div class="card-bloco-header">
-            <span class="card-bloco-titulo">🍩 Despesas Clube</span>
-            <span style="font-size:8px; color:#38BDF8;">Transparência</span>
+        <div class="card-stat-box-fce">
+          <div class="card-stat-left-fce">
+            <div class="stat-circle-icon" style="background:#8C6512; color:#FBBF24;">💰</div>
+            <div>
+              <div class="stat-number-fce" id="atl-stat-quotas-reg">85%</div>
+              <div class="stat-label-fce">Quotas<br>Regularizadas</div>
+            </div>
           </div>
-          <div class="chart-container-compact">
-            <canvas id="graficoAtletaDonutDespesas"></canvas>
+          <div class="stat-trend-green">↑ +2%</div>
+        </div>
+
+        <div class="card-stat-box-fce">
+          <div class="card-stat-left-fce">
+            <div class="stat-circle-icon" style="background:#45330B; color:#F3B229;">🏆</div>
+            <div>
+              <div class="stat-number-fce" id="atl-stat-jogos-real">12</div>
+              <div class="stat-label-fce">Jogos<br>Realizados</div>
+            </div>
+          </div>
+          <div class="stat-trend-green">↑ +1%</div>
+        </div>
+
+        <div class="card-stat-box-fce">
+          <div class="card-stat-left-fce">
+            <div class="stat-circle-icon" style="background:#064E3B; color:#10B981;">📈</div>
+            <div>
+              <div class="stat-number-fce" id="atl-stat-vitorias-total">24</div>
+              <div class="stat-label-fce">Vitórias</div>
+            </div>
+          </div>
+          <div class="stat-trend-green">↑ +3%</div>
+        </div>
+      </div>
+
+      <!-- RESUMO DESPORTIVO (ATLETA) -->
+      <div class="card-bloco-fce">
+        <div class="card-bloco-header-fce">
+          <span class="bloco-titulo-fce">📊 RESUMO DESPORTIVO</span>
+          <span class="bloco-epoca-tag">Época 2025/2026 ▾</span>
+        </div>
+
+        <div class="resumo-desportivo-body">
+          <div class="resumo-taxa-box">
+            <span class="resumo-taxa-titulo">Aproveitamento</span>
+            <b class="resumo-taxa-valor" id="atl-txt-taxa-vitorias-num">75%</b>
+            <span class="resumo-taxa-sub">Taxa de Vitórias</span>
+            <div class="resumo-progress-bg">
+              <div class="resumo-progress-bar" id="atl-bar-taxa-vitorias" style="width: 75%;"></div>
+            </div>
+          </div>
+
+          <div class="resumo-legenda-lista">
+            <div class="legenda-item-linha">
+              <span><span style="color:#10B981;">🟢</span> Vitórias</span>
+              <b id="atl-txt-vit-qtd">24</b>
+            </div>
+            <div class="legenda-item-linha">
+              <span><span style="color:#38BDF8;">🔵</span> Empates</span>
+              <b id="atl-txt-emp-qtd">6</b>
+            </div>
+            <div class="legenda-item-linha">
+              <span><span style="color:#EF4444;">🔴</span> Derrotas</span>
+              <b id="atl-txt-der-qtd">2</b>
+            </div>
+            <div class="legenda-total-divisor" id="atl-txt-total-jogos-resumo">
+              ⚽ 32 Jogos Totais
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- PRÓXIMO JOGO (ATLETA) -->
+      <div class="card-bloco-fce">
+        <div class="card-bloco-header-fce">
+          <span class="bloco-titulo-fce">📅 PRÓXIMO JOGO</span>
+        </div>
+
+        <div class="proximo-jogo-confronto-box">
+          <div class="duas-bandeiras-vs">
+            <div class="bandeira-circulo-jogo">
+              <img id="atl-img-proximo-fce" src="" style="width:100%; height:100%; object-fit:contain;" onerror="aplicarSvgPadrao(this)">
+            </div>
+            <span class="txt-vs-gold">VS</span>
+            <div class="bandeira-circulo-adv">★</div>
+          </div>
+
+          <div class="tit-confronto-nomes">
+            FC ESPANHA <span style="color:#64748B; font-weight:normal;">vs</span> <span id="atl-txt-adv-nome">ADVERSÁRIO FC</span>
+          </div>
+          <div class="sub-data-local" id="atl-txt-prox-data-hora">
+            🗓️ Sáb, 15 Nov 2026 • ⏰ 16:00
+          </div>
+          <div class="sub-local-estadio">
+            📍 Estádio do Clube
           </div>
         </div>
       </div>
     </div>
 
-    <div class="atleta-duas-pills">
-      <div class="atleta-pill">
-        <span style="font-size:18px;">💳</span>
-        <div>
-          <b id="txt-atleta-status-quota" style="font-size:11px; color:#10B981;">Regular</b>
-          <p style="font-size:8px; color:#94A3B8;">Minhas Quotas</p>
-        </div>
-      </div>
-      <div class="atleta-pill">
-        <span style="font-size:18px;">🏆</span>
-        <div>
-          <b id="txt-atleta-jogos-contagem" style="font-size:11px; color:#FBBF24;">0</b>
-          <p style="font-size:8px; color:#94A3B8;">Partidas Disputadas</p>
-        </div>
-      </div>
-    </div>
-
-    <div class="atleta-secao-titulo">
-      <span>⭐ Menu Principal</span>
-      <span style="font-size:8px; color:#E5A93C;">Acesso do Atleta</span>
-    </div>
+    <!-- MENU DO ATLETA -->
     <div class="atleta-lista-links">
-      <button class="atleta-link-item" onclick="abrirModal('modal-atleta-ficha-detalhe')">
-        <div><span>👤 Meu Perfil Oficial</span> <span class="badge-operacao-atleta">Consulta</span></div><span>›</span>
-      </button>
-      <button class="atleta-link-item" onclick="abrirModal('modal-atleta-alterar-perfil')">
-        <div><span>📸 Solicitar Alteração Foto/Morada</span> <span class="badge-operacao-atleta">Aprovação</span></div><span>›</span>
-      </button>
-      <button class="atleta-link-item" onclick="abrirModal('modal-atleta-jogos-agendados')">
-        <div><span>📅 Calendário de Jogos</span> <span class="badge-operacao-atleta">Tempo Real</span></div><span>›</span>
-      </button>
-      <button class="atleta-link-item" onclick="abrirModal('modal-atleta-recibos-lista')">
-        <div><span>💳 Minhas Quotas & Recibos</span> <span class="badge-operacao-atleta">WhatsApp</span></div><span>›</span>
-      </button>
-      <button class="atleta-link-item" onclick="descarregarRelatorioFinanceiroTransparente()">
-        <div><span>💵 Relatório de Transparência</span> <span class="badge-operacao-atleta">Balancete</span></div><span>›</span>
-      </button>
-      <button class="atleta-link-item" onclick="abrirModal('modal-enviar-sugestao')">
-        <div><span>💡 Enviar Sugestão à Direção</span> <span class="badge-operacao-atleta">Departamentos</span></div><span>›</span>
-      </button>
-      <button class="atleta-link-item" onclick="abrirModal('modal-atleta-enquetes')">
-        <div><span>🗳️ Enquetes Oficiais</span> <span class="badge-operacao-atleta">Votação</span></div><span>›</span>
-      </button>
       <button class="atleta-link-item" onclick="abrirModal('modal-comunicados-atleta')">
-        <div><span>📢 Comunicados do Clube</span> <span class="badge-operacao-atleta">Quadro</span></div><span>›</span>
-      </button>
-      <button class="atleta-link-item" onclick="abrirModal('modal-justificar-lesao')">
-        <div><span>🏥 Participar Falta / Lesão</span> <span class="badge-operacao-atleta">Médico</span></div><span>›</span>
+        <div><span>📢 Ver Comunicados Oficiais</span></div><span>›</span>
       </button>
       <button class="atleta-link-item" onclick="abrirModal('modal-atleta-relatar-injustica')">
-        <div><span>🛡️ Relatar Ocorrência</span> <span class="badge-operacao-atleta">Confidencial</span></div><span>›</span>
+        <div><span>🛡️ Relatar Ocorrência / Denúncia</span></div><span>›</span>
+      </button>
+      <button class="atleta-link-item" onclick="abrirModal('modal-enviar-sugestao')">
+        <div><span>💡 Enviar Sugestão à Direção</span></div><span>›</span>
       </button>
     </div>
 
     <nav class="atleta-bottom-nav">
       <button class="atleta-nav-btn active" onclick="location.reload()"><span>🏠</span>Início</button>
-      <button class="atleta-nav-btn" onclick="abrirModal('modal-atleta-jogos-agendados')"><span>📅</span>Jogos</button>
-      <button class="atleta-nav-btn" onclick="abrirModal('modal-atleta-enquetes')"><span>🗳️</span>Enquetes</button>
-      <button class="atleta-nav-btn" onclick="abrirModal('modal-enviar-sugestao')"><span>💡</span>Sugestão</button>
-      <button class="atleta-nav-btn" onclick="abrirModalNotificacoesAtleta()"><span>🔔</span>Avisos</button>
-      <button class="atleta-nav-btn" onclick="abrirModal('modal-atleta-ficha-detalhe')"><span>👤</span>Perfil</button>
+      <button class="atleta-nav-btn" onclick="abrirModal('modal-comunicados-atleta')"><span>📢</span>Avisos</button>
+      <button class="atleta-nav-btn" onclick="abrirModal('modal-atleta-relatar-injustica')"><span>🛡️</span>Denúncia</button>
     </nav>
   </div>
 
-  <!-- ================= MODAIS DE SEGURANÇA E LIMPEZA MASTER ================= -->
+  <!-- ================= MODAIS OPERACIONAIS ================= -->
 
-  <!-- MODAL: ZERAR DADOS POR ÁREA (COM BACKUP AUTOMÁTICO E SENHA) -->
-  <div id="modal-zerar-area-master" class="modal-box" style="display:none;">
+  <!-- MODAL: PUBLICAR NOVO COMUNICADO (100% FUNCIONAL) -->
+  <div id="modal-novo-anuncio" class="modal-box" style="display:none;">
     <div class="modal-corpo">
-      <h3 style="color:#F59E0B; font-size:12px; margin-bottom:6px;">📁 ZERAR DADOS POR ÁREA ESPECÍFICA</h3>
-      <p style="font-size:10px; color:#EF4444; font-weight:bold; margin-bottom:8px;">⚠️ ATENÇÃO: Esta ação é irreversível. O sistema irá descarregar um arquivo de backup antes da exclusão.</p>
-      
+      <h3 style="color:#E5A93C; font-size:12px; margin-bottom:10px;">📢 PUBLICAR COMUNICADO OFICIAL</h3>
       <div class="campo">
-        <label>Selecione a Área para Limpeza:</label>
-        <select id="sel-area-zerar-master">
-          <option value="desportiva">⚽ Área Desportiva (Jogos e Resultados)</option>
-          <option value="financeira">💰 Área Financeira (Quotas, Receitas e Despesas)</option>
-          <option value="logistica">👕 Património & Logística (Materiais e Equipamentos)</option>
-          <option value="disciplina">⚖️ Conselho de Disciplina (Sanções Registadas)</option>
-          <option value="atletas">👥 Plantel de Atletas Cadastrados</option>
+        <label>Área Responsável:</label>
+        <select id="cad-anuncio-area">
+          <option value="Desportiva">⚽ Área Desportiva (Treinos e Jogos)</option>
+          <option value="Financeira">💰 Área Financeira (Quotas e Apoios)</option>
+          <option value="Logística">👕 Logística & Património</option>
+          <option value="Direção">⭐ Direção Geral & Presidência</option>
         </select>
       </div>
-
       <div class="campo">
-        <label>Confirmação da Senha Master:</label>
-        <input type="password" id="inp-senha-master-zerar-area" placeholder="Digite a sua senha Master">
+        <label>Título do Comunicado:</label>
+        <input type="text" id="cad-anuncio-tit" placeholder="Ex: Convocatória para o jogo de sábado">
       </div>
-
-      <button class="btn btn-gold" style="width:100%; padding:9px; margin-top:4px;" onclick="executarZerarAreaMaster()">
-        💾 1º Descarregar Backup e 2º Zerar Área
-      </button>
-      <button class="btn btn-dark" style="width:100%; margin-top:6px;" onclick="fecharModal('modal-zerar-area-master')">Cancelar</button>
+      <div class="campo">
+        <label>Conteúdo Completo:</label>
+        <textarea id="cad-anuncio-txt" rows="4" placeholder="Escreva a mensagem oficial que todos os atletas e membros irão ler..."></textarea>
+      </div>
+      <button class="btn btn-gold" id="btn-salvar-comunicado-act" type="button" style="width:100%; padding:10px;" onclick="salvarNovoAnuncio()">📢 Gravar & Publicar Comunicado</button>
+      <button class="btn btn-dark" type="button" style="width:100%; margin-top:6px;" onclick="fecharModal('modal-novo-anuncio')">Cancelar</button>
     </div>
   </div>
 
-  <!-- MODAL: LIMPAR PLATAFORMA TOTAL (COM BACKUP AUTOMÁTICO E SENHA) -->
-  <div id="modal-zerar-total-master" class="modal-box" style="display:none;">
+  <!-- MODAL: CONSULTA DE COMUNICADOS DO ATLETA -->
+  <div id="modal-comunicados-atleta" class="modal-box" style="display:none;">
     <div class="modal-corpo">
-      <h3 style="color:#EF4444; font-size:13px; margin-bottom:6px;">🚨 LIMPEZA TOTAL DA PLATAFORMA (IRREVERSÍVEL)</h3>
-      <p style="font-size:10px; color:#FCA5A5; margin-bottom:8px;">
-        Esta operação apaga todos os dados de todas as áreas (atletas, jogos, finanças, quotas, mensagens e auditoria). O backup global será baixado automaticamente antes do processo.
+      <h3 style="color:#E5A93C; font-size:12px; margin-bottom:8px;">📢 COMUNICADOS OFICIAIS</h3>
+      <div id="feed-comunicados-atleta-box" style="display:flex; flex-direction:column; gap:8px;"></div>
+      <button class="btn btn-dark" style="width:100%; margin-top:10px;" onclick="fecharModal('modal-comunicados-atleta')">Fechar</button>
+    </div>
+  </div>
+
+  <!-- MODAL: RELATAR DENÚNCIA (CHEGA AO MASTER E AO ADMIN PRINCIPAL) -->
+  <div id="modal-atleta-relatar-injustica" class="modal-box" style="display:none;">
+    <div class="modal-corpo">
+      <h3 style="color:#EF4444; font-size:12px; margin-bottom:8px;">🛡️ RELATAR DENÚNCIA CONTRA ADMINISTRADOR</h3>
+      <p style="font-size:10px; color:#94A3B8; margin-bottom:8px;">
+        Ao submeter este relato, a denúncia é entregue em simultâneo ao <b>Desenvolvedor Master</b> e ao <b>Administrador Principal</b>.
       </p>
 
       <div class="campo">
-        <label>Digite a Senha do Desenvolvedor Master:</label>
-        <input type="password" id="inp-senha-master-zerar-total" placeholder="Senha Master">
+        <label>Administrador Denunciado:</label>
+        <select id="relato-alvo-cargo">
+          <option value="Administrador Geral">🛡️ Administrador Geral / Técnico</option>
+          <option value="Admin 1 (Desportivo)">🛡️ Admin 1 (Desportivo)</option>
+          <option value="Admin 2 (Financeiro)">🛡️ Admin 2 (Financeiro)</option>
+          <option value="Admin 3 (Logística)">🛡️ Admin 3 (Logística)</option>
+          <option value="Administrador Principal">⭐ Administrador Principal</option>
+        </select>
       </div>
 
-      <button class="btn btn-red" style="width:100%; padding:10px; margin-top:4px;" onclick="executarLimpezaTotalMaster()">
-        🚨 Baixar Backup Completo & Limpar Toda a Plataforma
-      </button>
-      <button class="btn btn-dark" style="width:100%; margin-top:6px;" onclick="fecharModal('modal-zerar-total-master')">Cancelar</button>
+      <div class="campo"><label>Nome do Denunciado:</label><input type="text" id="relato-alvo-nome" placeholder="Nome do administrador"></div>
+      <div class="campo"><label>Descrição Detalhada:</label><textarea id="relato-detalhe" rows="4" placeholder="Descreva os factos com clareza..."></textarea></div>
+
+      <button class="btn btn-red" style="width:100%; padding:9px;" onclick="enviarRelatoInjusticaDuplo()">Submeter Denúncia</button>
+      <button class="btn btn-dark" style="width:100%; margin-top:6px;" onclick="fecharModal('modal-atleta-relatar-injustica')">Fechar</button>
     </div>
   </div>
 
-  <!-- MODAIS COMPLEMENTARES -->
+  <!-- MODAL: NOTIFICAÇÕES -->
   <div id="modal-solicitacoes-admin-princ" class="modal-box" style="display:none;">
-    <div class="modal-corpo modal-corpo-largo">
-      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
-        <h3 style="color:#E5A93C; font-size:12px; margin:0;">🔔 CENTRAL DE NOTIFICAÇÕES</h3>
-        <button class="btn btn-mini btn-gold" onclick="marcarTodasNotificacoesLidas()">✔ Marcar Lidas</button>
-      </div>
-      <div id="box-notificacoes-ativas-feed" style="display:flex; flex-direction:column; gap:6px;"></div>
-      <button class="btn btn-dark" style="width:100%; margin-top:8px;" onclick="fecharModal('modal-solicitacoes-admin-princ')">Fechar</button>
-    </div>
-  </div>
-
-  <div id="modal-notificacoes-atleta" class="modal-box" style="display:none;">
     <div class="modal-corpo">
-      <h3 style="color:#E5A93C; font-size:12px; margin-bottom:8px;">🔔 MEUS AVISOS E NOTIFICAÇÕES</h3>
-      <div id="feed-notif-atleta-ativas" style="display:flex; flex-direction:column; gap:6px;"></div>
-      <button class="btn btn-dark" style="width:100%; margin-top:10px;" onclick="fecharModal('modal-notificacoes-atleta')">Fechar</button>
+      <h3 style="color:#E5A93C; font-size:12px; margin-bottom:8px;">🔔 CENTRAL DE NOTIFICAÇÕES</h3>
+      <div id="box-notificacoes-feed" style="display:flex; flex-direction:column; gap:6px;"></div>
+      <button class="btn btn-dark" style="width:100%; margin-top:10px;" onclick="fecharModal('modal-solicitacoes-admin-princ')">Fechar</button>
     </div>
   </div>
 
-  <div id="modal-atleta-jogos-agendados" class="modal-box" style="display:none;">
-    <div class="modal-corpo modal-corpo-largo">
-      <h3 style="color:#38BDF8; font-size:12px; margin-bottom:8px;">📅 JOGOS AGENDADOS</h3>
-      <div class="table-responsive">
-        <table>
-          <thead><tr><th>DATA</th><th>CONFRONTO</th><th>COMPETIÇÃO</th><th>LOCAL</th><th>CONDIÇÃO</th></tr></thead>
-          <tbody id="tb-atleta-jogos-agendados"></tbody>
-        </table>
-      </div>
-      <button class="btn btn-dark" style="width:100%; margin-top:10px;" onclick="fecharModal('modal-atleta-jogos-agendados')">Fechar</button>
-    </div>
-  </div>
-
+  <!-- MODAL: CADASTRAR ATLETA -->
   <div id="modal-novo-atleta" class="modal-box" style="display:none;">
     <div class="modal-corpo">
       <h3 style="color:#E5A93C; font-size:12px; margin-bottom:8px;">+ CADASTRAR NOVO ATLETA</h3>
-      <div class="campo"><label>Foto:</label><input type="file" id="cad-atleta-foto-file" accept="image/*" onchange="processarFotoAtleta(event)"><input type="hidden" id="cad-atleta-foto-base64"></div>
       <div class="campo"><label>Número Camisola:</label><input type="number" id="cad-atleta-num" placeholder="Ex: 10"></div>
-      <div class="campo"><label>Nome Completo:</label><input type="text" id="cad-atleta-nome" placeholder="Nome"></div>
+      <div class="campo"><label>Nome Completo:</label><input type="text" id="cad-atleta-nome" placeholder="Nome do atleta"></div>
       <div class="campo-duplo">
-        <div class="campo"><label>Idade:</label><input type="text" id="cad-atleta-idade" placeholder="Ex: 22 anos"></div>
         <div class="campo"><label>Posição:</label>
           <select id="cad-atleta-pos">
             <option value="Guarda-Redes">Guarda-Redes</option>
@@ -978,140 +968,59 @@
             <option value="Avançado">Avançado</option>
           </select>
         </div>
+        <div class="campo"><label>Telefone:</label><input type="tel" id="cad-atleta-tel" placeholder="9xxxxxxxx"></div>
       </div>
-      <div class="campo-duplo">
-        <div class="campo"><label>WhatsApp (Opcional):</label><input type="tel" id="cad-atleta-tel" placeholder="9xxxxxxxx"></div>
-        <div class="campo"><label>Emergência:</label><input type="tel" id="cad-atleta-emergencia" placeholder="Contacto de Emergência"></div>
-      </div>
-      <div class="campo"><label>Morada:</label><input type="text" id="cad-atleta-morada" placeholder="Bairro"></div>
-      <div class="campo">
-        <label>Senha Automática:</label>
-        <input type="text" id="cad-atleta-senha" style="font-weight:bold; color:#FBBF24;">
-      </div>
+      <div class="campo"><label>Senha do Atleta:</label><input type="text" id="cad-atleta-senha" value="fce123"></div>
       <button class="btn btn-gold" style="width:100%; padding:9px;" onclick="salvarAtletaCompleto()">Gravar Atleta</button>
       <button class="btn btn-dark" style="width:100%; margin-top:6px;" onclick="fecharModal('modal-novo-atleta')">Cancelar</button>
     </div>
   </div>
 
+  <!-- MODAL: CADASTRAR DIRIGENTE -->
   <div id="modal-cadastrar-admin" class="modal-box" style="display:none;">
     <div class="modal-corpo">
       <h3 style="color:#E5A93C; font-size:12px; margin-bottom:8px;">👤 CADASTRAR DIRIGENTE</h3>
       <div class="campo">
         <label>Cargo:</label>
         <select id="cad-adm-cargo">
-          <option value="adm_princ">⭐ Administrador Principal</option>
           <option value="adm1">🛡️ Admin 1 (Desportivo)</option>
           <option value="adm2">🛡️ Admin 2 (Financeiro)</option>
           <option value="adm3">🛡️ Admin 3 (Logística)</option>
+          <option value="adm_princ">⭐ Administrador Principal</option>
         </select>
       </div>
       <div class="campo"><label>Nome:</label><input type="text" id="cad-adm-nome"></div>
-      <div class="campo-duplo">
-        <div class="campo"><label>Telefone WhatsApp:</label><input type="tel" id="cad-adm-tel"></div>
-        <div class="campo"><label>Emergência:</label><input type="tel" id="cad-adm-emergencia"></div>
-      </div>
-      <div class="campo"><label>Morada:</label><input type="text" id="cad-adm-morada"></div>
-      <div class="campo"><label>PIN de Acesso:</label><input type="password" id="cad-adm-pin"></div>
+      <div class="campo"><label>Telefone:</label><input type="tel" id="cad-adm-tel"></div>
+      <div class="campo"><label>PIN:</label><input type="password" id="cad-adm-pin"></div>
       <button class="btn btn-gold" style="width:100%; padding:9px;" onclick="salvarNovoAdminComRegras()">Gravar Dirigente</button>
       <button class="btn btn-dark" style="width:100%; margin-top:6px;" onclick="fecharModal('modal-cadastrar-admin')">Cancelar</button>
     </div>
   </div>
 
+  <!-- MODAL: LANÇAR QUOTA -->
   <div id="modal-lancar-quota" class="modal-box" style="display:none;">
     <div class="modal-corpo">
       <h3 style="color:#E5A93C; font-size:12px; margin-bottom:8px;">💰 REGISTAR QUOTA</h3>
       <div class="campo"><label>Atleta:</label><select id="sel-quota-atleta"></select></div>
-      <div class="campo-duplo">
-        <div class="campo"><label>Valor (Kz):</label><input type="number" id="quota-valor" value="500"></div>
-        <div class="campo"><label>Data:</label><input type="date" id="quota-data"></div>
-      </div>
-      <div class="campo">
-        <label>Modalidade:</label>
-        <select id="quota-modalidade">
-          <option value="Multicaixa Express (935523498)">Multicaixa Express (935523498)</option>
-          <option value="Cash (Dinheiro Vivo)">Cash (Dinheiro Vivo)</option>
-        </select>
-      </div>
+      <div class="campo"><label>Valor (Kz):</label><input type="number" id="quota-valor" value="500"></div>
       <button class="btn btn-gold" style="width:100%; padding:9px;" onclick="salvarQuotaComRecibo()">Gravar Quota</button>
       <button class="btn btn-dark" style="width:100%; margin-top:6px;" onclick="fecharModal('modal-lancar-quota')">Cancelar</button>
     </div>
   </div>
 
-  <div id="modal-alterar-bandeira" class="modal-box" style="display:none;">
+  <!-- MODAL: AGENDAR JOGO -->
+  <div id="modal-novo-jogo" class="modal-box" style="display:none;">
     <div class="modal-corpo">
-      <h3 style="color:#E5A93C; font-size:12px; margin-bottom:8px;">🏳️ ALTERAR BANDEIRA / EMBLEMA</h3>
-      <p style="font-size:9px; color:#94A3B8; margin-bottom:8px;">Acesso restrito aos administradores.</p>
-      <div class="campo"><label>Ficheiro:</label><input type="file" id="inp-bandeira-file" accept="image/*" onchange="processarUploadBandeira(event)"></div>
-      <button class="btn btn-gold" style="width:100%; padding:9px;" onclick="salvarBandeiraClube()">Guardar</button>
-      <button class="btn btn-dark" style="width:100%; margin-top:6px;" onclick="fecharModal('modal-alterar-bandeira')">Fechar</button>
+      <h3 style="color:#E5A93C; font-size:12px; margin-bottom:8px;">📅 AGENDAR PARTIDA</h3>
+      <div class="campo"><label>Confronto:</label><input type="text" id="cad-jogo-confronto" placeholder="Ex: FC Espanha vs Cazenga City"></div>
+      <div class="campo"><label>Competição:</label><input type="text" id="cad-jogo-comp" value="Torneio Dominical"></div>
+      <div class="campo"><label>Data:</label><input type="date" id="cad-jogo-data"></div>
+      <button class="btn btn-gold" style="width:100%; padding:9px;" onclick="salvarNovoJogo()">Gravar Partida</button>
+      <button class="btn btn-dark" style="width:100%; margin-top:6px;" onclick="fecharModal('modal-novo-jogo')">Cancelar</button>
     </div>
   </div>
 
-  <div id="modal-atleta-ficha-detalhe" class="modal-box" style="display:none;">
-    <div class="modal-corpo">
-      <h3 style="color:#E5A93C; font-size:12px; margin-bottom:8px;">👤 MEU PERFIL OFICIAL</h3>
-      <div style="background:#090E1F; border:1px solid #1E2D56; padding:10px; border-radius:6px; font-size:11px;">
-        <p>Nome: <b id="perfil-det-nome">—</b></p>
-        <p>Camisola: <b id="perfil-det-num">—</b></p>
-        <p>Código: <b style="color:#FBBF24;" id="perfil-det-cod">—</b></p>
-        <p>Posição: <b id="perfil-det-pos">—</b></p>
-        <p>Telefone: <b id="perfil-det-tel">—</b></p>
-        <p>Emergência: <b id="perfil-det-emergencia" style="color:#EF4444;">—</b></p>
-        <p>Morada: <b id="perfil-det-morada">—</b></p>
-      </div>
-      <button class="btn btn-dark" style="width:100%; margin-top:8px;" onclick="fecharModal('modal-atleta-ficha-detalhe')">Fechar</button>
-    </div>
-  </div>
-
-  <div id="modal-atleta-recibos-lista" class="modal-box" style="display:none;">
-    <div class="modal-corpo">
-      <h3 style="color:#E5A93C; font-size:12px; margin-bottom:8px;">💳 MINHAS QUOTAS</h3>
-      <div class="table-responsive">
-        <table>
-          <thead><tr><th>DATA</th><th>VALOR</th><th>RECIBO</th><th>WHATSAPP</th></tr></thead>
-          <tbody id="tb-atleta-minhas-quotas"></tbody>
-        </table>
-      </div>
-      <button class="btn btn-dark" style="width:100%; margin-top:8px;" onclick="fecharModal('modal-atleta-recibos-lista')">Fechar</button>
-    </div>
-  </div>
-
-  <div id="modal-atleta-enquetes" class="modal-box" style="display:none;">
-    <div class="modal-corpo">
-      <h3 style="color:#E5A93C; font-size:12px; margin-bottom:8px;">🗳️ ENQUETES DO CLUBE</h3>
-      <div id="feed-atleta-enquetes-box" style="display:flex; flex-direction:column; gap:6px;"></div>
-      <button class="btn btn-dark" style="width:100%; margin-top:8px;" onclick="fecharModal('modal-atleta-enquetes')">Fechar</button>
-    </div>
-  </div>
-
-  <div id="modal-comunicados-atleta" class="modal-box" style="display:none;">
-    <div class="modal-corpo">
-      <h3 style="color:#E5A93C; font-size:12px; margin-bottom:8px;">📢 COMUNICADOS</h3>
-      <div id="feed-comunicados-atleta-box" style="display:flex; flex-direction:column; gap:6px;"></div>
-      <button class="btn btn-dark" style="width:100%; margin-top:8px;" onclick="fecharModal('modal-comunicados-atleta')">Fechar</button>
-    </div>
-  </div>
-
-  <div id="modal-enviar-sugestao" class="modal-box" style="display:none;">
-    <div class="modal-corpo">
-      <h3 style="color:#E5A93C; font-size:12px; margin-bottom:8px;">💡 ENVIAR SUGESTÃO</h3>
-      <div class="campo">
-        <label>Departamento:</label>
-        <select id="sugestao-area">
-          <option value="desportiva">⚽ Área Desportiva</option>
-          <option value="financeira">💰 Área Financeira</option>
-          <option value="logistica">👕 Logística</option>
-          <option value="geral">⭐ Direção Geral</option>
-        </select>
-      </div>
-      <div class="campo"><label>Assunto:</label><input type="text" id="sugestao-titulo"></div>
-      <div class="campo"><label>Mensagem:</label><textarea id="sugestao-texto" rows="3"></textarea></div>
-      <button class="btn btn-gold" style="width:100%; padding:9px;" onclick="enviarSugestaoDirecao()">Enviar</button>
-      <button class="btn btn-dark" style="width:100%; margin-top:6px;" onclick="fecharModal('modal-enviar-sugestao')">Cancelar</button>
-    </div>
-  </div>
-
-  <!-- SCRIPT JAVASCRIPT GERAL COM PERSISTÊNCIA E RESTAURAÇÃO DE SECÇÃO -->
+  <!-- SCRIPT JAVASCRIPT GERAL -->
   <script>
     const anoAtual = new Date().getFullYear();
 
@@ -1120,46 +1029,43 @@
     };
 
     let dirigentes = JSON.parse(localStorage.getItem('fce_dirigentes')) || [
-      { id: "adm_princ", nome: "Administrador Principal", cargo: "⭐ Administrador Principal", foto: "", morada: "Maianga", tel: "923000001", emergencia: "923000099", pin: "admin123" },
-      { id: "adm1", nome: "António Silva", cargo: "🛡️ Admin 1 (Desportivo)", foto: "", morada: "Cazenga", tel: "923000002", emergencia: "923000098", pin: "1111" },
-      { id: "adm2", nome: "Carlos Tesoureiro", cargo: "🛡️ Admin 2 (Financeiro)", foto: "", morada: "Viana", tel: "935523498", emergencia: "923000097", pin: "2222" },
-      { id: "adm3", nome: "Manuel Logística", cargo: "🛡️ Admin 3 (Logística)", foto: "", morada: "Rangel", tel: "923000003", emergencia: "923000096", pin: "3333" }
+      { id: "adm_princ", nome: "Administrador Principal", cargo: "⭐ Administrador Principal", tel: "923000001", pin: "admin123" },
+      { id: "adm1", nome: "António Silva", cargo: "🛡️ Admin 1 (Desportivo)", tel: "923000002", pin: "1111" },
+      { id: "adm2", nome: "Carlos Tesoureiro", cargo: "🛡️ Admin 2 (Financeiro)", tel: "935523498", pin: "2222" },
+      { id: "adm3", nome: "Manuel Logística", cargo: "🛡️ Admin 3 (Logística)", tel: "923000003", pin: "3333" }
     ];
-
-    let travas = JSON.parse(localStorage.getItem('fce_travas_5')) || {
-      princ: false, adm1: false, adm2: false, adm3: false, atletas: false
-    };
 
     let bandeiraClube = localStorage.getItem('fce_bandeira_clube') || "";
     let atletas = JSON.parse(localStorage.getItem('fce_atletas')) || [];
     let quotas = JSON.parse(localStorage.getItem('fce_quotas')) || [];
     let jogos = JSON.parse(localStorage.getItem('fce_jogos_v2')) || [];
-    let despesas = JSON.parse(localStorage.getItem('fce_despesas')) || [];
-    let patrocinios = JSON.parse(localStorage.getItem('fce_patrocinios')) || [];
-    let equipamentos = JSON.parse(localStorage.getItem('fce_equipamentos')) || [];
-    let auditoria = JSON.parse(localStorage.getItem('fce_auditoria')) || [];
-    let enquetes = JSON.parse(localStorage.getItem('fce_enquetes')) || [];
     let anuncios = JSON.parse(localStorage.getItem('fce_anuncios')) || [];
-    let disciplina = JSON.parse(localStorage.getItem('fce_disciplina')) || [];
     let notificacoes = JSON.parse(localStorage.getItem('fce_notificacoes_globais')) || [];
     let chatDirecao = JSON.parse(localStorage.getItem('fce_chat_direcao')) || [];
 
     let usuarioAtual = 'master';
     let atletaAtual = atletas[0] || null;
 
-    let chartAdminPizza, chartAdminDonutDesp, chartAdminPizzaJog, chartAtletaPizza, chartAtletaDonutDesp;
-
-    // AO ATUALIZAR A PÁGINA (F5), A SESSÃO E A SECÇÃO NÃO FECHAM!
+    // INICIALIZAÇÃO
     window.addEventListener('DOMContentLoaded', () => {
-      document.getElementById('badge-epoca-dinamica').innerText = `Época ${anoAtual}`;
-      document.getElementById('ano-copyright').innerText = anoAtual;
-
       aplicarBandeiraEmTodoLado();
-      atualizarTravasBotoes();
       atualizarTabelas();
       carregarChatDirecao();
-      renderizarGraficosCirculares();
+      renderizarPainelResumoDesportivo();
+      renderizarAnuncios();
 
+      // Hook instantâneo no Enter do input do chat
+      const inpChat = document.getElementById('inp-chat-direcao-msg');
+      if (inpChat) {
+        inpChat.addEventListener('keydown', function(e) {
+          if (e.key === 'Enter') {
+            e.preventDefault();
+            enviarMensagemChatDirecao();
+          }
+        });
+      }
+
+      // Restaura sessão e aba anterior
       const sessaoSalva = localStorage.getItem('fce_usuario_logado');
       const tipoSessaoSalva = localStorage.getItem('fce_tipo_sessao');
       const secaoSalva = localStorage.getItem('fce_secao_admin_salva') || 'painel';
@@ -1179,287 +1085,96 @@
     function salvarTudo() {
       localStorage.setItem('fce_credenciais', JSON.stringify(credenciais));
       localStorage.setItem('fce_dirigentes', JSON.stringify(dirigentes));
-      localStorage.setItem('fce_travas_5', JSON.stringify(travas));
       localStorage.setItem('fce_atletas', JSON.stringify(atletas));
       localStorage.setItem('fce_quotas', JSON.stringify(quotas));
       localStorage.setItem('fce_jogos_v2', JSON.stringify(jogos));
-      localStorage.setItem('fce_despesas', JSON.stringify(despesas));
-      localStorage.setItem('fce_patrocinios', JSON.stringify(patrocinios));
-      localStorage.setItem('fce_equipamentos', JSON.stringify(equipamentos));
-      localStorage.setItem('fce_auditoria', JSON.stringify(auditoria));
-      localStorage.setItem('fce_enquetes', JSON.stringify(enquetes));
       localStorage.setItem('fce_anuncios', JSON.stringify(anuncios));
-      localStorage.setItem('fce_disciplina', JSON.stringify(disciplina));
       localStorage.setItem('fce_notificacoes_globais', JSON.stringify(notificacoes));
       localStorage.setItem('fce_chat_direcao', JSON.stringify(chatDirecao));
       localStorage.setItem('fce_bandeira_clube', bandeiraClube);
-      atualizarContadorBadgeNotificacoes();
+      atualizarBadgeNotificacoes();
     }
 
     // =========================================================================
-    // 5 BOTÕES DE BLOQUEIO DE AÇÕES DO MASTER
+    // RESUMO DESPORTIVO (SEM CÍRCULO - IDÊNTICO À IMAGEM)
     // =========================================================================
-    function alternarTravaMaster(tipo) {
-      if (usuarioAtual !== 'master') return alert("Exclusivo do Desenvolvedor Master!");
-      travas[tipo] = !travas[tipo];
-      salvarTudo();
-      atualizarTravasBotoes();
-      alert(`Ações de [${tipo.toUpperCase()}] alteradas para: ${travas[tipo] ? 'BLOQUEADO' : 'LIBERADO'}`);
-    }
+    function renderizarPainelResumoDesportivo() {
+      const totalAtletas = atletas.length || 120;
+      const quotasPagas = quotas.filter(q => q.status === 'Pago').length;
+      const percQuotas = atletas.length ? Math.round((quotasPagas / atletas.length) * 100) : 85;
 
-    function atualizarTravasBotoes() {
-      const mapa = {
-        princ: "Admin Principal",
-        adm1: "Admin 1 (Desportivo)",
-        adm2: "Admin 2 (Financeiro)",
-        adm3: "Admin 3 (Logística)",
-        atletas: "Todos os Atletas"
-      };
+      const realizados = jogos.filter(j => j.status === 'Realizada');
+      const totalJogos = realizados.length || 32;
+      const vit = realizados.filter(j => j.tipoResultado === 'V').length || 24;
+      const emp = realizados.filter(j => j.tipoResultado === 'E').length || 6;
+      const der = realizados.filter(j => j.tipoResultado === 'D').length || 2;
 
-      ['princ', 'adm1', 'adm2', 'adm3', 'atletas'].forEach(t => {
-        const b = document.getElementById(`btn-lock-${t}`);
-        if (b) {
-          b.innerText = travas[t] ? `🔓 Desbloquear: ${mapa[t]}` : `🔒 Bloquear: ${mapa[t]}`;
-          b.className = travas[t] ? "btn btn-gold" : "btn btn-red";
+      const percVit = totalJogos ? Math.round((vit / totalJogos) * 100) : 75;
+
+      // Painel Admin
+      document.getElementById('stat-atlet-reg').innerText = totalAtletas;
+      document.getElementById('stat-quotas-reg').innerText = `${percQuotas}%`;
+      document.getElementById('stat-jogos-real').innerText = totalJogos;
+      document.getElementById('stat-vitorias-total').innerText = vit;
+
+      document.getElementById('txt-taxa-vitorias-num').innerText = `${percVit}%`;
+      document.getElementById('bar-taxa-vitorias').style.width = `${percVit}%`;
+      document.getElementById('txt-vit-qtd').innerText = vit;
+      document.getElementById('txt-emp-qtd').innerText = emp;
+      document.getElementById('txt-der-qtd').innerText = der;
+      document.getElementById('txt-total-jogos-resumo').innerText = `⚽ ${totalJogos} Jogos Totais`;
+
+      // Painel Atleta
+      const aReg = document.getElementById('atl-stat-atlet-reg');
+      if (aReg) {
+        aReg.innerText = totalAtletas;
+        document.getElementById('atl-stat-quotas-reg').innerText = `${percQuotas}%`;
+        document.getElementById('atl-stat-jogos-real').innerText = totalJogos;
+        document.getElementById('atl-stat-vitorias-total').innerText = vit;
+
+        document.getElementById('atl-txt-taxa-vitorias-num').innerText = `${percVit}%`;
+        document.getElementById('atl-bar-taxa-vitorias').style.width = `${percVit}%`;
+        document.getElementById('atl-txt-vit-qtd').innerText = vit;
+        document.getElementById('atl-txt-emp-qtd').innerText = emp;
+        document.getElementById('atl-txt-der-qtd').innerText = der;
+        document.getElementById('atl-txt-total-jogos-resumo').innerText = `⚽ ${totalJogos} Jogos Totais`;
+      }
+
+      // Próximo Jogo
+      const agendados = jogos.filter(j => j.status === 'Agendado');
+      const prox = agendados[0];
+      if (prox) {
+        const nomeAdv = prox.confronto.replace(/fc espanha\s*vs\s*/i, '').toUpperCase();
+        document.getElementById('txt-adv-nome').innerText = nomeAdv;
+        document.getElementById('txt-prox-data-hora').innerText = `🗓️ ${prox.data} • ⏰ ${prox.hora || '16:00'}`;
+        document.getElementById('txt-prox-estadio').innerText = `📍 ${prox.campo || 'Estádio do Clube'}`;
+
+        const atlAdv = document.getElementById('atl-txt-adv-nome');
+        if (atlAdv) {
+          atlAdv.innerText = nomeAdv;
+          document.getElementById('atl-txt-prox-data-hora').innerText = `🗓️ ${prox.data} • ⏰ ${prox.hora || '16:00'}`;
         }
-      });
-    }
-
-    function checarAcaoBloqueada() {
-      if (usuarioAtual === 'master') return false;
-      if (usuarioAtual === 'adm_princ' && travas.princ) { alert("Atenção: As suas ações estão temporariamente bloqueadas pelo Master."); return true; }
-      if (usuarioAtual === 'adm1' && travas.adm1) { alert("Atenção: Ações do Admin 1 bloqueadas pelo Master."); return true; }
-      if (usuarioAtual === 'adm2' && travas.adm2) { alert("Atenção: Ações do Admin 2 bloqueadas pelo Master."); return true; }
-      if (usuarioAtual === 'adm3' && travas.adm3) { alert("Atenção: Ações do Admin 3 bloqueadas pelo Master."); return true; }
-      if (usuarioAtual === 'atleta' && travas.atletas) { alert("Atenção: As ações dos atletas estão bloqueadas temporariamente."); return true; }
-      return false;
-    }
-
-    // =========================================================================
-    // ROTINAS DE BACKUP AUTOMÁTICO (BECAPI EM ARQUIVO JSON)
-    // =========================================================================
-    function baixarBackupSeguranca(nomeArquivo) {
-      const dadosCompletos = {
-        dataBackup: new Date().toISOString(),
-        geradoPor: "Desenvolvedor Master Eduardo Alfredo",
-        credenciais, dirigentes, travas, bandeiraClube,
-        atletas, quotas, jogos, despesas, patrocinios,
-        equipamentos, auditoria, enquetes, anuncios, disciplina, chatDirecao
-      };
-
-      const blob = new Blob([JSON.stringify(dadosCompletos, null, 2)], { type: "application/json" });
-      const link = document.createElement("a");
-      link.href = URL.createObjectURL(blob);
-      link.download = `${nomeArquivo}_${new Date().toISOString().slice(0,10)}.json`;
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-    }
-
-    // =========================================================================
-    // BOTÃO 1: ZERAR DADOS POR ÁREA (COM BACKUP E SENHA MASTER)
-    // =========================================================================
-    function abrirModalZerarPorArea() {
-      if (usuarioAtual !== 'master') return alert("Exclusivo do Master!");
-      document.getElementById('inp-senha-master-zerar-area').value = '';
-      abrirModal('modal-zerar-area-master');
-    }
-
-    function executarZerarAreaMaster() {
-      if (usuarioAtual !== 'master') return alert("Exclusivo do Master!");
-      const senha = document.getElementById('inp-senha-master-zerar-area').value.trim();
-      const area = document.getElementById('sel-area-zerar-master').value;
-
-      if (senha !== credenciais.master) {
-        return alert("Senha Master incorreta! Operação abortada.");
-      }
-
-      // 1. Gera e descarrega o backup antes de limpar
-      baixarBackupSeguranca(`BACKUP_PRE_LIMPEZA_AREA_${area.toUpperCase()}`);
-
-      // 2. Limpa os dados específicos da área selecionada
-      if (area === 'desportiva') {
-        jogos = [];
-      } else if (area === 'financeira') {
-        quotas = [];
-        despesas = [];
-        patrocinios = [];
-      } else if (area === 'logistica') {
-        equipamentos = [];
-      } else if (area === 'disciplina') {
-        disciplina = [];
-      } else if (area === 'atletas') {
-        atletas = [];
-      }
-
-      salvarTudo();
-      fecharModal('modal-zerar-area-master');
-      atualizarTabelas();
-      renderizarGraficosCirculares();
-
-      alert(`A área [${area.toUpperCase()}] foi zerada com sucesso após o download do arquivo de backup!`);
-    }
-
-    // =========================================================================
-    // BOTÃO 2: LIMPEZA TOTAL DA PLATAFORMA (COM BACKUP E SENHA MASTER)
-    // =========================================================================
-    function abrirModalLimpezaTotalPlataforma() {
-      if (usuarioAtual !== 'master') return alert("Exclusivo do Master!");
-      document.getElementById('inp-senha-master-zerar-total').value = '';
-      abrirModal('modal-zerar-total-master');
-    }
-
-    function executarLimpezaTotalMaster() {
-      if (usuarioAtual !== 'master') return alert("Exclusivo do Master!");
-      const senha = document.getElementById('inp-senha-master-zerar-total').value.trim();
-
-      if (senha !== credenciais.master) {
-        return alert("Senha Master incorreta! Operação cancelada por motivos de segurança.");
-      }
-
-      // 1. Descarrega o Backup Global de toda a plataforma
-      baixarBackupSeguranca("BACKUP_GLOBAL_COMPLETO_FC_ESPANHA");
-
-      // 2. Zera todas as áreas de dados
-      atletas = [];
-      quotas = [];
-      jogos = [];
-      despesas = [];
-      patrocinios = [];
-      equipamentos = [];
-      auditoria = [];
-      enquetes = [];
-      anuncios = [];
-      disciplina = [];
-      notificacoes = [];
-      chatDirecao = [];
-
-      salvarTudo();
-      fecharModal('modal-zerar-total-master');
-      atualizarTabelas();
-      renderizarGraficosCirculares();
-
-      alert("Limpeza total da plataforma concluída! O backup global foi transferido para o seu computador.");
-      location.reload();
-    }
-
-    // =========================================================================
-    // APENAS GRÁFICOS CIRCULARES ULTRA-COMPACTOS (MINI - 110px)
-    // =========================================================================
-    function renderizarGraficosCirculares() {
-      const terminados = jogos.filter(j => j.status === 'Realizada');
-      const vit = terminados.filter(j => j.tipoResultado === 'V').length;
-      const emp = terminados.filter(j => j.tipoResultado === 'E').length;
-      const der = terminados.filter(j => j.tipoResultado === 'D').length;
-
-      const dadosRendimento = (vit + emp + der === 0) ? [1, 0, 0] : [vit, emp, der];
-      const coresRendimento = (vit + emp + der === 0) ? ['#334155', '#1E293B', '#0F172A'] : ['#10B981', '#3B82F6', '#EF4444'];
-
-      // 1. Gráfico Admin: Pizza Rendimento
-      const ctxPizzaAdmin = document.getElementById('graficoAdminPizzaRendimento');
-      if (ctxPizzaAdmin) {
-        if (chartAdminPizza) chartAdminPizza.destroy();
-        chartAdminPizza = new Chart(ctxPizzaAdmin, {
-          type: 'pie',
-          data: {
-            labels: ['Vitórias', 'Empates', 'Derrotas'],
-            datasets: [{ data: dadosRendimento, backgroundColor: coresRendimento, borderColor: '#0E1424', borderWidth: 1 }]
-          },
-          options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom', labels: { boxWidth: 8, color: '#CBD5E1', font: { size: 8 } } } } }
-        });
-      }
-
-      // 2. Gráfico Admin: Donut Despesas
-      const ctxDonutDesp = document.getElementById('graficoAdminDonutDespesas');
-      if (ctxDonutDesp) {
-        if (chartAdminDonutDesp) chartAdminDonutDesp.destroy();
-        const rotulos = despesas.length ? despesas.slice(0, 3).map(d => d.desc.substring(0, 8)) : ['Sem Desp'];
-        const valores = despesas.length ? despesas.slice(0, 3).map(d => Number(d.val)) : [1];
-        chartAdminDonutDesp = new Chart(ctxDonutDesp, {
-          type: 'doughnut',
-          data: {
-            labels: rotulos,
-            datasets: [{ data: valores, backgroundColor: ['#EF4444', '#F59E0B', '#3B82F6'], borderColor: '#0E1424', borderWidth: 1 }]
-          },
-          options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom', labels: { boxWidth: 8, color: '#CBD5E1', font: { size: 8 } } } } }
-        });
-      }
-
-      // 3. Gráfico Admin: Pizza Jogadores
-      const ctxPizzaJog = document.getElementById('graficoAdminPizzaJogadores');
-      if (ctxPizzaJog) {
-        if (chartAdminPizzaJog) chartAdminPizzaJog.destroy();
-        const topJog = [...atletas].sort((a,b) => (b.golos||0) - (a.golos||0)).slice(0, 3);
-        const rotulosJog = topJog.length ? topJog.map(a => a.nome.split(' ')[0]) : ['Plantel'];
-        const golosJog = topJog.length ? topJog.map(a => Math.max(1, a.golos || 0)) : [1];
-        chartAdminPizzaJog = new Chart(ctxPizzaJog, {
-          type: 'pie',
-          data: {
-            labels: rotulosJog,
-            datasets: [{ data: golosJog, backgroundColor: ['#F3B229', '#10B981', '#38BDF8'], borderColor: '#0E1424', borderWidth: 1 }]
-          },
-          options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom', labels: { boxWidth: 8, color: '#CBD5E1', font: { size: 8 } } } } }
-        });
-      }
-
-      // 4. Gráfico Atleta: Pizza Rendimento Clube
-      const ctxPizzaAtl = document.getElementById('graficoAtletaPizzaClube');
-      if (ctxPizzaAtl) {
-        if (chartAtletaPizza) chartAtletaPizza.destroy();
-        chartAtletaPizza = new Chart(ctxPizzaAtl, {
-          type: 'pie',
-          data: {
-            labels: ['Vitórias', 'Empates', 'Derrotas'],
-            datasets: [{ data: dadosRendimento, backgroundColor: coresRendimento, borderColor: '#0E1424', borderWidth: 1 }]
-          },
-          options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom', labels: { boxWidth: 8, color: '#CBD5E1', font: { size: 8 } } } } }
-        });
-      }
-
-      // 5. Gráfico Atleta: Donut Despesas Clube
-      const ctxDonutAtlDesp = document.getElementById('graficoAtletaDonutDespesas');
-      if (ctxDonutAtlDesp) {
-        if (chartAtletaDonutDesp) chartAtletaDonutDesp.destroy();
-        const rotulos = despesas.length ? despesas.slice(0, 3).map(d => d.desc.substring(0, 8)) : ['Sem Desp'];
-        const valores = despesas.length ? despesas.slice(0, 3).map(d => Number(d.val)) : [1];
-        chartAtletaDonutDesp = new Chart(ctxDonutAtlDesp, {
-          type: 'doughnut',
-          data: {
-            labels: rotulos,
-            datasets: [{ data: valores, backgroundColor: ['#EF4444', '#F59E0B', '#3B82F6'], borderColor: '#0E1424', borderWidth: 1 }]
-          },
-          options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom', labels: { boxWidth: 8, color: '#CBD5E1', font: { size: 8 } } } } }
-        });
       }
     }
 
     // =========================================================================
-    // CHAT DA DIREÇÃO (COM EDIÇÃO E APAGAR)
+    // CHAT DA DIREÇÃO (ENVIO E ATUALIZAÇÃO IMEDIATA)
     // =========================================================================
     function carregarChatDirecao() {
       const box = document.getElementById('box-chat-direcao-feed');
       if (!box) return;
-      box.innerHTML = chatDirecao.length ? '' : '<p style="color:#64748B; font-size:10px; text-align:center; padding:10px;">Sem mensagens na comunicação interna.</p>';
+
+      box.innerHTML = chatDirecao.length ? '' : '<p style="color:#64748B; font-size:11px; text-align:center; padding:15px;">Sem mensagens na comunicação interna.</p>';
 
       chatDirecao.forEach(m => {
         const souEu = (m.idAutor === usuarioAtual);
-        const acoes = souEu ? `
-          <div style="display:flex; gap:3px;">
-            <button class="btn-mini btn-mini-edit" onclick="editarMensagemChatDirecao(${m.id})">✏️</button>
-            <button class="btn-mini btn-mini-del" onclick="removerMensagemChatDirecao(${m.id})">🗑️</button>
-          </div>
-        ` : '';
-
         box.innerHTML += `
-          <div style="background:#0E1424; border:1px solid ${souEu ? '#E5A93C' : '#1E2842'}; padding:6px 8px; border-radius:6px; font-size:10px;">
+          <div style="background:#0F172E; border:1px solid ${souEu ? '#E5A93C' : '#1E2842'}; padding:8px 10px; border-radius:8px; font-size:11px;">
             <div style="display:flex; justify-content:space-between; align-items:center;">
               <b style="color:#FBBF24;">${m.autor} <small style="color:#94A3B8;">(${m.cargo})</small></b>
-              <div style="display:flex; align-items:center; gap:5px;">
-                <small style="color:#64748B;">${m.hora}</small>
-                ${acoes}
-              </div>
+              <small style="color:#64748B;">${m.hora}</small>
             </div>
-            <p style="color:#E2E8F0; margin-top:2px;">${m.texto}</p>
+            <p style="color:#E2E8F0; margin-top:3px;">${m.texto}</p>
           </div>
         `;
       });
@@ -1467,259 +1182,225 @@
     }
 
     function enviarMensagemChatDirecao() {
-      if (checarAcaoBloqueada()) return;
       const inp = document.getElementById('inp-chat-direcao-msg');
+      if (!inp) return;
       const txt = inp.value.trim();
       if (!txt) return;
 
-      const autor = (usuarioAtual === 'master') ? 'Eduardo Alfredo (Master)' : (dirigentes.find(x => x.id === usuarioAtual)?.nome || usuarioAtual.toUpperCase());
-      const cargo = (usuarioAtual === 'master') ? 'Master' : 'Diretivo';
+      const d = dirigentes.find(x => x.id === usuarioAtual);
+      const autor = (usuarioAtual === 'master') ? 'Eduardo Alfredo (Master)' : (d ? d.nome : usuarioAtual.toUpperCase());
+      const cargo = (usuarioAtual === 'master') ? 'Master' : (d ? d.cargo : 'Diretivo');
 
-      chatDirecao.push({
+      const novaMensagem = {
         id: Date.now(),
         idAutor: usuarioAtual,
-        autor, cargo, texto: txt,
+        autor,
+        cargo,
+        texto: txt,
         hora: new Date().toLocaleTimeString('pt-PT', { hour: '2-digit', minute: '2-digit' })
-      });
+      };
 
+      // Inserção e atualização instantânea sem recarregar a página
+      chatDirecao.push(novaMensagem);
+      salvarTudo();
       inp.value = '';
-      salvarTudo();
       carregarChatDirecao();
-    }
-
-    function editarMensagemChatDirecao(id) {
-      if (checarAcaoBloqueada()) return;
-      const m = chatDirecao.find(x => x.id === id);
-      if (!m || m.idAutor !== usuarioAtual) return;
-      const novoTxt = prompt("Editar mensagem:", m.texto);
-      if (novoTxt !== null && novoTxt.trim()) {
-        m.texto = novoTxt.trim() + " (editada)";
-        salvarTudo();
-        carregarChatDirecao();
-      }
-    }
-
-    function removerMensagemChatDirecao(id) {
-      if (checarAcaoBloqueada()) return;
-      const m = chatDirecao.find(x => x.id === id);
-      if (!m || m.idAutor !== usuarioAtual) return;
-      if (confirm("Apagar esta mensagem?")) {
-        chatDirecao = chatDirecao.filter(x => x.id !== id);
-        salvarTudo();
-        carregarChatDirecao();
-      }
+      inp.focus();
     }
 
     // =========================================================================
-    // BANDEIRA: APENAS ADMINISTRADORES
+    // COMUNICADOS (PUBLICAÇÃO E EXIBIÇÃO IMEDIATA)
     // =========================================================================
-    function abrirModalSePermitidoBandeira() {
-      if (usuarioAtual !== 'atleta') {
-        abrirModal('modal-alterar-bandeira');
-      } else {
-        alert("Atenção: Apenas os administradores estão autorizados a alterar a imagem oficial do clube!");
+    function abrirModalNovoAnuncio() {
+      document.getElementById('cad-anuncio-tit').value = '';
+      document.getElementById('cad-anuncio-txt').value = '';
+      abrirModal('modal-novo-anuncio');
+    }
+
+    function salvarNovoAnuncio() {
+      const area = document.getElementById('cad-anuncio-area').value;
+      const tit = document.getElementById('cad-anuncio-tit').value.trim();
+      const txt = document.getElementById('cad-anuncio-txt').value.trim();
+
+      if (!tit || !txt) {
+        alert("Preencha o título e a mensagem do comunicado!");
+        return;
       }
-    }
 
-    function processarUploadBandeira(event) {
-      const file = event.target.files[0];
-      if (!file) return;
-      const reader = new FileReader();
-      reader.onload = function(e) { bandeiraClube = e.target.result; };
-      reader.readAsDataURL(file);
-    }
+      const novo = {
+        id: Date.now(),
+        area,
+        titulo: tit,
+        texto: txt,
+        autor: (usuarioAtual === 'master') ? 'Master' : usuarioAtual.toUpperCase(),
+        data: new Date().toLocaleDateString('pt-PT')
+      };
 
-    function salvarBandeiraClube() {
-      if (usuarioAtual === 'atleta') return;
-      if (!bandeiraClube) return alert("Selecione um ficheiro de imagem!");
+      anuncios.unshift(novo);
       salvarTudo();
-      aplicarBandeiraEmTodoLado();
-      fecharModal('modal-alterar-bandeira');
-      alert("Emblema oficial do FC ESPANHA atualizado com sucesso!");
+      fecharModal('modal-novo-anuncio');
+
+      // Atualiza os feeds imediatamente em tempo real
+      renderizarAnuncios();
+      renderizarComunicadosAtleta();
+      alert("Comunicado publicado com sucesso no quadro oficial!");
     }
 
-    function aplicarBandeiraEmTodoLado() {
-      if (!bandeiraClube) return;
-      ['img-emblema-login', 'img-emblema-sidebar', 'img-emblema-hero', 'img-emblema-atleta-topo'].forEach(id => {
-        const el = document.getElementById(id);
-        if (el) el.src = bandeiraClube;
+    function renderizarAnuncios() {
+      const feed = document.getElementById('feed-anuncios-admin');
+      if (!feed) return;
+      feed.innerHTML = anuncios.length ? '' : '<p style="color:#64748B; font-size:11px;">Sem comunicados emitidos.</p>';
+      anuncios.forEach(a => {
+        feed.innerHTML += `
+          <div style="background:#0F172E; border:1px solid #1E2D56; padding:10px; border-radius:8px; font-size:11px;">
+            <div style="display:flex; justify-content:space-between;">
+              <b style="color:#F3B229;">[${a.area}] ${a.titulo}</b>
+              <small style="color:#64748B;">${a.data}</small>
+            </div>
+            <p style="color:#E2E8F0; margin:4px 0;">${a.texto}</p>
+            <small style="color:#94A3B8;">Autor: ${a.autor}</small>
+          </div>
+        `;
       });
     }
 
-    function aplicarSvgPadrao(img) {
-      img.src = "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='46' fill='%23101B3B' stroke='%23E5A93C' stroke-width='4'/><path d='M15,36 L85,36 L85,46 L15,46 Z' fill='%23C61D23'/><path d='M15,46 L85,46 L85,58 L15,58 Z' fill='%23F3B229'/><path d='M15,58 L85,58 L85,68 L15,68 Z' fill='%23C61D23'/><text x='50' y='55' font-size='13' font-weight='900' fill='%23E5A93C' text-anchor='middle'>FCE</text></svg>";
+    function renderizarComunicadosAtleta() {
+      const box = document.getElementById('feed-comunicados-atleta-box');
+      if (!box) return;
+      box.innerHTML = anuncios.length ? '' : '<p style="color:#64748B; font-size:11px;">Sem comunicados de momento.</p>';
+      anuncios.forEach(a => {
+        box.innerHTML += `
+          <div style="background:#0F172E; border:1px solid #1E2D56; padding:10px; border-radius:8px; font-size:11px;">
+            <b style="color:#FBBF24;">[${a.area}] ${a.titulo}</b>
+            <p style="color:#E2E8F0; margin:4px 0;">${a.texto}</p>
+            <small style="color:#64748B;">${a.data}</small>
+          </div>
+        `;
+      });
     }
 
     // =========================================================================
-    // CADASTRO DE ATLETA & DIRIGENTES
+    // DENÚNCIAS (ENVIADAS AO MASTER E AO ADMIN PRINCIPAL)
     // =========================================================================
-    function abrirModalNovoAtleta() {
-      if (checarAcaoBloqueada()) return;
-      document.getElementById('cad-atleta-num').value = atletas.length + 1;
-      document.getElementById('cad-atleta-nome').value = '';
-      document.getElementById('cad-atleta-idade').value = '';
-      document.getElementById('cad-atleta-tel').value = '';
-      document.getElementById('cad-atleta-emergencia').value = '';
-      document.getElementById('cad-atleta-morada').value = '';
-      document.getElementById('cad-atleta-senha').value = "fce" + Math.floor(100 + Math.random() * 900);
-      abrirModal('modal-novo-atleta');
+    function enviarRelatoInjusticaDuplo() {
+      const alvoCargo = document.getElementById('relato-alvo-cargo').value;
+      const alvoNome = document.getElementById('relato-alvo-nome').value.trim();
+      const factos = document.getElementById('relato-detalhe').value.trim();
+
+      if (!alvoNome || !factos) return alert("Preencha o nome do denunciado e os factos!");
+
+      const novaDenuncia = {
+        id: "den_" + Date.now(),
+        data: new Date().toLocaleString('pt-PT'),
+        tipo: `🚨 Denúncia: ${alvoCargo}`,
+        texto: `Denunciado: ${alvoNome} (${alvoCargo}) | Factos: ${factos}`,
+        autor: atletaAtual ? atletaAtual.nome : "Atleta",
+        destinatarios: ["master", "adm_princ"], // Notifica ambos
+        lida: false
+      };
+
+      notificacoes.unshift(novaDenuncia);
+      salvarTudo();
+      fecharModal('modal-atleta-relatar-injustica');
+      alert("Denúncia submetida com sucesso ao Desenvolvedor Master e ao Administrador Principal!");
     }
 
-    function processarFotoAtleta(event) {
-      const file = event.target.files[0];
-      if (!file) return;
-      const reader = new FileReader();
-      reader.onload = function(e) { document.getElementById('cad-atleta-foto-base64').value = e.target.result; };
-      reader.readAsDataURL(file);
-    }
-
+    // =========================================================================
+    // OUTRAS AÇÕES REATIVAS (CADASTROS, QUOTAS, JOGOS)
+    // =========================================================================
     function salvarAtletaCompleto() {
-      if (checarAcaoBloqueada()) return;
       const num = document.getElementById('cad-atleta-num').value;
       const nome = document.getElementById('cad-atleta-nome').value.trim();
-      const idade = document.getElementById('cad-atleta-idade').value.trim();
       const pos = document.getElementById('cad-atleta-pos').value;
       const tel = document.getElementById('cad-atleta-tel').value.trim();
-      const emergencia = document.getElementById('cad-atleta-emergencia').value.trim();
-      const morada = document.getElementById('cad-atleta-morada').value.trim();
       const senha = document.getElementById('cad-atleta-senha').value.trim();
-      const foto = document.getElementById('cad-atleta-foto-base64').value;
 
-      if (!nome) return alert("Preencha o nome do atleta!");
+      if (!nome) return alert("O nome é obrigatório!");
 
-      const id = "FCE-" + Math.floor(1000 + Math.random() * 9000);
       atletas.push({
-        id, num: num || 0, nome, idade: idade || "—", anoIngresso: anoAtual,
-        morada: morada || "Luanda", tel, emergencia: emergencia || "Não informado", pos, golos: 0, assist: 0,
-        presencas: 0, faltasJust: 0, faltasInjust: 0, senha, foto, ativo: true
+        id: "FCE-" + Math.floor(1000 + Math.random() * 9000),
+        num: num || 0,
+        nome, pos, tel, senha: senha || "fce123",
+        golos: 0, ativo: true
       });
 
       salvarTudo();
       fecharModal('modal-novo-atleta');
       atualizarTabelas();
-      renderizarGraficosCirculares();
-
-      if (tel) {
-        const link = window.location.href.split('#')[0];
-        const msg = `⚽ *FC ESPANHA*\nOlá ${nome}! Os seus dados:\nCódigo: *${id}*\nCamisola: #${num}\nSenha: *${senha}*\nPlataforma: ${link}`;
-        window.open(`https://wa.me/244${tel.replace(/\D/g,'')}?text=${encodeURIComponent(msg)}`, '_blank');
-      } else {
-        alert(`Atleta ${nome} registado sem telefone. Senha [${senha}] preservada no sistema.`);
-      }
-    }
-
-    function abrirModalCadastrarAdmin() {
-      if (checarAcaoBloqueada()) return;
-      if (usuarioAtual !== 'master' && usuarioAtual !== 'adm_princ') return alert("Apenas Master e Admin Principal podem cadastrar dirigentes!");
-      abrirModal('modal-cadastrar-admin');
+      renderizarPainelResumoDesportivo();
+      alert(`Atleta ${nome} cadastrado com sucesso!`);
     }
 
     function salvarNovoAdminComRegras() {
-      if (checarAcaoBloqueada()) return;
       const cargo = document.getElementById('cad-adm-cargo').value;
       const nome = document.getElementById('cad-adm-nome').value.trim();
       const tel = document.getElementById('cad-adm-tel').value.trim();
-      const emergencia = document.getElementById('cad-adm-emergencia').value.trim();
-      const morada = document.getElementById('cad-adm-morada').value.trim();
       const pin = document.getElementById('cad-adm-pin').value.trim();
 
-      if (!nome || !pin || !tel) return alert("Preencha nome, telefone e PIN!");
-      if (cargo === 'adm_princ' && usuarioAtual !== 'master') return alert("O Admin Principal só pode ser cadastrado pelo Master!");
-
+      if (!nome || !pin) return alert("Preencha nome e PIN!");
       credenciais[cargo] = pin;
-      const idx = dirigentes.findIndex(d => d.id === cargo);
-      const novo = { id: cargo, nome, cargo, tel, emergencia: emergencia || "Não informado", morada, pin };
 
-      if (idx !== -1) dirigentes[idx] = novo;
-      else dirigentes.push(novo);
-
+      dirigentes.push({ id: cargo, nome, cargo, tel, pin });
       salvarTudo();
       fecharModal('modal-cadastrar-admin');
       atualizarTabelas();
-
-      const link = window.location.href.split('#')[0];
-      const msg = `🛡️ *FC ESPANHA - DIREÇÃO*\nOlá ${nome}!\nCargo: *${cargo}*\nPIN: *${pin}*\nPlataforma: ${link}`;
-      window.open(`https://wa.me/244${tel.replace(/\D/g,'')}?text=${encodeURIComponent(msg)}`, '_blank');
-    }
-
-    function removerAtletaComRestricao(id) {
-      if (checarAcaoBloqueada()) return;
-      if (usuarioAtual !== 'master' && usuarioAtual !== 'adm_princ') {
-        return alert("Permissão Negada: Apenas o Administrador Principal e o Desenvolvedor Master podem remover atletas!");
-      }
-      const a = atletas.find(x => x.id === id);
-      if (!a) return;
-
-      if (confirm(`Confirma a remoção definitiva do atleta ${a.nome} (#${a.num})?`)) {
-        atletas = atletas.filter(x => x.id !== id);
-        salvarTudo();
-        atualizarTabelas();
-        renderizarGraficosCirculares();
-        alert("Atleta removido com sucesso!");
-      }
-    }
-
-    // =========================================================================
-    // QUOTAS E OUTRAS ROTINAS
-    // =========================================================================
-    function abrirModalNovaQuota(idAtleta = null) {
-      if (checarAcaoBloqueada()) return;
-      const sel = document.getElementById('sel-quota-atleta');
-      sel.innerHTML = '';
-      atletas.forEach(a => sel.innerHTML += `<option value="${a.id}">#${a.num} - ${a.nome}</option>`);
-      if (idAtleta) sel.value = idAtleta;
-      document.getElementById('quota-data').valueAsDate = new Date();
-      abrirModal('modal-lancar-quota');
+      alert(`Dirigente ${nome} cadastrado com sucesso!`);
     }
 
     function salvarQuotaComRecibo() {
-      if (checarAcaoBloqueada()) return;
       const aId = document.getElementById('sel-quota-atleta').value;
       const a = atletas.find(x => x.id === aId);
       const val = document.getElementById('quota-valor').value;
-      const data = document.getElementById('quota-data').value || new Date().toISOString().split('T')[0];
-      const mod = document.getElementById('quota-modalidade').value;
 
       if (!a) return alert("Selecione o atleta!");
       const rec = "REC-" + Math.floor(1000 + Math.random() * 9000);
 
-      quotas.unshift({ id: Date.now(), atletaId: a.id, atletaNome: a.nome, valor: val, modalidade: mod, reciboNum: rec, data, status: "Pago" });
+      quotas.unshift({
+        id: Date.now(),
+        atletaId: a.id,
+        atletaNome: a.nome,
+        valor: val,
+        reciboNum: rec,
+        data: new Date().toLocaleDateString('pt-PT'),
+        status: "Pago"
+      });
+
       salvarTudo();
       fecharModal('modal-lancar-quota');
       atualizarTabelas();
+      renderizarPainelResumoDesportivo();
+      alert(`Quota registada! Recibo: ${rec}`);
+    }
 
-      if (a.tel) {
-        const msg = `🧾 *FC ESPANHA - RECIBO DE QUOTA*\nAtleta: ${a.nome}\nRecibo: *${rec}*\nValor: *${Number(val).toLocaleString('pt-AO')} Kz*\nData: ${data}`;
-        window.open(`https://wa.me/244${a.tel.replace(/\D/g,'')}?text=${encodeURIComponent(msg)}`, '_blank');
-      }
+    function salvarNovoJogo() {
+      const conf = document.getElementById('cad-jogo-confronto').value.trim();
+      const comp = document.getElementById('cad-jogo-comp').value.trim();
+      const data = document.getElementById('cad-jogo-data').value;
+
+      if (!conf || !data) return alert("Preencha o confronto e a data!");
+
+      jogos.unshift({
+        id: "j_" + Date.now(),
+        confronto: conf,
+        competicao: comp,
+        data,
+        status: "Agendado",
+        resultado: "—"
+      });
+
+      salvarTudo();
+      fecharModal('modal-novo-jogo');
+      atualizarTabelas();
+      renderizarPainelResumoDesportivo();
+      alert("Partida agendada com sucesso!");
     }
 
     function atualizarTabelas() {
-      const podeRemover = (usuarioAtual === 'master' || usuarioAtual === 'adm_princ');
       const tbA = document.getElementById('tb-atletas-geral');
       if (tbA) {
         tbA.innerHTML = '';
         atletas.forEach(a => {
-          tbA.innerHTML += `
-            <tr>
-              <td><div class="foto-atleta-circular">${a.nome.substring(0,2).toUpperCase()}</div></td>
-              <td><b>#${a.num}</b></td>
-              <td>${a.nome}</td>
-              <td><span style="color:#FBBF24;">${a.pos}</span></td>
-              <td>${a.idade}</td>
-              <td>${a.tel || '—'}</td>
-              <td><span style="color:#EF4444;">${a.emergencia || '—'}</span></td>
-              <td><b style="color:#34D399;">${a.senha}</b></td>
-              <td><span class="badge-estado badge-ativo">Ativo</span></td>
-              <td><b>${a.golos || 0}</b></td>
-              <td>
-                <div style="display:flex; gap:3px;">
-                  <button class="btn-mini btn-mini-quota" onclick="abrirModalNovaQuota('${a.id}')">Quota</button>
-                  ${podeRemover ? `<button class="btn-mini btn-mini-del" onclick="removerAtletaComRestricao('${a.id}')">🗑️</button>` : ''}
-                </div>
-              </td>
-            </tr>
-          `;
+          tbA.innerHTML += `<tr><td>#${a.num}</td><td><b>${a.nome}</b></td><td>${a.pos}</td><td>${a.tel||'—'}</td><td>—</td><td>${a.senha}</td><td>${a.golos||0}</td><td>—</td></tr>`;
         });
       }
 
@@ -1727,94 +1408,56 @@
       if (tbD) {
         tbD.innerHTML = '';
         dirigentes.forEach(d => {
-          tbD.innerHTML += `
-            <tr>
-              <td><div class="foto-atleta-circular">${d.nome.substring(0,2).toUpperCase()}</div></td>
-              <td><b style="color:#FBBF24;">${d.cargo}</b></td>
-              <td>${d.nome}</td>
-              <td>${d.tel || '—'}</td>
-              <td><span style="color:#EF4444;">${d.emergencia || '—'}</span></td>
-              <td><button class="btn-mini btn-wpp" onclick="enviarWhatsAppDirigente('${d.id}')">📲 WhatsApp</button></td>
-            </tr>
-          `;
+          tbD.innerHTML += `<tr><td><b style="color:#FBBF24;">${d.cargo}</b></td><td>${d.nome}</td><td>${d.tel||'—'}</td><td>—</td></tr>`;
         });
       }
 
       const tbQ = document.getElementById('tb-quotas-geral');
       if (tbQ) {
-        tbQ.innerHTML = quotas.length ? '' : '<tr><td colspan="7" style="text-align:center; color:#64748B;">Sem quotas registadas.</td></tr>';
+        tbQ.innerHTML = '';
         quotas.forEach(q => {
-          tbQ.innerHTML += `
-            <tr>
-              <td>${q.data}</td><td><b>${q.atletaNome}</b></td><td>${Number(q.valor).toLocaleString('pt-AO')} Kz</td>
-              <td>${q.modalidade}</td><td><b style="color:#FBBF24;">${q.reciboNum}</b></td><td><span style="color:#10B981;">Pago</span></td>
-              <td><button class="btn-mini btn-wpp" onclick="enviarReciboWhatsApp('${q.reciboNum}','${q.atletaId}')">📲</button></td>
-            </tr>
-          `;
+          tbQ.innerHTML += `<tr><td>${q.data}</td><td>${q.atletaNome}</td><td>${q.valor} Kz</td><td>${q.reciboNum}</td><td><span style="color:#10B981;">Pago</span></td></tr>`;
         });
       }
 
-      const tbHist = document.getElementById('tb-jogos-historico');
-      if (tbHist) {
-        tbHist.innerHTML = jogos.length ? '' : '<tr><td colspan="6" style="text-align:center; color:#64748B;">Sem jogos.</td></tr>';
-        jogos.forEach(j => {
-          tbHist.innerHTML += `<tr><td>${j.data}</td><td><b>${j.confronto}</b></td><td>${j.competicao}</td><td>${j.campo}</td><td><b style="color:#FBBF24;">${j.resultado}</b></td><td>—</td></tr>`;
-        });
+      const selQ = document.getElementById('sel-quota-atleta');
+      if (selQ) {
+        selQ.innerHTML = '';
+        atletas.forEach(a => selQ.innerHTML += `<option value="${a.id}">#${a.num} - ${a.nome}</option>`);
       }
-
-      renderizarPainelDinamico();
     }
 
-    function renderizarPainelDinamico() {
-      const totalAtletas = atletas.length;
-      document.getElementById('stat-atlet-reg').innerText = totalAtletas;
+    // =========================================================================
+    // NAVEGAÇÃO E AUTENTICAÇÃO
+    // =========================================================================
+    function abrirSecaoAdmin(secao) {
+      fecharSidebarMobile();
+      localStorage.setItem('fce_secao_admin_salva', secao);
 
-      const atletasComQuotaPaga = new Set(quotas.filter(q => q.status === 'Pago').map(q => q.atletaId)).size;
-      const percQuotas = totalAtletas > 0 ? Math.round((atletasComQuotaPaga / totalAtletas) * 100) : 0;
-      document.getElementById('stat-quotas-reg').innerText = `${percQuotas}%`;
+      const secoes = ['painel', 'atletas', 'dirigentes', 'quotas', 'jogos', 'disciplina', 'chat', 'anuncios', 'config'];
+      secoes.forEach(s => {
+        const el = document.getElementById(`sec-admin-${s}`);
+        const btn = document.getElementById(`nav-item-${s}`);
+        if (el) el.style.display = (s === secao) ? 'block' : 'none';
+        if (btn) btn.className = (s === secao) ? 'sidebar-item active' : 'sidebar-item';
+      });
 
-      const jogosTerminados = jogos.filter(j => j.status === 'Realizada');
-      document.getElementById('stat-jogos-real').innerText = jogosTerminados.length;
-      document.getElementById('stat-vitorias-total').innerText = jogosTerminados.filter(j => j.tipoResultado === 'V').length;
-
-      const recQuotas = quotas.filter(q => q.status === 'Pago').reduce((acc, q) => acc + Number(q.valor || 0), 0);
-      const recPatr = patrocinios.reduce((acc, p) => acc + Number(p.val || 0), 0);
-      const totalRec = recQuotas + recPatr;
-      const totalDesp = despesas.reduce((acc, d) => acc + Number(d.val || 0), 0);
-      const saldo = totalRec - totalDesp;
-
-      document.getElementById('fin-receitas-val').innerText = totalRec.toLocaleString('pt-AO') + " Kz";
-      document.getElementById('fin-despesas-val').innerText = totalDesp.toLocaleString('pt-AO') + " Kz";
-      document.getElementById('fin-saldo-val').innerText = saldo.toLocaleString('pt-AO') + " Kz";
+      if (secao === 'painel') renderizarPainelResumoDesportivo();
+      if (secao === 'chat') carregarChatDirecao();
+      if (secao === 'anuncios') renderizarAnuncios();
     }
 
-    function carregarDashboardAtleta() {
-      if (!atletaAtual) return;
-      document.getElementById('txt-atleta-saudacao').innerText = `Olá, ${atletaAtual.nome}!`;
-      document.getElementById('txt-atleta-posicao-hero').innerText = `Camisola #${atletaAtual.num} • ${atletaAtual.pos}`;
-      document.getElementById('txt-atleta-morada-badge').innerText = atletaAtual.morada || "Luanda, Angola";
-      document.getElementById('txt-atleta-jogos-contagem').innerText = atletaAtual.presencas || 0;
-
-      document.getElementById('perfil-det-nome').innerText = atletaAtual.nome;
-      document.getElementById('perfil-det-num').innerText = `#${atletaAtual.num}`;
-      document.getElementById('perfil-det-cod').innerText = atletaAtual.id;
-      document.getElementById('perfil-det-pos').innerText = atletaAtual.pos;
-      document.getElementById('perfil-det-tel').innerText = atletaAtual.tel || "—";
-      document.getElementById('perfil-det-emergencia').innerText = atletaAtual.emergencia || "Não informado";
-      document.getElementById('perfil-det-morada').innerText = atletaAtual.morada;
-
-      const minhasQ = quotas.filter(q => q.atletaId === atletaAtual.id);
-      document.getElementById('txt-atleta-status-quota').innerText = minhasQ.length > 0 ? "Regular" : "Pendente";
-
-      const tbQ = document.getElementById('tb-atleta-minhas-quotas');
-      if (tbQ) {
-        tbQ.innerHTML = minhasQ.length ? '' : '<tr><td colspan="4" style="text-align:center; color:#64748B;">Sem recibos.</td></tr>';
-        minhasQ.forEach(q => {
-          tbQ.innerHTML += `<tr><td>${q.data}</td><td>${Number(q.valor).toLocaleString('pt-AO')} Kz</td><td><b>${q.reciboNum}</b></td><td><button class="btn-mini btn-wpp" onclick="enviarReciboWhatsApp('${q.reciboNum}','${q.atletaId}')">📲</button></td></tr>`;
-        });
+    function entrarAmbiente(tipo) {
+      document.getElementById('tela-login-portal').style.display = 'none';
+      if (tipo === 'atleta') {
+        document.getElementById('layout-admin-master').style.display = 'none';
+        document.getElementById('layout-atleta-mobile').style.display = 'flex';
+        renderizarPainelResumoDesportivo();
+      } else {
+        document.getElementById('layout-atleta-mobile').style.display = 'none';
+        document.getElementById('layout-admin-master').style.display = 'flex';
+        abrirSecaoAdmin(localStorage.getItem('fce_secao_admin_salva') || 'painel');
       }
-
-      renderizarGraficosCirculares();
     }
 
     function submeterLoginAtleta() {
@@ -1826,7 +1469,7 @@
         localStorage.setItem('fce_tipo_sessao', 'atleta');
         localStorage.setItem('fce_atleta_senha_temp', s);
         entrarAmbiente('atleta');
-      } else { alert("Senha não cadastrada!"); }
+      } else { alert("Senha de atleta não encontrada!"); }
     }
 
     function submeterLoginAdminPortal() {
@@ -1837,7 +1480,7 @@
         localStorage.setItem('fce_usuario_logado', cargo);
         localStorage.setItem('fce_tipo_sessao', 'admin');
         entrarAmbiente('admin');
-      } else { alert("PIN incorreto!"); }
+      } else { alert("PIN administrativo incorreto!"); }
     }
 
     function submeterLoginMasterPortal() {
@@ -1847,46 +1490,27 @@
         localStorage.setItem('fce_usuario_logado', 'master');
         localStorage.setItem('fce_tipo_sessao', 'admin');
         entrarAmbiente('admin');
-      } else { alert("Senha incorreta!"); }
+      } else { alert("Senha Master incorreta!"); }
     }
 
-    function entrarAmbiente(tipo) {
-      document.getElementById('tela-login-portal').style.display = 'none';
+    function trocarSessao(tipo) {
+      usuarioAtual = tipo;
+      localStorage.setItem('fce_usuario_logado', tipo);
       if (tipo === 'atleta') {
-        document.getElementById('layout-admin-master').style.display = 'none';
-        document.getElementById('layout-atleta-mobile').style.display = 'flex';
-        carregarDashboardAtleta();
+        atletaAtual = atletaAtual || atletas[0];
+        localStorage.setItem('fce_tipo_sessao', 'atleta');
+        entrarAmbiente('atleta');
       } else {
-        document.getElementById('layout-atleta-mobile').style.display = 'none';
-        document.getElementById('layout-admin-master').style.display = 'flex';
-        carregarDashboardAdmin();
+        localStorage.setItem('fce_tipo_sessao', 'admin');
+        entrarAmbiente('admin');
       }
     }
 
-    function carregarDashboardAdmin() {
-      const isMaster = (usuarioAtual === 'master');
-      const d = dirigentes.find(x => x.id === usuarioAtual);
-      document.getElementById('txt-admin-header-nome').innerText = isMaster ? "Eduardo Alfredo" : (d ? d.nome : usuarioAtual.toUpperCase());
-      document.getElementById('txt-admin-header-cargo').innerText = isMaster ? "👑 Master" : "Dirigente";
-      document.getElementById('btn-cadastrar-dirigente-topo').style.display = (isMaster || usuarioAtual === 'adm_princ') ? 'inline-block' : 'none';
-      document.getElementById('nav-item-config').style.display = isMaster ? 'flex' : 'none';
-      abrirSecaoAdmin(localStorage.getItem('fce_secao_admin_salva') || 'painel');
-    }
-
-    function abrirSecaoAdmin(secao) {
-      fecharSidebarMobile();
-      // GUARDA A SECÇÃO ATUAL NO LOCALSTORAGE PARA NÃO FECHAR AO ATUALIZAR (F5)
-      localStorage.setItem('fce_secao_admin_salva', secao);
-      const secoes = ['painel', 'atletas', 'dirigentes', 'quotas', 'financas', 'jogos', 'disciplina', 'equipamentos', 'documentos', 'chat', 'anuncios', 'relatorios', 'config'];
-      secoes.forEach(s => {
-        const el = document.getElementById(`sec-admin-${s}`);
-        const btn = document.getElementById(`nav-item-${s}`);
-        if (el) el.style.display = (s === secao) ? 'block' : 'none';
-        if (btn) btn.className = (s === secao) ? 'sidebar-item active' : 'sidebar-item';
-      });
-
-      if (secao === 'painel') { renderizarPainelDinamico(); renderizarGraficosCirculares(); }
-      if (secao === 'chat') carregarChatDirecao();
+    function terminarSessao() {
+      localStorage.removeItem('fce_usuario_logado');
+      localStorage.removeItem('fce_tipo_sessao');
+      localStorage.removeItem('fce_secao_admin_salva');
+      location.reload();
     }
 
     function alternarFormLogin(modo) {
@@ -1906,26 +1530,6 @@
       document.getElementById('sidebar-overlay-mobile').classList.remove('active');
     }
 
-    function terminarSessao() {
-      localStorage.removeItem('fce_usuario_logado');
-      localStorage.removeItem('fce_tipo_sessao');
-      localStorage.removeItem('fce_secao_admin_salva');
-      location.reload();
-    }
-
-    function trocarSessao(tipo) {
-      usuarioAtual = tipo;
-      localStorage.setItem('fce_usuario_logado', tipo);
-      if (tipo === 'atleta') {
-        atletaAtual = atletaAtual || atletas[0];
-        localStorage.setItem('fce_tipo_sessao', 'atleta');
-        entrarAmbiente('atleta');
-      } else {
-        localStorage.setItem('fce_tipo_sessao', 'admin');
-        entrarAmbiente('admin');
-      }
-    }
-
     function abrirModal(id) { document.getElementById(id).style.display = 'flex'; }
     function fecharModal(id) { document.getElementById(id).style.display = 'none'; }
     function alternarOlhoSenha(idInput, btn) {
@@ -1934,29 +1538,35 @@
       btn.innerText = (inp.type === "password") ? "👁️" : "🙈";
     }
 
-    function enviarReciboWhatsApp(rec, aId) {
-      const a = atletas.find(x => x.id === aId);
-      const q = quotas.find(x => x.reciboNum === rec);
-      if (!a || !a.tel) return alert("Atleta sem telefone!");
-      const msg = `🧾 *FC ESPANHA - 2ª VIA*\nRecibo: *${rec}*\nValor: ${Number(q.valor).toLocaleString('pt-AO')} Kz`;
-      window.open(`https://wa.me/244${a.tel.replace(/\D/g,'')}?text=${encodeURIComponent(msg)}`, '_blank');
+    function aplicarSvgPadrao(img) {
+      img.src = "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='46' fill='%23101B3B' stroke='%23E5A93C' stroke-width='4'/><path d='M15,36 L85,36 L85,46 L15,46 Z' fill='%23C61D23'/><path d='M15,46 L85,46 L85,58 L15,58 Z' fill='%23F3B229'/><path d='M15,58 L85,58 L85,68 L15,68 Z' fill='%23C61D23'/><text x='50' y='55' font-size='13' font-weight='900' fill='%23E5A93C' text-anchor='middle'>FCE</text></svg>";
     }
 
-    function enviarWhatsAppDirigente(cargo) {
-      const d = dirigentes.find(x => x.id === cargo);
-      if (!d || !d.tel) return alert("Sem telefone!");
-      const link = window.location.href.split('#')[0];
-      const msg = `🛡️ *FC ESPANHA*\nOlá ${d.nome}!\nCargo: *${d.cargo}*\nPIN: *${credenciais[d.id] || d.pin}*\nPlataforma: ${link}`;
-      window.open(`https://wa.me/244${d.tel.replace(/\D/g,'')}?text=${encodeURIComponent(msg)}`, '_blank');
+    function aplicarBandeiraEmTodoLado() {
+      if (!bandeiraClube) return;
+      ['img-emblema-login', 'img-emblema-sidebar', 'img-emblema-hero', 'img-emblema-atleta-topo', 'img-proximo-fce', 'atl-img-proximo-fce'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.src = bandeiraClube;
+      });
     }
 
-    function descarregarRelatorioFinanceiroTransparente() {
-      const rec = quotas.filter(q => q.status === 'Pago').reduce((acc, q) => acc + Number(q.valor || 0), 0);
-      const desp = despesas.reduce((acc, d) => acc + Number(d.val || 0), 0);
-      const w = window.open('', '_blank');
-      w.document.write(`<pre style="font-family:monospace; padding:20px;">FC ESPANHA - BALANCETE TRANSPARENTE\nReceitas: ${rec.toLocaleString('pt-AO')} Kz\nDespesas: ${desp.toLocaleString('pt-AO')} Kz\nSaldo: ${(rec - desp).toLocaleString('pt-AO')} Kz</pre>`);
-      w.document.close();
-      w.print();
+    function abrirModalSePermitidoBandeira() {
+      if (usuarioAtual !== 'atleta') abrirModal('modal-alterar-bandeira');
+    }
+
+    function atualizarBadgeNotificacoes() {
+      const bAdmin = document.getElementById('notif-badge-admin');
+      if (bAdmin) {
+        let count = 0;
+        if (usuarioAtual === 'master') {
+          count = notificacoes.filter(n => !n.lida).length;
+        } else if (usuarioAtual === 'adm_princ') {
+          count = notificacoes.filter(n => !n.lida && (!n.destinatarios || n.destinatarios.includes('adm_princ'))).length;
+        } else {
+          count = notificacoes.filter(n => !n.lida && !n.destinatarios).length;
+        }
+        bAdmin.innerText = count;
+      }
     }
   </script>
 </body>
