@@ -1360,7 +1360,7 @@
       setTxt('fin-saldo-val', `${(rec - desp).toLocaleString('pt-AO')} Kz`);
     }
 
-   // =========================================================================
+// =========================================================================
     // MÓDULO EXCLUSIVO: CHAT DA DIREÇÃO (ENVIO, EDIÇÃO E EXCLUSÃO)
     // =========================================================================
 
@@ -1425,6 +1425,43 @@
       inp.value = '';
       carregarChatDirecao();
       inp.focus();
+    }
+
+    // 3. EDITAR MENSAGEM (APENAS PELO AUTOR)
+    function editarMensagemChatDirecao(id) {
+      const msg = chatDirecao.find(m => m.id === id);
+      if (!msg) return;
+
+      if (msg.idAutor !== usuarioAtual && usuarioAtual !== 'master') {
+        alert("Apenas quem enviou a mensagem pode editá-la!");
+        return;
+      }
+
+      const textoAtual = msg.texto.replace(' (editada)', '');
+      const novoTexto = prompt("Editar a sua mensagem:", textoAtual);
+
+      if (novoTexto !== null && novoTexto.trim() !== "") {
+        msg.texto = novoTexto.trim() + " (editada)";
+        salvarTudo();
+        carregarChatDirecao();
+      }
+    }
+
+    // 4. APAGAR MENSAGEM (APENAS PELO AUTOR)
+    function removerMensagemChatDirecao(id) {
+      const msg = chatDirecao.find(m => m.id === id);
+      if (!msg) return;
+
+      if (msg.idAutor !== usuarioAtual && usuarioAtual !== 'master') {
+        alert("Apenas quem enviou a mensagem pode apagá-la!");
+        return;
+      }
+
+      if (confirm("Deseja apagar definitivamente esta mensagem?")) {
+        chatDirecao = chatDirecao.filter(m => m.id !== id);
+        salvarTudo();
+        carregarChatDirecao();
+      }
     }
 
     // 3. EDITAR MENSAGEM (APENAS PELO AUTOR)
