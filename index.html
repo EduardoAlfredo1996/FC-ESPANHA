@@ -1999,7 +1999,7 @@
     function submeterAlteracaoPerfilAtleta() { alert("Solicitação de alteração enviada para aprovação!"); fecharModal('modal-atleta-alterar-perfil'); }
     function enviarSugestaoDirecao() { alert("Sugestão enviada!"); fecharModal('modal-enviar-sugestao'); }
     function enviarParticipacaoLesao() { alert("Participação médica enviada!"); fecharModal('modal-justificar-lesao'); }
-  // Adiciona o botão do Master na barra superior
+  // Controle de acesso exclusivo do Desenvolvedor Master
     window.addEventListener('DOMContentLoaded', () => {
       const barra = document.querySelector('.sessao-botoes-grupo');
       if (barra && !document.getElementById('btn-atalho-master-travas')) {
@@ -2012,12 +2012,44 @@
         btn.onclick = () => abrirSecaoAdmin('config');
         barra.appendChild(btn);
       }
+
+      // Função que esconde ou mostra o botão de acordo com o usuário
+      function gerenciarAcessoMaster() {
+        const souMaster = (usuarioAtual === 'master');
+
+        // Botão da barra superior
+        const btnAtalho = document.getElementById('btn-atalho-master-travas');
+        if (btnAtalho) {
+          btnAtalho.style.display = souMaster ? 'inline-flex' : 'none';
+        }
+
+        // Botão no menu lateral
+        const navConfig = document.getElementById('nav-item-config');
+        if (navConfig) {
+          navConfig.style.setProperty('display', souMaster ? 'flex' : 'none', 'important');
+        }
+      }
+
+      // Executa logo ao abrir
+      gerenciarAcessoMaster();
+
+      // Monitora quando alguém clica para trocar de perfil
+      const oldTrocarSessao = window.trocarSessao;
+      window.trocarSessao = function(tipo) {
+        if (oldTrocarSessao) oldTrocarSessao(tipo);
+        gerenciarAcessoMaster();
+      };
+
+      const oldEntrarAmbiente = window.entrarAmbiente;
+      window.entrarAmbiente = function(tipo) {
+        if (oldEntrarAmbiente) oldEntrarAmbiente(tipo);
+        gerenciarAcessoMaster();
+      };
     });
   </script>
 
   <style>
     #nav-item-config {
-      display: flex !important;
       background: #24080B !important;
       color: #FBBF24 !important;
       border: 1px solid #E5A93C !important;
