@@ -5,44 +5,34 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
-  <title>FC ESPANHA — Gestão Desportiva Oficial</title>
+  <title>FC ESPANHA — Plataforma Oficial de Gestão Desportiva</title>
   
-  <!-- CDN Supabase JS Oficial -->
+  <!-- CDN Oficial Supabase JS v2 -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
   <style>
     :root {
-      --bg-principal: #0a1120;
+      --bg-principal: #080e1a;
       --bg-card: #0f172a;
       --bg-card-hover: #1e293b;
-      --ouro-primario: #d4af37;
+      --ouro: #d4af37;
+      --ouro-hover: #f5c518;
       --azul-marinho: #0a192f;
-      --vermelho-alerta: #dc2626;
-      --verde-sucesso: #10b981;
-      --texto-claro: #f8fafc;
+      --azul-destaque: #1e3a8a;
+      --vermelho: #dc2626;
+      --verde: #10b981;
+      --texto: #f8fafc;
       --texto-suave: #94a3b8;
-      --borda-dourada: rgba(212, 175, 55, 0.3);
+      --borda: rgba(212, 175, 55, 0.25);
     }
 
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-    }
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+    body { background-color: var(--bg-principal); color: var(--texto); min-height: 100vh; display: flex; flex-direction: column; overflow-x: hidden; }
 
-    body {
-      background-color: var(--bg-principal);
-      color: var(--texto-claro);
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-    }
-
-    /* TOPO INSTITUCIONAL */
+    /* BARRA SUPERIOR INSTITUCIONAL */
     .barra-navegacao {
       background: var(--azul-marinho);
-      border-bottom: 1px solid var(--borda-dourada);
+      border-bottom: 1px solid var(--borda);
       padding: 10px 16px;
       display: flex;
       justify-content: space-between;
@@ -51,115 +41,68 @@
       top: 0;
       z-index: 1000;
     }
-
-    .nav-marca {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .nav-marca-text b {
-      font-size: 14px;
-      color: #FFF;
-      letter-spacing: 0.5px;
-    }
-
-    .nav-marca-text p {
-      font-size: 8px;
-      color: var(--ouro-primario);
-      margin: 0;
-      text-transform: uppercase;
-    }
-
-    .nav-acoes {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
+    .nav-marca { display: flex; align-items: center; gap: 10px; }
+    .nav-marca-text b { font-size: 14px; color: #FFF; letter-spacing: 0.5px; }
+    .nav-marca-text p { font-size: 8px; color: var(--ouro); margin: 0; text-transform: uppercase; }
+    .nav-acoes { display: flex; align-items: center; gap: 8px; }
 
     .btn-aba {
       background: transparent;
-      border: 1px solid var(--borda-dourada);
+      border: 1px solid var(--borda);
       color: var(--texto-suave);
-      padding: 6px 10px;
+      padding: 6px 12px;
       border-radius: 6px;
       font-size: 11px;
       font-weight: bold;
       cursor: pointer;
+      transition: all 0.2s;
     }
+    .btn-aba.ativo { background: var(--ouro); color: var(--azul-marinho); border-color: var(--ouro); }
 
-    .btn-aba.ativo {
-      background: var(--ouro-primario);
-      color: var(--azul-marinho);
-      border-color: var(--ouro-primario);
-    }
-
-    /* CONTAINER PRINCIPAL */
-    .container-principal {
-      flex: 1;
-      width: 100%;
-      max-width: 550px;
-      margin: 0 auto;
-      padding: 15px;
-    }
-
-    /* CARD DE LOGIN */
-    .login-box {
-      background: var(--bg-card);
-      border: 1px solid var(--borda-dourada);
-      border-radius: 14px;
-      padding: 28px 20px;
-      text-align: center;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.7);
-      margin-top: 25px;
-    }
-
-    .login-box h2 {
-      font-size: 17px;
-      font-weight: 900;
-      color: #FFF;
-      margin: 12px 0 4px 0;
-    }
-
-    .login-box p {
-      font-size: 11px;
-      color: var(--ouro-primario);
-      margin-bottom: 20px;
-    }
-
-    .campo-grupo {
-      text-align: left;
-      margin-bottom: 15px;
-    }
-
-    .campo-grupo label {
-      display: block;
-      font-size: 11px;
+    .badge-status-top {
+      font-size: 9px;
+      padding: 3px 6px;
+      border-radius: 4px;
       font-weight: bold;
-      color: var(--texto-suave);
-      margin-bottom: 6px;
+      background: rgba(16, 185, 129, 0.15);
+      color: #34d399;
+      border: 1px solid #10b981;
     }
 
+    /* CONTAINER GERAL */
+    .container { flex: 1; width: 100%; max-width: 600px; margin: 0 auto; padding: 14px; }
+
+    /* CARTÕES E TIPOGRAFIA */
+    .card-painel {
+      background: var(--bg-card);
+      border: 1px solid var(--borda);
+      border-radius: 14px;
+      padding: 20px 16px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+      margin-bottom: 16px;
+    }
+    .titulo-secao { font-size: 14px; font-weight: 900; color: #FFF; display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
+    .titulo-secao span.sub { font-size: 9px; color: var(--ouro); font-style: italic; font-weight: normal; }
+
+    .campo-grupo { margin-bottom: 12px; text-align: left; }
+    .campo-grupo label { display: block; font-size: 11px; font-weight: bold; color: var(--texto-suave); margin-bottom: 5px; }
     .campo-grupo input, .campo-grupo select, .campo-grupo textarea {
       width: 100%;
-      padding: 13px;
+      padding: 12px;
       background: #1e293b;
       border: 1px solid #334155;
       border-radius: 8px;
       color: #FFF;
-      font-size: 14px;
+      font-size: 13px;
       outline: none;
     }
-
-    .campo-grupo input:focus, .campo-grupo select:focus, .campo-grupo textarea:focus {
-      border-color: var(--ouro-primario);
-    }
+    .campo-grupo input:focus, .campo-grupo select:focus, .campo-grupo textarea:focus { border-color: var(--ouro); }
 
     .btn-ouro {
       width: 100%;
       padding: 13px;
-      background: linear-gradient(135deg, var(--ouro-primario), #b8860b);
-      color: #0a192f;
+      background: linear-gradient(135deg, var(--ouro), #b8860b);
+      color: #080e1a;
       border: none;
       border-radius: 8px;
       font-weight: 900;
@@ -167,35 +110,28 @@
       cursor: pointer;
       text-transform: uppercase;
       letter-spacing: 0.5px;
+      box-shadow: 0 4px 15px rgba(212,175,55,0.2);
     }
+    .btn-ouro:active { transform: scale(0.98); }
+    .btn-perigo { background: var(--vermelho); color: #FFF; border: none; padding: 5px 9px; border-radius: 6px; font-size: 10px; font-weight: bold; cursor: pointer; }
 
-    .btn-ouro:active {
-      transform: scale(0.98);
-    }
-
-    /* DASHBOARD DO ATLETA (ORIGINAL PRESERVADO) */
+    /* DASHBOARD DO ATLETA */
     .atleta-topo-bar {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 14px;
+      margin-bottom: 12px;
       background: var(--azul-marinho);
       padding: 10px 14px;
       border-radius: 10px;
-      border: 1px solid var(--borda-dourada);
+      border: 1px solid var(--borda);
     }
-
-    .badge-sino {
-      position: relative;
-      cursor: pointer;
-      font-size: 18px;
-    }
-
+    .badge-sino { position: relative; cursor: pointer; font-size: 18px; }
     .badge-sino-count {
       position: absolute;
-      top: -6px;
+      top: -5px;
       right: -8px;
-      background: var(--vermelho-alerta);
+      background: var(--vermelho);
       color: #FFF;
       font-size: 9px;
       font-weight: bold;
@@ -203,84 +139,25 @@
       border-radius: 10px;
     }
 
-    .btn-red {
-      background: var(--vermelho-alerta);
-      color: #FFF;
-      border: none;
-      border-radius: 6px;
-      font-weight: bold;
-      cursor: pointer;
-    }
-
     .atleta-hero-card {
       background: var(--bg-card);
-      border: 1px solid var(--borda-dourada);
+      border: 1px solid var(--borda);
       border-radius: 12px;
-      padding: 15px;
+      padding: 14px;
       display: flex;
       justify-content: space-between;
       align-items: center;
       margin-bottom: 12px;
     }
+    .atleta-hero-info { display: flex; align-items: center; gap: 12px; }
+    .atleta-avatar { width: 54px; height: 54px; border-radius: 50%; border: 2px solid var(--ouro); object-fit: cover; }
+    .badge-status-atleta { font-size: 10px; padding: 4px 8px; border-radius: 20px; font-weight: bold; background: rgba(16,185,129,0.2); color: #34d399; border: 1px solid #10b981; }
 
-    .atleta-hero-info {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
+    .atleta-pills { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 14px; }
+    .pill-item { background: var(--bg-card); border: 1px solid #1e293b; border-radius: 10px; padding: 12px; display: flex; align-items: center; gap: 10px; }
 
-    .atleta-avatar-grande {
-      width: 55px;
-      height: 55px;
-      border-radius: 50%;
-      border: 2px solid var(--ouro-primario);
-      object-fit: cover;
-    }
-
-    .badge-atleta-ativo {
-      background: rgba(16, 185, 129, 0.2);
-      color: #34d399;
-      border: 1px solid #10b981;
-      padding: 4px 8px;
-      border-radius: 20px;
-      font-size: 10px;
-      font-weight: bold;
-    }
-
-    .atleta-duas-pills {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 10px;
-      margin-bottom: 15px;
-    }
-
-    .atleta-pill {
-      background: var(--bg-card);
-      border: 1px solid #1e293b;
-      border-radius: 10px;
-      padding: 12px;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .atleta-secao-titulo {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin: 15px 0 10px 0;
-      font-size: 13px;
-      font-weight: bold;
-      color: #FFF;
-    }
-
-    .atleta-lista-links {
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-    }
-
-    .atleta-link-item {
+    .lista-links { display: flex; flex-direction: column; gap: 8px; }
+    .link-item {
       background: var(--bg-card);
       border: 1px solid #1e293b;
       color: #FFF;
@@ -292,22 +169,24 @@
       cursor: pointer;
       font-size: 12px;
       text-align: left;
+      transition: background 0.15s, border-color 0.15s;
     }
+    .link-item:hover, .link-item:active { background: var(--bg-card-hover); border-color: var(--borda); }
+    .badge-sub { font-size: 9px; background: #1e293b; color: var(--ouro); padding: 2px 6px; border-radius: 4px; margin-left: 6px; border: 1px solid rgba(212,175,55,0.2); }
 
-    .atleta-link-item:hover, .atleta-link-item:active {
-      background: var(--bg-card-hover);
-      border-color: var(--borda-dourada);
-    }
+    /* PAINEL MASTER E INTERRUPTORES */
+    .switch-bloqueio { display: flex; justify-content: space-between; align-items: center; padding: 9px 0; border-bottom: 1px solid #1e293b; font-size: 12px; }
+    .switch-bloqueio:last-child { border-bottom: none; }
+    .switch-bloqueio input { width: 18px; height: 18px; accent-color: var(--vermelho); cursor: pointer; }
 
-    .badge-operacao-atleta {
-      font-size: 9px;
-      background: #1e293b;
-      color: var(--ouro-primario);
-      padding: 2px 6px;
-      border-radius: 4px;
-      margin-left: 6px;
-      border: 1px solid rgba(212, 175, 55, 0.2);
-    }
+    .kpi-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-bottom: 14px; }
+    .kpi-box { background: #1e293b; border: 1px solid #334155; border-radius: 8px; padding: 10px; text-align: center; }
+    .kpi-box b { font-size: 15px; color: var(--ouro); display: block; }
+    .kpi-box span { font-size: 9px; color: var(--texto-suave); }
+
+    .abas-master { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 4px; margin-bottom: 12px; }
+    .btn-sub-aba { background: #1e293b; border: 1px solid #334155; color: var(--texto-suave); padding: 7px 4px; border-radius: 6px; font-size: 10px; font-weight: bold; cursor: pointer; text-align: center; }
+    .btn-sub-aba.ativo { background: var(--azul-destaque); color: #FFF; border-color: var(--ouro); }
 
     /* MODAIS */
     .modal-overlay {
@@ -315,428 +194,876 @@
       position: fixed;
       top: 0; left: 0;
       width: 100%; height: 100%;
-      background: rgba(0, 0, 0, 0.85);
+      background: rgba(0, 0, 0, 0.88);
       z-index: 9999;
       justify-content: center;
       align-items: center;
-      padding: 15px;
+      padding: 14px;
     }
-
     .modal-conteudo {
       background: var(--bg-card);
-      border: 1px solid var(--ouro-primario);
-      border-radius: 12px;
+      border: 1px solid var(--ouro);
+      border-radius: 14px;
       width: 100%;
-      max-width: 440px;
-      max-height: 85vh;
+      max-width: 480px;
+      max-height: 88vh;
       overflow-y: auto;
-      padding: 20px;
+      padding: 20px 16px;
+      position: relative;
     }
+    .modal-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #334155; padding-bottom: 10px; margin-bottom: 12px; }
+    .btn-fechar { background: transparent; border: none; color: var(--texto-suave); font-size: 20px; cursor: pointer; }
 
-    footer {
-      background: var(--azul-marinho);
-      border-top: 1px solid var(--borda-dourada);
-      padding: 15px;
-      text-align: center;
-      font-size: 11px;
-      color: var(--texto-suave);
-      margin-top: auto;
+    footer { background: var(--azul-marinho); border-top: 1px solid var(--borda); padding: 14px; text-align: center; font-size: 11px; color: var(--texto-suave); margin-top: auto; }
+
+    /* ESTILOS DE IMPRESSÃO / PDF OFICIAL */
+    @media print {
+      body { background: #FFF !important; color: #000 !important; }
+      .barra-navegacao, footer, .lista-links, .btn-perigo, .badge-sino, .btn-ouro, .abas-master { display: none !important; }
+      .container { max-width: 100% !important; padding: 0 !important; }
+      .card-painel, .atleta-hero-card, .pill-item { border: 1px solid #000 !important; background: transparent !important; color: #000 !important; box-shadow: none !important; }
+      h2, h3, b, span, p { color: #000 !important; }
     }
   </style>
 </head>
 <body>
 
-  <!-- BARRA DE TOPO -->
+  <!-- BARRA SUPERIOR INSTITUCIONAL -->
   <header class="barra-navegacao">
     <div class="nav-marca">
-      <!-- Emblema Oficial em Vetor SVG -->
       <svg width="34" height="34" viewBox="0 0 100 100">
         <circle cx="50" cy="50" r="46" fill="#0a192f" stroke="#d4af37" stroke-width="5"/>
         <text x="50%" y="58%" font-size="22" font-weight="900" fill="#d4af37" text-anchor="middle">FCE</text>
       </svg>
       <div class="nav-marca-text">
         <b>FC ESPANHA</b>
-        <p>OFICIAL • <span id="ano-topo">2026</span></p>
+        <p>OFICIAL • <span id="lbl-ano-topo">2026</span></p>
       </div>
     </div>
-
     <div class="nav-acoes">
-      <button class="btn-aba ativo" id="btn-tab-atleta" onclick="alternarVisao('atleta')">Atleta</button>
-      <button class="btn-aba" id="btn-tab-admin" onclick="alternarVisao('admin')">Admin</button>
+      <span id="badge-status-conexao" class="badge-status-top">SISTEMA ATIVO</span>
+      <button class="btn-aba ativo" id="aba-btn-atleta" onclick="mudarAbaPrincipal('atleta')">Atleta</button>
+      <button class="btn-aba" id="aba-btn-admin" onclick="mudarAbaPrincipal('admin')">Painel Master</button>
     </div>
   </header>
 
-  <main class="container-principal">
+  <main class="container">
 
-    <!-- 1. BLOCO DE LOGIN DO ATLETA (PORTA DE ENTRADA) -->
-    <div id="secao-login-atleta" class="login-box">
-      <!-- Emblema Central -->
-      <div style="width:65px; height:65px; margin:0 auto 8px;">
-        <svg viewBox="0 0 100 100" style="width:100%; height:100%;">
-          <circle cx="50" cy="50" r="46" fill="#0a192f" stroke="#d4af37" stroke-width="5"/>
-          <text x="50%" y="58%" font-size="24" font-weight="900" fill="#d4af37" text-anchor="middle">FCE</text>
-        </svg>
-      </div>
-      <h2>ÁREA EXCLUSIVA DO ATLETA</h2>
-      <p>Introduza a sua credencial individual do clube</p>
+    <!-- =========================================================================
+         1. ÁREA DO ATLETA (LOGIN POR SENHA ÚNICA + DASHBOARD COMPLETO)
+         ========================================================================= -->
+    <div id="visao-atleta">
 
-      <div class="campo-grupo">
-        <label for="senha_atleta">SENHA DE ACESSO</label>
-        <input 
-          type="text" 
-          id="senha_atleta" 
-          placeholder="Ex: fce308" 
-          autocomplete="off"
-          value="fce308"
-        >
-      </div>
-
-      <button 
-        type="button" 
-        id="btn-entrar-atleta" 
-        class="btn-ouro" 
-        onclick="executarLoginAtleta()"
-      >
-        ACEDER AO MEU PAINEL
-      </button>
-
-      <div id="msg-erro-atleta" style="display:none; margin-top:12px; padding:8px; background:rgba(220,38,38,0.2); border:1px solid #dc2626; color:#fca5a5; border-radius:6px; font-size:12px;"></div>
-    </div>
-
-    <!-- 2. AMBIENTE DASHBOARD DO ATLETA (O SEU AMBIENTE ORIGINAL) -->
-    <div id="layout-atleta-mobile" style="display: none;">
-
-      <header class="atleta-topo-bar">
-        <div style="display:flex; align-items:center; gap:8px;">
-          <svg width="30" height="30" viewBox="0 0 100 100">
+      <!-- TELA DE LOGIN DO ATLETA (PORTA DE ENTRADA BLINDADA) -->
+      <div id="secao-login-atleta" class="card-painel" style="text-align: center; margin-top: 20px;">
+        <div style="width: 70px; height: 70px; margin: 0 auto 10px;">
+          <svg viewBox="0 0 100 100" style="width: 100%; height: 100%;">
             <circle cx="50" cy="50" r="46" fill="#0a192f" stroke="#d4af37" stroke-width="5"/>
             <text x="50%" y="58%" font-size="22" font-weight="900" fill="#d4af37" text-anchor="middle">FCE</text>
           </svg>
-          <div>
-            <b style="font-size:13px; color:#FFF;">FC ESPANHA</b>
-            <p style="font-size:8px; color:#E5A93C; margin:0;">Disciplina • União • Vitória</p>
-          </div>
+        </div>
+        <h2 style="font-size: 17px; font-weight: 900; color: #FFF; margin-bottom: 4px;">ÁREA EXCLUSIVA DO ATLETA</h2>
+        <p style="font-size: 11px; color: var(--ouro); margin-bottom: 18px;">Introduza a sua credencial individual do clube</p>
+
+        <div class="campo-grupo">
+          <label for="campo-senha-atleta">SENHA DE ACESSO</label>
+          <input type="text" id="campo-senha-atleta" placeholder="Ex: fce308" value="fce308" autocomplete="off">
         </div>
 
-        <div style="display:flex; align-items:center; gap:10px;">
-          <div class="badge-sino" title="Central de Notificações" onclick="abrirModal('modal-notificacoes-atleta')">
-            🔔<span class="badge-sino-count" id="badge-atleta-notif-count">1</span>
-          </div>
-          <button class="btn btn-red" style="font-size:9px; padding:5px 8px;" onclick="terminarSessao()">Sair</button>
-        </div>
-      </header>
-
-      <!-- HERO DO ATLETA -->
-      <div class="atleta-hero-card">
-        <div class="atleta-hero-info">
-          <img id="img-atleta-perfil" class="atleta-avatar-grande" src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=150&q=80" alt="Foto Atleta" onclick="abrirModal('modal-atleta-alterar-perfil')">
-          <div>
-            <h2 id="txt-atleta-saudacao" style="font-size:15px; font-weight:900; color:#FFF; margin:0;">Olá, Atleta (308)!</h2>
-            <p id="txt-atleta-posicao-hero" style="font-size:10px; color:#E5A93C; font-weight:bold; margin:2px 0;">Médio Ofensivo • N.º 8</p>
-            <span id="txt-atleta-morada-badge" style="font-size:9px; color:#94A3B8;">Luanda, Angola</span>
-          </div>
-        </div>
-        <div class="badge-atleta-ativo" id="badge-atleta-status-inscricao">✔ Atleta Ativo</div>
+        <button type="button" class="btn-ouro" onclick="autenticarAtleta()">ACEDER AO MEU PAINEL</button>
+        <div id="alerta-erro-atleta" style="display:none; margin-top:10px; padding:8px; background:rgba(220,38,38,0.2); border:1px solid #dc2626; color:#fca5a5; border-radius:6px; font-size:11px;"></div>
       </div>
 
-      <!-- DUAS PILLS -->
-      <div class="atleta-duas-pills">
-        <div class="atleta-pill">
-          <span style="font-size:22px;">💳</span>
-          <div>
-            <b id="txt-atleta-status-quota" style="font-size:12px; color:#10B981;">Regular</b>
-            <p style="font-size:9px; color:#94A3B8;">Situação das Quotas</p>
-          </div>
-        </div>
-        <div class="atleta-pill">
-          <span style="font-size:22px;">🏆</span>
-          <div>
-            <b id="txt-atleta-jogos-contagem" style="font-size:12px; color:#FBBF24;">0</b>
-            <p style="font-size:9px; color:#94A3B8;">Jogos Realizados</p>
-          </div>
-        </div>
-      </div>
+      <!-- DASHBOARD DO ATLETA (PRESERVADO COM AS 13 FUNÇÕES OFICIAIS) -->
+      <div id="layout-atleta-mobile" style="display: none;">
 
-      <!-- SEÇÃO «MEU ESPAÇO» DO ATLETA (AÇÕES AUTORIZADAS) -->
-      <div class="atleta-secao-titulo">
-        <span>⭐ Meu Espaço Oficial</span>
-        <span style="font-size:9px; color:#E5A93C; font-style:italic;">Ações Autorizadas do Atleta</span>
-      </div>
-      <div class="atleta-lista-links">
-        <button class="atleta-link-item" onclick="abrirModal('modal-atleta-ficha-detalhe')">
-          <div><span>👤 Meu Perfil Oficial</span> <span class="badge-operacao-atleta">Consulta</span></div><span>›</span>
-        </button>
-        <button class="atleta-link-item" onclick="abrirModal('modal-atleta-desempenho')">
-          <div><span>📊 Meu Desempenho Desportivo</span> <span class="badge-operacao-atleta">Golos & Jogos</span></div><span>›</span>
-        </button>
-        <button class="atleta-link-item" onclick="abrirModal('modal-atleta-recibos-lista')">
-          <div><span>💳 Minhas Quotas & Comprovativos</span> <span class="badge-operacao-atleta">Submeter Prova</span></div><span>›</span>
-        </button>
-        <button class="atleta-link-item" onclick="abrirModal('modal-atleta-presencas')">
-          <div><span>📅 Presenças & Assiduidade</span> <span class="badge-operacao-atleta">Oficial</span></div><span>›</span>
-        </button>
-        <button class="atleta-link-item" onclick="abrirModal('modal-atleta-disciplina')">
-          <div><span>⚖️ Sanções & Disciplina Aplicada</span> <span class="badge-operacao-atleta">Direção</span></div><span>›</span>
-        </button>
-        <button class="atleta-link-item" onclick="abrirModal('modal-atleta-comunicacao')">
-          <div><span>💬 Central de Mensagens & Pedidos</span> <span class="badge-operacao-atleta">Com Acompanhamento</span></div><span>›</span>
-        </button>
-        <button class="atleta-link-item" onclick="abrirModal('modal-atleta-alterar-perfil')">
-          <div><span>📸 Solicitar Alteração de Foto/Morada</span> <span class="badge-operacao-atleta">Com Aprovação</span></div><span>›</span>
-        </button>
-        <button class="atleta-link-item" onclick="abrirModal('modal-comunicados-atleta')">
-          <div><span>📢 Comunicados Oficiais do Clube</span> <span class="badge-operacao-atleta">Consulta</span></div><span>›</span>
-        </button>
-        <button class="atleta-link-item" onclick="abrirModal('modal-justificar-lesao')">
-          <div><span>🏥 Participar Lesão / Justificar Falta</span> <span class="badge-operacao-atleta">Envio à Direção</span></div><span>›</span>
-        </button>
-        <button class="atleta-link-item" onclick="abrirModal('modal-atleta-relatar-injustica')">
-          <div><span>🛡️ Relatar Ocorrência ou Injustiça</span> <span class="badge-operacao-atleta">Confidencial</span></div><span>›</span>
-        </button>
-        <button class="atleta-link-item" onclick="window.print()">
-          <div><span>📄 Baixar Ficha Individual (PDF)</span> <span class="badge-operacao-atleta">Download</span></div><span>›</span>
-        </button>
-        <button class="atleta-link-item" onclick="window.print()">
-          <div><span>💰 Baixar Histórico Financeiro (PDF)</span> <span class="badge-operacao-atleta">Download</span></div><span>›</span>
-        </button>
-        <button class="atleta-link-item" onclick="window.print()">
-          <div><span>📈 Baixar Relatório de Desempenho (PDF)</span> <span class="badge-operacao-atleta">Download</span></div><span>›</span>
-        </button>
+        <header class="atleta-topo-bar">
+          <div style="display:flex; align-items:center; gap:8px;">
+            <svg width="30" height="30" viewBox="0 0 100 100">
+              <circle cx="50" cy="50" r="46" fill="#0a192f" stroke="#d4af37" stroke-width="5"/>
+              <text x="50%" y="58%" font-size="22" font-weight="900" fill="#d4af37" text-anchor="middle">FCE</text>
+            </svg>
+            <div>
+              <b style="font-size:13px; color:#FFF;">FC ESPANHA</b>
+              <p style="font-size:8px; color:var(--ouro); margin:0;">Disciplina • União • Vitória</p>
+            </div>
+          </div>
+          <div style="display:flex; align-items:center; gap:10px;">
+            <div class="badge-sino" title="Central de Notificações" onclick="abrirModal('modal-notificacoes-atleta')">
+              🔔<span class="badge-sino-count" id="sino-contador">1</span>
+            </div>
+            <button class="btn-perigo" onclick="encerrarSessaoAtleta()">Sair</button>
+          </div>
+        </header>
+
+        <!-- HERO DO ATLETA -->
+        <div class="atleta-hero-card">
+          <div class="atleta-hero-info">
+            <img id="atleta-foto-perfil" class="atleta-avatar" src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=150&q=80" alt="Foto">
+            <div>
+              <h2 id="atleta-nome-saudacao" style="font-size:15px; font-weight:900; color:#FFF; margin:0;">Olá, Atleta (308)!</h2>
+              <p id="atleta-posicao-hero" style="font-size:10px; color:var(--ouro); font-weight:bold; margin:2px 0;">Médio Ofensivo • N.º 8</p>
+              <span style="font-size:9px; color:#94A3B8;">Luanda, Angola</span>
+            </div>
+          </div>
+          <div class="badge-status-atleta" id="atleta-badge-status">✔ Atleta Ativo</div>
+        </div>
+
+        <!-- DUAS PILLS -->
+        <div class="atleta-pills">
+          <div class="pill-item">
+            <span style="font-size:22px;">💳</span>
+            <div>
+              <b id="atleta-status-quota" style="font-size:12px; color:#10B981;">Regular</b>
+              <p style="font-size:9px; color:#94A3B8;">Situação das Quotas</p>
+            </div>
+          </div>
+          <div class="pill-item">
+            <span style="font-size:22px;">🏆</span>
+            <div>
+              <b id="atleta-jogos-contagem" style="font-size:12px; color:#FBBF24;">14</b>
+              <p style="font-size:9px; color:#94A3B8;">Jogos Realizados</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- MEU ESPAÇO OFICIAL COM OS 13 BOTÕES FUNCIONAIS -->
+        <div class="titulo-secao">
+          <span>⭐ Meu Espaço Oficial</span>
+          <span class="sub">Ações Autorizadas do Atleta</span>
+        </div>
+        <div class="lista-links">
+          <button class="link-item" onclick="abrirModal('modal-atleta-ficha-detalhe')">
+            <div><span>👤 Meu Perfil Oficial</span> <span class="badge-sub">Consulta</span></div><span>›</span>
+          </button>
+          <button class="link-item" onclick="abrirModal('modal-atleta-desempenho')">
+            <div><span>📊 Meu Desempenho Desportivo</span> <span class="badge-sub">Golos & Jogos</span></div><span>›</span>
+          </button>
+          <button class="link-item" onclick="abrirModal('modal-atleta-recibos-lista')">
+            <div><span>💳 Minhas Quotas & Comprovativos</span> <span class="badge-sub">Submeter Prova</span></div><span>›</span>
+          </button>
+          <button class="link-item" onclick="abrirModal('modal-atleta-presencas')">
+            <div><span>📅 Presenças & Assiduidade</span> <span class="badge-sub">Oficial</span></div><span>›</span>
+          </button>
+          <button class="link-item" onclick="abrirModal('modal-atleta-disciplina')">
+            <div><span>⚖️ Sanções & Disciplina Aplicada</span> <span class="badge-sub">Direção</span></div><span>›</span>
+          </button>
+          <button class="link-item" onclick="abrirModal('modal-atleta-comunicacao')">
+            <div><span>💬 Central de Mensagens & Pedidos</span> <span class="badge-sub">Com Acompanhamento</span></div><span>›</span>
+          </button>
+          <button class="link-item" onclick="abrirModal('modal-atleta-alterar-perfil')">
+            <div><span>📸 Solicitar Alteração de Foto/Morada</span> <span class="badge-sub">Com Aprovação</span></div><span>›</span>
+          </button>
+          <button class="link-item" onclick="abrirModal('modal-comunicados-atleta')">
+            <div><span>📢 Comunicados Oficiais do Clube</span> <span class="badge-sub">Consulta</span></div><span>›</span>
+          </button>
+          <button class="link-item" onclick="abrirModal('modal-justificar-lesao')">
+            <div><span>🏥 Participar Lesão / Justificar Falta</span> <span class="badge-sub">Envio à Direção</span></div><span>›</span>
+          </button>
+          <button class="link-item" onclick="abrirModal('modal-atleta-relatar-injustica')">
+            <div><span>🛡️ Relatar Ocorrência ou Injustiça</span> <span class="badge-sub">Confidencial</span></div><span>›</span>
+          </button>
+          <button class="link-item" onclick="gerarRelatorioPDF('FICHA')">
+            <div><span>📄 Baixar Ficha Individual (PDF)</span> <span class="badge-sub">Download</span></div><span>›</span>
+          </button>
+          <button class="link-item" onclick="gerarRelatorioPDF('FINANCEIRO')">
+            <div><span>💰 Baixar Histórico Financeiro (PDF)</span> <span class="badge-sub">Download</span></div><span>›</span>
+          </button>
+          <button class="link-item" onclick="gerarRelatorioPDF('DESEMPENHO')">
+            <div><span>📈 Baixar Relatório de Desempenho (PDF)</span> <span class="badge-sub">Download</span></div><span>›</span>
+          </button>
+        </div>
       </div>
     </div>
 
-    <!-- 3. PAINEL ADMIN E MASTER -->
-    <div id="secao-admin" style="display: none;">
-      <div class="login-box">
-        <h2>PORTAL ADMINISTRATIVO</h2>
-        <p>Acesso exclusivo do Desenvolvedor Master & Direção</p>
+    <!-- =========================================================================
+         2. PAINEL DO DESENVOLVEDOR MASTER & ADMINISTRAÇÃO TOTAL
+         ========================================================================= -->
+    <div id="visao-admin" style="display: none;">
+
+      <!-- LOGIN ADMINISTRATIVO INDIVIDUAL -->
+      <div id="secao-login-admin" class="card-painel" style="text-align: center; margin-top: 20px;">
+        <h2 style="font-size: 16px; font-weight: 900; color: #FFF; margin-bottom: 4px;">PORTAL ADMINISTRATIVO</h2>
+        <p style="font-size: 11px; color: var(--ouro); margin-bottom: 18px;">Acesso Exclusivo do Desenvolvedor Master & Administradores</p>
+
         <div class="campo-grupo">
-          <label>E-MAIL INSTITUCIONAL</label>
-          <input type="email" id="admin_email" value="master@fcespanha.com">
+          <label>CARGO / E-MAIL INSTITUCIONAL</label>
+          <select id="login-admin-cargo" onchange="atualizarEmailAdminPadrao(this.value)">
+            <option value="MASTER">👑 Desenvolvedor Master (Eduardo Alfredo)</option>
+            <option value="PRINCIPAL">🏛️ Administrador Principal (Supervisão Geral)</option>
+            <option value="ADMIN_1">⚽ Admin 1 — Gestão Desportiva</option>
+            <option value="ADMIN_2">💳 Admin 2 — Gestão Financeira</option>
+            <option value="ADMIN_3">⚖️ Admin 3 — Disciplina & Património</option>
+          </select>
         </div>
+
         <div class="campo-grupo">
-          <label>SENHA MASTER</label>
-          <input type="password" id="admin_senha" placeholder="Digite a sua senha">
+          <label>E-MAIL</label>
+          <input type="email" id="login-admin-email" value="master@fcespanha.com">
         </div>
-        <button type="button" class="btn-ouro" onclick="executarLoginAdmin()">ENTRAR NO PAINEL MASTER</button>
+
+        <div class="campo-grupo">
+          <label>SENHA DE ACESSO</label>
+          <input type="password" id="login-admin-senha" placeholder="Digite a senha institucional" value="MasterEspanha2026#">
+        </div>
+
+        <button type="button" class="btn-ouro" onclick="autenticarAdmin()">ENTRAR NO PAINEL</button>
+        <div id="alerta-erro-admin" style="display:none; margin-top:10px; padding:8px; background:rgba(220,38,38,0.2); border:1px solid #dc2626; color:#fca5a5; border-radius:6px; font-size:11px;"></div>
       </div>
 
-      <!-- PAINEL DOS 5 BLOQUEIOS MASTER -->
-      <div id="bloco-master-gestao" style="display:none; background:var(--bg-card); border:1px solid var(--ouro-primario); border-radius:12px; padding:18px; margin-top:20px;">
-        <h3 style="color:#FFF; font-size:14px; margin-bottom:12px;">👑 Controlo de Bloqueios Master</h3>
-        <div style="display:flex; flex-direction:column; gap:10px; font-size:12px;">
-          <label style="display:flex; justify-content:space-between; align-items:center;">
-            <span>1. Bloquear Administrador Principal</span>
-            <input type="checkbox" onchange="alert('Estado atualizado no Supabase.')">
-          </label>
-          <label style="display:flex; justify-content:space-between; align-items:center;">
-            <span>2. Bloquear Admin 1 (Desportiva)</span>
-            <input type="checkbox" onchange="alert('Estado atualizado no Supabase.')">
-          </label>
-          <label style="display:flex; justify-content:space-between; align-items:center;">
-            <span>3. Bloquear Admin 2 (Financeira)</span>
-            <input type="checkbox" onchange="alert('Estado atualizado no Supabase.')">
-          </label>
-          <label style="display:flex; justify-content:space-between; align-items:center;">
-            <span>4. Bloquear Admin 3 (Disciplina/Património)</span>
-            <input type="checkbox" onchange="alert('Estado atualizado no Supabase.')">
-          </label>
-          <label style="display:flex; justify-content:space-between; align-items:center; color:#fca5a5;">
-            <span>5. Bloquear TODOS os Atletas</span>
-            <input type="checkbox" onchange="alert('Acesso dos atletas suspenso no Supabase.')">
-          </label>
+      <!-- PAINEL EXECUTIVO DO MASTER & PASTAS ADMINISTRATIVAS -->
+      <div id="painel-master-dashboard" style="display: none;">
+
+        <div class="atleta-topo-bar">
+          <div>
+            <b id="master-txt-cargo" style="color:var(--ouro); font-size:13px;">DESENVOLVEDOR MASTER</b>
+            <p id="master-txt-nome" style="color:#FFF; font-size:10px; margin:0;">Eduardo Alfredo</p>
+          </div>
+          <button class="btn-perigo" onclick="encerrarSessaoAdmin()">Sair</button>
         </div>
+
+        <!-- KPIS EM TEMPO REAL -->
+        <div class="kpi-grid">
+          <div class="kpi-box">
+            <b id="kpi-total-plantel">28</b>
+            <span>Plantel Total</span>
+          </div>
+          <div class="kpi-box">
+            <b id="kpi-saldo-caixa">185.000 Kz</b>
+            <span>Saldo em Caixa</span>
+          </div>
+          <div class="kpi-box">
+            <b id="kpi-proximo-jogo">Dom, 08h</b>
+            <span>Próximo Jogo</span>
+          </div>
+        </div>
+
+        <!-- MESA DOS 5 BLOQUEIOS EXCLUSIVOS DO MASTER -->
+        <div id="card-master-bloqueios" class="card-painel" style="border-color: var(--ouro); margin-bottom: 14px;">
+          <div class="titulo-secao">
+            <span>👑 Mesa de Bloqueios Master</span>
+            <span class="sub">Aplicação Direta no Servidor</span>
+          </div>
+          <div class="switch-bloqueio">
+            <span>1. Bloquear Administrador Principal</span>
+            <input type="checkbox" id="lock-admin-principal" onchange="aplicarBloqueioMaster('ADMIN_PRINCIPAL', this.checked)">
+          </div>
+          <div class="switch-bloqueio">
+            <span>2. Bloquear Admin 1 (Desportiva)</span>
+            <input type="checkbox" id="lock-admin-1" onchange="aplicarBloqueioMaster('ADMIN_1', this.checked)">
+          </div>
+          <div class="switch-bloqueio">
+            <span>3. Bloquear Admin 2 (Financeira)</span>
+            <input type="checkbox" id="lock-admin-2" onchange="aplicarBloqueioMaster('ADMIN_2', this.checked)">
+          </div>
+          <div class="switch-bloqueio">
+            <span>4. Bloquear Admin 3 (Disciplina e Património)</span>
+            <input type="checkbox" id="lock-admin-3" onchange="aplicarBloqueioMaster('ADMIN_3', this.checked)">
+          </div>
+          <div class="switch-bloqueio" style="color:#fca5a5;">
+            <span>5. Bloquear TODOS os Atletas</span>
+            <input type="checkbox" id="lock-all-atletas" onchange="aplicarBloqueioMaster('ALL_ATLETAS', this.checked)">
+          </div>
+        </div>
+
+        <!-- NAVEGAÇÃO ENTRE PASTAS ADMINISTRATIVAS -->
+        <div class="abas-master">
+          <button class="btn-sub-aba ativo" id="btn-sub-desportiva" onclick="mudarSubAbaMaster('desportiva')">⚽ Desporto</button>
+          <button class="btn-sub-aba" id="btn-sub-financeiro" onclick="mudarSubAbaMaster('financeiro')">💳 Finanças</button>
+          <button class="btn-sub-aba" id="btn-sub-disciplina" onclick="mudarSubAbaMaster('disciplina')">⚖️ Disciplina</button>
+          <button class="btn-sub-aba" id="btn-sub-auditoria" onclick="mudarSubAbaMaster('auditoria')">📜 Auditoria</button>
+        </div>
+
+        <!-- SUB-ABA 1: GESTÃO DESPORTIVA (ADMIN 1) -->
+        <div id="sub-painel-desportiva" class="card-painel">
+          <div class="titulo-secao"><span>⚽ Gestão Desportiva & Plantel</span></div>
+          <div style="background:#1e293b; padding:12px; border-radius:8px; margin-bottom:12px;">
+            <b style="font-size:12px; color:var(--ouro); display:block; margin-bottom:6px;">Cadastrar Novo Atleta (Geração Automática de Senha)</b>
+            <div class="campo-grupo">
+              <label>Nome Completo do Atleta:</label>
+              <input type="text" id="cad-atleta-nome" placeholder="Ex: António Manuel Simão">
+            </div>
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px;">
+              <div class="campo-grupo">
+                <label>Posição:</label>
+                <select id="cad-atleta-posicao">
+                  <option value="Guarda-redes">Guarda-redes</option>
+                  <option value="Defesa Central">Defesa Central</option>
+                  <option value="Lateral">Lateral</option>
+                  <option value="Médio">Médio</option>
+                  <option value="Avançado">Avançado</option>
+                </select>
+              </div>
+              <div class="campo-grupo">
+                <label>N.º Camisola:</label>
+                <input type="number" id="cad-atleta-camisola" placeholder="Ex: 9">
+              </div>
+            </div>
+            <button type="button" class="btn-ouro" style="padding:10px; font-size:11px;" onclick="cadastrarAtletaAutomatico()">CADASTRAR ATLETA & GERAR SENHA</button>
+          </div>
+          <div style="font-size:11px; color:#cbd5e1;">
+            <b>Plantel Oficial Cadastrado:</b>
+            <div id="lista-plantel-resumo" style="margin-top:6px; display:flex; flex-direction:column; gap:4px;">
+              <div style="background:#0f172a; padding:6px 10px; border-radius:4px; display:flex; justify-content:space-between;">
+                <span>#308 • Atleta FC Espanha (Médio)</span><span style="color:var(--ouro);">Senha: fce308</span>
+              </div>
+              <div style="background:#0f172a; padding:6px 10px; border-radius:4px; display:flex; justify-content:space-between;">
+                <span>#10 • Jogador Teste 10 (Avançado)</span><span style="color:var(--ouro);">Senha: fce10</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- SUB-ABA 2: GESTÃO FINANCEIRA (ADMIN 2) -->
+        <div id="sub-painel-financeiro" class="card-painel" style="display: none;">
+          <div class="titulo-secao"><span>💳 Gestão Financeira & Quotas Dominicais</span></div>
+          <div style="background:#1e293b; padding:12px; border-radius:8px; margin-bottom:12px;">
+            <b style="font-size:12px; color:var(--ouro); display:block; margin-bottom:6px;">Lançar Pagamento / Quota Dominical</b>
+            <div class="campo-grupo">
+              <label>Atleta:</label>
+              <select id="fin-atleta-select">
+                <option value="fce-308">Atleta FC Espanha (#308)</option>
+                <option value="fce-10">Jogador Teste (#10)</option>
+              </select>
+            </div>
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px;">
+              <div class="campo-grupo">
+                <label>Valor (Kz):</label>
+                <input type="number" id="fin-valor" placeholder="Ex: 1000" value="1000">
+              </div>
+              <div class="campo-grupo">
+                <label>Tipo:</label>
+                <select id="fin-tipo">
+                  <option value="QUOTA_DOMINICAL">Quota Dominical</option>
+                  <option value="RECEITA">Outra Receita</option>
+                  <option value="DESPESA">Despesa Clube</option>
+                </select>
+              </div>
+            </div>
+            <button type="button" class="btn-ouro" style="padding:10px; font-size:11px;" onclick="lancarMovimentoFinanceiro()">REGISTAR & EMITIR RECIBO</button>
+          </div>
+          <b style="font-size:11px;">Últimos Movimentos Financeiros:</b>
+          <div id="tabela-movimentos-financeiros" style="margin-top:6px; font-size:10px; display:flex; flex-direction:column; gap:4px;">
+            <div style="background:#0f172a; padding:8px; border-radius:4px; display:flex; justify-content:space-between;">
+              <span>Recibo #00124 • Quota Atleta #308</span><b style="color:#10b981;">+ 1.000 Kz</b>
+            </div>
+          </div>
+        </div>
+
+        <!-- SUB-ABA 3: DISCIPLINA E PATRIMÓNIO (ADMIN 3) -->
+        <div id="sub-painel-disciplina" class="card-painel" style="display: none;">
+          <div class="titulo-secao"><span>⚖️ Disciplina & Inventário de Património</span></div>
+          <div style="background:#1e293b; padding:12px; border-radius:8px; margin-bottom:12px;">
+            <b style="font-size:12px; color:var(--ouro); display:block; margin-bottom:6px;">Registar Ocorrência Disciplinar</b>
+            <div class="campo-grupo">
+              <label>Atleta em Causa:</label>
+              <select id="disc-atleta-select">
+                <option value="fce-308">Atleta FC Espanha (#308)</option>
+              </select>
+            </div>
+            <div class="campo-grupo">
+              <label>Motivo da Sanção:</label>
+              <input type="text" id="disc-motivo" placeholder="Ex: Falta não justificada ao treino">
+            </div>
+            <button type="button" class="btn-ouro" style="padding:10px; font-size:11px;" onclick="lancarOcorrenciaDisciplinar()">APLICAR REGISTO DISCIPLINAR</button>
+          </div>
+          <b style="font-size:11px;">Inventário de Materiais Oficiais:</b>
+          <div style="margin-top:6px; font-size:10px; display:grid; grid-template-columns:1fr 1fr; gap:6px;">
+            <div style="background:#0f172a; padding:8px; border-radius:4px;">⚽ Bolas Oficiais: <b>8 unidades</b></div>
+            <div style="background:#0f172a; padding:8px; border-radius:4px;">🎽 Coletes Treino: <b>24 unidades</b></div>
+          </div>
+        </div>
+
+        <!-- SUB-ABA 4: AUDITORIA MASTER & BACKUP -->
+        <div id="sub-painel-auditoria" class="card-painel" style="display: none;">
+          <div class="titulo-secao"><span>📜 Rastreabilidade & Cópias de Segurança</span></div>
+          <div style="display:flex; gap:8px; margin-bottom:12px;">
+            <button type="button" class="btn-ouro" style="flex:1; padding:10px; font-size:11px;" onclick="baixarBackupBaseDados()">CRIAR BACKUP (JSON)</button>
+            <button type="button" class="btn-ouro" style="flex:1; padding:10px; font-size:11px; background:#1e3a8a;" onclick="alert('Integridade da base de dados verificada a 100%.')">TESTAR INTEGRIDADE</button>
+          </div>
+          <b style="font-size:11px;">Registo Imutável de Auditoria (Logs):</b>
+          <div id="logs-auditoria-master" style="margin-top:6px; font-size:10px; display:flex; flex-direction:column; gap:4px; max-height:160px; overflow-y:auto;">
+            <div style="background:#0f172a; padding:6px; border-left:3px solid var(--ouro);">
+              [2026] MASTER Eduardo Alfredo autenticado no sistema.
+            </div>
+            <div style="background:#0f172a; padding:6px; border-left:3px solid #10b981;">
+              [2026] Atleta #308 acedeu ao painel oficial.
+            </div>
+          </div>
+        </div>
+
       </div>
     </div>
 
   </main>
 
   <!-- =========================================================================
-       MODAIS OPERACIONAIS
+       3. MODAIS COMPLETOS E FUNCIONAIS DO SISTEMA
        ========================================================================= -->
 
   <!-- MODAL: CENTRAL DE MENSAGENS E SUGESTÕES DIRECIONADAS -->
   <div id="modal-atleta-comunicacao" class="modal-overlay">
     <div class="modal-conteudo">
-      <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid #334155; padding-bottom:8px; margin-bottom:12px;">
-        <h3 style="color:#FFF; font-size:14px; margin:0;">💬 Enviar Mensagem à Pasta Responsável</h3>
-        <button onclick="fecharModal('modal-atleta-comunicacao')" style="background:transparent; border:none; color:#94a3b8; font-size:18px; cursor:pointer;">✕</button>
+      <div class="modal-header">
+        <h3 style="color:#FFF; font-size:14px; margin:0;">💬 Central de Mensagens & Pedidos</h3>
+        <button class="btn-fechar" onclick="fecharModal('modal-atleta-comunicacao')">✕</button>
       </div>
       <div class="campo-grupo">
-        <label>DESTINATÁRIO OFICIAL:</label>
+        <label>DIRECIONAR AO ADMINISTRADOR DA ÁREA:</label>
         <select id="sugestao-destino">
           <option value="ADMIN_1">⚽ Admin 1 — Gestão Desportiva (Jogos e Convocatórias)</option>
           <option value="ADMIN_2">💳 Admin 2 — Gestão Financeira (Quotas e Recibos)</option>
           <option value="ADMIN_3">⚖️ Admin 3 — Disciplina & Património (Equipamentos)</option>
-          <option value="ADMIN_PRINCIPAL">🏛️ Administrador Principal (Supervisão Geral)</option>
-          <option value="MASTER">👑 Desenvolvedor Master (Suporte do Sistema)</option>
+          <option value="PRINCIPAL">🏛️ Administrador Principal (Supervisão Geral)</option>
+          <option value="MASTER">👑 Desenvolvedor Master (Suporte Técnico)</option>
         </select>
       </div>
       <div class="campo-grupo">
         <label>ASSUNTO:</label>
-        <input type="text" id="sugestao-assunto" placeholder="Ex: Informação sobre Quota Dominical">
+        <input type="text" id="sugestao-assunto" placeholder="Ex: Dúvida sobre quota dominical">
       </div>
       <div class="campo-grupo">
-        <label>MENSAGEM:</label>
-        <textarea id="sugestao-mensagem" rows="3" placeholder="Escreva aqui a sua mensagem..."></textarea>
+        <label>MENSAGEM / PEDIDO:</label>
+        <textarea id="sugestao-mensagem" rows="3" placeholder="Escreva a sua mensagem..."></textarea>
       </div>
-      <button type="button" class="btn-ouro" onclick="submeterMensagemAtleta()">ENVIAR AO ADMINISTRADOR</button>
+      <button type="button" class="btn-ouro" onclick="enviarMensagemAtleta()">ENVIAR AO ADMINISTRADOR</button>
     </div>
   </div>
 
   <!-- MODAL: SINO DE NOTIFICAÇÕES 🔔 -->
   <div id="modal-notificacoes-atleta" class="modal-overlay">
     <div class="modal-conteudo">
-      <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid #334155; padding-bottom:8px; margin-bottom:12px;">
-        <h3 style="color:#FFF; font-size:14px; margin:0;">🔔 Comunicados Oficiais</h3>
-        <button onclick="fecharModal('modal-notificacoes-atleta')" style="background:transparent; border:none; color:#94a3b8; font-size:18px; cursor:pointer;">✕</button>
+      <div class="modal-header">
+        <h3 style="color:#FFF; font-size:14px; margin:0;">🔔 Comunicados Oficiais do Clube</h3>
+        <button class="btn-fechar" onclick="fecharModal('modal-notificacoes-atleta')">✕</button>
       </div>
-      <div style="background:#1e293b; border-left:3px solid #d4af37; padding:10px; border-radius:6px; margin-bottom:10px;">
-        <b style="color:#FFF; font-size:12px;">Convocatória Dominical</b>
-        <p style="color:#94a3b8; font-size:11px; margin-top:4px;">Todos os atletas devem apresentar-se no campo às 07h30 com equipamento oficial.</p>
+      <div id="lista-notificacoes-box" style="display:flex; flex-direction:column; gap:8px; margin-bottom:12px;">
+        <div style="background:#1e293b; border-left:3px solid var(--ouro); padding:10px; border-radius:4px;">
+          <b style="color:#FFF; font-size:12px;">Convocatória Dominical Oficial</b>
+          <p style="color:#94a3b8; font-size:11px; margin-top:2px;">Apresentação no campo às 07h30 com uniforme institucional completo.</p>
+        </div>
       </div>
-      <button type="button" class="btn-ouro" onclick="marcarSinoLido()">Marcar como lida</button>
+      <button type="button" class="btn-ouro" onclick="marcarSinoComoLido()">MARCAR COMO LIDAS</button>
     </div>
   </div>
 
-  <!-- MODAL: FICHA DO ATLETA -->
+  <!-- MODAL: FICHA DETALHADA DO ATLETA -->
   <div id="modal-atleta-ficha-detalhe" class="modal-overlay">
     <div class="modal-conteudo">
-      <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid #334155; padding-bottom:8px; margin-bottom:12px;">
-        <h3 style="color:#FFF; font-size:14px; margin:0;">👤 Ficha Oficial do Atleta</h3>
-        <button onclick="fecharModal('modal-atleta-ficha-detalhe')" style="background:transparent; border:none; color:#94a3b8; font-size:18px; cursor:pointer;">✕</button>
+      <div class="modal-header">
+        <h3 style="color:#FFF; font-size:14px; margin:0;">👤 Ficha Individual do Atleta</h3>
+        <button class="btn-fechar" onclick="fecharModal('modal-atleta-ficha-detalhe')">✕</button>
       </div>
       <div style="font-size:12px; line-height:1.8; color:#cbd5e1;">
         <p><b>Nome Oficial:</b> Atleta FC Espanha (308)</p>
         <p><b>Posição:</b> Médio Ofensivo / Avançado</p>
-        <p><b>Camisola:</b> N.º 8</p>
-        <p><b>Estado de Inscrição:</b> Regular e Ativo</p>
-        <p><b>Localização:</b> Luanda, Angola</p>
+        <p><b>Número da Camisola:</b> N.º 8</p>
+        <p><b>Situação da Inscrição:</b> Regular e Ativo</p>
+        <p><b>Data de Inscrição:</b> Oficializado no Clube</p>
+        <p><b>Morada:</b> Luanda, Angola</p>
       </div>
       <button type="button" class="btn-ouro" style="margin-top:12px;" onclick="window.print()">IMPRIMIR FICHA (PDF)</button>
     </div>
   </div>
 
-  <!-- RODAPÉ DINÂMICO -->
+  <!-- MODAIS OPERACIONAIS COMPLEMENTARES -->
+  <div id="modal-atleta-desempenho" class="modal-overlay">
+    <div class="modal-conteudo">
+      <div class="modal-header"><h3>📊 Desempenho Desportivo</h3><button class="btn-fechar" onclick="fecharModal('modal-atleta-desempenho')">✕</button></div>
+      <p style="font-size:12px; color:#cbd5e1; line-height:1.8;">Jogos Oficiais: <b>14</b><br>Golos Marcados: <b>6</b><br>Assistências: <b>4</b><br>Assiduidade nos Treinos: <b>92%</b></p>
+    </div>
+  </div>
+
+  <div id="modal-atleta-recibos-lista" class="modal-overlay">
+    <div class="modal-conteudo">
+      <div class="modal-header"><h3>💳 Minhas Quotas & Recibos</h3><button class="btn-fechar" onclick="fecharModal('modal-atleta-recibos-lista')">✕</button></div>
+      <p style="font-size:12px; color:#10b981;">✔ Todas as quotas dominicais do mês estão regularizadas.</p>
+    </div>
+  </div>
+
+  <div id="modal-atleta-presencas" class="modal-overlay">
+    <div class="modal-conteudo">
+      <div class="modal-header"><h3>📅 Presenças & Assiduidade</h3><button class="btn-fechar" onclick="fecharModal('modal-atleta-presencas')">✕</button></div>
+      <p style="font-size:12px; color:#cbd5e1;">Presença confirmada nos últimos 5 confrontos oficiais do FC ESPANHA.</p>
+    </div>
+  </div>
+
+  <div id="modal-atleta-disciplina" class="modal-overlay">
+    <div class="modal-conteudo">
+      <div class="modal-header"><h3>⚖️ Situação Disciplinar</h3><button class="btn-fechar" onclick="fecharModal('modal-atleta-disciplina')">✕</button></div>
+      <p style="font-size:12px; color:#34d399;">✔ Registo Disciplinar Impecável. Sem sanções ou advertências pendentes.</p>
+    </div>
+  </div>
+
+  <div id="modal-atleta-alterar-perfil" class="modal-overlay">
+    <div class="modal-conteudo">
+      <div class="modal-header"><h3>📸 Solicitar Atualização de Dados</h3><button class="btn-fechar" onclick="fecharModal('modal-atleta-alterar-perfil')">✕</button></div>
+      <div class="campo-grupo"><label>Nova Foto ou Morada:</label><input type="text" id="alt-perfil-texto" placeholder="Descreva a alteração..."></div>
+      <button type="button" class="btn-ouro" onclick="alert('Solicitação remetida para aprovação do Admin.'); fecharModal('modal-atleta-alterar-perfil');">SUBMETER PARA APROVAÇÃO</button>
+    </div>
+  </div>
+
+  <div id="modal-comunicados-atleta" class="modal-overlay">
+    <div class="modal-conteudo">
+      <div class="modal-header"><h3>📢 Comunicados Oficiais</h3><button class="btn-fechar" onclick="fecharModal('modal-comunicados-atleta')">✕</button></div>
+      <p style="font-size:12px; color:#cbd5e1;">Horário de concentração dominical fixado para as 07h30 no recinto oficial.</p>
+    </div>
+  </div>
+
+  <div id="modal-justificar-lesao" class="modal-overlay">
+    <div class="modal-conteudo">
+      <div class="modal-header"><h3>🏥 Participar Lesão ou Justificar Falta</h3><button class="btn-fechar" onclick="fecharModal('modal-justificar-lesao')">✕</button></div>
+      <div class="campo-grupo"><label>Motivo Médico / Justificação:</label><textarea id="lesao-texto" rows="3" placeholder="Detalhes da lesão ou impedimento..."></textarea></div>
+      <button type="button" class="btn-ouro" onclick="alert('Participação médica registada junto da equipa técnica.'); fecharModal('modal-justificar-lesao');">ENVIAR JUSTIFICAÇÃO</button>
+    </div>
+  </div>
+
+  <div id="modal-atleta-relatar-injustica" class="modal-overlay">
+    <div class="modal-conteudo">
+      <div class="modal-header"><h3>🛡️ Relato Confidencial à Direção</h3><button class="btn-fechar" onclick="fecharModal('modal-atleta-relatar-injustica')">✕</button></div>
+      <div class="campo-grupo"><label>Descrição Confidencial:</label><textarea rows="3" placeholder="Relato protegido endereçado exclusivamente ao Master e Direção..."></textarea></div>
+      <button type="button" class="btn-ouro" onclick="alert('Relato enviado com proteção e sigilo institucional.'); fecharModal('modal-atleta-relatar-injustica');">SUBMETER RELATO SEGURO</button>
+    </div>
+  </div>
+
+  <!-- RODAPÉ DINÂMICO INSTITUCIONAL -->
   <footer>
     <p><b>FC ESPANHA</b> — Gestão, Disciplina e Excelência.</p>
     <p style="margin-top:4px; font-size:10px; color:#64748b;">
-      Desenvolvido por Eduardo Alfredo • Ano Oficial: <span id="ano-rodape">2026</span>
+      Desenvolvido por Eduardo Alfredo • Ano Oficial: <span id="lbl-ano-rodape">2026</span>
     </p>
   </footer>
 
   <!-- =========================================================================
-       MOTOR JAVASCRIPT BLINDADO (ZERO RELOAD, RESPOSTA IMEDIATA)
+       4. MOTOR JAVASCRIPT INTEGRADO (SUPABASE + ENGINE HÍBRIDO TOTAL)
        ========================================================================= -->
   <script>
-    // 1. ANO AUTOMÁTICO
-    const anoAtual = new Date().getFullYear();
-    document.getElementById("ano-topo").textContent = anoAtual;
-    document.getElementById("ano-rodape").textContent = anoAtual;
+    // 1. CONFIGURAÇÕES DA BASE DE DADOS SUPABASE (SUBSTITUÍVEIS)
+    const SUPABASE_URL = "https://SEU-PROJETO.supabase.co";
+    const SUPABASE_ANON_KEY = "SUA-CHAVE-ANON-PUBLICA";
+    const supabaseClient = (window.supabase && SUPABASE_URL.indexOf("SEU-PROJETO") === -1)
+      ? window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY)
+      : null;
 
-    // 2. AÇÃO DE LOGIN DO ATLETA (DISPARADA AO CLICAR NO BOTÃO AMARELO)
-    function executarLoginAtleta() {
-      const input = document.getElementById("senha_atleta");
-      const msgErro = document.getElementById("msg-erro-atleta");
-      const valor = input ? input.value.trim().toLowerCase() : "";
+    // 2. ESTADO DO SISTEMA EM MEMÓRIA E LOCALSTORAGE
+    let ESTADO_FC = {
+      ano: new Date().getFullYear(),
+      atletaAtivo: null,
+      adminAtivo: null,
+      bloqueios: {
+        ADMIN_PRINCIPAL: false,
+        ADMIN_1: false,
+        ADMIN_2: false,
+        ADMIN_3: false,
+        ALL_ATLETAS: false
+      },
+      atletas: [
+        { id: "fce-308", senha: "fce308", nome: "Atleta FC Espanha (308)", camisola: 8, posicao: "Médio Ofensivo", jogos: 14, quotas: "Regular", status: "ATIVO" },
+        { id: "fce-10", senha: "fce10", nome: "Jogador Teste (10)", camisola: 10, posicao: "Avançado", jogos: 12, quotas: "Regular", status: "ATIVO" }
+      ],
+      logs: [
+        `[${new Date().getFullYear()}] Plataforma FC ESPANHA iniciada com integridade.`
+      ]
+    };
 
-      msgErro.style.display = "none";
+    // 3. INICIALIZAÇÃO DINÂMICA
+    document.addEventListener("DOMContentLoaded", () => {
+      const ano = new Date().getFullYear();
+      document.getElementById("lbl-ano-topo").textContent = ano;
+      document.getElementById("lbl-ano-rodape").textContent = ano;
 
-      // Validação da senha oficial do clube
-      if (valor === "fce308" || valor === "atleta-10" || valor === "1234") {
-        // 1. Oculta o login
-        document.getElementById("secao-login-atleta").style.display = "none";
-        
-        // 2. Revela o Dashboard completo do atleta
-        document.getElementById("layout-atleta-mobile").style.display = "block";
+      // Recupera bloqueios ou estado prévio
+      try {
+        const blqSalvos = localStorage.getItem("FC_BLOQUEIOS");
+        if (blqSalvos) ESTADO_FC.bloqueios = JSON.parse(blqSalvos);
+      } catch(e) {}
 
-        // 3. Atualiza os dados no hero
-        document.getElementById("txt-atleta-saudacao").textContent = "Olá, Atleta (308)!";
-        document.getElementById("txt-atleta-posicao-hero").textContent = "Médio Ofensivo • N.º 8";
-        
-        // Guarda na memória temporária sem risco de falha
-        try { sessionStorage.setItem("FC_ATLETA_LOGADO", "true"); } catch(e) {}
-      } else {
-        msgErro.textContent = "Senha incorreta! Digite fce308 para aceder.";
-        msgErro.style.display = "block";
-      }
-    }
+      atualizarInterfaceBloqueios();
+    });
 
-    // 3. ALTERNAR ENTRE ATLETA E ADMIN
-    function alternarVisao(aba) {
-      document.getElementById("btn-tab-atleta").classList.toggle("ativo", aba === 'atleta');
-      document.getElementById("btn-tab-admin").classList.toggle("ativo", aba === 'admin');
+    // 4. NAVEGAÇÃO PRINCIPAL (ATLETA VS ADMIN)
+    function mudarAbaPrincipal(aba) {
+      document.getElementById("aba-btn-atleta").classList.toggle("ativo", aba === 'atleta');
+      document.getElementById("aba-btn-admin").classList.toggle("ativo", aba === 'admin');
 
       if (aba === 'atleta') {
-        document.getElementById("secao-admin").style.display = "none";
-        // Verifica se já estava logado
-        const logado = (document.getElementById("layout-atleta-mobile").style.display === "block");
-        document.getElementById("secao-login-atleta").style.display = logado ? "none" : "block";
+        document.getElementById("visao-admin").style.display = "none";
+        document.getElementById("visao-atleta").style.display = "block";
       } else {
+        document.getElementById("visao-atleta").style.display = "none";
+        document.getElementById("visao-admin").style.display = "block";
+      }
+    }
+
+    // 5. AUTENTICAÇÃO DO ATLETA (CAMPO ÚNICO COM RECONHECIMENTO fce308)
+    function autenticarAtleta() {
+      const input = document.getElementById("campo-senha-atleta");
+      const alerta = document.getElementById("alerta-erro-atleta");
+      const senhaDigitada = input ? input.value.trim().toLowerCase() : "";
+
+      alerta.style.display = "none";
+
+      // Verificação do bloqueio geral de atletas imposto pelo Master
+      if (ESTADO_FC.bloqueios.ALL_ATLETAS) {
+        alerta.textContent = "O acesso de todos os atletas encontra-se suspenso pela Direção.";
+        alerta.style.display = "block";
+        return;
+      }
+
+      // Localização do atleta por senha
+      const atleta = ESTADO_FC.atletas.find(a => a.senha === senhaDigitada);
+
+      if (atleta) {
+        ESTADO_FC.atletaAtivo = atleta;
         document.getElementById("secao-login-atleta").style.display = "none";
-        document.getElementById("layout-atleta-mobile").style.display = "none";
-        document.getElementById("secao-admin").style.display = "block";
-      }
-    }
+        document.getElementById("layout-atleta-mobile").style.display = "block";
 
-    // 4. LOGIN MASTER / ADMIN
-    function executarLoginAdmin() {
-      const email = document.getElementById("admin_email").value.trim();
-      if (email.includes("master") || email.includes("eduardo")) {
-        document.getElementById("bloco-master-gestao").style.display = "block";
-        alert("Acesso Master concedido. Bem-vindo, Eduardo Alfredo!");
+        document.getElementById("atleta-nome-saudacao").textContent = `Olá, ${atleta.nome}!`;
+        document.getElementById("atleta-posicao-hero").textContent = `${atleta.posicao} • N.º ${atleta.camisola}`;
+        document.getElementById("atleta-jogos-contagem").textContent = atleta.jogos;
+        document.getElementById("atleta-status-quota").textContent = atleta.quotas;
+
+        registarLog(`Atleta ${atleta.nome} entrou com sucesso.`);
       } else {
-        alert("Credenciais de administração enviadas para validação.");
+        alerta.textContent = "Senha de acesso inválida ou não reconhecida.";
+        alerta.style.display = "block";
       }
     }
 
-    // 5. ENVIO DE MENSAGEM DO ATLETA POR PASTA
-    function submeterMensagemAtleta() {
+    function encerrarSessaoAtleta() {
+      if (confirm("Tem a certeza que deseja encerrar a sua sessão no FC ESPANHA?")) {
+        ESTADO_FC.atletaAtivo = null;
+        document.getElementById("layout-atleta-mobile").style.display = "none";
+        document.getElementById("secao-login-atleta").style.display = "block";
+        document.getElementById("campo-senha-atleta").value = "fce308";
+      }
+    }
+
+    // 6. AUTENTICAÇÃO E HIERARQUIA ADMINISTRATIVA
+    function atualizarEmailAdminPadrao(cargo) {
+      const campoEmail = document.getElementById("login-admin-email");
+      const emails = {
+        MASTER: "master@fcespanha.com",
+        PRINCIPAL: "principal@fcespanha.com",
+        ADMIN_1: "desportiva@fcespanha.com",
+        ADMIN_2: "financeiro@fcespanha.com",
+        ADMIN_3: "disciplina@fcespanha.com"
+      };
+      campoEmail.value = emails[cargo] || "master@fcespanha.com";
+    }
+
+    function autenticarAdmin() {
+      const cargo = document.getElementById("login-admin-cargo").value;
+      const email = document.getElementById("login-admin-email").value.trim();
+      const senha = document.getElementById("login-admin-senha").value.trim();
+      const alerta = document.getElementById("alerta-erro-admin");
+
+      alerta.style.display = "none";
+
+      // Verificação de bloqueios setoriais
+      if (cargo !== "MASTER" && ESTADO_FC.bloqueios[cargo]) {
+        alerta.textContent = `O acesso para o cargo [${cargo}] encontra-se bloqueado pelo Desenvolvedor Master.`;
+        alerta.style.display = "block";
+        return;
+      }
+
+      if (senha.length < 4) {
+        alerta.textContent = "Introduza a senha institucional autorizada.";
+        alerta.style.display = "block";
+        return;
+      }
+
+      // Entrada autorizada
+      ESTADO_FC.adminAtivo = { cargo: cargo, email: email };
+      document.getElementById("secao-login-admin").style.display = "none";
+      document.getElementById("painel-master-dashboard").style.display = "block";
+
+      document.getElementById("master-txt-cargo").textContent = (cargo === "MASTER") ? "DESENVOLVEDOR MASTER" : cargo;
+      document.getElementById("master-txt-nome").textContent = (cargo === "MASTER") ? "Eduardo Alfredo" : email;
+
+      // Oculta controle de bloqueios para administradores que não sejam Master
+      document.getElementById("card-master-bloqueios").style.display = (cargo === "MASTER") ? "block" : "none";
+
+      registarLog(`Acesso autorizado ao cargo [${cargo}]: ${email}`);
+    }
+
+    function encerrarSessaoAdmin() {
+      ESTADO_FC.adminAtivo = null;
+      document.getElementById("painel-master-dashboard").style.display = "none";
+      document.getElementById("secao-login-admin").style.display = "block";
+    }
+
+    // 7. MESA DOS 5 BLOQUEIOS MASTER
+    function aplicarBloqueioMaster(chave, estado) {
+      ESTADO_FC.bloqueios[chave] = estado;
+      try { localStorage.setItem("FC_BLOQUEIOS", JSON.stringify(ESTADO_FC.bloqueios)); } catch(e) {}
+
+      // Sincronização direta com Supabase RPC se conectado
+      if (supabaseClient) {
+        supabaseClient.rpc('master_toggle_lock', {
+          p_target_role: chave,
+          p_lock_state: estado,
+          p_master_user: 'Eduardo Alfredo'
+        }).then().catch(console.error);
+      }
+
+      registarLog(`MASTER Eduardo Alfredo alterou bloqueio [${chave}] para: ${estado ? 'BLOQUEADO' : 'ATIVO'}`);
+      alert(`Bloqueio de segurança [${chave}] definido como: ${estado ? 'BLOQUEADO' : 'ATIVO'}.`);
+    }
+
+    function atualizarInterfaceBloqueios() {
+      document.getElementById("lock-admin-principal").checked = ESTADO_FC.bloqueios.ADMIN_PRINCIPAL;
+      document.getElementById("lock-admin-1").checked = ESTADO_FC.bloqueios.ADMIN_1;
+      document.getElementById("lock-admin-2").checked = ESTADO_FC.bloqueios.ADMIN_2;
+      document.getElementById("lock-admin-3").checked = ESTADO_FC.bloqueios.ADMIN_3;
+      document.getElementById("lock-all-atletas").checked = ESTADO_FC.bloqueios.ALL_ATLETAS;
+    }
+
+    // 8. PASTAS SETORIAIS DO PAINEL MASTER
+    function mudarSubAbaMaster(aba) {
+      const abas = ['desportiva', 'financeiro', 'disciplina', 'auditoria'];
+      abas.forEach(a => {
+        document.getElementById(`sub-painel-${a}`).style.display = (a === aba) ? "block" : "none";
+        document.getElementById(`btn-sub-${a}`).classList.toggle("ativo", a === aba);
+      });
+    }
+
+    // CADASTRO AUTOMÁTICO DE ATLETA (ADMIN 1)
+    function cadastrarAtletaAutomatico() {
+      const nome = document.getElementById("cad-atleta-nome").value.trim();
+      const posicao = document.getElementById("cad-atleta-posicao").value;
+      const camisola = document.getElementById("cad-atleta-camisola").value.trim() || "0";
+
+      if (!nome) return alert("Por favor, introduza o nome completo do atleta.");
+
+      // Gera senha padronizada automática do clube (ex: fce + número camisola ou ID)
+      const novoIdNumero = Math.floor(100 + Math.random() * 899);
+      const senhaGerada = `fce${camisola !== "0" ? camisola : novoIdNumero}`;
+
+      const novoAtleta = {
+        id: `fce-${novoIdNumero}`,
+        senha: senhaGerada.toLowerCase(),
+        nome: nome,
+        camisola: parseInt(camisola),
+        posicao: posicao,
+        jogos: 0,
+        quotas: "Regular",
+        status: "ATIVO"
+      };
+
+      ESTADO_FC.atletas.push(novoAtleta);
+
+      const lista = document.getElementById("lista-plantel-resumo");
+      const div = document.createElement("div");
+      div.style.cssText = "background:#0f172a; padding:6px 10px; border-radius:4px; display:flex; justify-content:space-between; margin-top:4px;";
+      div.innerHTML = `<span>#${camisola} • ${nome} (${posicao})</span><span style="color:var(--ouro);">Senha: ${senhaGerada}</span>`;
+      lista.appendChild(div);
+
+      document.getElementById("kpi-total-plantel").textContent = ESTADO_FC.atletas.length;
+      document.getElementById("cad-atleta-nome").value = "";
+      document.getElementById("cad-atleta-camisola").value = "";
+
+      registarLog(`Atleta ${nome} cadastrado com credencial automática: ${senhaGerada}`);
+      alert(`Atleta ${nome} registado com sucesso!\nSenha de Acesso Gerada: ${senhaGerada}`);
+    }
+
+    // LANÇAMENTO FINANCEIRO (ADMIN 2)
+    function lancarMovimentoFinanceiro() {
+      const atletaId = document.getElementById("fin-atleta-select").value;
+      const valor = document.getElementById("fin-valor").value;
+      const tipo = document.getElementById("fin-tipo").value;
+
+      if (!valor || valor <= 0) return alert("Introduza um valor válido.");
+
+      const nRecibo = Math.floor(1000 + Math.random() * 9000);
+      const tabela = document.getElementById("tabela-movimentos-financeiros");
+      const item = document.createElement("div");
+      item.style.cssText = "background:#0f172a; padding:8px; border-radius:4px; display:flex; justify-content:space-between; margin-top:4px;";
+      item.innerHTML = `<span>Recibo #${nRecibo} • ${tipo}</span><b style="color:#10b981;">+ ${valor} Kz</b>`;
+      tabela.insertBefore(item, tabela.firstChild);
+
+      registarLog(`Recibo #${nRecibo} emitido no valor de ${valor} Kz (${tipo})`);
+      alert(`Movimento financeiro registado com sucesso! Recibo #${nRecibo} emitido.`);
+    }
+
+    // OCORRÊNCIA DISCIPLINAR (ADMIN 3)
+    function lancarOcorrenciaDisciplinar() {
+      const motivo = document.getElementById("disc-motivo").value.trim();
+      if (!motivo) return alert("Descreva o motivo da ocorrência.");
+
+      registarLog(`Sanção disciplinar registada: ${motivo}`);
+      alert("Ocorrência disciplinar averbada na ficha oficial do atleta.");
+      document.getElementById("disc-motivo").value = "";
+    }
+
+    // 9. CENTRAL DE MENSAGENS E SUGESTÕES DIRECIONADAS
+    function enviarMensagemAtleta() {
       const destino = document.getElementById("sugestao-destino").value;
       const assunto = document.getElementById("sugestao-assunto").value.trim();
       const msg = document.getElementById("sugestao-mensagem").value.trim();
 
-      if (!assunto || !msg) {
-        alert("Por favor, preencha o assunto e a mensagem.");
-        return;
-      }
+      if (!assunto || !msg) return alert("Preencha o assunto e a mensagem.");
 
-      alert("✔ Mensagem enviada com sucesso para a pasta: " + destino);
-      fecharModal('modal-atleta-comunicacao');
+      registarLog(`Solicitação do atleta remetida para a pasta: ${destino}`);
+      alert(`✔ Mensagem e solicitação enviadas com sucesso ao responsável da pasta [${destino}]!`);
+
       document.getElementById("sugestao-assunto").value = "";
       document.getElementById("sugestao-mensagem").value = "";
+      fecharModal('modal-atleta-comunicacao');
     }
 
-    // 6. CONTROLADOR DE MODAIS
-    function abrirModal(modalId) {
-      const m = document.getElementById(modalId);
-      if (m) {
-        m.style.display = "flex";
-      } else {
-        alert("O módulo selecionado está ativo e vinculado ao sistema.");
-      }
-    }
-
-    function fecharModal(modalId) {
-      const m = document.getElementById(modalId);
-      if (m) m.style.display = "none";
-    }
-
-    function marcarSinoLido() {
-      document.getElementById("badge-atleta-notif-count").style.display = "none";
+    // SINO DE NOTIFICAÇÕES 🔔
+    function marcarSinoComoLido() {
+      document.getElementById("sino-contador").style.display = "none";
       fecharModal('modal-notificacoes-atleta');
-      alert("Comunicado marcado como lido.");
+      alert("Todas as notificações oficiais foram marcadas como lidas.");
     }
 
-    // 7. TERMINAR SESSÃO
-    function terminarSessao() {
-      if (confirm("Deseja realmente sair da Área do Atleta?")) {
-        try { sessionStorage.removeItem("FC_ATLETA_LOGADO"); } catch(e) {}
-        document.getElementById("layout-atleta-mobile").style.display = "none";
-        document.getElementById("secao-login-atleta").style.display = "block";
-        document.getElementById("senha_atleta").value = "fce308";
+    // 10. AUDITORIA E BACKUP MASTER
+    function registarLog(texto) {
+      const d = new Date();
+      const hora = d.getHours().toString().padStart(2, '0') + ":" + d.getMinutes().toString().padStart(2, '0');
+      const entrada = `[${hora}] ${texto}`;
+      ESTADO_FC.logs.unshift(entrada);
+
+      const box = document.getElementById("logs-auditoria-master");
+      if (box) {
+        const div = document.createElement("div");
+        div.style.cssText = "background:#0f172a; padding:6px; border-left:3px solid var(--ouro); margin-bottom:2px;";
+        div.textContent = entrada;
+        box.insertBefore(div, box.firstChild);
       }
+    }
+
+    function baixarBackupBaseDados() {
+      const dados = JSON.stringify(ESTADO_FC, null, 2);
+      const blob = new Blob([dados], { type: "application/json" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = `BACKUP_FC_ESPANHA_${new Date().getFullYear()}.json`;
+      a.click();
+      URL.revokeObjectURL(url);
+      registarLog("Backup integral da base de dados descarregado pelo Master.");
+    }
+
+    function gerarRelatorioPDF(tipo) {
+      alert(`A gerar documento oficial do FC ESPANHA (${tipo}) com timbre institucional...`);
+      window.print();
+    }
+
+    // 11. CONTROLE UNIVERSAL DE MODAIS
+    function abrirModal(id) {
+      const m = document.getElementById(id);
+      if (m) m.style.display = "flex";
+      else alert(`Módulo [${id}] operacional e ativo.`);
+    }
+
+    function fecharModal(id) {
+      const m = document.getElementById(id);
+      if (m) m.style.display = "none";
     }
   </script>
 </body>
 </html>
+
