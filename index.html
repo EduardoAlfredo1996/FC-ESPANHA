@@ -2978,6 +2978,302 @@
     }
     function fecharModal(id) { document.getElementById(id).style.display = 'none'; }
     function abrirModalNovaQuota(id) { abrirModal('modal-lancar-quota'); }
+    // =========================================================================
+    // FUNÇÕES COMPLEMENTARES & CORREÇÕES DE REFERÊNCIAS
+    // =========================================================================
+
+    // 1. RENDERIZAR TABELA DE DIRIGENTES
+    function renderizarDirigentes() {
+      const tb = document.getElementById('tb-dirigentes-lista');
+      if (!tb) return;
+      tb.innerHTML = dirigentes.length ? '' : '<tr><td colspan="6" style="text-align:center; color:#64748B;">Nenhum dirigente cadastrado.</td></tr>';
+      
+      dirigentes.forEach(d => {
+        const fotoHtml = d.foto 
+          ? `<img src="${d.foto}" style="width:100%; height:100%; object-fit:cover;">` 
+          : `<div style="width:100%; height:100%; display:flex; align-items:center; justify-content:center; background:#1E2D56; color:#E5A93C; font-weight:bold; font-size:10px;">${d.nome.substring(0,2).toUpperCase()}</div>`;
+
+        tb.innerHTML += `
+          <tr>
+            <td><div class="foto-atleta-circular">${fotoHtml}</div></td>
+            <td><b style="color:#FBBF24;">${d.cargo}</b></td>
+            <td>${d.nome}</td>
+            <td>${d.anoIngresso || 2026}</td>
+            <td><span style="background:#131E3D; color:#34D399; padding:2px 6px; border-radius:4px; font-size:9px;">Ativo • Gestão</span></td>
+            <td>
+              <button class="btn-mini btn-mini-del" onclick="solicitarOuRemoverAdmin('${d.id}')" title="Remover Dirigente">🗑️ Remover</button>
+            </td>
+          </tr>
+        `;
+      });
+    }
+
+    // 2. PRÉ-VISUALIZAÇÃO DE RELATÓRIO OFICIAL
+    function gerarPreviewRelatorio() {
+      const box = document.getElementById('caixa-preview-relatorio');
+      if (!box) return;
+
+      const totalAtletas = atletas.length;
+      const totalJogos = jogos.filter(j => j.status === 'Terminado').length;
+      const vitorias = jogos.filter(j => j.tipoResultado === 'V').length;
+      const totalRec = quotas.filter(q => q.status === 'Pago').reduce((acc, q) => acc + Number(q.valor || 0), 0) + patrocinios.reduce((acc, p) => acc + Number(p.val || 0), 0);
+      const totalDesp = despesas.reduce((acc, d) => acc + Number(d.val || 0), 0);
+
+      box.textContent = `
+========================================================================
+                      FC ESPANHA - RELATÓRIO OFICIAL
+                      Época 2025/2026 • Luanda, Angola
+========================================================================
+Emitido em: ${new Date().toLocaleString('pt-PT')}
+Emitido por: ${usuarioAtual === 'master' ? 'Desenvolvedor Master' : (usuarioAtual === 'adm_princ' ? 'Administrador Principal' : usuarioAtual.toUpperCase())}
+
+1. PLANTEL DESPORTIVO
+   - Total de Atletas Registados: ${totalAtletas}
+   - Jogos Oficiais Realizados: ${totalJogos}
+   - Total de Vitórias: ${vitorias}
+
+2. BALANCETE FINANCEIRO RESUMIDO
+   - Total de Receitas Registadas: ${totalRec.toLocaleString('pt-AO')} Kz
+   - Total de Despesas Registadas: ${totalDesp.toLocaleString('pt-AO')} Kz
+   - Saldo em Caixa Atual: ${(totalRec - totalDesp).toLocaleString('pt-AO')} Kz
+
+3. PATRIMÓNIO & LOGÍSTICA
+   - Tipos de Equipamentos Registados: ${equipamentos.length} itens
+
+4. SANCÕES DISCIPLINARES
+   - Processos Registados: ${disciplina.length}
+
+------------------------------------------------------------------------
+Documento Oficial emitido pelo Sistema de Gestão do FC ESPANHA.
+========================================================================
+      `.trim();
+    }
+
+    // 3. PAINEL DE SOLICITAÇÕES REENCAMINHADAS AO MASTER
+    function renderizarPainelMasterSolicitacoes() {
+      const box = document.getElementById('lista-solicitacoes-reencaminhadas-master');
+      if (!box) return;
+
+      const pendentes = solicitacoesAtletas.filter(s => s.reencaminhadaMaster && !s.decisaoMaster);
+      if (!pendentes.length) {
+        box.innerHTML = '<span style="color:#64748B;">Nenhuma solicitação reencaminhada pendente de resposta.</span>';
+        return;
+      }
+
+      box.innerHTML = '';
+      pendentes.forEach(s => {
+        box.innerHTML += `
+          <div style="background:#131B33; border:1px solid #E5A93C; padding:8px; border-radius:6px; margin-bottom:6px;">
+            <div style="display:flex; justify-content:space-between; font-size:10px;">
+              <b>${s.atletaNome} (${s.tipo})</b>
+              <span style="color:#FBBF24;">Reencaminhado pelo Principal</span>
+            </div>
+            <p style="margin:4px 0; color:#E2E8F0;">${s.texto}</p>
+            <button class="btn btn-gold" style="font-size:9px; padding:3px 6px;" onclick="abrirModalRespostaMaster(${s.id})">Emitir Parecer</button>
+          </div>
+        `;
+      });
+    }
+
+    function abrirModalRespostaMaster(id) {
+      document.getElementById('master-solic-id').value = id;
+      document.getElementById('master-solic-argumento').value = '';
+      abrirModal('modal-master-responder');
+    }
+
+    function concluirRespostaMaster(decisao) {
+      const id = parseInt(document.getElementById('master-solic-id').value);
+      const arg = document.getElementById('master-solic-argumento').value.trim();
+      const s = solicitacoesAtletas.find(x => x.id === id);
+      if (s) {
+        s.decisaoMaster = decisao;
+        s.argumentoMaster = arg || "Sem observações adicionais.";
+        s.status = `Decidido pelo Master: ${decisao}`;
+        registrarAuditoria(`Master emitiu parecer (${decisao}) no pedido #${s.id}`);
+        salvarTudo();
+        fecharModal('modal-master-responder');
+        renderizarPainelMasterSolicitacoes();
+        alert(`Parecer [${decisao}] gravado com sucesso!`);
+      }
+    }
+
+    // 4. ALERTAS DO TOPO (SINO)
+    function abrirPainelAlertasTopo() {
+      if (usuarioAtual === 'adm_princ' || usuarioAtual === 'master') {
+        abrirModalSolicitacoesAdminPrincipal();
+      } else {
+        alert(`Você tem ${comprovativosSubmetidos.filter(c => c.status === "Pendente de Validação").length} comprovativos e ${sugestoesAtletas.length} sugestões pendentes.`);
+      }
+    }
+
+    // 5. SOLICITAÇÕES DO ADMIN PRINCIPAL
+    function abrirModalSolicitacoesAdminPrincipal() {
+      const box = document.getElementById('feed-solicitacoes-admin-princ');
+      if (!box) return;
+
+      const lista = solicitacoesAtletas;
+      box.innerHTML = lista.length ? '' : '<p style="color:#64748B; font-size:11px;">Sem pedidos ou solicitações pendentes.</p>';
+
+      lista.forEach(s => {
+        box.innerHTML += `
+          <div style="background:#090E1F; border:1px solid #1E2D56; padding:10px; border-radius:6px; font-size:11px;">
+            <div style="display:flex; justify-content:space-between; margin-bottom:4px;">
+              <b>${s.atletaNome} • <span style="color:#E5A93C;">${s.tipo}</span></b>
+              <small style="color:#64748B;">${s.data}</small>
+            </div>
+            <p style="color:#CBD5E1; margin-bottom:6px;">${s.texto}</p>
+            <div style="display:flex; gap:6px;">
+              <button class="btn btn-gold" style="font-size:9px; padding:3px 6px;" onclick="responderSolicitacaoDirecta(${s.id})">Responder</button>
+              ${!s.reencaminhadaMaster ? `<button class="btn btn-blue" style="font-size:9px; padding:3px 6px;" onclick="reencaminharAoMaster(${s.id})">👑 Reencaminhar ao Master</button>` : '<span style="color:#34D399; font-size:9px;">Reencaminhado</span>'}
+            </div>
+          </div>
+        `;
+      });
+      abrirModal('modal-solicitacoes-admin-princ');
+    }
+
+    function responderSolicitacaoDirecta(id) {
+      const resposta = prompt("Digite a resposta oficial da Direção ao atleta:");
+      if (resposta) {
+        const s = solicitacoesAtletas.find(x => x.id === id);
+        if (s) {
+          s.resposta = resposta;
+          s.status = "Respondido pela Direção";
+          registrarAuditoria(`Direção respondeu à solicitação #${id}`);
+          salvarTudo();
+          abrirModalSolicitacoesAdminPrincipal();
+          alert("Resposta enviada ao atleta!");
+        }
+      }
+    }
+
+    function reencaminharAoMaster(id) {
+      const s = solicitacoesAtletas.find(x => x.id === id);
+      if (s) {
+        s.reencaminhadaMaster = true;
+        registrarAuditoria(`Admin Principal reencaminhou a solicitação #${id} ao Master`);
+        salvarTudo();
+        abrirModalSolicitacoesAdminPrincipal();
+        alert("Solicitação reencaminhada com sucesso ao Desenvolvedor Master!");
+      }
+    }
+
+    // 6. SUGESTÕES POR DEPARTAMENTO
+    function abrirModalSugestoesArea(area) {
+      const box = document.getElementById('feed-sugestoes-area-lista');
+      const tit = document.getElementById('txt-sugestoes-area-titulo');
+      if (tit) tit.innerText = `💡 SUGESTÕES: ÁREA ${area.toUpperCase()}`;
+
+      const filtradas = sugestoesAtletas.filter(s => s.area === area || area === 'todas');
+      box.innerHTML = filtradas.length ? '' : '<p style="color:#64748B; font-size:11px;">Nenhuma sugestão enviada para este departamento.</p>';
+
+      filtradas.forEach(s => {
+        box.innerHTML += `
+          <div style="background:#090E1F; border:1px solid #1E2D56; padding:10px; border-radius:6px; font-size:11px;">
+            <div style="display:flex; justify-content:space-between; margin-bottom:2px;">
+              <b style="color:#FBBF24;">${s.titulo}</b>
+              <small style="color:#64748B;">${s.data}</small>
+            </div>
+            <p style="color:#E2E8F0; margin:4px 0;">${s.texto}</p>
+            <small style="color:#94A3B8;">Autor: ${s.atletaNome}</small>
+          </div>
+        `;
+      });
+      abrirModal('modal-sugestoes-area');
+    }
+
+    function enviarSugestaoDirecao() {
+      const area = document.getElementById('sugestao-area').value;
+      const tit = document.getElementById('sugestao-titulo').value.trim();
+      const txt = document.getElementById('sugestao-texto').value.trim();
+
+      if (!tit || !txt) return alert("Preencha o assunto e a proposta!");
+
+      sugestoesAtletas.unshift({
+        id: Date.now(),
+        data: new Date().toLocaleDateString('pt-PT'),
+        atletaNome: atletaAtual.nome,
+        area,
+        titulo: tit,
+        texto: txt
+      });
+
+      salvarTudo();
+      fecharModal('modal-enviar-sugestao');
+      alert("A sua sugestão foi enviada com sucesso ao departamento responsável!");
+    }
+
+    // 7. PARTICIPAÇÃO DE LESÃO E OCORRÊNCIAS DO ATLETA
+    function enviarParticipacaoLesao() {
+      const tipo = document.getElementById('lesao-tipo').value;
+      const detalhe = document.getElementById('lesao-detalhe').value.trim();
+      if (!detalhe) return alert("Descreva a justificação ou lesão!");
+
+      solicitacoesAtletas.unshift({
+        id: Date.now(),
+        data: new Date().toLocaleDateString('pt-PT'),
+        atletaNome: atletaAtual.nome,
+        tipo: `Saúde / Ausência: ${tipo}`,
+        texto: detalhe,
+        status: "Pendente"
+      });
+
+      salvarTudo();
+      fecharModal('modal-justificar-lesao');
+      alert("Participação de lesão enviada ao departamento médico e equipa técnica!");
+    }
+
+    function enviarRelatoInjustica() {
+      const alvoTipo = document.getElementById('relato-alvo-tipo').value;
+      const alvoNome = document.getElementById('relato-alvo-nome').value.trim();
+      const factos = document.getElementById('relato-detalhe').value.trim();
+
+      if (!alvoNome || !factos) return alert("Preencha os envolvidos e os factos ocorridos!");
+
+      solicitacoesAtletas.unshift({
+        id: Date.now(),
+        data: new Date().toLocaleDateString('pt-PT'),
+        atletaNome: atletaAtual.nome,
+        tipo: `Denúncia / Injustiça (${alvoTipo})`,
+        texto: `Envolvido: ${alvoNome} | Relato: ${factos}`,
+        status: "Pendente de Investigação"
+      });
+
+      salvarTudo();
+      fecharModal('modal-atleta-relatar-injustica');
+      alert("Ocorrência registada confidencialmente e enviada à Direção Geral.");
+    }
+
+    // 8. ALTERAÇÃO DE PERFIL SUBMETIDA PELO ATLETA
+    function processarFotoAtletaSolic(event) {
+      const file = event.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = function(e) { document.getElementById('atleta-solic-foto-base64').value = e.target.result; };
+        reader.readAsDataURL(file);
+      }
+    }
+
+    function submeterAlteracaoPerfilAtleta() {
+      const novaFoto = document.getElementById('atleta-solic-foto-base64').value;
+      const novaMorada = document.getElementById('inp-atleta-nova-morada').value.trim();
+
+      if (!novaFoto && !novaMorada) return alert("Selecione uma foto ou indique a nova morada!");
+
+      if (novaFoto) atletaAtual.foto = novaFoto;
+      if (novaMorada) atletaAtual.morada = novaMorada;
+
+      const idx = atletas.findIndex(x => x.id === atletaAtual.id);
+      if (idx !== -1) {
+        atletas[idx].foto = atletaAtual.foto;
+        atletas[idx].morada = atletaAtual.morada;
+      }
+
+      salvarTudo();
+      carregarDashboardAtleta();
+      fecharModal('modal-atleta-alterar-perfil');
+      alert("Dados do perfil atualizados com sucesso!");
+    }
   </script>
 </body>
 </html>
