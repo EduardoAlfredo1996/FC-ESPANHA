@@ -9,7 +9,7 @@
 
   <!-- Biblioteca Supabase JS -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <!-- Chart.js para Gráficos Circulares -->
+  <!-- Chart.js para Gráficos Circulares Mini -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
   <style>
@@ -140,8 +140,8 @@
     .hero-banner-estadio {
       position: relative; margin: 12px 14px 10px 14px; border-radius: 12px; overflow: hidden;
       background: radial-gradient(circle at 30% 50%, #29080B 0%, #0B1020 85%);
-      border: 1px solid rgba(229,169,60,0.25); min-height: 70px; display: flex; align-items: center;
-      justify-content: space-between; padding: 10px 18px; box-shadow: 0 8px 25px rgba(0,0,0,0.7);
+      border: 1px solid rgba(229,169,60,0.25); min-height: 65px; display: flex; align-items: center;
+      justify-content: space-between; padding: 10px 16px; box-shadow: 0 8px 25px rgba(0,0,0,0.7);
     }
     .hero-info-esq { display: flex; align-items: center; gap: 12px; z-index: 2; }
     .hero-titulo { font-size: 18px; font-weight: 900; letter-spacing: 1px; color: #FFF; line-height: 1; }
@@ -163,19 +163,20 @@
     .stat-pill-valor { font-size: 16px; font-weight: 900; color: #FFF; line-height: 1; margin-bottom: 2px; }
     .stat-pill-desc { font-size: 9px; color: #94A3B8; font-weight: bold; }
 
-    /* CONTAINERS DE GRÁFICOS CIRCULARES PEQUENOS */
+    /* CONTAINERS DE GRÁFICOS ULTRA-COMPACTOS (MINI) */
     .grid-graficos-circulares {
-      display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 10px; margin: 0 14px 12px 14px;
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 8px; margin: 0 14px 10px 14px;
     }
-    .card-dash-bloco { background: #0E1424; border: 1px solid #1B2640; border-radius: 10px; padding: 12px; }
-    .card-bloco-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
-    .card-bloco-titulo { font-size: 11px; font-weight: 900; color: #FFF; text-transform: uppercase; display: flex; align-items: center; gap: 5px; }
+    .card-dash-bloco { background: #0E1424; border: 1px solid #1B2640; border-radius: 10px; padding: 10px; }
+    .card-bloco-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
+    .card-bloco-titulo { font-size: 10px; font-weight: 900; color: #FFF; text-transform: uppercase; display: flex; align-items: center; gap: 5px; }
 
+    /* Gráficos pequenos (110px de altura) */
     .chart-container-compact {
-      position: relative; width: 100%; height: 175px; display: flex; align-items: center; justify-content: center;
+      position: relative; width: 100%; height: 110px; display: flex; align-items: center; justify-content: center;
     }
 
-    .grid-duas-colunas { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 10px; margin: 0 14px 14px 14px; }
+    .grid-duas-colunas { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 8px; margin: 0 14px 12px 14px; }
 
     .table-responsive { width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch; }
     table { width: 100%; border-collapse: collapse; font-size: 11px; min-width: 600px; }
@@ -183,7 +184,7 @@
     th { color: #E5A93C; font-weight: 800; font-size: 9px; text-transform: uppercase; }
 
     .foto-atleta-circular {
-      width: 30px; height: 30px; border-radius: 50%; border: 1px solid #E5A93C;
+      width: 28px; height: 28px; border-radius: 50%; border: 1px solid #E5A93C;
       background: #1E2D56; display: flex; align-items: center; justify-content: center;
       font-weight: bold; color: #E5A93C; font-size: 10px; overflow: hidden;
     }
@@ -206,14 +207,14 @@
     }
     .atleta-hero-info { display: flex; align-items: center; gap: 10px; }
     .atleta-avatar-grande {
-      width: 50px; height: 50px; border-radius: 50%; border: 2px solid #E5A93C; object-fit: cover; cursor: pointer; background: #1E2D56;
+      width: 48px; height: 48px; border-radius: 50%; border: 2px solid #E5A93C; object-fit: cover; cursor: pointer; background: #1E2D56;
     }
 
     .badge-estado { padding: 3px 6px; border-radius: 10px; font-size: 9px; font-weight: bold; }
     .badge-ativo { background: #052818; border: 1px solid #10B981; color: #34D399; }
     .badge-inativo { background: #2D0C10; border: 1px solid #EF4444; color: #F87171; }
 
-    .atleta-duas-pills { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin: 0 12px 10px 12px; }
+    .atleta-duas-pills { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin: 0 12px 8px 12px; }
     .atleta-pill {
       background: #0E1424; border: 1px solid #1B2640; border-radius: 8px; padding: 8px 10px;
       display: flex; align-items: center; gap: 10px;
@@ -253,10 +254,6 @@
     .modal-corpo { background: #0E1426; border: 1px solid #233870; border-radius: 12px; padding: 16px; width: 100%; max-width: 500px; max-height: 90vh; overflow-y: auto; }
     .modal-corpo-largo { max-width: 720px; }
 
-    .subtabs-notificacoes { display: flex; gap: 6px; margin-bottom: 10px; border-bottom: 1px solid #1E2842; padding-bottom: 6px; }
-    .subtabs-notificacoes button { flex: 1; padding: 6px; background: #131E3D; border: 1px solid #233870; color: #CBD5E1; border-radius: 5px; cursor: pointer; font-size: 10px; font-weight: bold; }
-    .subtabs-notificacoes button.active { background: #F3B229; color: #070B19; border-color: #E5A93C; }
-
     @media (max-width: 900px) {
       .btn-hamburger-mobile { display: inline-flex; }
       .sidebar-clube { position: fixed; top: 0; bottom: 0; left: 0; transform: translateX(-100%); }
@@ -280,7 +277,7 @@
     <div class="card-login-portal">
       <button class="btn-tres-pontos-dev" title="Acesso Master" onclick="alternarFormLogin('master')">•••</button>
 
-      <div style="width:68px; height:68px; margin:0 auto 6px auto; cursor:pointer;" onclick="abrirModalSePermitidoBandeira()">
+      <div style="width:64px; height:64px; margin:0 auto 6px auto;">
         <img id="img-emblema-login" src="" alt="FC Espanha" style="width:100%; height:100%; object-fit:contain;" onerror="aplicarSvgPadrao(this)">
       </div>
 
@@ -302,9 +299,6 @@
           </div>
         </div>
         <button class="btn btn-gold" style="width:100%; padding:9px;" onclick="submeterLoginAtleta()">⚽ Entrar na Minha Área</button>
-        <div style="margin-top:10px;">
-          <a href="javascript:void(0)" onclick="abrirModal('modal-recuperar-senha')" style="font-size:10px; color:#E5A93C; text-decoration:underline;">«Esqueci a minha senha»</a>
-        </div>
       </div>
 
       <!-- FORM ADMIN -->
@@ -357,7 +351,7 @@
         </div>
         <h2 class="sidebar-titulo">FC ESPANHA</h2>
         <p class="sidebar-subtitulo">Juntos Somos Mais Fortes</p>
-        <button id="btn-alterar-bandeira-sidebar" class="btn btn-dark" style="margin-top:5px; font-size:9px; padding:3px 6px; display:none;" onclick="abrirModal('modal-alterar-bandeira')">🏳️ Alterar Emblema</button>
+        <button id="btn-alterar-bandeira-sidebar" class="btn btn-dark" style="margin-top:5px; font-size:9px; padding:3px 6px;" onclick="abrirModal('modal-alterar-bandeira')">🏳️ Alterar Emblema</button>
       </div>
 
       <nav class="sidebar-menu">
@@ -390,7 +384,6 @@
         </div>
 
         <div class="topo-dir">
-          <!-- BOTÃO DO CHAT DA DIREÇÃO FUNCIONAL -->
           <button class="btn btn-blue" style="font-size:10px; padding:4px 8px;" onclick="abrirSecaoAdmin('chat')" title="Abrir Chat da Direção">💬 Chat Direção</button>
 
           <div class="badge-sino" title="Notificações" onclick="abrirPainelAlertasTopo()">
@@ -412,7 +405,7 @@
       <!-- BANNER COMPACTO -->
       <section class="hero-banner-estadio">
         <div class="hero-info-esq">
-          <div style="width:44px; height:44px; cursor:pointer;" onclick="abrirModalSePermitidoBandeira()">
+          <div style="width:40px; height:40px; cursor:pointer;" onclick="abrirModalSePermitidoBandeira()">
             <img id="img-emblema-hero" src="" alt="FC Espanha" style="width:100%; height:100%; object-fit:contain;" onerror="aplicarSvgPadrao(this)">
           </div>
           <div>
@@ -440,10 +433,10 @@
         </div>
       </section>
 
-      <!-- ================= PAINEL PRINCIPAL (GRÁFICOS REDUZIDOS & LINK WPP EXCLUSIVO) ================= -->
+      <!-- ================= PAINEL PRINCIPAL (GRÁFICOS ULTRA-COMPACTOS & WPP NO PAINEL) ================= -->
       <div id="sec-admin-painel">
 
-        <!-- LINK DO GRUPO DO WHATSAPP DO CLUBE (APENAS AQUI NO PAINEL PRINCIPAL) -->
+        <!-- LINK DO GRUPO DO WHATSAPP (APENAS AQUI NO PAINEL PRINCIPAL) -->
         <div style="margin: 0 14px 10px 14px; background:#0B1124; border:1px solid #1E2842; padding:8px 12px; border-radius:8px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">
           <span style="font-size:11px; font-weight:bold; color:#FFF;">Comunidade Oficial dos Membros:</span>
           <a href="https://chat.whatsapp.com/EL7l6c0bDG39g17uGR53IV?s=cl&p=a&iam=2" target="_blank" class="btn-wpp-banner-painel">
@@ -482,35 +475,32 @@
           </div>
         </div>
 
-        <!-- APENAS GRÁFICOS CIRCULARES E COMPACTOS -->
+        <!-- GRÁFICOS MINI COMPACTOS (110px de altura) -->
         <div class="grid-graficos-circulares">
-          <!-- 1. GRÁFICO CIRCULAR: RENDIMENTO DESPORTIVO -->
           <div class="card-dash-bloco">
             <div class="card-bloco-header">
-              <span class="card-bloco-titulo">🥧 Rendimento do Clube</span>
-              <span style="font-size:9px; color:#E5A93C;">V / E / D</span>
+              <span class="card-bloco-titulo">🥧 Rendimento Clube</span>
+              <span style="font-size:8px; color:#E5A93C;">V / E / D</span>
             </div>
             <div class="chart-container-compact">
               <canvas id="graficoAdminPizzaRendimento"></canvas>
             </div>
           </div>
 
-          <!-- 2. GRÁFICO CIRCULAR: DESPESAS POR CATEGORIA -->
           <div class="card-dash-bloco">
             <div class="card-bloco-header">
-              <span class="card-bloco-titulo">🍩 Despesas por Categoria</span>
-              <span style="font-size:9px; color:#EF4444;">Distribuição Kz</span>
+              <span class="card-bloco-titulo">🍩 Despesas Categorias</span>
+              <span style="font-size:8px; color:#EF4444;">Kwanza</span>
             </div>
             <div class="chart-container-compact">
               <canvas id="graficoAdminDonutDespesas"></canvas>
             </div>
           </div>
 
-          <!-- 3. GRÁFICO CIRCULAR: RENDIMENTO DOS JOGADORES (GOLOS) -->
           <div class="card-dash-bloco">
             <div class="card-bloco-header">
-              <span class="card-bloco-titulo">⚽ Distribuição de Golos</span>
-              <span style="font-size:9px; color:#10B981;">Top Atletas</span>
+              <span class="card-bloco-titulo">⚽ Distribuição Golos</span>
+              <span style="font-size:8px; color:#10B981;">Top Plantel</span>
             </div>
             <div class="chart-container-compact">
               <canvas id="graficoAdminPizzaJogadores"></canvas>
@@ -680,7 +670,6 @@
         </div>
       </div>
 
-      <!-- CHAT DA DIREÇÃO (TOTALMENTE FUNCIONAL) -->
       <div id="sec-admin-chat" style="display:none; padding:12px 14px;">
         <div class="card-dash-bloco">
           <div class="card-bloco-header">
@@ -715,27 +704,55 @@
         </div>
       </div>
 
+      <!-- ================= PAINEL DO DESENVOLVEDOR MASTER (5 TRAVAS + 2 BOTÕES DE ZERAR C/ BECAPI) ================= -->
       <div id="sec-admin-config" style="display:none; padding:12px 14px;">
         <div class="card-dash-bloco">
           <h3 style="color:#E5A93C; font-size:12px; text-transform:uppercase; margin-bottom:6px;">⚙️ Painel do Desenvolvedor Master</h3>
+
+          <!-- 5 BOTÕES DE BLOQUEIO DE AÇÕES INDIVIDUAIS -->
           <div style="background:#080E1E; border:1px solid #1E2D56; border-radius:8px; padding:10px; margin-bottom:10px;">
+            <b style="color:#FBBF24; font-size:11px;">🔒 5 BOTÕES DE BLOQUEIO DE AÇÕES (MASTER):</b>
+            <p style="font-size:9px; color:#94A3B8; margin:2px 0 6px 0;">Desative ou reative as ações de cada cargo/perfil de forma independente:</p>
+            <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(180px, 1fr)); gap:6px;">
+              <button id="btn-lock-princ" class="btn btn-red" onclick="alternarTravaMaster('princ')">🔒 Bloquear Admin Principal</button>
+              <button id="btn-lock-adm1" class="btn btn-red" onclick="alternarTravaMaster('adm1')">🔒 Bloquear Admin 1</button>
+              <button id="btn-lock-adm2" class="btn btn-red" onclick="alternarTravaMaster('adm2')">🔒 Bloquear Admin 2</button>
+              <button id="btn-lock-adm3" class="btn btn-red" onclick="alternarTravaMaster('adm3')">🔒 Bloquear Admin 3</button>
+              <button id="btn-lock-atletas" class="btn btn-red" onclick="alternarTravaMaster('atletas')">🔒 Bloquear Atletas</button>
+            </div>
+          </div>
+
+          <!-- 2 BOTÕES DE LIMPEZA E ZERAR COM BACKUP E SENHA -->
+          <div style="background:#1B0A0F; border:1px solid #EF4444; border-radius:8px; padding:10px; margin-bottom:10px;">
+            <b style="color:#EF4444; font-size:11px;">⚠️ GESTÃO DE LIMPEZA E REPOSIÇÃO DE DADOS (COM BACKUP AUTOMÁTICO E SENHA):</b>
+            <p style="font-size:9px; color:#FCA5A5; margin:3px 0 8px 0;">Ações irreversíveis protegidas por senha Master com emissão obrigatória de cópia de segurança (backup).</p>
+            <div style="display:flex; flex-direction:column; gap:8px;">
+              <!-- BOTÃO 1: ZERAR POR ÁREA -->
+              <button class="btn btn-gold" style="font-size:10px;" onclick="abrirModalZerarPorArea()">
+                📁 1. Zerar Dados Inseridos por Área / Administrador (Exige Backup & Senha)
+              </button>
+              <!-- BOTÃO 2: LIMPEZA TOTAL DA PLATAFORMA -->
+              <button class="btn btn-red" style="font-size:10px;" onclick="abrirModalLimpezaTotalPlataforma()">
+                🚨 2. Limpar Plataforma de Forma Total (Todas as Áreas - Irreversível)
+              </button>
+            </div>
+          </div>
+
+          <div style="background:#080E1E; border:1px solid #1E2D56; border-radius:8px; padding:10px;">
             <b style="color:#EF4444; font-size:10px;">⚖️ Denúncias Contra o Admin Principal:</b>
             <div id="lista-denuncias-contra-principal-master" style="font-size:10px; margin-top:4px;">Sem denúncias.</div>
-          </div>
-          <div style="background:#260C10; border:1px solid #EF4444; border-radius:8px; padding:10px;">
-            <b style="color:#EF4444; font-size:10px;">🚨 RESTAURAR PADRÕES DE FÁBRICA:</b>
-            <button class="btn btn-red" style="margin-top:6px;" onclick="zerarPlataformaTotal()">🗑️ Restaurar Tudo</button>
           </div>
         </div>
       </div>
     </main>
   </div>
 
-  <!-- 3. ÁREA DO ATLETA (GRÁFICOS REDUZIDOS E WHATSAPP EXCLUSIVO NO TOPO DO PAINEL) -->
+  <!-- 3. ÁREA DO ATLETA (IMAGEM BLOQUEADA E GRÁFICOS MINI) -->
   <div id="layout-atleta-mobile">
     <header class="atleta-topo-bar">
       <div style="display:flex; align-items:center; gap:8px;">
         <div style="width:30px; height:30px;">
+          <!-- ATLETA SEM PERMISSÃO DE ALTERAR O EMBLEMA DO CLUBE -->
           <img id="img-emblema-atleta-topo" src="" style="width:100%; height:100%; object-fit:contain;" onerror="aplicarSvgPadrao(this)">
         </div>
         <div>
@@ -772,13 +789,13 @@
       <div id="badge-atleta-status-inscricao" class="badge-estado badge-ativo">Ativo</div>
     </div>
 
-    <!-- GRÁFICOS CIRCULARES DO ATLETA (COMPACTOS) -->
-    <div style="padding: 0 12px; margin-bottom: 8px;">
-      <div class="grid-graficos-circulares" style="margin:0 0 8px 0;">
+    <!-- GRÁFICOS MINI DO ATLETA (110px de altura) -->
+    <div style="padding: 0 12px; margin-bottom: 6px;">
+      <div class="grid-graficos-circulares" style="margin:0 0 6px 0;">
         <div class="card-dash-bloco">
           <div class="card-bloco-header">
-            <span class="card-bloco-titulo">🥧 Rendimento do Clube</span>
-            <span style="font-size:9px; color:#E5A93C;">V / E / D</span>
+            <span class="card-bloco-titulo">🥧 Rendimento Clube</span>
+            <span style="font-size:8px; color:#E5A93C;">V / E / D</span>
           </div>
           <div class="chart-container-compact">
             <canvas id="graficoAtletaPizzaClube"></canvas>
@@ -787,8 +804,8 @@
 
         <div class="card-dash-bloco">
           <div class="card-bloco-header">
-            <span class="card-bloco-titulo">🍩 Despesas do Clube</span>
-            <span style="font-size:9px; color:#38BDF8;">Transparência</span>
+            <span class="card-bloco-titulo">🍩 Despesas Clube</span>
+            <span style="font-size:8px; color:#38BDF8;">Transparência</span>
           </div>
           <div class="chart-container-compact">
             <canvas id="graficoAtletaDonutDespesas"></canvas>
@@ -799,14 +816,14 @@
 
     <div class="atleta-duas-pills">
       <div class="atleta-pill">
-        <span style="font-size:20px;">💳</span>
+        <span style="font-size:18px;">💳</span>
         <div>
           <b id="txt-atleta-status-quota" style="font-size:11px; color:#10B981;">Regular</b>
           <p style="font-size:8px; color:#94A3B8;">Minhas Quotas</p>
         </div>
       </div>
       <div class="atleta-pill">
-        <span style="font-size:20px;">🏆</span>
+        <span style="font-size:18px;">🏆</span>
         <div>
           <b id="txt-atleta-jogos-contagem" style="font-size:11px; color:#FBBF24;">0</b>
           <p style="font-size:8px; color:#94A3B8;">Partidas Disputadas</p>
@@ -861,7 +878,58 @@
     </nav>
   </div>
 
-  <!-- MODAIS RESTANTES -->
+  <!-- ================= MODAIS DE SEGURANÇA E LIMPEZA MASTER ================= -->
+
+  <!-- MODAL: ZERAR DADOS POR ÁREA (COM BACKUP AUTOMÁTICO E SENHA) -->
+  <div id="modal-zerar-area-master" class="modal-box" style="display:none;">
+    <div class="modal-corpo">
+      <h3 style="color:#F59E0B; font-size:12px; margin-bottom:6px;">📁 ZERAR DADOS POR ÁREA ESPECÍFICA</h3>
+      <p style="font-size:10px; color:#EF4444; font-weight:bold; margin-bottom:8px;">⚠️ ATENÇÃO: Esta ação é irreversível. O sistema irá descarregar um arquivo de backup antes da exclusão.</p>
+      
+      <div class="campo">
+        <label>Selecione a Área para Limpeza:</label>
+        <select id="sel-area-zerar-master">
+          <option value="desportiva">⚽ Área Desportiva (Jogos e Resultados)</option>
+          <option value="financeira">💰 Área Financeira (Quotas, Receitas e Despesas)</option>
+          <option value="logistica">👕 Património & Logística (Materiais e Equipamentos)</option>
+          <option value="disciplina">⚖️ Conselho de Disciplina (Sanções Registadas)</option>
+          <option value="atletas">👥 Plantel de Atletas Cadastrados</option>
+        </select>
+      </div>
+
+      <div class="campo">
+        <label>Confirmação da Senha Master:</label>
+        <input type="password" id="inp-senha-master-zerar-area" placeholder="Digite a sua senha Master">
+      </div>
+
+      <button class="btn btn-gold" style="width:100%; padding:9px; margin-top:4px;" onclick="executarZerarAreaMaster()">
+        💾 1º Descarregar Backup e 2º Zerar Área
+      </button>
+      <button class="btn btn-dark" style="width:100%; margin-top:6px;" onclick="fecharModal('modal-zerar-area-master')">Cancelar</button>
+    </div>
+  </div>
+
+  <!-- MODAL: LIMPAR PLATAFORMA TOTAL (COM BACKUP AUTOMÁTICO E SENHA) -->
+  <div id="modal-zerar-total-master" class="modal-box" style="display:none;">
+    <div class="modal-corpo">
+      <h3 style="color:#EF4444; font-size:13px; margin-bottom:6px;">🚨 LIMPEZA TOTAL DA PLATAFORMA (IRREVERSÍVEL)</h3>
+      <p style="font-size:10px; color:#FCA5A5; margin-bottom:8px;">
+        Esta operação apaga todos os dados de todas as áreas (atletas, jogos, finanças, quotas, mensagens e auditoria). O backup global será baixado automaticamente antes do processo.
+      </p>
+
+      <div class="campo">
+        <label>Digite a Senha do Desenvolvedor Master:</label>
+        <input type="password" id="inp-senha-master-zerar-total" placeholder="Senha Master">
+      </div>
+
+      <button class="btn btn-red" style="width:100%; padding:10px; margin-top:4px;" onclick="executarLimpezaTotalMaster()">
+        🚨 Baixar Backup Completo & Limpar Toda a Plataforma
+      </button>
+      <button class="btn btn-dark" style="width:100%; margin-top:6px;" onclick="fecharModal('modal-zerar-total-master')">Cancelar</button>
+    </div>
+  </div>
+
+  <!-- MODAIS COMPLEMENTARES -->
   <div id="modal-solicitacoes-admin-princ" class="modal-box" style="display:none;">
     <div class="modal-corpo modal-corpo-largo">
       <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
@@ -969,28 +1037,10 @@
     </div>
   </div>
 
-  <div id="modal-novo-anuncio" class="modal-box" style="display:none;">
-    <div class="modal-corpo">
-      <h3 style="color:#E5A93C; font-size:12px; margin-bottom:8px;">📢 PUBLICAR COMUNICADO</h3>
-      <div class="campo">
-        <label>Área:</label>
-        <select id="cad-anuncio-area">
-          <option value="Desportiva">⚽ Desportiva</option>
-          <option value="Financeira">💰 Financeira</option>
-          <option value="Logística">👕 Logística</option>
-          <option value="Direção">⭐ Direção Geral</option>
-        </select>
-      </div>
-      <div class="campo"><label>Título:</label><input type="text" id="cad-anuncio-tit"></div>
-      <div class="campo"><label>Mensagem:</label><textarea id="cad-anuncio-txt" rows="3"></textarea></div>
-      <button class="btn btn-gold" style="width:100%; padding:9px;" onclick="salvarNovoAnuncio()">Publicar</button>
-      <button class="btn btn-dark" style="width:100%; margin-top:6px;" onclick="fecharModal('modal-novo-anuncio')">Cancelar</button>
-    </div>
-  </div>
-
   <div id="modal-alterar-bandeira" class="modal-box" style="display:none;">
     <div class="modal-corpo">
       <h3 style="color:#E5A93C; font-size:12px; margin-bottom:8px;">🏳️ ALTERAR BANDEIRA / EMBLEMA</h3>
+      <p style="font-size:9px; color:#94A3B8; margin-bottom:8px;">Acesso restrito aos administradores.</p>
       <div class="campo"><label>Ficheiro:</label><input type="file" id="inp-bandeira-file" accept="image/*" onchange="processarUploadBandeira(event)"></div>
       <button class="btn btn-gold" style="width:100%; padding:9px;" onclick="salvarBandeiraClube()">Guardar</button>
       <button class="btn btn-dark" style="width:100%; margin-top:6px;" onclick="fecharModal('modal-alterar-bandeira')">Fechar</button>
@@ -1061,7 +1111,7 @@
     </div>
   </div>
 
-  <!-- SCRIPT JAVASCRIPT COMPLETO E OTIMIZADO -->
+  <!-- SCRIPT JAVASCRIPT GERAL COM PERSISTÊNCIA E RESTAURAÇÃO DE SECÇÃO -->
   <script>
     const anoAtual = new Date().getFullYear();
 
@@ -1075,6 +1125,10 @@
       { id: "adm2", nome: "Carlos Tesoureiro", cargo: "🛡️ Admin 2 (Financeiro)", foto: "", morada: "Viana", tel: "935523498", emergencia: "923000097", pin: "2222" },
       { id: "adm3", nome: "Manuel Logística", cargo: "🛡️ Admin 3 (Logística)", foto: "", morada: "Rangel", tel: "923000003", emergencia: "923000096", pin: "3333" }
     ];
+
+    let travas = JSON.parse(localStorage.getItem('fce_travas_5')) || {
+      princ: false, adm1: false, adm2: false, adm3: false, atletas: false
+    };
 
     let bandeiraClube = localStorage.getItem('fce_bandeira_clube') || "";
     let atletas = JSON.parse(localStorage.getItem('fce_atletas')) || [];
@@ -1095,11 +1149,13 @@
 
     let chartAdminPizza, chartAdminDonutDesp, chartAdminPizzaJog, chartAtletaPizza, chartAtletaDonutDesp;
 
+    // AO ATUALIZAR A PÁGINA (F5), A SESSÃO E A SECÇÃO NÃO FECHAM!
     window.addEventListener('DOMContentLoaded', () => {
       document.getElementById('badge-epoca-dinamica').innerText = `Época ${anoAtual}`;
       document.getElementById('ano-copyright').innerText = anoAtual;
 
       aplicarBandeiraEmTodoLado();
+      atualizarTravasBotoes();
       atualizarTabelas();
       carregarChatDirecao();
       renderizarGraficosCirculares();
@@ -1123,6 +1179,7 @@
     function salvarTudo() {
       localStorage.setItem('fce_credenciais', JSON.stringify(credenciais));
       localStorage.setItem('fce_dirigentes', JSON.stringify(dirigentes));
+      localStorage.setItem('fce_travas_5', JSON.stringify(travas));
       localStorage.setItem('fce_atletas', JSON.stringify(atletas));
       localStorage.setItem('fce_quotas', JSON.stringify(quotas));
       localStorage.setItem('fce_jogos_v2', JSON.stringify(jogos));
@@ -1140,7 +1197,154 @@
     }
 
     // =========================================================================
-    // APENAS GRÁFICOS CIRCULARES COMPACTOS (PIE E DOUGHNUT)
+    // 5 BOTÕES DE BLOQUEIO DE AÇÕES DO MASTER
+    // =========================================================================
+    function alternarTravaMaster(tipo) {
+      if (usuarioAtual !== 'master') return alert("Exclusivo do Desenvolvedor Master!");
+      travas[tipo] = !travas[tipo];
+      salvarTudo();
+      atualizarTravasBotoes();
+      alert(`Ações de [${tipo.toUpperCase()}] alteradas para: ${travas[tipo] ? 'BLOQUEADO' : 'LIBERADO'}`);
+    }
+
+    function atualizarTravasBotoes() {
+      const mapa = {
+        princ: "Admin Principal",
+        adm1: "Admin 1 (Desportivo)",
+        adm2: "Admin 2 (Financeiro)",
+        adm3: "Admin 3 (Logística)",
+        atletas: "Todos os Atletas"
+      };
+
+      ['princ', 'adm1', 'adm2', 'adm3', 'atletas'].forEach(t => {
+        const b = document.getElementById(`btn-lock-${t}`);
+        if (b) {
+          b.innerText = travas[t] ? `🔓 Desbloquear: ${mapa[t]}` : `🔒 Bloquear: ${mapa[t]}`;
+          b.className = travas[t] ? "btn btn-gold" : "btn btn-red";
+        }
+      });
+    }
+
+    function checarAcaoBloqueada() {
+      if (usuarioAtual === 'master') return false;
+      if (usuarioAtual === 'adm_princ' && travas.princ) { alert("Atenção: As suas ações estão temporariamente bloqueadas pelo Master."); return true; }
+      if (usuarioAtual === 'adm1' && travas.adm1) { alert("Atenção: Ações do Admin 1 bloqueadas pelo Master."); return true; }
+      if (usuarioAtual === 'adm2' && travas.adm2) { alert("Atenção: Ações do Admin 2 bloqueadas pelo Master."); return true; }
+      if (usuarioAtual === 'adm3' && travas.adm3) { alert("Atenção: Ações do Admin 3 bloqueadas pelo Master."); return true; }
+      if (usuarioAtual === 'atleta' && travas.atletas) { alert("Atenção: As ações dos atletas estão bloqueadas temporariamente."); return true; }
+      return false;
+    }
+
+    // =========================================================================
+    // ROTINAS DE BACKUP AUTOMÁTICO (BECAPI EM ARQUIVO JSON)
+    // =========================================================================
+    function baixarBackupSeguranca(nomeArquivo) {
+      const dadosCompletos = {
+        dataBackup: new Date().toISOString(),
+        geradoPor: "Desenvolvedor Master Eduardo Alfredo",
+        credenciais, dirigentes, travas, bandeiraClube,
+        atletas, quotas, jogos, despesas, patrocinios,
+        equipamentos, auditoria, enquetes, anuncios, disciplina, chatDirecao
+      };
+
+      const blob = new Blob([JSON.stringify(dadosCompletos, null, 2)], { type: "application/json" });
+      const link = document.createElement("a");
+      link.href = URL.createObjectURL(blob);
+      link.download = `${nomeArquivo}_${new Date().toISOString().slice(0,10)}.json`;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
+
+    // =========================================================================
+    // BOTÃO 1: ZERAR DADOS POR ÁREA (COM BACKUP E SENHA MASTER)
+    // =========================================================================
+    function abrirModalZerarPorArea() {
+      if (usuarioAtual !== 'master') return alert("Exclusivo do Master!");
+      document.getElementById('inp-senha-master-zerar-area').value = '';
+      abrirModal('modal-zerar-area-master');
+    }
+
+    function executarZerarAreaMaster() {
+      if (usuarioAtual !== 'master') return alert("Exclusivo do Master!");
+      const senha = document.getElementById('inp-senha-master-zerar-area').value.trim();
+      const area = document.getElementById('sel-area-zerar-master').value;
+
+      if (senha !== credenciais.master) {
+        return alert("Senha Master incorreta! Operação abortada.");
+      }
+
+      // 1. Gera e descarrega o backup antes de limpar
+      baixarBackupSeguranca(`BACKUP_PRE_LIMPEZA_AREA_${area.toUpperCase()}`);
+
+      // 2. Limpa os dados específicos da área selecionada
+      if (area === 'desportiva') {
+        jogos = [];
+      } else if (area === 'financeira') {
+        quotas = [];
+        despesas = [];
+        patrocinios = [];
+      } else if (area === 'logistica') {
+        equipamentos = [];
+      } else if (area === 'disciplina') {
+        disciplina = [];
+      } else if (area === 'atletas') {
+        atletas = [];
+      }
+
+      salvarTudo();
+      fecharModal('modal-zerar-area-master');
+      atualizarTabelas();
+      renderizarGraficosCirculares();
+
+      alert(`A área [${area.toUpperCase()}] foi zerada com sucesso após o download do arquivo de backup!`);
+    }
+
+    // =========================================================================
+    // BOTÃO 2: LIMPEZA TOTAL DA PLATAFORMA (COM BACKUP E SENHA MASTER)
+    // =========================================================================
+    function abrirModalLimpezaTotalPlataforma() {
+      if (usuarioAtual !== 'master') return alert("Exclusivo do Master!");
+      document.getElementById('inp-senha-master-zerar-total').value = '';
+      abrirModal('modal-zerar-total-master');
+    }
+
+    function executarLimpezaTotalMaster() {
+      if (usuarioAtual !== 'master') return alert("Exclusivo do Master!");
+      const senha = document.getElementById('inp-senha-master-zerar-total').value.trim();
+
+      if (senha !== credenciais.master) {
+        return alert("Senha Master incorreta! Operação cancelada por motivos de segurança.");
+      }
+
+      // 1. Descarrega o Backup Global de toda a plataforma
+      baixarBackupSeguranca("BACKUP_GLOBAL_COMPLETO_FC_ESPANHA");
+
+      // 2. Zera todas as áreas de dados
+      atletas = [];
+      quotas = [];
+      jogos = [];
+      despesas = [];
+      patrocinios = [];
+      equipamentos = [];
+      auditoria = [];
+      enquetes = [];
+      anuncios = [];
+      disciplina = [];
+      notificacoes = [];
+      chatDirecao = [];
+
+      salvarTudo();
+      fecharModal('modal-zerar-total-master');
+      atualizarTabelas();
+      renderizarGraficosCirculares();
+
+      alert("Limpeza total da plataforma concluída! O backup global foi transferido para o seu computador.");
+      location.reload();
+    }
+
+    // =========================================================================
+    // APENAS GRÁFICOS CIRCULARES ULTRA-COMPACTOS (MINI - 110px)
     // =========================================================================
     function renderizarGraficosCirculares() {
       const terminados = jogos.filter(j => j.status === 'Realizada');
@@ -1159,42 +1363,42 @@
           type: 'pie',
           data: {
             labels: ['Vitórias', 'Empates', 'Derrotas'],
-            datasets: [{ data: dadosRendimento, backgroundColor: coresRendimento, borderColor: '#0E1424', borderWidth: 2 }]
+            datasets: [{ data: dadosRendimento, backgroundColor: coresRendimento, borderColor: '#0E1424', borderWidth: 1 }]
           },
-          options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom', labels: { boxWidth: 10, color: '#CBD5E1', font: { size: 9 } } } } }
+          options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom', labels: { boxWidth: 8, color: '#CBD5E1', font: { size: 8 } } } } }
         });
       }
 
-      // 2. Gráfico Admin: Donut Despesas por Categoria
+      // 2. Gráfico Admin: Donut Despesas
       const ctxDonutDesp = document.getElementById('graficoAdminDonutDespesas');
       if (ctxDonutDesp) {
         if (chartAdminDonutDesp) chartAdminDonutDesp.destroy();
-        const rotulos = despesas.length ? despesas.slice(0, 4).map(d => d.desc.substring(0, 10)) : ['Sem Despesas'];
-        const valores = despesas.length ? despesas.slice(0, 4).map(d => Number(d.val)) : [1];
+        const rotulos = despesas.length ? despesas.slice(0, 3).map(d => d.desc.substring(0, 8)) : ['Sem Desp'];
+        const valores = despesas.length ? despesas.slice(0, 3).map(d => Number(d.val)) : [1];
         chartAdminDonutDesp = new Chart(ctxDonutDesp, {
           type: 'doughnut',
           data: {
             labels: rotulos,
-            datasets: [{ data: valores, backgroundColor: ['#EF4444', '#F59E0B', '#3B82F6', '#8B5CF6'], borderColor: '#0E1424', borderWidth: 2 }]
+            datasets: [{ data: valores, backgroundColor: ['#EF4444', '#F59E0B', '#3B82F6'], borderColor: '#0E1424', borderWidth: 1 }]
           },
-          options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom', labels: { boxWidth: 10, color: '#CBD5E1', font: { size: 9 } } } } }
+          options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom', labels: { boxWidth: 8, color: '#CBD5E1', font: { size: 8 } } } } }
         });
       }
 
-      // 3. Gráfico Admin: Pizza Rendimento Jogadores (Golos)
+      // 3. Gráfico Admin: Pizza Jogadores
       const ctxPizzaJog = document.getElementById('graficoAdminPizzaJogadores');
       if (ctxPizzaJog) {
         if (chartAdminPizzaJog) chartAdminPizzaJog.destroy();
-        const topJog = [...atletas].sort((a,b) => (b.golos||0) - (a.golos||0)).slice(0, 4);
-        const rotulosJog = topJog.length ? topJog.map(a => a.nome.split(' ')[0]) : ['Sem Atletas'];
+        const topJog = [...atletas].sort((a,b) => (b.golos||0) - (a.golos||0)).slice(0, 3);
+        const rotulosJog = topJog.length ? topJog.map(a => a.nome.split(' ')[0]) : ['Plantel'];
         const golosJog = topJog.length ? topJog.map(a => Math.max(1, a.golos || 0)) : [1];
         chartAdminPizzaJog = new Chart(ctxPizzaJog, {
           type: 'pie',
           data: {
             labels: rotulosJog,
-            datasets: [{ data: golosJog, backgroundColor: ['#F3B229', '#10B981', '#38BDF8', '#EC4899'], borderColor: '#0E1424', borderWidth: 2 }]
+            datasets: [{ data: golosJog, backgroundColor: ['#F3B229', '#10B981', '#38BDF8'], borderColor: '#0E1424', borderWidth: 1 }]
           },
-          options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom', labels: { boxWidth: 10, color: '#CBD5E1', font: { size: 9 } } } } }
+          options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom', labels: { boxWidth: 8, color: '#CBD5E1', font: { size: 8 } } } } }
         });
       }
 
@@ -1206,31 +1410,31 @@
           type: 'pie',
           data: {
             labels: ['Vitórias', 'Empates', 'Derrotas'],
-            datasets: [{ data: dadosRendimento, backgroundColor: coresRendimento, borderColor: '#0E1424', borderWidth: 2 }]
+            datasets: [{ data: dadosRendimento, backgroundColor: coresRendimento, borderColor: '#0E1424', borderWidth: 1 }]
           },
-          options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom', labels: { boxWidth: 10, color: '#CBD5E1', font: { size: 9 } } } } }
+          options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom', labels: { boxWidth: 8, color: '#CBD5E1', font: { size: 8 } } } } }
         });
       }
 
-      // 5. Gráfico Atleta: Donut Despesas do Clube
+      // 5. Gráfico Atleta: Donut Despesas Clube
       const ctxDonutAtlDesp = document.getElementById('graficoAtletaDonutDespesas');
       if (ctxDonutAtlDesp) {
         if (chartAtletaDonutDesp) chartAtletaDonutDesp.destroy();
-        const rotulos = despesas.length ? despesas.slice(0, 4).map(d => d.desc.substring(0, 10)) : ['Sem Despesas'];
-        const valores = despesas.length ? despesas.slice(0, 4).map(d => Number(d.val)) : [1];
+        const rotulos = despesas.length ? despesas.slice(0, 3).map(d => d.desc.substring(0, 8)) : ['Sem Desp'];
+        const valores = despesas.length ? despesas.slice(0, 3).map(d => Number(d.val)) : [1];
         chartAtletaDonutDesp = new Chart(ctxDonutAtlDesp, {
           type: 'doughnut',
           data: {
             labels: rotulos,
-            datasets: [{ data: valores, backgroundColor: ['#EF4444', '#F59E0B', '#3B82F6', '#8B5CF6'], borderColor: '#0E1424', borderWidth: 2 }]
+            datasets: [{ data: valores, backgroundColor: ['#EF4444', '#F59E0B', '#3B82F6'], borderColor: '#0E1424', borderWidth: 1 }]
           },
-          options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom', labels: { boxWidth: 10, color: '#CBD5E1', font: { size: 9 } } } } }
+          options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom', labels: { boxWidth: 8, color: '#CBD5E1', font: { size: 8 } } } } }
         });
       }
     }
 
     // =========================================================================
-    // CHAT DA DIREÇÃO (FUNCIONAMENTO IMEDIATO, EDIÇÃO E EXCLUSÃO)
+    // CHAT DA DIREÇÃO (COM EDIÇÃO E APAGAR)
     // =========================================================================
     function carregarChatDirecao() {
       const box = document.getElementById('box-chat-direcao-feed');
@@ -1263,6 +1467,7 @@
     }
 
     function enviarMensagemChatDirecao() {
+      if (checarAcaoBloqueada()) return;
       const inp = document.getElementById('inp-chat-direcao-msg');
       const txt = inp.value.trim();
       if (!txt) return;
@@ -1283,6 +1488,7 @@
     }
 
     function editarMensagemChatDirecao(id) {
+      if (checarAcaoBloqueada()) return;
       const m = chatDirecao.find(x => x.id === id);
       if (!m || m.idAutor !== usuarioAtual) return;
       const novoTxt = prompt("Editar mensagem:", m.texto);
@@ -1294,6 +1500,7 @@
     }
 
     function removerMensagemChatDirecao(id) {
+      if (checarAcaoBloqueada()) return;
       const m = chatDirecao.find(x => x.id === id);
       if (!m || m.idAutor !== usuarioAtual) return;
       if (confirm("Apagar esta mensagem?")) {
@@ -1304,30 +1511,13 @@
     }
 
     // =========================================================================
-    // REMOÇÃO EXCLUSIVA DE ATLETAS (SOMENTE MASTER E PRINCIPAL)
-    // =========================================================================
-    function removerAtletaComRestricao(id) {
-      if (usuarioAtual !== 'master' && usuarioAtual !== 'adm_princ') {
-        return alert("Permissão Negada: Apenas o Administrador Principal e o Desenvolvedor Master podem remover atletas!");
-      }
-      const a = atletas.find(x => x.id === id);
-      if (!a) return;
-
-      if (confirm(`Confirma a remoção definitiva do atleta ${a.nome} (#${a.num})?`)) {
-        atletas = atletas.filter(x => x.id !== id);
-        salvarTudo();
-        atualizarTabelas();
-        renderizarGraficosCirculares();
-        alert("Atleta removido com sucesso!");
-      }
-    }
-
     // BANDEIRA: APENAS ADMINISTRADORES
+    // =========================================================================
     function abrirModalSePermitidoBandeira() {
       if (usuarioAtual !== 'atleta') {
         abrirModal('modal-alterar-bandeira');
       } else {
-        alert("Apenas os administradores estão autorizados a alterar o emblema oficial!");
+        alert("Atenção: Apenas os administradores estão autorizados a alterar a imagem oficial do clube!");
       }
     }
 
@@ -1341,11 +1531,11 @@
 
     function salvarBandeiraClube() {
       if (usuarioAtual === 'atleta') return;
-      if (!bandeiraClube) return alert("Selecione um ficheiro!");
+      if (!bandeiraClube) return alert("Selecione um ficheiro de imagem!");
       salvarTudo();
       aplicarBandeiraEmTodoLado();
       fecharModal('modal-alterar-bandeira');
-      alert("Emblema oficial atualizado!");
+      alert("Emblema oficial do FC ESPANHA atualizado com sucesso!");
     }
 
     function aplicarBandeiraEmTodoLado() {
@@ -1361,9 +1551,10 @@
     }
 
     // =========================================================================
-    // CADASTRO ATLETA & SENHA & TELEFONE OPCIONAL
+    // CADASTRO DE ATLETA & DIRIGENTES
     // =========================================================================
     function abrirModalNovoAtleta() {
+      if (checarAcaoBloqueada()) return;
       document.getElementById('cad-atleta-num').value = atletas.length + 1;
       document.getElementById('cad-atleta-nome').value = '';
       document.getElementById('cad-atleta-idade').value = '';
@@ -1383,6 +1574,7 @@
     }
 
     function salvarAtletaCompleto() {
+      if (checarAcaoBloqueada()) return;
       const num = document.getElementById('cad-atleta-num').value;
       const nome = document.getElementById('cad-atleta-nome').value.trim();
       const idade = document.getElementById('cad-atleta-idade').value.trim();
@@ -1416,15 +1608,14 @@
       }
     }
 
-    // =========================================================================
-    // DIRIGENTES
-    // =========================================================================
     function abrirModalCadastrarAdmin() {
+      if (checarAcaoBloqueada()) return;
       if (usuarioAtual !== 'master' && usuarioAtual !== 'adm_princ') return alert("Apenas Master e Admin Principal podem cadastrar dirigentes!");
       abrirModal('modal-cadastrar-admin');
     }
 
     function salvarNovoAdminComRegras() {
+      if (checarAcaoBloqueada()) return;
       const cargo = document.getElementById('cad-adm-cargo').value;
       const nome = document.getElementById('cad-adm-nome').value.trim();
       const tel = document.getElementById('cad-adm-tel').value.trim();
@@ -1451,64 +1642,58 @@
       window.open(`https://wa.me/244${tel.replace(/\D/g,'')}?text=${encodeURIComponent(msg)}`, '_blank');
     }
 
-    // =========================================================================
-    // COMUNICADOS POR ÁREA
-    // =========================================================================
-    function abrirModalNovoAnuncio() {
-      const sel = document.getElementById('cad-anuncio-area');
-      if (usuarioAtual === 'adm1') sel.value = 'Desportiva';
-      else if (usuarioAtual === 'adm2') sel.value = 'Financeira';
-      else if (usuarioAtual === 'adm3') sel.value = 'Logística';
-      else sel.value = 'Direção';
-      abrirModal('modal-novo-anuncio');
+    function removerAtletaComRestricao(id) {
+      if (checarAcaoBloqueada()) return;
+      if (usuarioAtual !== 'master' && usuarioAtual !== 'adm_princ') {
+        return alert("Permissão Negada: Apenas o Administrador Principal e o Desenvolvedor Master podem remover atletas!");
+      }
+      const a = atletas.find(x => x.id === id);
+      if (!a) return;
+
+      if (confirm(`Confirma a remoção definitiva do atleta ${a.nome} (#${a.num})?`)) {
+        atletas = atletas.filter(x => x.id !== id);
+        salvarTudo();
+        atualizarTabelas();
+        renderizarGraficosCirculares();
+        alert("Atleta removido com sucesso!");
+      }
     }
 
-    function salvarNovoAnuncio() {
-      const area = document.getElementById('cad-anuncio-area').value;
-      const tit = document.getElementById('cad-anuncio-tit').value.trim();
-      const txt = document.getElementById('cad-anuncio-txt').value.trim();
-      if (!tit || !txt) return alert("Preencha título e texto!");
+    // =========================================================================
+    // QUOTAS E OUTRAS ROTINAS
+    // =========================================================================
+    function abrirModalNovaQuota(idAtleta = null) {
+      if (checarAcaoBloqueada()) return;
+      const sel = document.getElementById('sel-quota-atleta');
+      sel.innerHTML = '';
+      atletas.forEach(a => sel.innerHTML += `<option value="${a.id}">#${a.num} - ${a.nome}</option>`);
+      if (idAtleta) sel.value = idAtleta;
+      document.getElementById('quota-data').valueAsDate = new Date();
+      abrirModal('modal-lancar-quota');
+    }
 
-      anuncios.unshift({ id: Date.now(), area, titulo: tit, texto: txt, data: new Date().toLocaleDateString('pt-PT') });
+    function salvarQuotaComRecibo() {
+      if (checarAcaoBloqueada()) return;
+      const aId = document.getElementById('sel-quota-atleta').value;
+      const a = atletas.find(x => x.id === aId);
+      const val = document.getElementById('quota-valor').value;
+      const data = document.getElementById('quota-data').value || new Date().toISOString().split('T')[0];
+      const mod = document.getElementById('quota-modalidade').value;
+
+      if (!a) return alert("Selecione o atleta!");
+      const rec = "REC-" + Math.floor(1000 + Math.random() * 9000);
+
+      quotas.unshift({ id: Date.now(), atletaId: a.id, atletaNome: a.nome, valor: val, modalidade: mod, reciboNum: rec, data, status: "Pago" });
       salvarTudo();
-      fecharModal('modal-novo-anuncio');
-      renderizarAnuncios();
-      alert("Comunicado publicado!");
+      fecharModal('modal-lancar-quota');
+      atualizarTabelas();
+
+      if (a.tel) {
+        const msg = `🧾 *FC ESPANHA - RECIBO DE QUOTA*\nAtleta: ${a.nome}\nRecibo: *${rec}*\nValor: *${Number(val).toLocaleString('pt-AO')} Kz*\nData: ${data}`;
+        window.open(`https://wa.me/244${a.tel.replace(/\D/g,'')}?text=${encodeURIComponent(msg)}`, '_blank');
+      }
     }
 
-    function renderizarAnuncios() {
-      const feed = document.getElementById('feed-anuncios-admin');
-      if (!feed) return;
-      feed.innerHTML = anuncios.length ? '' : '<p style="color:#64748B; font-size:10px;">Sem comunicados.</p>';
-      anuncios.forEach(a => {
-        feed.innerHTML += `
-          <div style="background:#090E1F; border:1px solid #1E2D56; padding:8px 10px; border-radius:6px; font-size:10px;">
-            <b style="color:#F3B229;">[${a.area}] ${a.titulo}</b>
-            <p style="color:#E2E8F0; margin:2px 0;">${a.texto}</p>
-            <small style="color:#64748B;">${a.data}</small>
-          </div>
-        `;
-      });
-    }
-
-    function renderizarComunicadosAtleta() {
-      const box = document.getElementById('feed-comunicados-atleta-box');
-      if (!box) return;
-      box.innerHTML = anuncios.length ? '' : '<p style="color:#64748B; font-size:10px;">Sem comunicados no momento.</p>';
-      anuncios.forEach(a => {
-        box.innerHTML += `
-          <div style="background:#090E1F; border:1px solid #1E2D56; padding:8px 10px; border-radius:6px; font-size:10px;">
-            <b style="color:#FBBF24;">[${a.area}] ${a.titulo}</b>
-            <p style="color:#E2E8F0; margin:2px 0;">${a.texto}</p>
-            <small style="color:#64748B;">${a.data}</small>
-          </div>
-        `;
-      });
-    }
-
-    // =========================================================================
-    // ATUALIZAÇÃO GERAL E DASHBOARD
-    // =========================================================================
     function atualizarTabelas() {
       const podeRemover = (usuarioAtual === 'master' || usuarioAtual === 'adm_princ');
       const tbA = document.getElementById('tb-atletas-geral');
@@ -1629,76 +1814,7 @@
         });
       }
 
-      renderizarComunicadosAtleta();
       renderizarGraficosCirculares();
-    }
-
-    function salvarQuotaComRecibo() {
-      const aId = document.getElementById('sel-quota-atleta').value;
-      const a = atletas.find(x => x.id === aId);
-      const val = document.getElementById('quota-valor').value;
-      const data = document.getElementById('quota-data').value || new Date().toISOString().split('T')[0];
-      const mod = document.getElementById('quota-modalidade').value;
-
-      if (!a) return alert("Selecione o atleta!");
-      const rec = "REC-" + Math.floor(1000 + Math.random() * 9000);
-
-      quotas.unshift({ id: Date.now(), atletaId: a.id, atletaNome: a.nome, valor: val, modalidade: mod, reciboNum: rec, data, status: "Pago" });
-      salvarTudo();
-      fecharModal('modal-lancar-quota');
-      atualizarTabelas();
-
-      if (a.tel) {
-        const msg = `🧾 *FC ESPANHA - RECIBO DE QUOTA*\nAtleta: ${a.nome}\nRecibo: *${rec}*\nValor: *${Number(val).toLocaleString('pt-AO')} Kz*\nData: ${data}`;
-        window.open(`https://wa.me/244${a.tel.replace(/\D/g,'')}?text=${encodeURIComponent(msg)}`, '_blank');
-      }
-    }
-
-    function enviarReciboWhatsApp(rec, aId) {
-      const a = atletas.find(x => x.id === aId);
-      const q = quotas.find(x => x.reciboNum === rec);
-      if (!a || !a.tel) return alert("Atleta sem telefone!");
-      const msg = `🧾 *FC ESPANHA - 2ª VIA*\nRecibo: *${rec}*\nValor: ${Number(q.valor).toLocaleString('pt-AO')} Kz`;
-      window.open(`https://wa.me/244${a.tel.replace(/\D/g,'')}?text=${encodeURIComponent(msg)}`, '_blank');
-    }
-
-    function enviarWhatsAppDirigente(cargo) {
-      const d = dirigentes.find(x => x.id === cargo);
-      if (!d || !d.tel) return alert("Sem telefone!");
-      const link = window.location.href.split('#')[0];
-      const msg = `🛡️ *FC ESPANHA*\nOlá ${d.nome}!\nCargo: *${d.cargo}*\nPIN: *${credenciais[d.id] || d.pin}*\nPlataforma: ${link}`;
-      window.open(`https://wa.me/244${d.tel.replace(/\D/g,'')}?text=${encodeURIComponent(msg)}`, '_blank');
-    }
-
-    function abrirModalNovaQuota(idAtleta = null) {
-      const sel = document.getElementById('sel-quota-atleta');
-      sel.innerHTML = '';
-      atletas.forEach(a => sel.innerHTML += `<option value="${a.id}">#${a.num} - ${a.nome}</option>`);
-      if (idAtleta) sel.value = idAtleta;
-      document.getElementById('quota-data').valueAsDate = new Date();
-      abrirModal('modal-lancar-quota');
-    }
-
-    function exportarPlanilhaAtletasCSV() {
-      if (!atletas.length) return alert("Sem atletas para exportar!");
-      let csv = "\uFEFFNúmero,Nome,Posição,Idade,Telefone,Emergência,Senha\n";
-      atletas.forEach(a => {
-        csv += `"${a.num}","${a.nome}","${a.pos}","${a.idade}","${a.tel}","${a.emergencia || '—'}","${a.senha}"\n`;
-      });
-      const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
-      const link = document.createElement("a");
-      link.href = URL.createObjectURL(blob);
-      link.download = `Plantel_FC_ESPANHA_${anoAtual}.csv`;
-      link.click();
-    }
-
-    function descarregarRelatorioFinanceiroTransparente() {
-      const rec = quotas.filter(q => q.status === 'Pago').reduce((acc, q) => acc + Number(q.valor || 0), 0);
-      const desp = despesas.reduce((acc, d) => acc + Number(d.val || 0), 0);
-      const w = window.open('', '_blank');
-      w.document.write(`<pre style="font-family:monospace; padding:20px;">FC ESPANHA - BALANCETE TRANSPARENTE\nReceitas: ${rec.toLocaleString('pt-AO')} Kz\nDespesas: ${desp.toLocaleString('pt-AO')} Kz\nSaldo: ${(rec - desp).toLocaleString('pt-AO')} Kz</pre>`);
-      w.document.close();
-      w.print();
     }
 
     function submeterLoginAtleta() {
@@ -1753,12 +1869,13 @@
       document.getElementById('txt-admin-header-nome').innerText = isMaster ? "Eduardo Alfredo" : (d ? d.nome : usuarioAtual.toUpperCase());
       document.getElementById('txt-admin-header-cargo').innerText = isMaster ? "👑 Master" : "Dirigente";
       document.getElementById('btn-cadastrar-dirigente-topo').style.display = (isMaster || usuarioAtual === 'adm_princ') ? 'inline-block' : 'none';
-      document.getElementById('btn-alterar-bandeira-sidebar').style.display = (usuarioAtual !== 'atleta') ? 'inline-block' : 'none';
+      document.getElementById('nav-item-config').style.display = isMaster ? 'flex' : 'none';
       abrirSecaoAdmin(localStorage.getItem('fce_secao_admin_salva') || 'painel');
     }
 
     function abrirSecaoAdmin(secao) {
       fecharSidebarMobile();
+      // GUARDA A SECÇÃO ATUAL NO LOCALSTORAGE PARA NÃO FECHAR AO ATUALIZAR (F5)
       localStorage.setItem('fce_secao_admin_salva', secao);
       const secoes = ['painel', 'atletas', 'dirigentes', 'quotas', 'financas', 'jogos', 'disciplina', 'equipamentos', 'documentos', 'chat', 'anuncios', 'relatorios', 'config'];
       secoes.forEach(s => {
@@ -1770,7 +1887,6 @@
 
       if (secao === 'painel') { renderizarPainelDinamico(); renderizarGraficosCirculares(); }
       if (secao === 'chat') carregarChatDirecao();
-      if (secao === 'anuncios') renderizarAnuncios();
     }
 
     function alternarFormLogin(modo) {
@@ -1793,6 +1909,7 @@
     function terminarSessao() {
       localStorage.removeItem('fce_usuario_logado');
       localStorage.removeItem('fce_tipo_sessao');
+      localStorage.removeItem('fce_secao_admin_salva');
       location.reload();
     }
 
@@ -1817,12 +1934,29 @@
       btn.innerText = (inp.type === "password") ? "👁️" : "🙈";
     }
 
-    function zerarPlataformaTotal() {
-      if (usuarioAtual !== 'master') return alert("Exclusivo do Master!");
-      if (confirm("Restaurar plataforma aos padrões de fábrica?")) {
-        localStorage.clear();
-        location.reload();
-      }
+    function enviarReciboWhatsApp(rec, aId) {
+      const a = atletas.find(x => x.id === aId);
+      const q = quotas.find(x => x.reciboNum === rec);
+      if (!a || !a.tel) return alert("Atleta sem telefone!");
+      const msg = `🧾 *FC ESPANHA - 2ª VIA*\nRecibo: *${rec}*\nValor: ${Number(q.valor).toLocaleString('pt-AO')} Kz`;
+      window.open(`https://wa.me/244${a.tel.replace(/\D/g,'')}?text=${encodeURIComponent(msg)}`, '_blank');
+    }
+
+    function enviarWhatsAppDirigente(cargo) {
+      const d = dirigentes.find(x => x.id === cargo);
+      if (!d || !d.tel) return alert("Sem telefone!");
+      const link = window.location.href.split('#')[0];
+      const msg = `🛡️ *FC ESPANHA*\nOlá ${d.nome}!\nCargo: *${d.cargo}*\nPIN: *${credenciais[d.id] || d.pin}*\nPlataforma: ${link}`;
+      window.open(`https://wa.me/244${d.tel.replace(/\D/g,'')}?text=${encodeURIComponent(msg)}`, '_blank');
+    }
+
+    function descarregarRelatorioFinanceiroTransparente() {
+      const rec = quotas.filter(q => q.status === 'Pago').reduce((acc, q) => acc + Number(q.valor || 0), 0);
+      const desp = despesas.reduce((acc, d) => acc + Number(d.val || 0), 0);
+      const w = window.open('', '_blank');
+      w.document.write(`<pre style="font-family:monospace; padding:20px;">FC ESPANHA - BALANCETE TRANSPARENTE\nReceitas: ${rec.toLocaleString('pt-AO')} Kz\nDespesas: ${desp.toLocaleString('pt-AO')} Kz\nSaldo: ${(rec - desp).toLocaleString('pt-AO')} Kz</pre>`);
+      w.document.close();
+      w.print();
     }
   </script>
 </body>
