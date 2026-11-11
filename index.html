@@ -1999,34 +1999,30 @@
     function submeterAlteracaoPerfilAtleta() { alert("Solicitação de alteração enviada para aprovação!"); fecharModal('modal-atleta-alterar-perfil'); }
     function enviarSugestaoDirecao() { alert("Sugestão enviada!"); fecharModal('modal-enviar-sugestao'); }
     function enviarParticipacaoLesao() { alert("Participação médica enviada!"); fecharModal('modal-justificar-lesao'); }
-  <!-- FORÇAR O BOTÃO DO MASTER A APARECER COM DESTAQUE -->
-<style>
-  #nav-item-config {
-    display: flex !important;
-    background: #24080B !important;
-    color: #FBBF24 !important;
-    border: 1px solid #E5A93C !important;
-    font-weight: 900 !important;
-  }
-</style>
-
-<script>
-  // Adiciona um botão direto do Master na barra superior para não precisar procurar no menu
-  window.addEventListener('DOMContentLoaded', () => {
-    const barra = document.querySelector('.sessao-botoes-grupo');
-    if (barra && !document.getElementById('btn-atalho-master-travas')) {
-      const btn = document.createElement('button');
-      btn.id = 'btn-atalho-master-travas';
-      btn.className = 'btn btn-red';
-      btn.style.fontSize = '10px';
-      btn.style.padding = '4px 8px';
-      btn.innerHTML = '⚙️ Travas & Zerar (Master)';
-      btn.onclick = () => abrirSecaoAdmin('config');
-      barra.appendChild(btn);
-    }
-  });
-</script>
+  // Adiciona o botão do Master na barra superior
+    window.addEventListener('DOMContentLoaded', () => {
+      const barra = document.querySelector('.sessao-botoes-grupo');
+      if (barra && !document.getElementById('btn-atalho-master-travas')) {
+        const btn = document.createElement('button');
+        btn.id = 'btn-atalho-master-travas';
+        btn.className = 'btn btn-red';
+        btn.style.fontSize = '10px';
+        btn.style.padding = '4px 8px';
+        btn.innerHTML = '⚙️ Travas & Zerar (Master)';
+        btn.onclick = () => abrirSecaoAdmin('config');
+        barra.appendChild(btn);
+      }
+    });
   </script>
-</body>
-</html>  
 
+  <style>
+    #nav-item-config {
+      display: flex !important;
+      background: #24080B !important;
+      color: #FBBF24 !important;
+      border: 1px solid #E5A93C !important;
+      font-weight: 900 !important;
+    }
+  </style>
+</body>
+</html>
