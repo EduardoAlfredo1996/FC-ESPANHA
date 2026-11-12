@@ -2044,6 +2044,10 @@
         gerenciarAcessoMaster();
       };
     });
+    function abrirModalNovoAtleta() {
+      if (typeof checarBloqueioOperacao === 'function' && checarBloqueioOperacao('adm1')) return;
+      abrirModal('modal-novo-atleta');
+    }
   </script>
 
   <style>
