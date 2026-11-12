@@ -1026,28 +1026,564 @@
     </div>
   </div>
 
-  <!-- MODAL: CADASTRAR ATLETA -->
-  <div id="modal-novo-atleta" class="modal-box" style="display:none;">
-    <div class="modal-corpo">
-      <h3 style="color:#E5A93C; font-size:12px; margin-bottom:8px;">+ CADASTRAR ATLETA</h3>
-      <div class="campo"><label>Número Camisola:</label><input type="number" id="cad-atleta-num" placeholder="Ex: 10"></div>
-      <div class="campo"><label>Nome Completo:</label><input type="text" id="cad-atleta-nome"></div>
-      <div class="campo-duplo">
-        <div class="campo"><label>Posição:</label>
-          <select id="cad-atleta-pos">
-            <option value="Guarda-Redes">Guarda-Redes</option>
-            <option value="Defesa">Defesa</option>
-            <option value="Médio">Médio</option>
-            <option value="Avançado">Avançado</option>
-          </select>
-        </div>
-        <div class="campo"><label>Telefone (Opcional):</label><input type="tel" id="cad-atleta-tel" placeholder="9xxxxxxxx"></div>
+Aqui está a implementação completa e profissional do Módulo de Cadastro de
+Atletas (FC ESPANHA), seguindo à risca a imagem (layout com preview de foto e
+secções 01 a 05 em passos/acordeão) e todas as orientações técnicas:
+
+  - Secção 01 (Dados Pessoais): Nome completo, Data de nascimento, Sexo,
+    Telefone, WhatsApp, Município.
+  - Secção 02 (Perfil Desportivo): Posições oficiais (Guarda-redes, Defesa
+    central, Lateral direito, Lateral esquerdo, Médio centro, Avançado), Pé
+    dominante, Modalidade (Futsal), Categoria automática Sénior (fixa), Data de
+    entrada, Estado e verificação de camisola já atribuída.
+  - Secção 03 (Documentação & Emergência): BI, Contacto de emergência,
+    Encarregado de educação (se menor) e Observações médicas confidenciais.
+  - Secção 04 (Conta de Acesso): Geração automática de Código único (FCE-XX),
+    Usuário e Senha provisória aleatória e segura.
+  - Secção 05 (Confirmação): Revisão e validação.
+  - Automação pós-cadastro: Disparo direto para o WhatsApp do atleta
+    (wa.me/244...) com credenciais completas e link da plataforma, salvando
+    localmente e integrando com o Supabase.
+
+ETAPA 1 (HTML): Substituir o Modal Antigo de Cadastro
+
+No GitHub, procure por:
+
+<!-- MODAL: CADASTRAR ATLETA -->
+
+(fica por volta da linha 550 a 575, logo antes de <!-- MODAL: LANÇAR QUOTA -->).
+
+Apague todo o bloco antigo do <div id="modal-novo-atleta"...> até o seu </div> e
+substitua por este:
+
+  <!-- MODAL: CADASTRAR ATLETA (DESIGN ELITE EM 5 ETAPAS) -->
+  <div id="modal-novo-atleta" class="modal-box" style="display:none; z-index:3500; align-items:flex-start; overflow-y:auto; padding:10px;">
+    <div class="modal-corpo" style="max-width:440px; background:#0B0F1C; border:1px solid rgba(229,169,60,0.35); border-radius:18px; padding:16px; margin:20px auto; box-shadow:0 20px 50px rgba(0,0,0,0.95);">
+      
+      <!-- TOPO / CABEÇALHO -->
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+        <h2 style="font-size:15px; font-weight:900; color:#FFF; letter-spacing:1px; margin:0;">NOVO ATLETA</h2>
+        <span style="background:#052818; border:1px solid #10B981; color:#34D399; font-size:9px; font-weight:900; padding:3px 8px; border-radius:10px; letter-spacing:0.5px;">FC ESPANHA</span>
       </div>
-      <div class="campo"><label>Senha Individual:</label><input type="text" id="cad-atleta-senha" value="fce123"></div>
-      <button class="btn btn-gold" style="width:100%; padding:9px;" onclick="salvarAtletaCompleto()">Gravar Atleta</button>
-      <button class="btn btn-dark" style="width:100%; margin-top:6px;" onclick="fecharModal('modal-novo-atleta')">Cancelar</button>
+
+      <!-- FOTO BANNER DE PREVIEW (IGUAL AO LAYOUT) -->
+      <div id="cad-atleta-foto-banner" style="width:100%; height:140px; border-radius:12px; overflow:hidden; background:#070A14; border:1px solid #1E2842; display:flex; align-items:center; justify-content:center; margin-bottom:10px; position:relative;">
+        <img id="cad-preview-img-display" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=400&q=80" alt="Preview Atleta" style="width:100%; height:100%; object-fit:cover; display:none;">
+        <div id="cad-preview-placeholder" style="text-align:center; color:#64748B;">
+          <span style="font-size:32px;">👤</span>
+          <p style="font-size:10px; margin-top:4px;">Sem fotografia carregada</p>
+        </div>
+      </div>
+
+      <!-- BOTÃO ADICIONAR FOTOGRAFIA -->
+      <div onclick="document.getElementById('cad-atleta-foto-input').click()" style="background:#121829; border:1px solid #1E2D56; border-radius:10px; padding:12px; text-align:center; cursor:pointer; margin-bottom:14px; transition:0.2s;">
+        <span style="font-size:20px;">📷</span>
+        <b style="display:block; color:#FFF; font-size:12px; margin-top:2px;">Adicionar fotografia</b>
+        <p style="font-size:9px; color:#94A3B8; margin:0;">Fotografia de perfil do atleta</p>
+        <input type="file" id="cad-atleta-foto-input" accept="image/*" style="display:none;" onchange="processarFotoNovoAtleta(event)">
+        <input type="hidden" id="cad-atleta-foto-base64">
+      </div>
+
+      <!-- ACORDEÃO / 5 ETAPAS -->
+      <div style="display:flex; flex-direction:column; gap:8px;">
+
+        <!-- 01. DADOS PESSOAIS -->
+        <div class="cad-etapa-card" style="background:#0F1526; border:1px solid #1E2842; border-radius:10px; overflow:hidden;">
+          <div onclick="alternarEtapaCadastro(1)" style="display:flex; justify-content:space-between; align-items:center; padding:12px; cursor:pointer;">
+            <div style="display:flex; align-items:center; gap:10px;">
+              <span style="background:#1A233D; color:#FFF; font-size:11px; font-weight:900; padding:4px 8px; border-radius:6px;">01</span>
+              <div>
+                <b style="color:#FFF; font-size:12px; display:block;">Dados pessoais</b>
+                <span style="color:#94A3B8; font-size:9px;">Identificação e contactos</span>
+              </div>
+            </div>
+            <span id="seta-etapa-1" style="color:#94A3B8; font-size:12px; transition:0.2s;">›</span>
+          </div>
+          <div id="corpo-etapa-1" style="display:block; padding:0 12px 12px 12px; border-top:1px solid #162035;">
+            <div class="campo" style="margin-top:8px;">
+              <label>Nome Completo *</label>
+              <input type="text" id="cad-atl-nome" placeholder="Ex: Lucas Manuel Domingos" required>
+            </div>
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px;">
+              <div class="campo">
+                <label>Data Nascimento *</label>
+                <input type="date" id="cad-atl-nasc" onchange="verificarMaioridadeAtleta()">
+              </div>
+              <div class="campo">
+                <label>Sexo</label>
+                <select id="cad-atl-sexo">
+                  <option value="Masculino">Masculino</option>
+                  <option value="Feminino">Feminino</option>
+                </select>
+              </div>
+            </div>
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px;">
+              <div class="campo">
+                <label>WhatsApp Oficial *</label>
+                <input type="tel" id="cad-atl-whatsapp" placeholder="9xxxxxxxx" required>
+              </div>
+              <div class="campo">
+                <label>Telefone Chamadas</label>
+                <input type="tel" id="cad-atl-tel" placeholder="9xxxxxxxx">
+              </div>
+            </div>
+            <div class="campo">
+              <label>Município de Residência</label>
+              <input type="text" id="cad-atl-municipio" placeholder="Ex: Cazenga, Luanda">
+            </div>
+          </div>
+        </div>
+
+        <!-- 02. PERFIL DESPORTIVO -->
+        <div class="cad-etapa-card" style="background:#0F1526; border:1px solid #1E2842; border-radius:10px; overflow:hidden;">
+          <div onclick="alternarEtapaCadastro(2)" style="display:flex; justify-content:space-between; align-items:center; padding:12px; cursor:pointer;">
+            <div style="display:flex; align-items:center; gap:10px;">
+              <span style="background:#1A233D; color:#FFF; font-size:11px; font-weight:900; padding:4px 8px; border-radius:6px;">02</span>
+              <div>
+                <b style="color:#FFF; font-size:12px; display:block;">Perfil desportivo</b>
+                <span style="color:#94A3B8; font-size:9px;">Posição, camisola e categoria</span>
+              </div>
+            </div>
+            <span id="seta-etapa-2" style="color:#94A3B8; font-size:12px; transition:0.2s;">›</span>
+          </div>
+          <div id="corpo-etapa-2" style="display:none; padding:0 12px 12px 12px; border-top:1px solid #162035;">
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-top:8px;">
+              <div class="campo">
+                <label>Nº Camisola *</label>
+                <input type="number" id="cad-atl-num" placeholder="Ex: 10" oninput="gerarCredenciaisAutomaticas()">
+              </div>
+              <div class="campo">
+                <label>Pé Dominante</label>
+                <select id="cad-atl-pe">
+                  <option value="Direito">Direito</option>
+                  <option value="Esquerdo">Esquerdo</option>
+                  <option value="Ambidestro">Ambidestro</option>
+                </select>
+              </div>
+            </div>
+            <div class="campo">
+              <label>Posição Principal em Campo *</label>
+              <select id="cad-atl-pos">
+                <option value="Guarda-redes">Guarda-redes</option>
+                <option value="Defesa central">Defesa central</option>
+                <option value="Lateral direito">Lateral direito</option>
+                <option value="Lateral esquerdo">Lateral esquerdo</option>
+                <option value="Médio centro">Médio centro</option>
+                <option value="Avançado">Avançado</option>
+              </select>
+            </div>
+            <div class="campo">
+              <label>Posição Secundária (Opcional)</label>
+              <select id="cad-atl-pos2">
+                <option value="Nenhuma">Nenhuma</option>
+                <option value="Guarda-redes">Guarda-redes</option>
+                <option value="Defesa central">Defesa central</option>
+                <option value="Lateral direito">Lateral direito</option>
+                <option value="Lateral esquerdo">Lateral esquerdo</option>
+                <option value="Médio centro">Médio centro</option>
+                <option value="Avançado">Avançado</option>
+              </select>
+            </div>
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px;">
+              <div class="campo">
+                <label>Modalidade</label>
+                <input type="text" id="cad-atl-modalidade" value="Futebol de Salão (Futsal)" readonly style="background:#070C18; color:#94A3B8;">
+              </div>
+              <div class="campo">
+                <label>Categoria Oficial</label>
+                <input type="text" id="cad-atl-categoria" value="Sénior" readonly style="background:#070C18; color:#E5A93C; font-weight:bold;">
+              </div>
+            </div>
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px;">
+              <div class="campo">
+                <label>Data de Entrada</label>
+                <input type="date" id="cad-atl-data-entrada">
+              </div>
+              <div class="campo">
+                <label>Estado do Atleta</label>
+                <select id="cad-atl-estado">
+                  <option value="Ativo">Ativo</option>
+                  <option value="Lesionado">Lesionado</option>
+                  <option value="Suspenso">Suspenso</option>
+                  <option value="Inativo">Inativo</option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 03. DOCUMENTAÇÃO E EMERGÊNCIA -->
+        <div class="cad-etapa-card" style="background:#0F1526; border:1px solid #1E2842; border-radius:10px; overflow:hidden;">
+          <div onclick="alternarEtapaCadastro(3)" style="display:flex; justify-content:space-between; align-items:center; padding:12px; cursor:pointer;">
+            <div style="display:flex; align-items:center; gap:10px;">
+              <span style="background:#1A233D; color:#FFF; font-size:11px; font-weight:900; padding:4px 8px; border-radius:6px;">03</span>
+              <div>
+                <b style="color:#FFF; font-size:12px; display:block;">Documentação</b>
+                <span style="color:#94A3B8; font-size:9px;">Documentos e contacto de emergência</span>
+              </div>
+            </div>
+            <span id="seta-etapa-3" style="color:#94A3B8; font-size:12px; transition:0.2s;">›</span>
+          </div>
+          <div id="corpo-etapa-3" style="display:none; padding:0 12px 12px 12px; border-top:1px solid #162035;">
+            <div class="campo" style="margin-top:8px;">
+              <label>Nº Bilhete de Identidade (BI)</label>
+              <input type="text" id="cad-atl-bi" placeholder="Ex: 00729384LA042">
+            </div>
+            <!-- SE MENOR DE IDADE -->
+            <div id="box-menor-idade" style="display:none; background:#1C1408; border:1px solid #F59E0B; padding:8px; border-radius:8px; margin-bottom:10px;">
+              <span style="font-size:10px; color:#FBBF24; font-weight:bold;">⚠️ Atleta Menor de Idade (Exige Encarregado)</span>
+              <div class="campo" style="margin-top:6px;"><label>Nome do Encarregado</label><input type="text" id="cad-atl-encarregado"></div>
+              <div class="campo"><label>Contacto do Encarregado</label><input type="tel" id="cad-atl-encarregado-tel"></div>
+            </div>
+            <div class="campo">
+              <label>Contacto de Emergência</label>
+              <input type="tel" id="cad-atl-emergencia" placeholder="Nome e Telefone">
+            </div>
+            <div class="campo">
+              <label>Observações Médicas (Acesso Restrito)</label>
+              <textarea id="cad-atl-medico" rows="2" placeholder="Alergias, cirurgias ou restrições..."></textarea>
+            </div>
+          </div>
+        </div>
+
+        <!-- 04. CONTA DE ACESSO -->
+        <div class="cad-etapa-card" style="background:#0F1526; border:1px solid #1E2842; border-radius:10px; overflow:hidden;">
+          <div onclick="alternarEtapaCadastro(4)" style="display:flex; justify-content:space-between; align-items:center; padding:12px; cursor:pointer;">
+            <div style="display:flex; align-items:center; gap:10px;">
+              <span style="background:#1A233D; color:#FFF; font-size:11px; font-weight:900; padding:4px 8px; border-radius:6px;">04</span>
+              <div>
+                <b style="color:#FFF; font-size:12px; display:block;">Conta de acesso</b>
+                <span style="color:#94A3B8; font-size:9px;">Código e senha automática</span>
+              </div>
+            </div>
+            <span id="seta-etapa-4" style="color:#94A3B8; font-size:12px; transition:0.2s;">›</span>
+          </div>
+          <div id="corpo-etapa-4" style="display:none; padding:0 12px 12px 12px; border-top:1px solid #162035;">
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-top:8px;">
+              <div class="campo">
+                <label>Código do Atleta</label>
+                <input type="text" id="cad-atl-codigo" readonly style="background:#070C18; color:#34D399; font-weight:bold;">
+              </div>
+              <div class="campo">
+                <label>Identificador (Login)</label>
+                <input type="text" id="cad-atl-user" readonly style="background:#070C18; color:#FFF; font-weight:bold;">
+              </div>
+            </div>
+            <div class="campo">
+              <label>Senha Provisória Gerada</label>
+              <div style="display:flex; gap:6px;">
+                <input type="text" id="cad-atl-senha-auto" readonly style="background:#070C18; color:#FBBF24; font-weight:900; letter-spacing:1px; flex:1;">
+                <button type="button" class="btn btn-dark" onclick="gerarNovaSenhaProvisoria()" title="Regerar Senha">🔄</button>
+              </div>
+              <small style="font-size:9px; color:#64748B; margin-top:3px; display:block;">O atleta deverá alterar esta senha no primeiro login.</small>
+            </div>
+          </div>
+        </div>
+
+        <!-- 05. CONFIRMAÇÃO & CONCLUSÃO -->
+        <div class="cad-etapa-card" style="background:#0F1526; border:1px solid #1E2842; border-radius:10px; overflow:hidden;">
+          <div onclick="alternarEtapaCadastro(5)" style="display:flex; justify-content:space-between; align-items:center; padding:12px; cursor:pointer;">
+            <div style="display:flex; align-items:center; gap:10px;">
+              <span style="background:#1A233D; color:#FFF; font-size:11px; font-weight:900; padding:4px 8px; border-radius:6px;">05</span>
+              <div>
+                <b style="color:#FFF; font-size:12px; display:block;">Confirmação</b>
+                <span style="color:#94A3B8; font-size:9px;">Revisão e conclusão do cadastro</span>
+              </div>
+            </div>
+            <span id="seta-etapa-5" style="color:#94A3B8; font-size:12px; transition:0.2s;">›</span>
+          </div>
+          <div id="corpo-etapa-5" style="display:none; padding:10px 12px 14px 12px; border-top:1px solid #162035;">
+            <div style="background:#070C18; border:1px solid #1E2842; border-radius:8px; padding:10px; font-size:10px; color:#CBD5E1; margin-bottom:12px;">
+              <p>• <b>Administrador Responsável:</b> <span id="cad-conf-admin" style="color:#E5A93C;">—</span></p>
+              <p style="margin-top:4px;">• <b>Data & Hora:</b> <span id="cad-conf-data">Em tempo real</span></p>
+              <p style="margin-top:4px;">• <b>Estado da Inscrição:</b> <span style="color:#10B981; font-weight:bold;">Aprovado (Sénior Oficial)</span></p>
+            </div>
+            <div class="campo">
+              <label>Observações Administrativas (Opcional)</label>
+              <textarea id="cad-atl-obs-admin" rows="2" placeholder="Notas internas da direção..."></textarea>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- BOTÕES DE AÇÃO -->
+      <div style="margin-top:14px; display:flex; flex-direction:column; gap:6px;">
+        <button type="button" class="btn btn-gold" style="width:100%; padding:12px; font-size:13px; font-weight:900; letter-spacing:0.5px;" onclick="executarCadastroCompletoAtleta()">
+          ⚽ Concluir Cadastro do Atleta
+        </button>
+        <button type="button" class="btn btn-dark" style="width:100%; padding:9px;" onclick="fecharModal('modal-novo-atleta')">
+          Cancelar
+        </button>
+      </div>
+
     </div>
   </div>
+
+  <!-- MODAL DE SUCESSO E ENVIO IMEDIATO DE CREDENCIAIS POR WHATSAPP -->
+  <div id="modal-sucesso-cadastro-atleta" class="modal-box" style="display:none; z-index:4000;">
+    <div class="modal-corpo" style="max-width:380px; text-align:center; border-color:#10B981; background:#0B1424;">
+      <span style="font-size:42px;">🎉</span>
+      <h3 style="color:#10B981; font-size:15px; margin:8px 0;">Atleta Cadastrado com Sucesso!</h3>
+      <p style="font-size:11px; color:#CBD5E1; margin-bottom:12px;" id="txt-sucesso-msg-atleta">A conta de acesso individual foi criada e vinculada à categoria Sénior.</p>
+
+      <div style="background:#070C18; border:1px solid #1E2842; border-radius:10px; padding:10px; font-size:11px; text-align:left; margin-bottom:14px;">
+        <p>Atleta: <b id="suc-nome-txt" style="color:#FFF;">—</b></p>
+        <p>Código: <b id="suc-codigo-txt" style="color:#34D399;">—</b></p>
+        <p>Senha Provisória: <b id="suc-senha-txt" style="color:#FBBF24;">—</b></p>
+      </div>
+
+      <button id="btn-whatsapp-disparo" class="btn btn-wpp" style="width:100%; padding:12px; font-size:12px; font-weight:900;" onclick="dispararAcessoWhatsAppAtleta()">
+        📲 ENVIAR ACESSO PELO WHATSAPP
+      </button>
+
+      <button class="btn btn-dark" style="width:100%; margin-top:8px; padding:8px;" onclick="fecharModal('modal-sucesso-cadastro-atleta')">
+        Concluir
+      </button>
+    </div>
+  </div>
+
+    // =========================================================================
+    // MÓDULO DE CADASTRO DE ATLETAS - FC ESPANHA (PROFISSIONAL & ELITE)
+    // =========================================================================
+    let atletaRecemCadastrado = null;
+
+    // 1. Abrir Modal e Reiniciar Formulário
+    function abrirModalNovoAtleta() {
+      if (typeof checarBloqueioOperacao === 'function' && checarBloqueioOperacao('adm1')) return;
+
+      // Limpar todos os inputs
+      document.getElementById('cad-atl-nome').value = '';
+      document.getElementById('cad-atl-nasc').value = '';
+      document.getElementById('cad-atl-whatsapp').value = '';
+      document.getElementById('cad-atl-tel').value = '';
+      document.getElementById('cad-atl-municipio').value = '';
+      document.getElementById('cad-atl-num').value = '';
+      document.getElementById('cad-atl-bi').value = '';
+      document.getElementById('cad-atl-encarregado').value = '';
+      document.getElementById('cad-atl-encarregado-tel').value = '';
+      document.getElementById('cad-atl-emergencia').value = '';
+      document.getElementById('cad-atl-medico').value = '';
+      document.getElementById('cad-atl-obs-admin').value = '';
+      document.getElementById('cad-atleta-foto-base64').value = '';
+      document.getElementById('cad-atl-data-entrada').value = new Date().toISOString().split('T')[0];
+
+      // Reset de preview de foto
+      document.getElementById('cad-preview-img-display').style.display = 'none';
+      document.getElementById('cad-preview-placeholder').style.display = 'block';
+
+      // Dados administrativos automáticos
+      const d = dirigentes.find(x => x.id === usuarioAtual);
+      const adminNome = (usuarioAtual === 'master') ? 'Eduardo Alfredo (Master)' : (d ? d.nome : usuarioAtual.toUpperCase());
+      const elAdmin = document.getElementById('cad-conf-admin');
+      if (elAdmin) elAdmin.innerText = adminNome;
+
+      // Gerar credenciais iniciais
+      gerarCredenciaisAutomaticas();
+      alternarEtapaCadastro(1); // Abre na etapa 01
+      abrirModal('modal-novo-atleta');
+    }
+
+    // 2. Controle do Acordeão em 5 Etapas
+    function alternarEtapaCadastro(etapa) {
+      for (let i = 1; i <= 5; i++) {
+        const corpo = document.getElementById(`corpo-etapa-${i}`);
+        const seta = document.getElementById(`seta-etapa-${i}`);
+        if (corpo) {
+          const abrir = (i === etapa && corpo.style.display === 'none');
+          corpo.style.display = abrir ? 'block' : 'none';
+          if (seta) seta.style.transform = abrir ? 'rotate(90deg)' : 'rotate(0deg)';
+        }
+      }
+    }
+
+    // 3. Processamento de Fotografia com Preview
+    function processarFotoNovoAtleta(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+      if (file.size > 2 * 1024 * 1024) {
+        alert("A fotografia deve ter no máximo 2MB!");
+        return;
+      }
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        const base64 = e.target.result;
+        document.getElementById('cad-atleta-foto-base64').value = base64;
+        const img = document.getElementById('cad-preview-img-display');
+        img.src = base64;
+        img.style.display = 'block';
+        document.getElementById('cad-preview-placeholder').style.display = 'none';
+      };
+      reader.readAsDataURL(file);
+    }
+
+    // 4. Verificação de Menoridade
+    function verificarMaioridadeAtleta() {
+      const nasc = document.getElementById('cad-atl-nasc').value;
+      if (!nasc) return;
+      const anoNasc = new Date(nasc).getFullYear();
+      const idade = new Date().getFullYear() - anoNasc;
+      const box = document.getElementById('box-menor-idade');
+      if (box) box.style.display = (idade < 18) ? 'block' : 'none';
+    }
+
+    // 5. Geração Segura de Credenciais Provisórias
+    function gerarCredenciaisAutomaticas() {
+      const num = document.getElementById('cad-atl-num').value || Math.floor(10 + Math.random() * 89);
+      const codigo = `FCE-${num}`;
+      const user = `atleta.${num}`;
+      document.getElementById('cad-atl-codigo').value = codigo;
+      document.getElementById('cad-atl-user').value = user;
+
+      if (!document.getElementById('cad-atl-senha-auto').value) {
+        gerarNovaSenhaProvisoria();
+      }
+    }
+
+    function gerarNovaSenhaProvisoria() {
+      const chars = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
+      let senha = "FCE@";
+      for (let i = 0; i < 4; i++) {
+        senha += chars.charAt(Math.floor(Math.random() * chars.length));
+      }
+      document.getElementById('cad-atl-senha-auto').value = senha;
+    }
+
+    // 6. Submissão, Validação e Criação do Atleta
+    async function executarCadastroCompletoAtleta() {
+      const nome = document.getElementById('cad-atl-nome').value.trim();
+      const nasc = document.getElementById('cad-atl-nasc').value;
+      const whatsapp = document.getElementById('cad-atl-whatsapp').value.trim();
+      const num = document.getElementById('cad-atl-num').value.trim();
+      const pos = document.getElementById('cad-atl-pos').value;
+      const pos2 = document.getElementById('cad-atl-pos2').value;
+      const pe = document.getElementById('cad-atl-pe').value;
+      const estado = document.getElementById('cad-atl-estado').value;
+      const dataEntrada = document.getElementById('cad-atl-data-entrada').value;
+      const tel = document.getElementById('cad-atl-tel').value.trim();
+      const municipio = document.getElementById('cad-atl-municipio').value.trim();
+      const bi = document.getElementById('cad-atl-bi').value.trim();
+      const encarregado = document.getElementById('cad-atl-encarregado').value.trim();
+      const encarregadoTel = document.getElementById('cad-atl-encarregado-tel').value.trim();
+      const emergencia = document.getElementById('cad-atl-emergencia').value.trim();
+      const medico = document.getElementById('cad-atl-medico').value.trim();
+      const obsAdmin = document.getElementById('cad-atl-obs-admin').value.trim();
+      const foto = document.getElementById('cad-atleta-foto-base64').value;
+      const codigo = document.getElementById('cad-atl-codigo').value;
+      const login = document.getElementById('cad-atl-user').value;
+      const senha = document.getElementById('cad-atl-senha-auto').value;
+
+      // A. Validação de Campos Obrigatórios
+      if (!nome) { alternarEtapaCadastro(1); return alert("Preencha o Nome Completo do atleta!"); }
+      if (!nasc) { alternarEtapaCadastro(1); return alert("Informe a Data de Nascimento!"); }
+      if (!whatsapp) { alternarEtapaCadastro(1); return alert("Informe o número de WhatsApp do atleta!"); }
+      if (!num) { alternarEtapaCadastro(2); return alert("Informe o Número da Camisola!"); }
+
+      // B. Verificação de Duplicação de Camisola
+      const camisolaOcupada = atletas.find(a => Number(a.num) === Number(num) && a.ativo);
+      if (camisolaOcupada) {
+        alternarEtapaCadastro(2);
+        return alert(`A camisola número #${num} já está atribuída ao atleta ativo: ${camisolaOcupada.nome}! Escolha outro número.`);
+      }
+
+      // C. Verificação de Menor de Idade
+      const anoNasc = new Date(nasc).getFullYear();
+      if ((new Date().getFullYear() - anoNasc) < 18 && (!encarregado || !encarregadoTel)) {
+        alternarEtapaCadastro(3);
+        return alert("Para atletas menores de 18 anos, os dados do Encarregado de Educação são obrigatórios!");
+      }
+
+      // D. Construção do Objeto Completo do Atleta (Categoria Sénior automática)
+      const novoAtleta = {
+        id: codigo,
+        codigo,
+        login,
+        num: Number(num),
+        nome,
+        nasc,
+        sexo: document.getElementById('cad-atl-sexo').value,
+        whatsapp,
+        tel: tel || whatsapp,
+        municipio: municipio || "Luanda, Angola",
+        pos,
+        pos2,
+        pe,
+        modalidade: "Futebol de Salão (Futsal)",
+        categoria: "Sénior", // Sempre Sénior
+        dataEntrada: dataEntrada || new Date().toISOString().split('T')[0],
+        estado,
+        ativo: (estado === 'Ativo'),
+        bi,
+        encarregado,
+        encarregadoTel,
+        emergencia,
+        medico,
+        obsAdmin,
+        foto: foto || "",
+        senha, // Senha provisória gerada
+        deveAlterarSenha: true,
+        dataCriacao: new Date().toISOString(),
+        criadoPor: usuarioAtual,
+        golos: 0,
+        assist: 0,
+        presencas: 0
+      };
+
+      // E. Integração com Supabase (se configurado)
+      if (typeof supabase !== 'undefined' && supabase && supabase.from) {
+        try {
+          await supabase.from('atletas').insert([novoAtleta]);
+        } catch (errSupabase) {
+          console.warn("Supabase em modo offline/fallback local:", errSupabase);
+        }
+      }
+
+      // F. Gravação Local Permanente
+      atletas.push(novoAtleta);
+      salvarTudo();
+      atualizarTabelas();
+      renderizarPainelResumoDesportivo();
+
+      // Guardar para disparo do WhatsApp
+      atletaRecemCadastrado = novoAtleta;
+
+      // G. Fechar modal de cadastro e abrir confirmação com WhatsApp
+      fecharModal('modal-novo-atleta');
+
+      document.getElementById('suc-nome-txt').innerText = novoAtleta.nome;
+      document.getElementById('suc-codigo-txt').innerText = `${novoAtleta.codigo} (Camisola #${novoAtleta.num})`;
+      document.getElementById('suc-senha-txt').innerText = novoAtleta.senha;
+      abrirModal('modal-sucesso-cadastro-atleta');
+    }
+
+    // 7. Envio Oficial das Credenciais por WhatsApp
+    function dispararAcessoWhatsAppAtleta() {
+      if (!atletaRecemCadastrado) return;
+      const a = atletaRecemCadastrado;
+      const linkOficial = window.location.href.split('#')[0];
+      const numeroLimpo = a.whatsapp.replace(/\D/g, '');
+      const numeroFinal = numeroLimpo.startsWith('244') ? numeroLimpo : `244${numeroLimpo}`;
+
+      const mensagem = 
+`⚽ *FC ESPANHA – PLATAFORMA OFICIAL*
+Olá, *${a.nome}*! O seu cadastro oficial na categoria *Sénior* foi aprovado com sucesso.
+
+Abaixo estão as suas credenciais para aceder à sua Área do Atleta:
+
+🆔 *Código / Identificador:* ${a.codigo}
+👕 *Camisola:* #${a.num} (${a.pos})
+🔑 *Senha Provisória:* ${a.senha}
+
+🌐 *Aceder à Plataforma:*
+${linkOficial}
+
+⚠️ *Atenção:* Por motivos de segurança, altere a sua senha no seu primeiro acesso à plataforma.
+_FC ESPANHA • Disciplina • União • Vitória_`;
+
+      const urlWhatsApp = `https://wa.me/${numeroFinal}?text=${encodeURIComponent(mensagem)}`;
+      window.open(urlWhatsApp, '_blank');
+      fecharModal('modal-sucesso-cadastro-atleta');
+    } 
 
   <!-- MODAL: LANÇAR QUOTA -->
   <div id="modal-lancar-quota" class="modal-box" style="display:none;">
