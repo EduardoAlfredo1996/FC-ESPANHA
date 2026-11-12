@@ -8,7 +8,7 @@
   <title>FC ESPANHA – Plataforma de Gestão do Clube</title>
 
   <!-- Biblioteca Supabase JS -->
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase--@2"></script>
 
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; }
@@ -2740,8 +2740,50 @@ _FC ESPANHA • Disciplina • União • Vitória_`;
       }
     });
 
+// =========================================================================
+    // MODAL DE ALTERAÇÃO DE FOTO DO ATLETA (DEFINITIVO)
+    // =========================================================================
+    let solicitacoesFotos = JSON.parse(localStorage.getItem('fce_solicitacoes_fotos')) || [];
 
-// 1. Processa e comprime a foto da câmara para não travar a memória
+    // 1. Monta a janela com o campo de foto e botão amarelo
+    function carregarModalFotoAtleta() {
+      const modal = document.getElementById('modal-atleta-alterar-perfil');
+      if (modal) {
+        modal.innerHTML = `
+          <div class="modal-corpo" style="max-width:380px;">
+            <h3 style="color:#E5A93C; font-size:13px; margin-bottom:6px;">📸 SOLICITAR NOVA FOTOGRAFIA</h3>
+            <p style="font-size:10px; color:#94A3B8; margin-bottom:12px;">A sua fotografia só será alterada após aprovação da Direção.</p>
+            
+            <div class="campo">
+              <input type="file" id="inp-foto-atleta-pedido" accept="image/*" style="width:100%; padding:8px; background:#131E3D; border:1px solid #233870; border-radius:6px; color:#FFF;" onchange="processarFotoPedidoAtleta(event)">
+              <input type="hidden" id="inp-foto-atleta-pedido-base64">
+            </div>
+
+            <div id="preview-foto-pedido" style="width:75px; height:75px; border-radius:50%; border:2px solid #E5A93C; margin:10px auto; overflow:hidden; display:none; background:#070C18;"></div>
+
+            <button type="button" class="btn btn-gold" style="width:100%; padding:11px; font-weight:bold; margin-top:6px;" onclick="enviarPedidoFotoDirecao()">
+              Enviar para Aprovação
+            </button>
+            <button type="button" class="btn btn-dark" style="width:100%; margin-top:6px;" onclick="fecharModal('modal-atleta-alterar-perfil')">
+              Cancelar
+            </button>
+          </div>
+        `;
+      }
+    }
+
+    // 2. Interceta a abertura da janela para forçar a tela da foto
+    const oldAbrirModal = window.abrirModal;
+    window.abrirModal = function(id) {
+      if (id === 'modal-atleta-alterar-perfil') {
+        carregarModalFotoAtleta();
+      }
+      if (oldAbrirModal) oldAbrirModal(id);
+      const el = document.getElementById(id);
+      if (el) el.style.display = 'flex';
+    };
+
+    // 3. Processa e comprime a foto para não travar a memória
     function processarFotoPedidoAtleta(event) {
       const file = event.target.files[0];
       if (!file) return;
@@ -2750,7 +2792,6 @@ _FC ESPANHA • Disciplina • União • Vitória_`;
       reader.onload = function(e) {
         const img = new Image();
         img.onload = function() {
-          // Redimensiona para formato de perfil leve (300x300)
           const canvas = document.createElement('canvas');
           const maxDim = 300;
           let w = img.width;
@@ -2766,14 +2807,13 @@ _FC ESPANHA • Disciplina • União • Vitória_`;
           const ctx = canvas.getContext('2d');
           ctx.drawImage(img, 0, 0, w, h);
 
-          // Gera imagem JPEG super leve (menos de 40KB)
-          const fotoComprimida = canvas.toDataURL('image/jpeg', 0.8);
-          document.getElementById('inp-foto-atleta-pedido-base64').value = fotoComprimida;
+          const fotoLeve = canvas.toDataURL('image/jpeg', 0.8);
+          document.getElementById('inp-foto-atleta-pedido-base64').value = fotoLeve;
 
           const prev = document.getElementById('preview-foto-pedido');
           if (prev) {
             prev.style.display = 'block';
-            prev.innerHTML = `<img src="${fotoComprimida}" style="width:100%; height:100%; object-fit:cover;">`;
+            prev.innerHTML = `<img src="${fotoLeve}" style="width:100%; height:100%; object-fit:cover;">`;
           }
         };
         img.src = e.target.result;
@@ -2781,7 +2821,7 @@ _FC ESPANHA • Disciplina • União • Vitória_`;
       reader.readAsDataURL(file);
     }
 
-    // 2. Envia para a aprovação da Direção
+    // 4. Salva o pedido com segurança e fecha a janela
     function enviarPedidoFotoDirecao() {
       const inputBase64 = document.getElementById('inp-foto-atleta-pedido-base64');
       const foto = inputBase64 ? inputBase64.value : '';
@@ -2798,11 +2838,7 @@ _FC ESPANHA • Disciplina • União • Vitória_`;
         ? atletaAtual.id 
         : 'FCE-24';
 
-      if (!window.solicitacoesFotos) {
-        window.solicitacoesFotos = JSON.parse(localStorage.getItem('fce_solicitacoes_fotos')) || [];
-      }
-
-      window.solicitacoesFotos.push({
+      solicitacoesFotos.push({
         id: Date.now(),
         atletaId: idAtleta,
         atletaNome: nomeAtleta,
@@ -2811,9 +2847,9 @@ _FC ESPANHA • Disciplina • União • Vitória_`;
       });
 
       try {
-        localStorage.setItem('fce_solicitacoes_fotos', JSON.stringify(window.solicitacoesFotos));
+        localStorage.setItem('fce_solicitacoes_fotos', JSON.stringify(solicitacoesFotos));
       } catch (err) {
-        console.error("Erro de armazenamento:", err);
+        console.error("Erro ao salvar:", err);
       }
 
       fecharModal('modal-atleta-alterar-perfil');
