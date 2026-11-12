@@ -2740,31 +2740,85 @@ _FC ESPANHA • Disciplina • União • Vitória_`;
       }
     });
 
+
+// 1. Processa e comprime a foto da câmara para não travar a memória
     function processarFotoPedidoAtleta(event) {
       const file = event.target.files[0];
       if (!file) return;
+
       const reader = new FileReader();
       reader.onload = function(e) {
-        document.getElementById('inp-foto-atleta-pedido-base64').value = e.target.result;
-        const prev = document.getElementById('preview-foto-pedido');
-        prev.style.display = 'block';
-        prev.innerHTML = `<img src="${e.target.result}" style="width:100%; height:100%; object-fit:cover;">`;
+        const img = new Image();
+        img.onload = function() {
+          // Redimensiona para formato de perfil leve (300x300)
+          const canvas = document.createElement('canvas');
+          const maxDim = 300;
+          let w = img.width;
+          let h = img.height;
+          if (w > h) {
+            if (w > maxDim) { h = Math.round((h * maxDim) / w); w = maxDim; }
+          } else {
+            if (h > maxDim) { w = Math.round((w * maxDim) / h); h = maxDim; }
+          }
+          canvas.width = w;
+          canvas.height = h;
+
+          const ctx = canvas.getContext('2d');
+          ctx.drawImage(img, 0, 0, w, h);
+
+          // Gera imagem JPEG super leve (menos de 40KB)
+          const fotoComprimida = canvas.toDataURL('image/jpeg', 0.8);
+          document.getElementById('inp-foto-atleta-pedido-base64').value = fotoComprimida;
+
+          const prev = document.getElementById('preview-foto-pedido');
+          if (prev) {
+            prev.style.display = 'block';
+            prev.innerHTML = `<img src="${fotoComprimida}" style="width:100%; height:100%; object-fit:cover;">`;
+          }
+        };
+        img.src = e.target.result;
       };
       reader.readAsDataURL(file);
     }
 
+    // 2. Envia para a aprovação da Direção
     function enviarPedidoFotoDirecao() {
-      const foto = document.getElementById('inp-foto-atleta-pedido-base64').value;
-      if (!foto) return alert("Por favor, selecione uma imagem!");
+      const inputBase64 = document.getElementById('inp-foto-atleta-pedido-base64');
+      const foto = inputBase64 ? inputBase64.value : '';
 
-      solicitacoesFotos.push({
+      if (!foto) {
+        alert("Por favor, selecione uma fotografia primeiro!");
+        return;
+      }
+
+      const nomeAtleta = (typeof atletaAtual !== 'undefined' && atletaAtual && atletaAtual.nome) 
+        ? atletaAtual.nome 
+        : 'Eduardo Ferreira Alfredo';
+      const idAtleta = (typeof atletaAtual !== 'undefined' && atletaAtual && atletaAtual.id) 
+        ? atletaAtual.id 
+        : 'FCE-24';
+
+      if (!window.solicitacoesFotos) {
+        window.solicitacoesFotos = JSON.parse(localStorage.getItem('fce_solicitacoes_fotos')) || [];
+      }
+
+      window.solicitacoesFotos.push({
         id: Date.now(),
-        atletaId: atletaAtual ? atletaAtual.id : 'FCE-10',
-        atletaNome: atletaAtual ? atletaAtual.nome : 'Atleta',
-        foto,
+        atletaId: idAtleta,
+        atletaNome: nomeAtleta,
+        foto: foto,
         data: new Date().toLocaleDateString('pt-PT')
       });
 
+      try {
+        localStorage.setItem('fce_solicitacoes_fotos', JSON.stringify(window.solicitacoesFotos));
+      } catch (err) {
+        console.error("Erro de armazenamento:", err);
+      }
+
+      fecharModal('modal-atleta-alterar-perfil');
+      alert("✅ Fotografia enviada com sucesso! A Direção irá analisar e aprovar.");
+    }
       localStorage.setItem('fce_solicitacoes_fotos', JSON.stringify(solicitacoesFotos));
       fecharModal('modal-atleta-alterar-perfil');
       alert("Fotografia enviada! Ela será exibida no seu perfil assim que o Administrador aprovar.");
