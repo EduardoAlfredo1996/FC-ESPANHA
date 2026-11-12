@@ -2525,6 +2525,354 @@ _FC ESPANHA • Disciplina • União • Vitória_`;
     }
   </script>
 
+  <script>
+    // =========================================================================
+    // 1. FORÇAR ABRIR SEMPRE NO LOGIN (NÃO VAI DIRETO AO PAINEL)
+    // =========================================================================
+    window.addEventListener('load', () => {
+      setTimeout(() => {
+        const telaLogin = document.getElementById('tela-login-portal');
+        const admin = document.getElementById('layout-admin-master');
+        const atleta = document.getElementById('layout-atleta-mobile');
+        if (telaLogin) telaLogin.style.display = 'flex';
+        if (admin) admin.style.display = 'none';
+        if (atleta) atleta.style.display = 'none';
+      }, 50);
+    });
+
+    // =========================================================================
+    // 2. VER, EDITAR, SUSPENDER E BAIXAR ATLETAS
+    // =========================================================================
+    window.atualizarTabelas = function() {
+      const tbA = document.getElementById('tb-atletas-geral');
+      if (tbA) {
+        tbA.innerHTML = atletas.length ? '' : '<tr><td colspan="9" style="text-align:center; padding:12px; color:#64748B;">Nenhum atleta cadastrado.</td></tr>';
+        atletas.forEach(a => {
+          const fotoHtml = a.foto 
+            ? `<img src="${a.foto}" style="width:100%; height:100%; object-fit:cover;">` 
+            : a.nome.substring(0,2).toUpperCase();
+          const estadoCor = (a.estado === 'Ativo' || a.ativo) ? '#10B981' : '#EF4444';
+
+          tbA.innerHTML += `
+            <tr>
+              <td><div class="foto-atleta-circular">${fotoHtml}</div></td>
+              <td><b style="color:#E5A93C;">#${a.num}</b></td>
+              <td><b>${a.nome}</b></td>
+              <td>${a.pos}</td>
+              <td><span style="color:#E5A93C; font-weight:bold;">${a.categoria || 'Sénior'}</span></td>
+              <td>${a.tel || a.whatsapp || '—'}</td>
+              <td><span style="color:${estadoCor}; font-weight:bold;">${a.estado || (a.ativo ? 'Ativo' : 'Inativo')}</span></td>
+              <td>
+                <div style="display:flex; gap:4px;">
+                  <button type="button" class="btn-mini" style="background:#3B82F6; color:white;" onclick="verFichaCompletaAtleta('${a.id}')">👁️ Ver</button>
+                  <button type="button" class="btn-mini btn-gold" onclick="abrirModalEditarAtleta('${a.id}')">✏️ Editar</button>
+                  <button type="button" class="btn-mini btn-mini-del" onclick="alternarSuspensaoAtleta('${a.id}')">${a.ativo ? '⏸️' : '▶️'}</button>
+                </div>
+              </td>
+            </tr>
+          `;
+        });
+      }
+
+      if (typeof renderizarDirigentes === 'function') renderizarDirigentes();
+
+      const tbQ = document.getElementById('tb-quotas-geral');
+      if (tbQ) {
+        tbQ.innerHTML = quotas.length ? '' : '<tr><td colspan="6" style="text-align:center;">Sem quotas.</td></tr>';
+        quotas.forEach(q => {
+          tbQ.innerHTML += `<tr><td>${q.data}</td><td>${q.atletaNome}</td><td>${Number(q.valor).toLocaleString('pt-AO')} Kz</td><td>${q.modalidade||'Express'}</td><td><b>${q.reciboNum}</b></td><td><span style="color:#10B981;">Pago</span></td></tr>`;
+        });
+      }
+
+      const tbJ = document.getElementById('tb-jogos-geral');
+      if (tbJ) {
+        tbJ.innerHTML = jogos.length ? '' : '<tr><td colspan="7" style="text-align:center;">Sem jogos.</td></tr>';
+        jogos.forEach(j => {
+          tbJ.innerHTML += `<tr><td>${j.data}</td><td><b>${j.confronto}</b></td><td>${j.competicao}</td><td>${j.campo}</td><td>${j.status}</td><td>${j.resultado}</td><td>—</td></tr>`;
+        });
+      }
+    };
+
+    function verFichaCompletaAtleta(id) {
+      const a = atletas.find(x => x.id === id);
+      if (!a) return;
+      document.getElementById('ficha-nome').innerText = a.nome;
+      document.getElementById('ficha-codigo').innerText = a.codigo || a.id;
+      document.getElementById('ficha-camisola').innerText = `#${a.num} (${a.pos})`;
+      document.getElementById('ficha-tel').innerText = a.tel || a.whatsapp || '—';
+      document.getElementById('ficha-nasc').innerText = a.nasc || '—';
+      document.getElementById('ficha-municipio').innerText = a.municipio || 'Luanda';
+      document.getElementById('ficha-bi').innerText = a.bi || 'Não informado';
+      document.getElementById('ficha-estado').innerText = a.estado || (a.ativo ? 'Ativo' : 'Inativo');
+      document.getElementById('ficha-emergencia').innerText = a.emergencia || '—';
+      document.getElementById('ficha-medico').innerText = a.medico || 'Nenhuma restrição';
+      
+      const fotoBox = document.getElementById('ficha-foto-box');
+      if (fotoBox) {
+        fotoBox.innerHTML = a.foto ? `<img src="${a.foto}" style="width:100%;height:100%;object-fit:cover;">` : a.nome.substring(0,2).toUpperCase();
+      }
+      abrirModal('modal-ver-ficha-completa');
+    }
+
+    function abrirModalEditarAtleta(id) {
+      const a = atletas.find(x => x.id === id);
+      if (!a) return;
+      const novoNome = prompt("Editar Nome do Atleta:", a.nome);
+      if (novoNome === null) return;
+      const novoNum = prompt("Editar Número da Camisola:", a.num);
+      if (novoNum === null) return;
+      const novoTel = prompt("Editar Telefone / WhatsApp:", a.tel || a.whatsapp);
+      if (novoTel === null) return;
+
+      a.nome = novoNome.trim() || a.nome;
+      a.num = Number(novoNum) || a.num;
+      a.tel = novoTel.trim() || a.tel;
+      a.whatsapp = a.tel;
+
+      salvarTudo();
+      atualizarTabelas();
+      alert("Atleta atualizado com sucesso!");
+    }
+
+    function alternarSuspensaoAtleta(id) {
+      const a = atletas.find(x => x.id === id);
+      if (!a) return;
+      a.ativo = !a.ativo;
+      a.estado = a.ativo ? 'Ativo' : 'Suspenso';
+      salvarTudo();
+      atualizarTabelas();
+      alert(`O atleta ${a.nome} agora está: ${a.estado.toUpperCase()}`);
+    }
+
+    function descarregarRelatorioPorCargo() {
+      window.print();
+    }
+
+    // =========================================================================
+    // 3. SISTEMA DE ENQUETES (CRIAR E VOTAR)
+    // =========================================================================
+    let enquetes = JSON.parse(localStorage.getItem('fce_enquetes')) || [];
+
+    function salvarNovaEnquete() {
+      const perg = document.getElementById('inp-enquete-pergunta').value.trim();
+      const op1 = document.getElementById('inp-enquete-op1').value.trim();
+      const op2 = document.getElementById('inp-enquete-op2').value.trim();
+      if (!perg || !op1 || !op2) return alert("Preencha a pergunta e as duas opções!");
+
+      enquetes.unshift({
+        id: Date.now(),
+        pergunta: perg,
+        op1, op2,
+        votos1: 0, votos2: 0,
+        data: new Date().toLocaleDateString('pt-PT')
+      });
+
+      localStorage.setItem('fce_enquetes', JSON.stringify(enquetes));
+      fecharModal('modal-nova-enquete');
+      renderizarEnquetes();
+      alert("Enquete publicada com sucesso!");
+    }
+
+    function votarEnquete(id, op) {
+      const e = enquetes.find(x => x.id === id);
+      if (!e) return;
+      if (op === 1) e.votos1++;
+      if (op === 2) e.votos2++;
+      localStorage.setItem('fce_enquetes', JSON.stringify(enquetes));
+      renderizarEnquetes();
+      alert("Voto registado com sucesso!");
+    }
+
+    function renderizarEnquetes() {
+      const box = document.getElementById('lista-enquetes-box');
+      if (!box) return;
+      box.innerHTML = enquetes.length ? '' : '<p style="color:#64748B; font-size:11px; padding:10px;">Sem enquetes ativas.</p>';
+      enquetes.forEach(e => {
+        const total = e.votos1 + e.votos2;
+        const p1 = total ? Math.round((e.votos1 / total) * 100) : 0;
+        const p2 = total ? Math.round((e.votos2 / total) * 100) : 0;
+        box.innerHTML += `
+          <div style="background:#0F172E; border:1px solid #1E2D56; padding:12px; border-radius:10px; margin-bottom:8px;">
+            <b style="color:#FBBF24; font-size:12px;">📊 ${e.pergunta}</b>
+            <p style="color:#64748B; font-size:9px; margin-bottom:8px;">Total de votos: ${total} • ${e.data}</p>
+            <div style="display:flex; flex-direction:column; gap:6px;">
+              <button type="button" class="btn btn-dark" style="justify-content:space-between;" onclick="votarEnquete(${e.id}, 1)">
+                <span>${e.op1}</span> <b>${e.votos1} (${p1}%)</b>
+              </button>
+              <button type="button" class="btn btn-dark" style="justify-content:space-between;" onclick="votarEnquete(${e.id}, 2)">
+                <span>${e.op2}</span> <b>${e.votos2} (${p2}%)</b>
+              </button>
+            </div>
+          </div>
+        `;
+      });
+    }
+
+    // Monitora abertura da aba de documentos para carregar enquetes
+    const oldAbrirSecao = window.abrirSecaoAdmin;
+    window.abrirSecaoAdmin = function(secao) {
+      if (oldAbrirSecao) oldAbrirSecao(secao);
+      if (secao === 'documentos') renderizarEnquetes();
+    };
+
+    // =========================================================================
+    // 4. FOTO DO ATLETA COM APROVAÇÃO DO ADMINISTRADOR
+    // =========================================================================
+    let solicitacoesFotos = JSON.parse(localStorage.getItem('fce_solicitacoes_fotos')) || [];
+
+    // Ajusta o modal do atleta ao carregar
+    window.addEventListener('DOMContentLoaded', () => {
+      const modalPerfil = document.getElementById('modal-atleta-alterar-perfil');
+      if (modalPerfil) {
+        modalPerfil.innerHTML = `
+          <div class="modal-corpo">
+            <h3 style="color:#E5A93C; font-size:12px; margin-bottom:6px;">📸 SOLICITAR NOVA FOTOGRAFIA</h3>
+            <p style="font-size:10px; color:#94A3B8; margin-bottom:10px;">A sua fotografia só será alterada após ser aprovada pela Direção.</p>
+            <div class="campo">
+              <input type="file" id="inp-foto-atleta-pedido" accept="image/*" onchange="processarFotoPedidoAtleta(event)">
+              <input type="hidden" id="inp-foto-atleta-pedido-base64">
+            </div>
+            <div id="preview-foto-pedido" style="width:60px; height:60px; border-radius:50%; border:2px solid #E5A93C; margin:8px auto; overflow:hidden; display:none;"></div>
+            <button type="button" class="btn btn-gold" style="width:100%; padding:10px;" onclick="enviarPedidoFotoDirecao()">Enviar para Aprovação</button>
+            <button type="button" class="btn btn-dark" style="width:100%; margin-top:6px;" onclick="fecharModal('modal-atleta-alterar-perfil')">Cancelar</button>
+          </div>
+        `;
+      }
+    });
+
+    function processarFotoPedidoAtleta(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        document.getElementById('inp-foto-atleta-pedido-base64').value = e.target.result;
+        const prev = document.getElementById('preview-foto-pedido');
+        prev.style.display = 'block';
+        prev.innerHTML = `<img src="${e.target.result}" style="width:100%; height:100%; object-fit:cover;">`;
+      };
+      reader.readAsDataURL(file);
+    }
+
+    function enviarPedidoFotoDirecao() {
+      const foto = document.getElementById('inp-foto-atleta-pedido-base64').value;
+      if (!foto) return alert("Por favor, selecione uma imagem!");
+
+      solicitacoesFotos.push({
+        id: Date.now(),
+        atletaId: atletaAtual ? atletaAtual.id : 'FCE-10',
+        atletaNome: atletaAtual ? atletaAtual.nome : 'Atleta',
+        foto,
+        data: new Date().toLocaleDateString('pt-PT')
+      });
+
+      localStorage.setItem('fce_solicitacoes_fotos', JSON.stringify(solicitacoesFotos));
+      fecharModal('modal-atleta-alterar-perfil');
+      alert("Fotografia enviada! Ela será exibida no seu perfil assim que o Administrador aprovar.");
+    }
+
+    // Exibe solicitações no sino de alertas (🔔)
+    window.abrirPainelAlertasTopo = function() {
+      const box = document.getElementById('box-notificacoes-feed');
+      if (!box) return;
+      box.innerHTML = '';
+
+      if (solicitacoesFotos.length === 0) {
+        box.innerHTML = '<p style="color:#64748B; font-size:11px; text-align:center; padding:10px;">Sem solicitações de fotografia pendentes.</p>';
+      } else {
+        solicitacoesFotos.forEach(s => {
+          box.innerHTML += `
+            <div style="background:#0F172E; border:1px solid #E5A93C; padding:10px; border-radius:8px; display:flex; align-items:center; justify-content:space-between; gap:10px; margin-bottom:6px;">
+              <div style="width:44px; height:44px; border-radius:50%; overflow:hidden; border:2px solid #E5A93C; flex-shrink:0;">
+                <img src="${s.foto}" style="width:100%; height:100%; object-fit:cover;">
+              </div>
+              <div style="flex:1;">
+                <b style="color:#FFF; font-size:11px;">${s.atletaNome}</b>
+                <p style="color:#94A3B8; font-size:9px;">Solicitou nova foto em ${s.data}</p>
+              </div>
+              <div style="display:flex; flex-direction:column; gap:4px;">
+                <button type="button" class="btn-mini btn-gold" onclick="aprovarFotoAdmin(${s.id})">Aprovar</button>
+                <button type="button" class="btn-mini btn-mini-del" onclick="rejeitarFotoAdmin(${s.id})">Rejeitar</button>
+              </div>
+            </div>
+          `;
+        });
+      }
+      abrirModal('modal-solicitacoes-admin-princ');
+    };
+
+    function aprovarFotoAdmin(id) {
+      const s = solicitacoesFotos.find(x => x.id === id);
+      if (!s) return;
+      const atl = atletas.find(a => a.id === s.atletaId);
+      if (atl) {
+        atl.foto = s.foto;
+        salvarTudo();
+        atualizarTabelas();
+      }
+      solicitacoesFotos = solicitacoesFotos.filter(x => x.id !== id);
+      localStorage.setItem('fce_solicitacoes_fotos', JSON.stringify(solicitacoesFotos));
+      abrirPainelAlertasTopo();
+      alert(`Foto de ${s.atletaNome} aprovada com sucesso!`);
+    }
+
+    function rejeitarFotoAdmin(id) {
+      solicitacoesFotos = solicitacoesFotos.filter(x => x.id !== id);
+      localStorage.setItem('fce_solicitacoes_fotos', JSON.stringify(solicitacoesFotos));
+      abrirPainelAlertasTopo();
+      alert("Solicitação rejeitada.");
+    }
+  </script>
+
+  <!-- MODAL: FICHA COMPLETA DO ATLETA (VISUALIZAÇÃO) -->
+  <div id="modal-ver-ficha-completa" class="modal-box" style="display:none; z-index:4500;">
+    <div class="modal-corpo" style="max-width:380px; background:#0B1020; border-color:#3B82F6;">
+      <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid #1E2842; padding-bottom:8px; margin-bottom:10px;">
+        <h3 style="color:#3B82F6; font-size:13px; margin:0;">📋 FICHA OFICIAL DO ATLETA</h3>
+        <span style="color:#E5A93C; font-size:10px; font-weight:bold;">SÉNIOR</span>
+      </div>
+      <div style="text-align:center; margin-bottom:10px;">
+        <div id="ficha-foto-box" class="foto-atleta-circular" style="width:65px; height:65px; margin:0 auto 6px auto;"></div>
+        <h4 id="ficha-nome" style="color:#FFF; font-size:15px; margin:0;">—</h4>
+        <span id="ficha-codigo" style="color:#34D399; font-size:11px; font-weight:bold;">—</span>
+      </div>
+      <div style="background:#070C18; border:1px solid #1E2842; border-radius:8px; padding:10px; font-size:11px; display:flex; flex-direction:column; gap:4px;">
+        <p>👕 <b>Camisola:</b> <span id="ficha-camisola">—</span></p>
+        <p>📞 <b>WhatsApp / Contacto:</b> <span id="ficha-tel">—</span></p>
+        <p>🎂 <b>Nascimento:</b> <span id="ficha-nasc">—</span></p>
+        <p>📍 <b>Residência:</b> <span id="ficha-municipio">—</span></p>
+        <p>🪪 <b>Bilhete de Identidade:</b> <span id="ficha-bi">—</span></p>
+        <p>🟢 <b>Estado:</b> <span id="ficha-estado" style="color:#10B981; font-weight:bold;">—</span></p>
+        <p>🚨 <b>Emergência:</b> <span id="ficha-emergencia">—</span></p>
+        <p>🏥 <b>Observações Médicas:</b> <span id="ficha-medico">—</span></p>
+      </div>
+      <div style="display:flex; gap:6px; margin-top:10px;">
+        <button type="button" class="btn btn-gold" style="flex:1;" onclick="window.print()">🖨️ Baixar Ficha</button>
+        <button type="button" class="btn btn-dark" style="flex:1;" onclick="fecharModal('modal-ver-ficha-completa')">Fechar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: NOVA ENQUETE -->
+  <div id="modal-nova-enquete" class="modal-box" style="display:none; z-index:4500;">
+    <div class="modal-corpo" style="max-width:380px;">
+      <h3 style="color:#E5A93C; font-size:12px; margin-bottom:8px;">📊 NOVA ENQUETE DE AUSCULTAÇÃO</h3>
+      <div class="campo">
+        <label>Pergunta:</label>
+        <input type="text" id="inp-enquete-pergunta" placeholder="Ex: Qual o dia do próximo jogo?">
+      </div>
+      <div class="campo">
+        <label>Opção 1:</label>
+        <input type="text" id="inp-enquete-op1" placeholder="Ex: Sábado">
+      </div>
+      <div class="campo">
+        <label>Opção 2:</label>
+        <input type="text" id="inp-enquete-op2" placeholder="Ex: Domingo">
+      </div>
+      <button type="button" class="btn btn-gold" style="width:100%; padding:9px; margin-top:6px;" onclick="salvarNovaEnquete()">Publicar Enquete</button>
+      <button type="button" class="btn btn-dark" style="width:100%; margin-top:6px;" onclick="fecharModal('modal-nova-enquete')">Cancelar</button>
+    </div>
+  </div>
+
   <style>
     #nav-item-config {
       background: #24080B !important;
@@ -2535,3 +2883,5 @@ _FC ESPANHA • Disciplina • União • Vitória_`;
   </style>
 </body>
 </html>
+    
+  
