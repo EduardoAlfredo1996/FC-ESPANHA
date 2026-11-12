@@ -1025,37 +1025,7 @@
       <button class="btn btn-dark" style="width:100%; margin-top:6px;" onclick="fecharModal('modal-zerar-total')">Cancelar</button>
     </div>
   </div>
-
-Aqui está a implementação completa e profissional do Módulo de Cadastro de
-Atletas (FC ESPANHA), seguindo à risca a imagem (layout com preview de foto e
-secções 01 a 05 em passos/acordeão) e todas as orientações técnicas:
-
-  - Secção 01 (Dados Pessoais): Nome completo, Data de nascimento, Sexo,
-    Telefone, WhatsApp, Município.
-  - Secção 02 (Perfil Desportivo): Posições oficiais (Guarda-redes, Defesa
-    central, Lateral direito, Lateral esquerdo, Médio centro, Avançado), Pé
-    dominante, Modalidade (Futsal), Categoria automática Sénior (fixa), Data de
-    entrada, Estado e verificação de camisola já atribuída.
-  - Secção 03 (Documentação & Emergência): BI, Contacto de emergência,
-    Encarregado de educação (se menor) e Observações médicas confidenciais.
-  - Secção 04 (Conta de Acesso): Geração automática de Código único (FCE-XX),
-    Usuário e Senha provisória aleatória e segura.
-  - Secção 05 (Confirmação): Revisão e validação.
-  - Automação pós-cadastro: Disparo direto para o WhatsApp do atleta
-    (wa.me/244...) com credenciais completas e link da plataforma, salvando
-    localmente e integrando com o Supabase.
-
-ETAPA 1 (HTML): Substituir o Modal Antigo de Cadastro
-
-No GitHub, procure por:
-
-<!-- MODAL: CADASTRAR ATLETA -->
-
-(fica por volta da linha 550 a 575, logo antes de <!-- MODAL: LANÇAR QUOTA -->).
-
-Apague todo o bloco antigo do <div id="modal-novo-atleta"...> até o seu </div> e
-substitua por este:
-
+  
   <!-- MODAL: CADASTRAR ATLETA (DESIGN ELITE EM 5 ETAPAS) -->
   <div id="modal-novo-atleta" class="modal-box" style="display:none; z-index:3500; align-items:flex-start; overflow-y:auto; padding:10px;">
     <div class="modal-corpo" style="max-width:440px; background:#0B0F1C; border:1px solid rgba(229,169,60,0.35); border-radius:18px; padding:16px; margin:20px auto; box-shadow:0 20px 50px rgba(0,0,0,0.95);">
